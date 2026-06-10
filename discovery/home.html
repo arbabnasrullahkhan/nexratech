@@ -1,245 +1,346 @@
- <!-- ==========================================================================
-     NEXRA TECH PK - MAIN LANDING PAGE (HOME)
-     Integrated with: Firebase products, freebies, and blogs
+<!-- ==========================================================================
+     NEXRA TECH PK - PREMIUM HOME MODULE
+     Includes: Hero, Search, Slider, Categories, Products, and Global Footer
      ========================================================================== -->
 
 <style>
-    /* 1. HOME SPECIFIC UI COMPONENTS */
-    .home-wrap { animation: fadeIn 0.8s ease-out; }
-
-    /* Search Section */
-    .hero-search-wrap {
-        padding: 20px 5%;
-        margin-top: -30px; /* Overlap with slider */
-        position: relative;
-        z-index: 10;
+    /* 1. HOME-SPECIFIC LAYOUT */
+    .home-wrapper {
+        animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .main-search-bar {
-        max-width: 800px; margin: 0 auto;
+
+    /* 2. HERO & SEARCH SECTION */
+    .home-hero {
+        padding: 40px 5%;
+        text-align: center;
+        background: radial-gradient(circle at 50% 0%, var(--brand-dim) 0%, transparent 70%);
+    }
+
+    .hero-title {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
+        font-weight: 700;
+        line-height: 1.1;
+        letter-spacing: -2px;
+        margin-bottom: 20px;
+    }
+
+    .home-search-wrap {
+        max-width: 700px;
+        margin: 30px auto;
+        position: relative;
+    }
+
+    .search-input-group {
+        display: flex;
+        align-items: center;
         background: var(--bg-surface);
         border: 1px solid var(--glass-border);
+        padding: 8px 10px 8px 25px;
         border-radius: 50px;
-        padding: 8px 8px 8px 24px;
-        display: flex; align-items: center; gap: 12px;
-        box-shadow: var(--shadow-float);
+        box-shadow: var(--shadow-soft);
+        transition: 0.4s;
     }
-    .main-search-bar input {
+
+    .search-input-group:focus-within {
+        border-color: var(--brand-main);
+        box-shadow: 0 0 0 5px var(--brand-glow);
+        transform: translateY(-2px);
+    }
+
+    .search-input-group input {
         flex: 1; border: none; background: transparent;
-        font-family: inherit; font-size: 15px; color: var(--text-100);
-        outline: none;
+        color: var(--text-100); font-family: inherit;
+        font-size: 16px; outline: none;
     }
 
-    /* Category Pills */
-    .cat-scroll {
+    .btn-search {
+        background: var(--brand-main); color: #fff;
+        border: none; padding: 12px 30px; border-radius: 50px;
+        font-weight: 800; cursor: pointer; transition: 0.3s;
+    }
+
+    /* 3. CATEGORY PILLS (Horizontal Scroll) */
+    .category-pills {
         display: flex; gap: 12px; overflow-x: auto;
-        padding: 20px 5% 40px; scrollbar-width: none;
+        padding: 10px 5% 30px; scrollbar-width: none;
     }
-    .cat-scroll::-webkit-scrollbar { display: none; }
-    .cat-pill {
-        flex: 0 0 auto; padding: 10px 20px;
-        border-radius: 50px; background: var(--bg-surface);
-        border: 1px solid var(--glass-border);
-        font-size: 13px; font-weight: 700; color: var(--text-200);
-        cursor: pointer; transition: 0.3s;
+    .category-pills::-webkit-scrollbar { display: none; }
+
+    .pill {
+        white-space: nowrap; padding: 12px 24px;
+        background: var(--bg-surface); border: 1px solid var(--glass-border);
+        border-radius: 50px; font-size: 13px; font-weight: 700;
+        cursor: pointer; transition: 0.3s; color: var(--text-200);
     }
-    .cat-pill:hover, .cat-pill.active {
-        border-color: var(--brand-main); color: var(--brand-main);
-        background: var(--brand-dim);
+    .pill:hover, .pill.active {
+        background: var(--text-100); color: var(--bg-base);
+        border-color: var(--text-100); transform: translateY(-2px);
     }
 
-    /* Section Headers */
-    .sec-head {
+    /* 4. PRODUCT GRID (Responsive 2/4/5) */
+    .section-head {
         padding: 0 5%; margin-bottom: 25px;
         display: flex; justify-content: space-between; align-items: flex-end;
     }
-    .sec-title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
-
-    /* Product Grid (2 columns on mobile, 4-5 on desktop) */
-    .home-grid {
-        display: grid; gap: 15px; padding: 0 5% 60px;
-        grid-template-columns: repeat(2, 1fr);
+    .grid-products {
+        display: grid; gap: 15px; padding: 0 5%;
+        grid-template-columns: repeat(2, 1fr); /* Mobile: 2 Columns */
     }
-    @media(min-width: 992px) { .home-grid { grid-template-columns: repeat(5, 1fr); gap: 20px; } }
+    @media(min-width: 768px) { .grid-products { grid-template-columns: repeat(3, 1fr); } }
+    @media(min-width: 1024px) { .grid-products { grid-template-columns: repeat(5, 1fr); } }
 
-    /* B2B Banner */
-    .b2b-cta-strip {
-        margin: 40px 5% 80px; padding: 60px 40px;
-        background: linear-gradient(135deg, var(--brand-main) 0%, #D83A0E 100%);
-        border-radius: var(--radius-lg); color: #fff;
-        position: relative; overflow: hidden;
+    /* 5. TRUST STATS BAR */
+    .trust-bar {
+        background: var(--bg-surface); margin: 60px 5%;
+        border-radius: var(--radius-lg); border: 1px solid var(--glass-border);
+        display: grid; grid-template-columns: repeat(2, 1fr);
+        padding: 40px 20px; gap: 30px; text-align: center;
     }
-    .b2b-cta-strip i.bg-icon {
-        position: absolute; right: -5%; bottom: -20%;
-        font-size: 200px; opacity: 0.1; transform: rotate(-15deg);
-    }
+    @media(min-width: 768px) { .trust-bar { grid-template-columns: repeat(4, 1fr); } }
+    .stat-val { font-size: 32px; font-family: 'Space Grotesk'; font-weight: 700; color: var(--brand-main); }
+    .stat-lbl { font-size: 11px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1px; }
 
-    /* Kinetic Typer */
-    .kinetic-typer {
-        text-align: center; padding: 60px 20px;
-        font-family: var(--font-display); font-size: 28px; font-weight: 700;
+    /* 6. PREMIUM FOOTER */
+    .main-footer {
+        background: var(--bg-elevated); border-top: 1px solid var(--glass-border);
+        padding: 80px 5% 40px; margin-top: 100px;
     }
-    .k-word { color: var(--brand-main); border-right: 3px solid var(--brand-main); padding-right: 5px; animation: blink 0.7s infinite; }
-    @keyframes blink { 50% { border-color: transparent; } }
+    .footer-grid {
+        display: grid; gap: 50px; grid-template-columns: 1fr;
+    }
+    @media(min-width: 992px) { .footer-grid { grid-template-columns: 2fr 1fr 1fr 1.5fr; } }
+    
+    .f-logo { height: 22px; margin-bottom: 25px; filter: grayscale(1); }
+    [data-theme="dark"] .f-logo { filter: invert(1); }
+    .f-title { font-size: 12px; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; display: block; color: var(--text-100); }
+    .f-links { display: flex; flex-direction: column; gap: 12px; font-size: 14px; color: var(--text-200); cursor: pointer; }
+    .f-links span:hover { color: var(--brand-main); }
 
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 </style>
 
-<div class="home-wrap">
+<div class="home-wrapper">
     
-    <!-- 1. SLIDER INJECTOR -->
-    <div id="home-slider-mount"></div>
+    <!-- A. HERO SECTION -->
+    <section class="home-hero">
+        <div class="badge" style="margin-bottom: 20px;"><i class="fa-solid fa-bolt-lightning"></i> INSTANT DIGITAL DELIVERY</div>
+        <h1 class="hero-title">Elevate Your <br> <span class="text-gradient">Digital Empire</span></h1>
+        <p style="color: var(--text-200); max-width: 600px; margin: 0 auto; line-height: 1.6; font-size: 17px;">
+            Premium software keys, B2B reseller APIs, and elite assets. Secured by Nexra Tech PK.
+        </p>
 
-    <!-- 2. SEARCH ENGINE -->
-    <section class="hero-search-wrap">
-        <div class="main-search-bar">
-            <i class="fa-solid fa-magnifying-glass" style="color:var(--text-300)"></i>
-            <input type="text" id="home-search-input" placeholder="Search premium apps, tools, assets...">
-            <button class="btn btn-primary" onclick="NexraHome.doSearch()" style="padding:12px 25px; font-size:12px;">SEARCH</button>
+        <!-- Dynamic Search -->
+        <div class="home-search-wrap">
+            <div class="search-input-group">
+                <i class="fa-solid fa-magnifying-glass" style="color: var(--text-300);"></i>
+                <input type="text" id="home-search-input" placeholder="Search apps, tools, or license keys...">
+                <button class="btn-search" onclick="NexraHome.doSearch()">SEARCH</button>
+            </div>
         </div>
     </section>
 
-    <!-- 3. KINETIC TYPER -->
-    <div class="kinetic-typer">
-        Become a <span id="k-target" class="k-word">Creator</span>
+    <!-- B. DYNAMIC SLIDER INJECTION -->
+    <div id="slider-placeholder" style="margin-bottom: 40px;">
+        <!-- slider.html will be loaded here via JS if desired, or we just put the container -->
+        <div id="nx-home-slider"></div>
     </div>
 
-    <!-- 4. CATEGORIES PILLS -->
-    <div class="cat-scroll" id="home-cats">
-        <div class="cat-pill active">All Tools</div>
-        <div class="cat-pill">Editing</div>
-        <div class="cat-pill">SaaS</div>
-        <div class="cat-pill">Marketing</div>
-        <div class="cat-pill">AI Tools</div>
+    <!-- C. CATEGORIES -->
+    <div class="category-pills" id="home-categories">
+        <div class="pill active">All Assets</div>
+        <!-- Injected via Firebase -->
     </div>
 
-    <!-- 5. TRENDING ASSETS SECTION -->
-    <div class="sec-head">
-        <div>
-            <div class="badge" style="margin-bottom:8px;"><i class="fa-solid fa-fire"></i> HOT NOW</div>
-            <h2 class="tech-font sec-title">TRENDING <span class="text-gradient">ASSETS</span></h2>
+    <!-- D. TRENDING PRODUCTS -->
+    <section style="margin-top: 40px;">
+        <div class="section-head">
+            <div>
+                <h3 class="tech-font" style="font-size: 24px;">Trending <span class="text-gradient">Now</span></h3>
+                <p style="font-size: 13px; color: var(--text-300);">Hand-picked top sellers this week.</p>
+            </div>
+            <button class="pill" onclick="Nexra.navTo('shop')">View All</button>
         </div>
-        <button class="btn-modal-close" onclick="Nexra.navTo('shop')" style="font-weight:800; color:var(--brand-main)">VIEW ALL</button>
-    </div>
-    <div class="home-grid" id="trending-grid">
-        <!-- JS will inject product cards here -->
-    </div>
 
-    <!-- 6. B2B AGENCY BANNER -->
-    <section class="b2b-cta-strip">
-        <i class="fa-solid fa-chart-line bg-icon"></i>
-        <div style="position:relative; z-index:2; max-width:600px;">
-            <h2 class="tech-font" style="font-size:36px; margin-bottom:15px;">Build Your Agency Empire</h2>
-            <p style="opacity:0.9; margin-bottom:30px; line-height:1.6;">Get direct access to our Reseller API, wholesale pricing, and automated key generation tools.</p>
-            <button class="btn" style="background:#fff; color:var(--brand-main); font-weight:800;" onclick="Nexra.navTo('reseller')">JOIN PARTNER PORTAL</button>
+        <div class="grid-products" id="trending-products">
+            <!-- Skeletons -->
+            <div class="skeleton" style="height: 250px; border-radius: 20px;"></div>
+            <div class="skeleton" style="height: 250px; border-radius: 20px;"></div>
+            <div class="skeleton" style="height: 250px; border-radius: 20px;"></div>
         </div>
     </section>
 
-    <!-- 7. FREEBIES PREVIEW SECTION -->
-    <div class="sec-head">
-        <div>
-            <div class="badge" style="margin-bottom:8px;"><i class="fa-solid fa-gift"></i> VAULT</div>
-            <h2 class="tech-font sec-title">FREE <span class="text-gradient">RESOURCES</span></h2>
+    <!-- E. TRUST BAR -->
+    <div class="trust-bar">
+        <div class="stat-item">
+            <div class="stat-val" id="stat-users">0</div>
+            <div class="stat-lbl">Active Users</div>
         </div>
-        <button class="btn-modal-close" onclick="Nexra.navTo('freebies')" style="font-weight:800; color:var(--brand-main)">BROWSE VAULT</button>
+        <div class="stat-item">
+            <div class="stat-val" id="stat-orders">0</div>
+            <div class="stat-lbl">Deliveries</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-val" id="stat-trust">0%</div>
+            <div class="stat-lbl">Trust Score</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-val" id="stat-support">24/7</div>
+            <div class="stat-lbl">Support</div>
+        </div>
     </div>
-    <div class="home-grid" id="freebies-grid">
-        <!-- JS will inject freebie cards here -->
-    </div>
+
+    <!-- F. GLOBAL FOOTER -->
+    <footer class="main-footer">
+        <div class="footer-grid">
+            <div>
+                <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" class="f-logo" alt="Nexra">
+                <p style="font-size: 15px; color: var(--text-200); line-height: 1.7; margin-bottom: 25px;">
+                    The ultimate destination for digital software, creative resources, and reseller tools in Pakistan.
+                </p>
+                <div style="display: flex; gap: 12px;">
+                    <button class="btn-close-drawer" style="width: 45px; height: 45px;"><i class="fa-brands fa-facebook-f"></i></button>
+                    <button class="btn-close-drawer" style="width: 45px; height: 45px;"><i class="fa-brands fa-instagram"></i></button>
+                </div>
+            </div>
+
+            <div>
+                <span class="f-title">Marketplace</span>
+                <div class="f-links">
+                    <span onclick="Nexra.navTo('shop')">SaaS Tools</span>
+                    <span onclick="Nexra.navTo('freebies')">Free Vault</span>
+                    <span onclick="Nexra.navTo('bundle')">Custom Bundles</span>
+                    <span onclick="Nexra.navTo('giveaway')">Giveaways</span>
+                </div>
+            </div>
+
+            <div>
+                <span class="f-title">Company</span>
+                <div class="f-links">
+                    <span onclick="Nexra.navTo('about')">Our Story</span>
+                    <span onclick="Nexra.navTo('blog')">Tech Insights</span>
+                    <span onclick="Nexra.navTo('reseller')">Become Reseller</span>
+                    <span onclick="Nexra.navTo('policies')">Privacy Policy</span>
+                </div>
+            </div>
+
+            <div>
+                <span class="f-title">Join Newsletter</span>
+                <p style="font-size: 13px; color: var(--text-300); margin-bottom: 20px;">Get VIP deals directly in your inbox.</p>
+                <div class="search-input-group" style="padding: 5px 5px 5px 20px;">
+                    <input type="email" placeholder="email@example.com">
+                    <button class="btn-search" style="padding: 10px 20px; font-size: 12px;">JOIN</button>
+                </div>
+            </div>
+        </div>
+
+        <div style="margin-top: 60px; padding-top: 30px; border-top: 1px solid var(--glass-border); text-align: center; font-size: 11px; color: var(--text-300); font-weight: 700; letter-spacing: 1px;">
+            &copy; 2026 NEXRA TECH PK. ALL RIGHTS RESERVED. SECURED VIA FIREBASE CLOUD.
+        </div>
+    </footer>
 
 </div>
 
 <script>
     /**
-     * HOME ENGINE
-     * Handles local data fetching and animations
+     * HOME PAGE ENGINE
+     * Fetches real-time data from Firestore
      */
     window.NexraHome = {
-        kWords: ["Creator", "Reseller", "Expert", "Founder", "Agency Owner"],
-        kIdx: 0,
-
-        init: async function() {
-            // 1. Mount Slider
-            await Nexra.injectComponent('home-slider-mount', 'slider.html');
-
-            // 2. Start Kinetic Typer
-            this.startTyper();
-
-            // 3. Fetch Data from Firebase (Step-by-step logic)
-            this.loadTrending();
-            this.loadFreebies();
+        init: function() {
+            this.loadSlider();
+            this.fetchCategories();
+            this.fetchTrending();
+            this.loadLiveStats();
         },
 
-        startTyper: function() {
-            const target = document.getElementById('k-target');
-            let charIdx = 0;
-            let isDeleting = false;
-
-            const type = () => {
-                const currentWord = this.kWords[this.kIdx];
-                if(isDeleting) {
-                    target.innerText = currentWord.substring(0, charIdx - 1);
-                    charIdx--;
-                } else {
-                    target.innerText = currentWord.substring(0, charIdx + 1);
-                    charIdx++;
-                }
-
-                if(!isDeleting && charIdx === currentWord.length) {
-                    setTimeout(() => isDeleting = true, 2000);
-                } else if(isDeleting && charIdx === 0) {
-                    isDeleting = false;
-                    this.kIdx = (this.kIdx + 1) % this.kWords.length;
-                }
-
-                setTimeout(type, isDeleting ? 50 : 150);
-            };
-            type();
+        // 1. Load Slider Component
+        loadSlider: async function() {
+            try {
+                const res = await fetch('slider.html');
+                const html = await res.text();
+                document.getElementById('nx-home-slider').innerHTML = html;
+                // Slider script will auto-init from its file
+            } catch(e) { console.warn("Slider not found."); }
         },
 
-        loadTrending: async function() {
-            const grid = document.getElementById('trending-grid');
-            grid.innerHTML = Array(4).fill(`<div class="skeleton" style="height:200px; border-radius:20px;"></div>`).join('');
-            
-            // Firebase Query: Products with isTrending == true
-            db.collection('products').where('isTrending', '==', true).limit(6).onSnapshot(snap => {
-                grid.innerHTML = '';
+        // 2. Fetch Categories
+        fetchCategories: function() {
+            const container = document.getElementById('home-categories');
+            db.collection('categories').limit(8).get().then(snap => {
+                snap.forEach(doc => {
+                    const c = doc.data();
+                    const pill = document.createElement('div');
+                    pill.className = 'pill';
+                    pill.innerText = c.name;
+                    pill.onclick = () => {
+                        // Redirect to shop with category filter
+                        Nexra.navTo('shop', c.name);
+                    };
+                    container.appendChild(pill);
+                });
+            });
+        },
+
+        // 3. Fetch Trending Products
+        fetchTrending: function() {
+            const container = document.getElementById('trending-products');
+            db.collection('products').where('isTrending', '==', true).limit(10).get().then(snap => {
+                container.innerHTML = '';
+                if(snap.empty) {
+                    container.innerHTML = `<p style="grid-column: 1/-1; text-align:center; color:var(--text-300);">No trending items today.</p>`;
+                    return;
+                }
                 snap.forEach(doc => {
                     const p = doc.data();
-                    grid.innerHTML += this.productTemplate(doc.id, p);
+                    container.innerHTML += this.buildProductCard(doc.id, p);
                 });
             });
         },
 
-        loadFreebies: async function() {
-            const grid = document.getElementById('freebies-grid');
-            db.collection('freebies').orderBy('createdAt', 'desc').limit(4).onSnapshot(snap => {
-                grid.innerHTML = '';
-                snap.forEach(doc => {
-                    const f = doc.data();
-                    grid.innerHTML += this.productTemplate(doc.id, f, 'freebie-detail');
-                });
-            });
-        },
-
-        productTemplate: function(id, data, view = 'product') {
+        buildProductCard: function(id, p) {
             return `
-                <div class="p-card" onclick="Nexra.navTo('${view}', '${id}')" style="background:var(--bg-surface); border:1px solid var(--glass-border); border-radius:20px; padding:10px; cursor:pointer;">
-                    <div style="width:100%; aspect-ratio:1/1; background:var(--bg-elevated); border-radius:15px; overflow:hidden; margin-bottom:10px;">
-                        <img src="${data.image}" style="width:100%; height:100%; object-fit:cover;" onerror="Nexra.utils.handleImgError(this)">
-                    </div>
-                    <div style="padding:5px;">
-                        <h4 style="font-size:13px; font-weight:700; margin-bottom:5px; height:36px; overflow:hidden;">${data.title}</h4>
-                        <div style="font-size:15px; font-weight:800; color:var(--brand-main);">${data.price ? 'Rs ' + data.price : 'FREE'}</div>
-                    </div>
+                <div class="p-card" style="padding:10px; background:var(--bg-surface); border-radius:var(--radius-md); border:1px solid var(--glass-border);" onclick="Nexra.navTo('product', '${id}')">
+                    <img src="${p.image}" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; margin-bottom:12px;">
+                    <div style="font-size:13px; font-weight:700; margin-bottom:5px; height:36px; overflow:hidden;">${p.title}</div>
+                    <div style="color:var(--brand-main); font-weight:800; font-size:15px;">${Nexra.utils.formatPrice(p.price)}</div>
                 </div>
             `;
         },
 
+        // 4. Live Stats Counter
+        loadLiveStats: function() {
+            db.collection('stats').doc('live').onSnapshot(doc => {
+                if(doc.exists) {
+                    const d = doc.data();
+                    this.animateValue("stat-users", 0, d.users || 1500, 2000);
+                    this.animateValue("stat-orders", 0, d.orders || 5000, 2000);
+                    document.getElementById('stat-trust').innerText = (d.trust_score || 99) + '%';
+                }
+            });
+        },
+
+        animateValue: function(id, start, end, duration) {
+            const obj = document.getElementById(id);
+            if(!obj) return;
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                obj.innerHTML = Math.floor(progress * (end - start) + start).toLocaleString() + "+";
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        },
+
         doSearch: function() {
             const q = document.getElementById('home-search-input').value;
-            if(q) Nexra.navTo('search', q);
+            if(q) Nexra.navTo('shop', q);
         }
     };
 
-    // Auto-init Home
+    // Ignition
     NexraHome.init();
 </script>
