@@ -1,189 +1,274 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Nexra Navigation - Premium SVG Edition</title>
-    <style>
-        /* ==========================================================================
-           NEXRA NAVIGATION SYSTEM (100% SVG, MOBILE-FIRST, RESPONSIVE)
-           ========================================================================== */
-        
-        /* --- Core SVG Styling --- */
-        .nx-svg-icon {
-            width: 24px;
-            height: 24px;
-            fill: none;
-            stroke: currentColor;
-            stroke-width: 1.8;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+<!-- 
+  NEXRA TECH PK - NAVIGATION SYSTEM
+  COMPONENTS: TOP HEADER, BOTTOM DOCK, SIDEBAR, FLOATING ACTION
+-->
 
-        /* 1. Desktop Island Header (Hidden on Mobile) */
-        .nx-header-wrap { position: fixed; top: 20px; left: 0; width: 100%; z-index: 9000; padding: 0 4%; pointer-events: none; display: none; }
-        @media(min-width: 992px) { .nx-header-wrap { display: block; } }
+<style>
+    /* ==========================================================================
+       1. TOP HEADER (ISLAND NAV)
+       ========================================================================== */
+    .header-wrap { 
+        position: fixed; top: 15px; left: 0; width: 100%; z-index: 9000; 
+        padding: 0 4%; pointer-events: none; 
+    }
+    
+    .island-nav { 
+        max-width: 1400px; margin: 0 auto; background: var(--nav-blur); 
+        backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); 
+        border: 1px solid var(--glass-border); border-radius: 50px; 
+        padding: 10px 18px; display: flex; justify-content: space-between; 
+        align-items: center; box-shadow: var(--shadow-soft); pointer-events: auto; 
+    }
+    
+    .di-logo-sec { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .di-logo-icon { 
+        width: 40px; height: 40px; background: var(--bg-surface); border-radius: 50%; 
+        display: flex; align-items: center; justify-content: center; 
+        border: 1px solid var(--glass-border); padding: 5px; box-shadow: 0 4px 12px var(--brand-glow); 
+    }
+    .di-logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+    
+    .di-title-img { height: 16px; transition: var(--transition); filter: brightness(0.1); }
+    [data-theme="dark"] .di-title-img { filter: brightness(1) invert(0); }
+    
+    /* DESKTOP NAV TABS */
+    .desktop-links { 
+        display: none; align-items: center; gap: 25px; background: var(--bg-elevated); 
+        padding: 8px 30px; border-radius: 50px; border: 1px solid var(--glass-border); 
+    }
+    
+    .d-nav-item { 
+        font-size: 13px; font-weight: 700; color: var(--text-200); cursor: pointer; 
+        transition: 0.3s; position: relative; letter-spacing: 0.3px; 
+    }
+    .d-nav-item:hover { color: var(--brand-main); }
+    .d-nav-item.active { color: var(--text-100); }
+    .d-nav-item.active::after { 
+        content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); 
+        width: 4px; height: 4px; border-radius: 50%; background: var(--brand-main); 
+        box-shadow: 0 0 8px var(--brand-main); 
+    }
 
-        .nx-island-nav { max-width: 1400px; margin: 0 auto; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(0,0,0,0.06); border-radius: 50px; padding: 12px 24px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); pointer-events: auto; }
-        [data-theme="dark"] .nx-island-nav { background: rgba(10, 10, 10, 0.85); border-color: rgba(255,255,255,0.08); box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .di-actions { display: flex; align-items: center; gap: 10px; }
+    .di-btn { 
+        width: 42px; height: 42px; border-radius: 50%; background: var(--bg-surface); 
+        border: 1px solid var(--glass-border); color: var(--text-100); font-size: 15px; 
+        cursor: pointer; transition: 0.3s; position: relative; display: flex; 
+        align-items: center; justify-content: center;
+    }
+    .di-btn:hover { border-color: var(--brand-main); color: var(--brand-main); transform: translateY(-2px); }
+    
+    #cart-count { 
+        position: absolute; top: -2px; right: -2px; background: var(--brand-main); 
+        color: #fff; font-size: 9px; font-weight: 800; width: 17px; height: 17px; 
+        border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+        box-shadow: 0 2px 8px var(--brand-glow);
+    }
 
-        .nx-logo-sec { display: flex; align-items: center; gap: 15px; cursor: pointer; }
-        .nx-logo-icon { width: 40px; height: 40px; background: #ffffff; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(0,0,0,0.06); padding: 5px; box-shadow: 0 5px 15px rgba(255,74,23,0.15); }
-        .nx-title-img { height: 16px; filter: invert(1); mix-blend-mode: multiply; }
-        [data-theme="dark"] .nx-title-img { filter: none; mix-blend-mode: screen; }
+    /* ==========================================================================
+       2. MOBILE BOTTOM DOCK
+       ========================================================================== */
+    .dock-container-wrap { 
+        position: fixed; bottom: 20px; left: 0; width: 100%; 
+        display: flex; justify-content: center; z-index: 8500; pointer-events: none; 
+    }
+    
+    .dock-ui { 
+        background: var(--nav-blur); backdrop-filter: blur(30px); 
+        -webkit-backdrop-filter: blur(30px); border: 1px solid var(--glass-border); 
+        border-radius: 35px; height: 70px; display: flex; justify-content: space-around; 
+        align-items: center; padding: 0 10px; box-shadow: var(--shadow-float); 
+        pointer-events: auto; width: 92%; max-width: 450px; 
+    }
+    
+    .dock-item { 
+        display: flex; flex-direction: column; align-items: center; gap: 4px; 
+        color: var(--text-300); cursor: pointer; transition: 0.4s var(--transition); 
+        flex: 1; position: relative; 
+    }
+    .dock-item i { font-size: 20px; transition: 0.3s; }
+    .dock-item span { 
+        font-size: 9px; font-weight: 800; text-transform: uppercase; 
+        letter-spacing: 0.5px; opacity: 0; transform: translateY(8px); 
+        transition: 0.3s; position: absolute; bottom: -15px; 
+    }
+    
+    .dock-item.active { color: var(--brand-main); transform: translateY(-5px); }
+    .dock-item.active i { filter: drop-shadow(0 4px 10px var(--brand-glow)); }
+    .dock-item.active span { opacity: 1; transform: translateY(0); color: var(--text-100); }
 
-        .nx-desktop-links { display: flex; align-items: center; gap: 32px; background: rgba(255, 255, 255, 0.5); padding: 12px 35px; border-radius: 50px; border: 1px solid rgba(0,0,0,0.04); }
-        [data-theme="dark"] .nx-desktop-links { background: rgba(20,20,20,0.5); border-color: rgba(255,255,255,0.05); }
-        
-        .nx-nav-item { font-size: 13px; font-weight: 700; color: #475569; cursor: pointer; transition: 0.3s; position: relative; letter-spacing: 0.5px; }
-        [data-theme="dark"] .nx-nav-item { color: #a1a1aa; }
-        .nx-nav-item:hover { color: #FF4A17; }
-        .nx-nav-item.active { color: #0f172a; }
-        [data-theme="dark"] .nx-nav-item.active { color: #ffffff; }
-        .nx-nav-item.active::after { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); width: 5px; height: 5px; border-radius: 50%; background: #FF4A17; box-shadow: 0 0 10px #FF4A17; }
+    /* ==========================================================================
+       3. SIDEBAR & OVERLAY
+       ========================================================================== */
+    .sb-overlay { 
+        position: fixed; inset: 0; background: rgba(0,0,0,0.4); 
+        backdrop-filter: blur(8px); z-index: 9998; opacity: 0; 
+        visibility: hidden; transition: 0.4s; 
+    }
+    .sb-overlay.active { opacity: 1; visibility: visible; }
+    
+    .sb-drawer { 
+        position: fixed; top: 0; right: -360px; width: 340px; max-width: 85%; 
+        height: 100%; background: var(--bg-base); z-index: 9999; padding: 30px 20px; 
+        transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: -15px 0 40px rgba(0,0,0,0.1); 
+        border-left: 1px solid var(--glass-border); display: flex; flex-direction: column;
+    }
+    .sb-drawer.active { right: 0; }
+    
+    .sb-group { margin-bottom: 30px; }
+    .sb-head { 
+        font-size: 10px; font-weight: 800; color: var(--text-300); 
+        text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; 
+        display: block; padding-left: 5px; 
+    }
+    
+    .sb-link { 
+        display: flex; align-items: center; gap: 14px; padding: 15px 18px; 
+        border-radius: 16px; color: var(--text-100); font-size: 14px; 
+        font-weight: 600; transition: 0.3s; cursor: pointer; background: var(--bg-surface); 
+        margin-bottom: 8px; border: 1px solid transparent;
+    }
+    .sb-link i { font-size: 16px; width: 22px; text-align: center; color: var(--text-300); }
+    .sb-link:hover { 
+        background: var(--bg-elevated); border-color: var(--glass-border); 
+        transform: translateX(6px); color: var(--brand-main);
+    }
+    .sb-link:hover i { color: var(--brand-main); }
 
-        .nx-header-actions { display: flex; align-items: center; gap: 12px; }
-        .nx-action-btn { width: 44px; height: 44px; border-radius: 50%; background: #ffffff; border: 1px solid rgba(0,0,0,0.06); color: #0f172a; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; position: relative; }
-        [data-theme="dark"] .nx-action-btn { background: #121212; border-color: rgba(255,255,255,0.08); color: #ffffff; }
-        .nx-action-btn:hover { color: #FF4A17; border-color: #FF4A17; }
-        .nx-action-btn .nx-svg-icon { width: 20px; height: 20px; }
+    /* ==========================================================================
+       4. FLOATING ACTION (WHATSAPP)
+       ========================================================================== */
+    .wa-float {
+        position: fixed; bottom: 105px; right: 20px; width: 55px; height: 55px; 
+        background: #25D366; color: #fff; border-radius: 50%; display: flex; 
+        align-items: center; justify-content: center; font-size: 26px; 
+        box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3); z-index: 8000; 
+        transition: 0.4s; text-decoration: none; animation: nxFloat 3s ease-in-out infinite;
+    }
+    .wa-float:hover { transform: scale(1.1); filter: brightness(1.1); }
 
-        /* 2. Mobile Bottom Dock (90% Users) */
-        .nx-dock-wrap { position: fixed; bottom: 0; left: 0; width: 100%; display: flex; justify-content: center; z-index: 9000; pointer-events: none; padding-bottom: calc(15px + env(safe-area-inset-bottom)); }
-        @media(min-width: 992px) { .nx-dock-wrap { display: none; } }
+    @keyframes nxFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        .nx-dock-ui { background: rgba(255, 255, 255, 0.92); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); border: 1px solid rgba(0,0,0,0.08); border-radius: 40px; min-height: 75px; display: flex; justify-content: space-around; align-items: center; padding: 10px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); pointer-events: auto; width: 92%; max-width: 450px; }
-        [data-theme="dark"] .nx-dock-ui { background: rgba(15, 15, 15, 0.92); border-color: rgba(255,255,255,0.08); box-shadow: 0 15px 40px rgba(0,0,0,0.8); }
+    /* RESPONSIVE LOGIC */
+    @media(min-width: 992px) {
+        .desktop-links { display: flex; }
+        .mobile-menu-btn { display: none; }
+        .dock-container-wrap { display: none !important; }
+        .wa-float { bottom: 30px; }
+    }
+</style>
 
-        .nx-dock-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #94a3b8; cursor: pointer; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); flex: 1; position: relative; }
-        [data-theme="dark"] .nx-dock-item { color: #52525b; }
-        
-        .nx-dock-item span { font-size: 9px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0; transform: translateY(10px); transition: 0.4s; position: absolute; bottom: -18px; }
-        
-        /* Active State Animations */
-        .nx-dock-item.active { color: #FF4A17; transform: translateY(-10px); }
-        .nx-dock-item.active .nx-svg-icon { filter: drop-shadow(0 5px 12px rgba(255,74,23,0.4)); stroke-width: 2.2; }
-        .nx-dock-item.active span { opacity: 1; transform: translateY(0); bottom: -20px; color: #0f172a; }
-        [data-theme="dark"] .nx-dock-item.active span { color: #ffffff; }
-
-        /* 3. Mobile Top Mini Header (Glassmorphism) */
-        .nx-mobile-top { position: fixed; top: 0; left: 0; width: 100%; padding: calc(15px + env(safe-area-inset-top)) 20px 15px; display: flex; justify-content: space-between; align-items: center; z-index: 8900; background: rgba(248, 250, 252, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(0,0,0,0.05); pointer-events: none; }
-        [data-theme="dark"] .nx-mobile-top { background: rgba(2, 2, 2, 0.85); border-color: rgba(255,255,255,0.05); }
-        @media(min-width: 992px) { .nx-mobile-top { display: none; } }
-    </style>
-</head>
-<body>
-
-    <!-- 1. DESKTOP ISLAND HEADER -->
-    <header class="nx-header-wrap">
-        <div class="nx-island-nav">
-            <div class="nx-logo-sec" onclick="NexraApp.navTo('home')">
-                <div class="nx-logo-icon"><img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Logo"></div>
-                <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra" class="nx-title-img">
+<!-- TOP NAVIGATION HEADER -->
+<div class="header-wrap">
+    <div class="island-nav">
+        <!-- Logo Section -->
+        <div class="di-logo-sec" onclick="Nexra.navTo('home')">
+            <div class="di-logo-icon">
+                <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Logo">
             </div>
-            
-            <nav class="nx-desktop-links">
-                <div class="nx-nav-item active" data-target="home" onclick="NexraApp.navTo('home')">Home</div>
-                <div class="nx-nav-item" data-target="shop" onclick="NexraApp.navTo('shop')">Marketplace</div>
-                <div class="nx-nav-item" data-target="freebies" onclick="NexraApp.navTo('freebies')">Free Vault</div>
-                <div class="nx-nav-item" data-target="blog" onclick="NexraApp.navTo('blog')">Academy</div>
-                <div class="nx-nav-item" data-target="profile" onclick="NexraApp.navTo('profile')">Profile</div>
-            </nav>
-
-            <div class="nx-header-actions">
-                <button class="nx-action-btn" onclick="NexraApp.toggleCart()" aria-label="Cart">
-                    <!-- SVG Bag Icon -->
-                    <svg class="nx-svg-icon" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                    <span id="desk-cart-count" style="position:absolute; top:-4px; right:-4px; background:#FF4A17; color:#fff; font-size:9px; font-weight:800; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center;">0</span>
-                </button>
-                <button class="nx-action-btn" onclick="toggleTheme()" aria-label="Theme Toggle" id="theme-btn-desk">
-                    <!-- Default SVG Moon -->
-                    <svg class="nx-svg-icon" id="theme-icon-desk" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                </button>
-            </div>
+            <img class="di-title-img" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech">
         </div>
-    </header>
+        
+        <!-- Desktop Central Tabs -->
+        <div class="desktop-links">
+            <div class="d-nav-item active" data-nav="home" onclick="Nexra.navTo('home')">Home</div>
+            <div class="d-nav-item" data-nav="shop" onclick="Nexra.navTo('shop')">Marketplace</div>
+            <div class="d-nav-item" data-nav="freebies" onclick="Nexra.navTo('freebies')">Free Vault</div>
+            <div class="d-nav-item" data-nav="blog" onclick="Nexra.navTo('blog')">Academy</div>
+        </div>
 
-    <!-- 2. MOBILE TOP BAR (Logo & Cart Only) -->
-    <div class="nx-mobile-top">
-        <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Logo" style="width: 40px; pointer-events: auto; filter: drop-shadow(0 4px 10px rgba(255,74,23,0.2));" onclick="NexraApp.navTo('home')">
-        <div style="display:flex; gap:10px; pointer-events: auto;">
-            <button class="nx-action-btn" onclick="toggleTheme()" aria-label="Theme Toggle">
-                <svg class="nx-svg-icon" id="theme-icon-mob" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <!-- Action Icons -->
+        <div class="di-actions">
+            <button class="di-btn" onclick="Nexra.toggleCart()" title="View Cart">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span id="cart-count">0</span>
             </button>
-            <button class="nx-action-btn" onclick="NexraApp.toggleCart()" aria-label="Cart">
-                <svg class="nx-svg-icon" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                <span id="mob-cart-count" style="position:absolute; top:-4px; right:-4px; background:#FF4A17; color:#fff; font-size:9px; font-weight:800; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center;">0</span>
+            <button class="di-btn" onclick="Nexra.toggleTheme()" title="Switch Theme">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <button class="di-btn mobile-menu-btn" onclick="toggleSidebar()" title="More Menus">
+                <i class="fa-solid fa-bars-staggered"></i>
             </button>
         </div>
     </div>
+</div>
 
-    <!-- 3. MOBILE BOTTOM DOCK (100% SVG) -->
-    <nav class="nx-dock-wrap">
-        <div class="nx-dock-ui">
-            <!-- Home -->
-            <div class="nx-dock-item nx-nav-item active" data-target="home" onclick="NexraApp.navTo('home')">
-                <svg class="nx-svg-icon" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-                <span>Home</span>
-            </div>
-            
-            <!-- Market -->
-            <div class="nx-dock-item nx-nav-item" data-target="shop" onclick="NexraApp.navTo('shop')">
-                <svg class="nx-svg-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
-                <span>Market</span>
-            </div>
-            
-            <!-- Vault -->
-            <div class="nx-dock-item nx-nav-item" data-target="freebies" onclick="NexraApp.navTo('freebies')">
-                <svg class="nx-svg-icon" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                <span>Vault</span>
-            </div>
-            
-            <!-- Academy -->
-            <div class="nx-dock-item nx-nav-item" data-target="blog" onclick="NexraApp.navTo('blog')">
-                <svg class="nx-svg-icon" viewBox="0 0 24 24"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path></svg>
-                <span>Academy</span>
-            </div>
-            
-            <!-- Profile -->
-            <div class="nx-dock-item nx-nav-item" data-target="profile" onclick="NexraApp.navTo('profile')">
-                <svg class="nx-svg-icon" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                <span>Profile</span>
-            </div>
+<!-- MOBILE BOTTOM DOCK -->
+<div class="dock-container-wrap">
+    <div class="dock-ui">
+        <div class="dock-item active" data-nav="home" onclick="Nexra.navTo('home')">
+            <i class="fa-solid fa-house-chimney"></i><span>Home</span>
         </div>
-    </nav>
+        <div class="dock-item" data-nav="shop" onclick="Nexra.navTo('shop')">
+            <i class="fa-solid fa-store"></i><span>Market</span>
+        </div>
+        <div class="dock-item" data-nav="freebies" onclick="Nexra.navTo('freebies')">
+            <i class="fa-solid fa-cloud-arrow-down"></i><span>Vault</span>
+        </div>
+        <div class="dock-item" data-nav="blog" onclick="Nexra.navTo('blog')">
+            <i class="fa-solid fa-newspaper"></i><span>Academy</span>
+        </div>
+        <div class="dock-item" data-nav="profile" onclick="Nexra.navTo('profile')">
+            <i class="fa-solid fa-circle-user"></i><span>Profile</span>
+        </div>
+    </div>
+</div>
 
-    <!-- 4. SVG THEME TOGGLE LOGIC -->
-    <script>
-        const sunSVG = '<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>';
-        const moonSVG = '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>';
+<!-- SIDEBAR DRAWER -->
+<div class="sb-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
+<div class="sb-drawer" id="sidebar">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
+        <div class="badge" style="background: var(--brand-soft); color: var(--brand-main); border:none;">
+            <i class="fa-solid fa-compass"></i> EXPLORE NEXRA
+        </div>
+        <button class="di-btn" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    
+    <div class="sb-group">
+        <span class="sb-head">Elite Services</span>
+        <div class="sb-link" onclick="Nexra.navTo('reseller'); toggleSidebar()">
+            <i class="fa-solid fa-users-gear"></i> Reseller Portal
+        </div>
+        <div class="sb-link" onclick="Nexra.navTo('vip'); toggleSidebar()">
+            <i class="fa-solid fa-crown"></i> VIP Membership
+        </div>
+        <div class="sb-link" onclick="Nexra.navTo('bundle'); toggleSidebar()">
+            <i class="fa-solid fa-cubes"></i> Bundle Builder
+        </div>
+        <div class="sb-link" onclick="Nexra.navTo('giveaway'); toggleSidebar()">
+            <i class="fa-solid fa-gift"></i> Live Giveaway
+        </div>
+    </div>
 
-        function updateThemeIcons(isDark) {
-            const svgContent = isDark ? sunSVG : moonSVG;
-            document.getElementById('theme-icon-desk').innerHTML = svgContent;
-            document.getElementById('theme-icon-mob').innerHTML = svgContent;
-        }
+    <div class="sb-group" style="margin-top: auto;">
+        <span class="sb-head">Platform & Legal</span>
+        <div class="sb-link" onclick="Nexra.navTo('policies'); toggleSidebar()">
+            <i class="fa-solid fa-shield-halved"></i> Privacy Policy
+        </div>
+        <div class="sb-link" onclick="Nexra.navTo('about'); toggleSidebar()">
+            <i class="fa-solid fa-building"></i> About Nexra PK
+        </div>
+    </div>
+</div>
 
-        function toggleTheme() {
-            const html = document.documentElement;
-            const isDark = html.getAttribute('data-theme') === 'dark';
-            const newTheme = isDark ? 'light' : 'dark';
-            
-            html.setAttribute('data-theme', newTheme);
-            localStorage.setItem('nexra_theme', newTheme);
-            
-            // Update Meta Theme Color
-            document.getElementById('meta-theme-color').setAttribute('content', newTheme === 'dark' ? '#020202' : '#f8fafc');
-            
-            // Swap SVGs
-            updateThemeIcons(!isDark);
-        }
+<!-- FLOATING WHATSAPP BUTTON -->
+<a href="https://wa.me/923000000000" class="wa-float dynamic-wa-link" target="_blank">
+    <i class="fa-brands fa-whatsapp"></i>
+</a>
 
-        // Initialize state on load
-        if(localStorage.getItem('nexra_theme') === 'dark') {
-            updateThemeIcons(true);
-        }
-    </script>
-</body>
-</html>
+<script>
+    /* LOCAL TOGGLE LOGIC */
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('active');
+        document.getElementById('sidebar-overlay').classList.toggle('active');
+    }
+
+    // Sync active state with Router
+    window.addEventListener('popstate', () => {
+        const params = new URLSearchParams(window.location.search);
+        const view = params.get('view') || 'home';
+        document.querySelectorAll('[data-nav]').forEach(el => {
+            el.classList.toggle('active', el.getAttribute('data-nav') === view);
+        });
+    });
+</script>
