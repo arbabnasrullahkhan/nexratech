@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!-- Premium Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@800&family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           NEXRA PREMIUM SLIDER SYSTEM (UX/UI OPTIMIZED)
+           ========================================================================== */
+        
+        .nx-slider-container {
+            width: 92%;
+            max-width: 1300px;
+            margin: 20px auto;
+            position: relative;
+            border-radius: var(--radius-lg, 24px);
+            overflow: hidden;
+            background: var(--bg-surface, #f9fafb);
+            box-shadow: var(--shadow-premium, 0 10px 40px rgba(0,0,0,0.03));
+            aspect-ratio: 16/8; /* Perfect for Mobile & Desktop */
+        }
+
+        @media(max-width: 768px) {
+            .nx-slider-container { aspect-ratio: 16/9; width: 95%; }
+        }
+
+        /* 1. Slider Track */
+        .nx-slider-track {
+            display: flex;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: grab;
+        }
+        .nx-slider-track:active { cursor: grabbing; }
+
+        /* 2. Individual Slide */
+        .nx-slide {
+            min-width: 100%;
+            height: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nx-slide-img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 1.2s ease;
+        }
+        .nx-slide:hover .nx-slide-img { transform: scale(1.05); }
+
+        /* Slide Content Overlay */
+        .nx-slide-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0) 60%);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            padding: 30px;
+            z-index: 2;
+        }
+
+        .nx-slide-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(20px, 5vw, 36px);
+            color: #ffffff;
+            margin-bottom: 8px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            transform: translateY(20px);
+            opacity: 0;
+            transition: 0.5s 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nx-slide.active .nx-slide-title { transform: translateY(0); opacity: 1; }
+
+        /* 3. Navigation Controls */
+        .nx-slider-nav {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            display: flex;
+            gap: 8px;
+            z-index: 10;
+        }
+
+        .nav-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            cursor: pointer;
+            transition: 0.3s;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .nav-dot.active {
+            width: 24px;
+            background: var(--brand-main, #FF4A17);
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--brand-main);
+        }
+
+        /* Arrows (Desktop Only) */
+        .slider-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: #fff;
+            border-radius: 50%;
+            display: none; /* Mobile first */
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: 0.3s;
+        }
+        .slider-arrow:hover { background: var(--brand-main, #FF4A17); border-color: var(--brand-main); }
+        .arrow-prev { left: 20px; }
+        .arrow-next { right: 20px; }
+
+        @media(min-width: 1024px) {
+            .slider-arrow { display: flex; }
+        }
+
+        /* 4. Skeleton Loader */
+        .slider-skeleton {
+            width: 100%; height: 100%;
+            background: linear-gradient(90deg, var(--bg-surface) 25%, var(--bg-elevated) 50%, var(--bg-surface) 75%);
+            background-size: 200% 100%;
+            animation: loading 1.5s infinite;
+        }
+        @keyframes loading { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+    </style>
+</head>
+<body>
+
+    <div class="nx-slider-container" id="main-slider">
+        <!-- Loader -->
+        <div id="slider-loader" class="slider-skeleton"></div>
+
+        <!-- Track -->
+        <div class="nx-slider-track" id="slider-track">
+            <!-- Slides will be injected via Firebase -->
+        </div>
+
+        <!-- Desktop Arrows -->
+        <div class="slider-arrow arrow-prev" onclick="NexraSlider.prev()"><i class="fa-solid fa-chevron-left"></i></div>
+        <div class="slider-arrow arrow-next" onclick="NexraSlider.next()"><i class="fa-solid fa-chevron-right"></i></div>
+
+        <!-- Navigation Dots -->
+        <div class="nx-slider-nav" id="slider-dots"></div>
+    </div>
+
+    <script>
+        /**
+         * NEXRA SLIDER ENGINE
+         * Real-time Firebase Sync + Touch Gestures
+         */
+        window.NexraSlider = {
+            currentIndex: 0,
+            slides: [],
+            autoPlayTimer: null,
+            startX: 0,
+            isDragging: false,
+
+            init: async function() {
+                const track = document.getElementById('slider-track');
+                const dotsContainer = document.getElementById('slider-dots');
+
+                try {
+                    // Fetch Banners from 'media' collection where category is 'banner'
+                    // Or from a specific 'settings/banners' doc
+                    const snap = await db.collection('media').where('category', '==', 'banner').get();
+                    
+                    if(snap.empty) {
+                        // Fallback Banners if database is empty
+                        this.slides = [
+                            { url: 'https://img.freepik.com/free-vector/modern-creative-gradient-banner-template_23-2148419614.jpg', title: 'Premium Digital Assets' },
+                            { url: 'https://img.freepik.com/free-photo/abstract-dark-surface-with-orange-light_23-2148425283.jpg', title: 'Elite Reseller Ecosystem' }
+                        ];
+                    } else {
+                        snap.forEach(doc => this.slides.push(doc.data()));
+                    }
+
+                    // Render
+                    document.getElementById('slider-loader').style.display = 'none';
+                    this.render();
+                    this.startAutoPlay();
+                    this.setupTouch();
+
+                } catch(e) {
+                    console.error("Slider Load Error:", e);
+                }
+            },
+
+            render: function() {
+                const track = document.getElementById('slider-track');
+                const dotsContainer = document.getElementById('slider-dots');
+                
+                track.innerHTML = '';
+                dotsContainer.innerHTML = '';
+
+                this.slides.forEach((slide, i) => {
+                    // Create Slide
+                    const slideEl = document.createElement('div');
+                    slideEl.className = `nx-slide ${i === 0 ? 'active' : ''}`;
+                    slideEl.innerHTML = `
+                        <img src="${slide.url}" class="nx-slide-img" alt="Banner">
+                        <div class="nx-slide-overlay">
+                            <h2 class="nx-slide-title">${slide.title || 'Nexra Tech PK'}</h2>
+                        </div>
+                    `;
+                    track.appendChild(slideEl);
+
+                    // Create Dot
+                    const dot = document.createElement('div');
+                    dot.className = `nav-dot ${i === 0 ? 'active' : ''}`;
+                    dot.onclick = () => this.goTo(i);
+                    dotsContainer.appendChild(dot);
+                });
+            },
+
+            goTo: function(index) {
+                const track = document.getElementById('slider-track');
+                const dots = document.querySelectorAll('.nav-dot');
+                const slides = document.querySelectorAll('.nx-slide');
+
+                if(index >= this.slides.length) index = 0;
+                if(index < 0) index = this.slides.length - 1;
+
+                this.currentIndex = index;
+                track.style.transform = `translateX(-${index * 100}%)`;
+
+                // Update UI
+                dots.forEach((d, i) => d.classList.toggle('active', i === index));
+                slides.forEach((s, i) => s.classList.toggle('active', i === index));
+                
+                this.startAutoPlay(); // Reset timer
+            },
+
+            next: function() { this.goTo(this.currentIndex + 1); },
+            prev: function() { this.goTo(this.currentIndex - 1); },
+
+            startAutoPlay: function() {
+                clearInterval(this.autoPlayTimer);
+                this.autoPlayTimer = setInterval(() => this.next(), 5000);
+            },
+
+            setupTouch: function() {
+                const container = document.getElementById('main-slider');
+                
+                container.addEventListener('touchstart', (e) => {
+                    this.startX = e.touches[0].clientX;
+                    this.isDragging = true;
+                    clearInterval(this.autoPlayTimer);
+                });
+
+                container.addEventListener('touchend', (e) => {
+                    if (!this.isDragging) return;
+                    const endX = e.changedTouches[0].clientX;
+                    const diff = this.startX - endX;
+
+                    if (Math.abs(diff) > 50) { // Swipe Threshold
+                        if (diff > 0) this.next();
+                        else this.prev();
+                    }
+                    this.isDragging = false;
+                });
+            }
+        };
+
+        // Initialize when file is loaded
+        setTimeout(() => NexraSlider.init(), 100);
+    </script>
+</body>
+</html>
