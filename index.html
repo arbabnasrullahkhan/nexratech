@@ -1,304 +1,322 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Nexra Tech PK — Elite Digital Ecosystem</title>
-    
-    <!-- FAVICON -->
-    <link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
-    
-    <!-- THEME COLOR (Clean White) -->
-    <meta id="meta-theme-color" name="theme-color" content="#ffffff">
+    <meta name="description" content="Nexra Tech PK - Elite Digital Ecosystem">
+    <meta name="theme-color" content="#ffffff" id="meta-theme-color">
+    <title>Nexra Tech PK</title>
 
-    <!-- PREMIUM TYPOGRAPHY -->
+    <!-- Favicon -->
+    <link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
+
+    <!-- Premium Typography -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
-    <!-- ELITE SVG ICON LIBRARY (FontAwesome) -->
+    <!-- SVG Library (FontAwesome) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-    <!-- FIREBASE CORE (Next steps will define these files) -->
+    <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-    <!-- CORE SCRIPTS -->
-    <script src="firebaseconfig.js"></script>
-    <script src="global.js" defer></script>
-
     <style>
+        /* ==========================================================================
+           1. PREMIUM DESIGN SYSTEM (NORDIC WHITE DEFAULT)
+           ========================================================================== */
         :root {
-            /* LUXURY WHITE THEME DESIGN TOKENS */
-            --bg-base: #ffffff;
-            --bg-surface: #fcfcfc;
-            --bg-elevated: #f3f4f6;
             --brand-main: #FF4A17; 
-            --brand-glow: rgba(255, 74, 23, 0.15);
-            --text-100: #111827; /* Deep Navy Black */
-            --text-200: #4b5563; /* Slate Gray */
-            --text-300: #9ca3af; /* Light Muted Gray */
+            --brand-glow: rgba(255, 74, 23, 0.2);
+            
+            /* Light Theme (Default) */
+            --bg-base: #ffffff;
+            --bg-surface: #f9fafb;
+            --bg-elevated: #ffffff;
+            --text-100: #09090b;
+            --text-200: #52525b;
+            --text-300: #a1a1aa;
             --glass-border: rgba(0, 0, 0, 0.05);
-            --radius-md: 24px;
-            --radius-lg: 40px;
-            --shadow-premium: 0 20px 50px -12px rgba(0, 0, 0, 0.08);
-            --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-premium: 0 10px 40px rgba(0, 0, 0, 0.03);
+            --radius-lg: 24px;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body, html { width: 100%; min-height: 100vh; background: var(--bg-base); color: var(--text-100); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
-        
-        .tech-font { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.5px; }
+        [data-theme="dark"] {
+            --bg-base: #020202;
+            --bg-surface: #0a0a0a;
+            --bg-elevated: #121212;
+            --text-100: #ffffff;
+            --text-200: #a1a1aa;
+            --text-300: #52525b;
+            --glass-border: rgba(255, 255, 255, 0.05);
+            --shadow-premium: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
 
-        /* ==========================================
-           1. IMPROVED CINEMATIC SPLASH UI
-           ========================================== */
-        #splash { 
-            position: fixed; inset: 0; z-index: 100000; background: var(--bg-base); 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            transition: opacity 0.8s var(--transition), transform 0.8s var(--transition); 
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
+        
+        body, html {
+            width: 100%; height: 100vh;
+            background-color: var(--bg-base);
+            color: var(--text-100);
+            font-family: 'Plus Jakarta Sans', sans-serif;
             overflow: hidden;
+            transition: background-color 0.5s ease;
+        }
+
+        /* ==========================================================================
+           2. SPLASH UI (MOBILE-FIRST)
+           ========================================================================== */
+        #splash { 
+            position: fixed; inset: 0; z-index: 100000; 
+            background: var(--bg-base); 
+            display: flex; flex-direction: column; align-items: center; justify-content: center; 
+            padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
         }
         
-        /* Subtle White Pulse Background */
-        .splash-glow { 
-            position: absolute; width: 60vw; height: 60vw; background: var(--brand-main); 
-            filter: blur(120px); opacity: 0.03; border-radius: 50%; z-index: 1; 
-            animation: pulseGlow 4s infinite alternate; 
-        }
+        .splash-bg-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.05; z-index: 0; filter: blur(20px); }
+        .splash-glow { position: absolute; width: 60vw; height: 60vw; background: var(--brand-main); filter: blur(120px); opacity: 0.1; border-radius: 50%; z-index: 1; animation: pulseGlow 4s infinite alternate; }
         
-        .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; }
+        .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; padding: 0 24px; text-align: center; }
         
-        .splash-logo { width: clamp(100px, 20vw, 130px); height: auto; object-fit: contain; animation: floatLogo 4s ease-in-out infinite; }
-        .splash-title { height: clamp(22px, 5vw, 28px); margin-top: 40px; object-fit: contain; filter: grayscale(1) brightness(0.2); opacity: 0.8; }
+        .splash-logo { width: 90px; height: auto; object-fit: contain; filter: drop-shadow(0 15px 35px var(--brand-glow)); animation: float 4s ease-in-out infinite; }
         
-        /* Progress System */
-        .splash-progress-wrapper { width: 100%; max-width: 280px; margin-top: 60px; opacity: 0; transform: translateY(20px); animation: fadeUp 1s 0.5s forwards; }
-        .splash-bar { width: 100%; height: 2px; background: var(--bg-elevated); border-radius: 10px; overflow: hidden; position: relative; margin-bottom: 15px; }
-        .splash-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--brand-main); box-shadow: 0 0 10px var(--brand-glow); transition: width 0.4s ease; }
+        .splash-title { height: 18px; margin-top: 30px; object-fit: contain; opacity: 0; transform: translateY(15px); animation: fadeUp 0.8s 0.2s forwards; }
+        [data-theme="light"] .splash-title { filter: none; }
+        [data-theme="dark"] .splash-title { filter: invert(1) brightness(2); }
         
-        .splash-status-row { display: flex; justify-content: space-between; align-items: center; font-size: 10px; font-weight: 800; color: var(--text-300); letter-spacing: 1.5px; text-transform: uppercase; }
-        .splash-powered { position: absolute; bottom: 50px; font-family: 'Space Grotesk', sans-serif; font-size: 9px; font-weight: 800; color: var(--text-300); letter-spacing: 4px; text-transform: uppercase; }
+        .splash-progress-wrapper { width: 100%; max-width: 200px; margin-top: 50px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
+        .splash-bar { width: 100%; height: 2px; background: var(--glass-border); border-radius: 10px; overflow: hidden; position: relative; margin-bottom: 12px; }
+        .splash-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--brand-main); box-shadow: 0 0 15px var(--brand-main); transition: width 0.4s ease; }
+        
+        .splash-status-row { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1px; }
+        
+        .splash-powered { position: absolute; bottom: 40px; font-family: 'Space Grotesk', sans-serif; font-size: 9px; font-weight: 700; color: var(--text-300); letter-spacing: 3px; text-transform: uppercase; }
 
-        /* ==========================================
-           2. ENTERPRISE MAINTENANCE MODULE (WHITE)
-           ========================================== */
-        #maintenance-screen { 
-            position: fixed; inset: 0; z-index: 100001; background: var(--bg-base); 
-            display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px;
-            opacity: 0; transition: 0.6s var(--transition); 
-        }
-        #maintenance-screen.active { display: flex; opacity: 1; }
-        
-        .m-card { 
-            background: var(--bg-base); border: 1px solid var(--glass-border); 
-            padding: 60px 40px; border-radius: var(--radius-lg); text-align: center; 
-            max-width: 550px; width: 100%; box-shadow: var(--shadow-premium); position: relative; 
-        }
-        .m-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: var(--brand-main); border-radius: 4px 4px 0 0; }
-        
-        .m-icon { width: 80px; height: 80px; border-radius: 50%; background: var(--bg-surface); display: flex; align-items: center; justify-content: center; font-size: 30px; color: var(--brand-main); margin: 0 auto 30px; border: 1px solid var(--glass-border); }
-        .m-title { font-size: clamp(2rem, 5vw, 2.5rem); margin-bottom: 15px; color: var(--text-100); }
-        .m-desc { color: var(--text-200); font-size: 15px; line-height: 1.7; margin-bottom: 40px; }
-        
-        /* Premium Countdown */
-        .m-countdown { display: flex; justify-content: center; gap: 12px; margin-bottom: 40px; }
-        .cd-box { background: var(--bg-surface); border: 1px solid var(--glass-border); width: 75px; height: 75px; border-radius: 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-        .cd-num { font-size: 24px; font-weight: 800; color: var(--text-100); line-height: 1; }
-        .cd-lbl { font-size: 9px; font-weight: 800; color: var(--text-300); text-transform: uppercase; margin-top: 5px; }
-
-        .m-socials { display: flex; justify-content: center; gap: 12px; border-top: 1px solid var(--glass-border); padding-top: 30px; }
-        .m-social-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--bg-surface); border: 1px solid var(--glass-border); color: var(--text-100); display: flex; align-items: center; justify-content: center; font-size: 18px; transition: 0.3s; cursor: pointer; text-decoration: none; }
-        .m-social-btn:hover { background: var(--brand-main); color: #fff; border-color: var(--brand-main); transform: translateY(-3px); }
-
-        /* ==========================================
-           3. MAIN SHELL & SPA
-           ========================================== */
-        #spa-main { width: 100%; min-height: 100vh; opacity: 0; transition: opacity 0.5s ease; padding-bottom: 100px; }
-        #spa-main.loaded { opacity: 1; }
-
-        /* ANIMATIONS */
-        @keyframes pulseGlow { 0% { opacity: 0.02; transform: scale(1); } 100% { opacity: 0.05; transform: scale(1.1); } }
-        @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes pulseGlow { 0% { transform: scale(1); opacity: 0.1; } 100% { transform: scale(1.2); opacity: 0.15; } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
+        /* ==========================================================================
+           3. MAINTENANCE SCREEN
+           ========================================================================== */
+        #maintenance-screen { position: fixed; inset: 0; z-index: 100001; background: var(--bg-base); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px; opacity: 0; transition: 0.6s; }
+        #maintenance-screen.active { display: flex; opacity: 1; }
+        .m-card { background: var(--bg-elevated); border: 1px solid var(--glass-border); padding: 50px 30px; border-radius: var(--radius-lg); text-align: center; max-width: 500px; width: 100%; box-shadow: var(--shadow-premium); }
+        .m-icon { width: 80px; height: 80px; border-radius: 50%; background: var(--brand-dim); color: var(--brand-main); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 30px; }
+        .m-title { font-family: 'Space Grotesk'; font-size: 28px; font-weight: 700; margin-bottom: 15px; color: var(--text-100); }
+        .m-desc { color: var(--text-200); font-size: 15px; line-height: 1.6; margin-bottom: 35px; }
+        .m-socials { display: flex; justify-content: center; gap: 15px; border-top: 1px solid var(--glass-border); padding-top: 25px; }
+        .m-social-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--bg-surface); border: 1px solid var(--glass-border); color: var(--text-100); display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; }
+        .m-social-btn:hover { background: var(--brand-main); color: #fff; transform: translateY(-3px); }
+
+        /* ==========================================================================
+           4. MAIN APP SHELL & LOADER
+           ========================================================================== */
+        #nx-main { opacity: 0; visibility: hidden; display: flex; flex-direction: column; height: 100vh; transition: opacity 0.5s; }
+        #nx-main.visible { opacity: 1; visibility: visible; }
+        #spa-view { flex: 1; overflow-y: auto; padding-top: 70px; padding-bottom: 90px; }
+
+        /* Premium Transition Loader */
+        #nx-route-loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 3px;
+            background: transparent; z-index: 100002; pointer-events: none;
+        }
+        .loader-bar { height: 100%; width: 0%; background: var(--brand-main); box-shadow: 0 0 10px var(--brand-main); transition: width 0.3s ease; }
     </style>
 </head>
-<body class="light-mode">
+<body>
 
-    <!-- SPLASH SCREEN -->
+    <!-- 1. TRANSITION LOADER (STAYS AT TOP) -->
+    <div id="nx-route-loader"><div class="loader-bar" id="nx-loader-bar"></div></div>
+
+    <!-- 2. SPLASH SCREEN -->
     <div id="splash">
+        <div id="splash-bg-container"></div>
         <div class="splash-glow"></div>
         <div class="splash-content">
-            <img alt="Nexra Logo" class="splash-logo" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
-            <img alt="Nexra Title" class="splash-title" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg">
+            <img class="splash-logo" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Logo">
+            <img class="splash-title" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra PK">
             
             <div class="splash-progress-wrapper">
                 <div class="splash-bar"><div class="splash-fill" id="sp-fill"></div></div>
                 <div class="splash-status-row">
-                    <span id="sp-status">Syncing Core...</span>
+                    <span id="sp-status">Syncing Ecosystem</span>
                     <span id="sp-percent">0%</span>
                 </div>
             </div>
-            
             <div class="splash-powered">SECURED BY NEXRA TECH PK</div>
         </div>
     </div>
 
-    <!-- MAINTENANCE SCREEN -->
+    <!-- 3. MAINTENANCE MODE -->
     <div id="maintenance-screen">
         <div class="m-card">
             <div class="m-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-            <h1 class="tech-font m-title">System Optimization</h1>
-            <p class="m-desc" id="m-desc">We are currently optimizing the digital ecosystem for a better experience. We will be live shortly.</p>
-            
-            <div class="m-countdown" id="m-countdown">
-                <div class="cd-box"><span class="cd-num" id="cd-days">00</span><span class="cd-lbl">Days</span></div>
-                <div class="cd-box"><span class="cd-num" id="cd-hours">00</span><span class="cd-lbl">Hrs</span></div>
-                <div class="cd-box"><span class="cd-num" id="cd-mins">00</span><span class="cd-lbl">Min</span></div>
-                <div class="cd-box"><span class="cd-num" id="cd-secs">00</span><span class="cd-lbl">Sec</span></div>
-            </div>
-
-            <div class="m-socials" id="m-socials">
-                <!-- Data from Firestore -->
-            </div>
+            <h1 class="m-title" id="m-title">Optimizing System</h1>
+            <p class="m-desc" id="m-desc">We are currently upgrading our digital infrastructure for a better experience. We'll be back shortly.</p>
+            <div class="m-socials" id="m-socials"></div>
         </div>
     </div>
 
-    <!-- UI CONTAINERS -->
-    <div id="nav-wrapper"></div>
-    <div id="notification-wrapper"></div>
-
-    <!-- SPA CONTENT -->
-    <main id="spa-main"></main>
+    <!-- 4. MAIN APPLICATION SHELL -->
+    <div id="nx-main">
+        <!-- Components injected via JavaScript -->
+        <header id="nx-header"></header>
+        <main id="spa-view"></main>
+        <nav id="nx-bottom-nav"></nav>
+        <div id="nx-ui-notifications"></div>
+    </div>
 
     <script>
-        //<![CDATA[
-        document.addEventListener("DOMContentLoaded", () => {
-            const elFill = document.getElementById('sp-fill');
-            const elStat = document.getElementById('sp-status');
-            const elPerc = document.getElementById('sp-percent');
-            
-            function updateProgress(percent, statusMsg) {
-                if(!elFill) return;
-                elFill.style.width = percent + '%';
-                elPerc.innerText = percent + '%';
-                elStat.innerText = statusMsg;
-            }
+        /**
+         * NEXRA PK - Master Core Engine v3.0
+         * Handles Boot, SPA Routing, and Global Themes
+         */
+        window.Nexra = {
+            db: null,
+            config: {},
 
-            // =====================================================================
-            // ENGINE: DEEP-LINK & SPA ROUTER
-            // =====================================================================
-            window.NexraApp = {
-                navTo: async function(view, id = null) {
-                    const main = document.getElementById('spa-main');
-                    main.style.opacity = '0';
-                    
-                    // Directory Mapping
-                    const routes = {
-                        'home': 'discovery/home.html',
-                        'shop': 'shop/shop.html',
-                        'freebies': 'freebies/freebies.html',
-                        'blog': 'academy/blog.html',
-                        'profile': 'user/profile-dashboard.html'
-                    };
+            async boot() {
+                this.updateProgress(10, "Verifying Handshake");
+                
+                // Load Config & Firebase
+                await this.loadScript('firebaseconfig.js');
+                this.db = firebase.firestore();
 
-                    try {
-                        const path = routes[view] || routes['home'];
-                        const response = await fetch(path);
-                        const html = await response.text();
-                        
-                        setTimeout(() => {
-                            main.innerHTML = html;
-                            main.className = 'loaded';
-                            main.style.opacity = '1';
-                            
-                            // Update URL for Deep Linking
-                            const newUrl = id ? `?view=${view}&id=${id}` : `?view=${view}`;
-                            window.history.pushState({}, '', newUrl);
-                        }, 400);
-                    } catch (e) {
-                        console.error("Router Error:", e);
+                this.updateProgress(40, "Establishing Data Link");
+                
+                // Fetch Maintenance Status
+                const sysDoc = await this.db.collection('splash_settings').doc('config').get();
+                if (sysDoc.exists) {
+                    const data = sysDoc.data();
+                    if (data.maintenance_mode) {
+                        this.triggerMaintenance(data);
+                        return;
                     }
                 }
-            };
 
-            // =====================================================================
-            // ENGINE: INITIALIZATION & MAINTENANCE
-            // =====================================================================
-            async function initSystem() {
-                updateProgress(20, "Establishing Handshake...");
+                this.updateProgress(70, "Assembling Interface");
+
+                // Load Shell Components
+                await this.loadComponent('nx-header', 'navigation.html', 'header');
+                await this.loadComponent('nx-bottom-nav', 'navigation.html', 'bottom-nav');
+                await this.loadComponent('nx-ui-notifications', 'ui-notifications.html');
+
+                this.updateProgress(100, "Ecosystem Ready");
+
+                // Handle Deep Linking
+                const urlParams = new URLSearchParams(window.location.search);
+                const view = urlParams.get('view') || 'home';
+                const id = urlParams.get('id') || null;
+
+                setTimeout(() => {
+                    document.getElementById('splash').style.opacity = '0';
+                    document.getElementById('splash').style.visibility = 'hidden';
+                    document.getElementById('nx-main').classList.add('visible');
+                    this.navTo(view, id);
+                }, 800);
+            },
+
+            // High-Speed SPA Router
+            async navTo(view, id = null) {
+                const bar = document.getElementById('nx-loader-bar');
+                const container = document.getElementById('spa-view');
                 
-                if (!navigator.onLine) {
-                    updateProgress(20, "Offline Mode. Waiting...");
-                    return;
-                }
+                bar.style.width = '30%';
+                
+                const routes = {
+                    'home': 'discovery/home.html',
+                    'shop': 'shop/shop.html',
+                    'product': 'shop/product-detail.html',
+                    'blog': 'academy/blog.html',
+                    'freebies': 'freebies/freebies.html',
+                    'profile': 'user/profile-dashboard.html'
+                };
+
+                const path = routes[view] || 'system/error-404.html';
+                
+                // URL Update
+                const newUrl = id ? `?view=${view}&id=${id}` : `?view=${view}`;
+                window.history.pushState({view, id}, '', newUrl);
 
                 try {
-                    // Firebase Check (Assume firebaseconfig.js provides 'db')
-                    const db = firebase.firestore();
-                    const configRef = db.collection('splash_settings').doc('config');
-                    const snap = await configRef.get();
+                    const res = await fetch(path);
+                    const html = await res.text();
+                    bar.style.width = '100%';
                     
-                    updateProgress(60, "Syncing Assets...");
+                    container.style.opacity = '0';
+                    setTimeout(() => {
+                        container.innerHTML = html;
+                        this.executeScripts(container);
+                        container.style.opacity = '1';
+                        setTimeout(() => bar.style.width = '0%', 400);
+                    }, 200);
 
-                    if (snap.exists) {
-                        const data = snap.data();
-                        
-                        if (data.maintenance_mode) {
-                            activateMaintenance(data);
-                            return;
-                        }
-                    }
-
-                    updateProgress(100, "Ready");
-                    launchApp();
-
-                } catch (err) {
-                    console.warn("Firebase wait...");
-                    // Fallback after 3 seconds if Firebase fails
-                    setTimeout(launchApp, 3000);
+                } catch (e) {
+                    console.error("Route error:", e);
+                    bar.style.width = '0%';
                 }
-            }
+            },
 
-            function activateMaintenance(data) {
-                const splash = document.getElementById('splash');
-                const maint = document.getElementById('maintenance-screen');
+            // Utility Methods
+            updateProgress(pct, text) {
+                document.getElementById('sp-fill').style.width = pct + '%';
+                document.getElementById('sp-percent').innerText = pct + '%';
+                document.getElementById('sp-status').innerText = text;
+            },
+
+            triggerMaintenance(data) {
+                document.getElementById('splash').style.display = 'none';
+                const screen = document.getElementById('maintenance-screen');
+                if (data.m_title) document.getElementById('m-title').innerText = data.m_title;
+                if (data.m_desc) document.getElementById('m-desc').innerText = data.m_desc;
                 
-                document.getElementById('m-desc').innerText = data.m_desc || "Optimization in progress.";
+                let socials = '';
+                if(data.s_whatsapp) socials += `<a href="https://wa.me/${data.s_whatsapp}" class="m-social-btn"><i class="fa-brands fa-whatsapp"></i></a>`;
+                if(data.s_telegram) socials += `<a href="${data.s_telegram}" class="m-social-btn"><i class="fa-brands fa-telegram"></i></a>`;
+                document.getElementById('m-socials').innerHTML = socials;
                 
-                // Construct Socials
-                let socialHtml = '';
-                if(data.s_whatsapp) socialHtml += `<a href="https://wa.me/${data.s_whatsapp}" target="_blank" class="m-social-btn"><i class="fa-brands fa-whatsapp"></i></a>`;
-                if(data.s_telegram) socialHtml += `<a href="${data.s_telegram}" target="_blank" class="m-social-btn"><i class="fa-brands fa-telegram"></i></a>`;
-                document.getElementById('m-socials').innerHTML = socialHtml;
+                screen.classList.add('active');
+            },
 
-                splash.style.opacity = '0';
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                    maint.classList.add('active');
-                }, 800);
+            async loadComponent(id, file, part = null) {
+                try {
+                    const res = await fetch(file);
+                    const html = await res.text();
+                    if(part) {
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(html, 'text/html');
+                        const content = doc.querySelector(part);
+                        if(content) document.getElementById(id).innerHTML = content.innerHTML;
+                    } else {
+                        document.getElementById(id).innerHTML = html;
+                    }
+                } catch(e) { console.warn(`Component ${file} not found yet.`); }
+            },
+
+            loadScript(src) {
+                return new Promise((resolve) => {
+                    const script = document.createElement('script');
+                    script.src = src;
+                    script.onload = resolve;
+                    document.head.appendChild(script);
+                });
+            },
+
+            executeScripts(container) {
+                const scripts = container.querySelectorAll("script");
+                scripts.forEach(oldScript => {
+                    const newScript = document.createElement("script");
+                    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                    oldScript.parentNode.replaceChild(newScript, oldScript);
+                });
             }
+        };
 
-            function launchApp() {
-                const splash = document.getElementById('splash');
-                splash.style.transform = 'scale(1.1)';
-                splash.style.opacity = '0';
-                
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                    
-                    // Handle Deep Link on Launch
-                    const params = new URLSearchParams(window.location.search);
-                    const targetView = params.get('view') || 'home';
-                    const targetId = params.get('id');
-                    
-                    window.NexraApp.navTo(targetView, targetId);
-                }, 800);
-            }
-
-            initSystem();
-        });
-        //]]>
+        window.onload = () => Nexra.boot();
+        window.onpopstate = (e) => e.state && Nexra.navTo(e.state.view, e.state.id);
     </script>
 </body>
 </html>
