@@ -1,322 +1,314 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
+    <!-- 1. META & SEO HEAD CODE -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="description" content="Nexra Tech PK - Elite Digital Ecosystem">
-    <meta name="theme-color" content="#ffffff" id="meta-theme-color">
-    <title>Nexra Tech PK</title>
-
-    <!-- Favicon -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Nexra Tech PK | Elite Digital Ecosystem</title>
+    
+    <!-- Meta Theme & Performance -->
+    <meta name="theme-color" id="meta-theme-color" content="#ffffff">
+    <meta name="description" content="Pakistan's premium digital marketplace for automated software licensing and elite SaaS tools.">
     <link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
-
-    <!-- Premium Typography -->
+    
+    <!-- 2. PREMIUM FONTS (Plus Jakarta & Space Grotesk) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
-    <!-- SVG Library (FontAwesome) -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-
-    <!-- Firebase SDKs -->
+    <!-- 3. FIREBASE SDKS (v9 Compat) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
+    <!-- 4. CORE ENGINE CSS -->
     <style>
-        /* ==========================================================================
-           1. PREMIUM DESIGN SYSTEM (NORDIC WHITE DEFAULT)
-           ========================================================================== */
         :root {
+            /* GLOBAL TOKENS - PREMIUM WHITE */
+            --bg-base: #ffffff;
+            --bg-surface: #f8fafc;
+            --bg-elevated: #f1f5f9;
             --brand-main: #FF4A17; 
             --brand-glow: rgba(255, 74, 23, 0.2);
-            
-            /* Light Theme (Default) */
-            --bg-base: #ffffff;
-            --bg-surface: #f9fafb;
-            --bg-elevated: #ffffff;
-            --text-100: #09090b;
-            --text-200: #52525b;
-            --text-300: #a1a1aa;
-            --glass-border: rgba(0, 0, 0, 0.05);
-            --shadow-premium: 0 10px 40px rgba(0, 0, 0, 0.03);
-            --radius-lg: 24px;
+            --brand-soft: rgba(255, 74, 23, 0.08);
+            --text-100: #0f172a;
+            --text-200: #475569;
+            --text-300: #94a3b8;
+            --glass-border: rgba(0, 0, 0, 0.06);
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.03);
+            --shadow-md: 0 12px 34px -10px rgba(0,0,0,0.08);
+            --radius-md: 20px;
+            --radius-lg: 32px;
+            --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        [data-theme="dark"] {
-            --bg-base: #020202;
-            --bg-surface: #0a0a0a;
-            --bg-elevated: #121212;
-            --text-100: #ffffff;
-            --text-200: #a1a1aa;
-            --text-300: #52525b;
-            --glass-border: rgba(255, 255, 255, 0.05);
-            --shadow-premium: 0 20px 50px rgba(0, 0, 0, 0.5);
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        
-        body, html {
-            width: 100%; height: 100vh;
-            background-color: var(--bg-base);
-            color: var(--text-100);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow: hidden;
-            transition: background-color 0.5s ease;
-        }
-
-        /* ==========================================================================
-           2. SPLASH UI (MOBILE-FIRST)
-           ========================================================================== */
-        #splash { 
-            position: fixed; inset: 0; z-index: 100000; 
+        /* RESET & BODY UX */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { 
             background: var(--bg-base); 
-            display: flex; flex-direction: column; align-items: center; justify-content: center; 
-            padding-top: env(safe-area-inset-top); padding-bottom: env(safe-area-inset-bottom);
-            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.8s;
+            color: var(--text-100); 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            overflow-x: hidden; 
+            line-height: 1.6;
         }
-        
-        .splash-bg-media { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0.05; z-index: 0; filter: blur(20px); }
-        .splash-glow { position: absolute; width: 60vw; height: 60vw; background: var(--brand-main); filter: blur(120px); opacity: 0.1; border-radius: 50%; z-index: 1; animation: pulseGlow 4s infinite alternate; }
-        
-        .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; padding: 0 24px; text-align: center; }
-        
-        .splash-logo { width: 90px; height: auto; object-fit: contain; filter: drop-shadow(0 15px 35px var(--brand-glow)); animation: float 4s ease-in-out infinite; }
-        
-        .splash-title { height: 18px; margin-top: 30px; object-fit: contain; opacity: 0; transform: translateY(15px); animation: fadeUp 0.8s 0.2s forwards; }
-        [data-theme="light"] .splash-title { filter: none; }
-        [data-theme="dark"] .splash-title { filter: invert(1) brightness(2); }
-        
-        .splash-progress-wrapper { width: 100%; max-width: 200px; margin-top: 50px; opacity: 0; animation: fadeUp 0.8s 0.4s forwards; }
-        .splash-bar { width: 100%; height: 2px; background: var(--glass-border); border-radius: 10px; overflow: hidden; position: relative; margin-bottom: 12px; }
-        .splash-fill { position: absolute; left: 0; top: 0; height: 100%; width: 0%; background: var(--brand-main); box-shadow: 0 0 15px var(--brand-main); transition: width 0.4s ease; }
-        
-        .splash-status-row { display: flex; justify-content: space-between; font-size: 10px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1px; }
-        
-        .splash-powered { position: absolute; bottom: 40px; font-family: 'Space Grotesk', sans-serif; font-size: 9px; font-weight: 700; color: var(--text-300); letter-spacing: 3px; text-transform: uppercase; }
 
-        @keyframes pulseGlow { 0% { transform: scale(1); opacity: 0.1; } 100% { transform: scale(1.2); opacity: 0.15; } }
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* ==========================================================================
-           3. MAINTENANCE SCREEN
-           ========================================================================== */
-        #maintenance-screen { position: fixed; inset: 0; z-index: 100001; background: var(--bg-base); display: none; flex-direction: column; align-items: center; justify-content: center; padding: 24px; opacity: 0; transition: 0.6s; }
-        #maintenance-screen.active { display: flex; opacity: 1; }
-        .m-card { background: var(--bg-elevated); border: 1px solid var(--glass-border); padding: 50px 30px; border-radius: var(--radius-lg); text-align: center; max-width: 500px; width: 100%; box-shadow: var(--shadow-premium); }
-        .m-icon { width: 80px; height: 80px; border-radius: 50%; background: var(--brand-dim); color: var(--brand-main); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 30px; }
-        .m-title { font-family: 'Space Grotesk'; font-size: 28px; font-weight: 700; margin-bottom: 15px; color: var(--text-100); }
-        .m-desc { color: var(--text-200); font-size: 15px; line-height: 1.6; margin-bottom: 35px; }
-        .m-socials { display: flex; justify-content: center; gap: 15px; border-top: 1px solid var(--glass-border); padding-top: 25px; }
-        .m-social-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--bg-surface); border: 1px solid var(--glass-border); color: var(--text-100); display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; }
-        .m-social-btn:hover { background: var(--brand-main); color: #fff; transform: translateY(-3px); }
-
-        /* ==========================================================================
-           4. MAIN APP SHELL & LOADER
-           ========================================================================== */
-        #nx-main { opacity: 0; visibility: hidden; display: flex; flex-direction: column; height: 100vh; transition: opacity 0.5s; }
-        #nx-main.visible { opacity: 1; visibility: visible; }
-        #spa-view { flex: 1; overflow-y: auto; padding-top: 70px; padding-bottom: 90px; }
-
-        /* Premium Transition Loader */
-        #nx-route-loader {
+        /* 5. TOP LOADING INDICATOR (Apple Style) */
+        #top-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 3px;
-            background: transparent; z-index: 100002; pointer-events: none;
+            z-index: 200000; pointer-events: none;
         }
-        .loader-bar { height: 100%; width: 0%; background: var(--brand-main); box-shadow: 0 0 10px var(--brand-main); transition: width 0.3s ease; }
+        #top-loader-fill {
+            height: 100%; width: 0; background: var(--brand-main);
+            box-shadow: 0 0 15px var(--brand-main);
+            transition: width 0.4s ease, opacity 0.4s;
+        }
+
+        /* 6. ELITE SPLASH INTERFACE */
+        #splash {
+            position: fixed; inset: 0; z-index: 100000; background: var(--bg-base);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+        }
+        .splash-glow {
+            position: absolute; width: 50vw; height: 50vw; background: var(--brand-main);
+            filter: blur(140px); opacity: 0.06; border-radius: 50%; animation: pulseGlow 4s infinite alternate;
+        }
+        .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+        .sp-logo { width: 90px; height: auto; filter: drop-shadow(0 10px 20px var(--brand-glow)); animation: logoIn 1s var(--transition-smooth); }
+        .sp-title { height: 20px; margin-top: 30px; opacity: 0; transform: translateY(10px); animation: fadeUp 0.8s 0.3s forwards; }
+        
+        .sp-progress-box { width: 220px; margin-top: 50px; text-align: center; }
+        .sp-bar { width: 100%; height: 2px; background: var(--bg-elevated); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+        .sp-fill { height: 100%; width: 0%; background: var(--brand-main); transition: width 0.3s ease; }
+        .sp-status { font-size: 9px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 2px; }
+
+        /* 7. MAINTENANCE INTERFACE */
+        #maintenance {
+            position: fixed; inset: 0; z-index: 100005; background: var(--bg-base);
+            display: none; align-items: center; justify-content: center; padding: 25px;
+            opacity: 0; transition: opacity 0.5s;
+        }
+        .m-card {
+            background: var(--bg-base); border: 1px solid var(--glass-border);
+            padding: 60px 40px; border-radius: var(--radius-lg); text-align: center;
+            max-width: 500px; width: 100%; box-shadow: var(--shadow-md);
+        }
+        .m-icon { 
+            width: 70px; height: 70px; background: var(--brand-soft); color: var(--brand-main);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 28px; margin: 0 auto 30px;
+        }
+        .m-title { font-family: 'Space Grotesk'; font-size: 26px; font-weight: 700; margin-bottom: 12px; }
+        .m-desc { color: var(--text-200); font-size: 14px; margin-bottom: 35px; }
+
+        /* 8. MAIN VIEW TRANSITIONS */
+        #spa-main { width: 100%; min-height: 100vh; opacity: 1; transition: opacity 0.4s var(--transition-smooth), transform 0.4s var(--transition-smooth); }
+        .view-loading { opacity: 0 !important; transform: translateY(15px); }
+
+        /* ANIMATIONS */
+        @keyframes pulseGlow { from { opacity: 0.04; transform: scale(1); } to { opacity: 0.1; transform: scale(1.2); } }
+        @keyframes logoIn { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* BUTTONS & BADGES UTILS */
+        .tech-font { font-family: 'Space Grotesk', sans-serif; }
+        .badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 50px; font-size: 10px; font-weight: 800; background: var(--bg-surface); border: 1px solid var(--glass-border); color: var(--brand-main); text-transform: uppercase; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-    <!-- 1. TRANSITION LOADER (STAYS AT TOP) -->
-    <div id="nx-route-loader"><div class="loader-bar" id="nx-loader-bar"></div></div>
+    <!-- TOP LOADER -->
+    <div id="top-loader"><div id="top-loader-fill"></div></div>
 
-    <!-- 2. SPLASH SCREEN -->
+    <!-- 1. PREMIUM SPLASH SCREEN -->
     <div id="splash">
-        <div id="splash-bg-container"></div>
         <div class="splash-glow"></div>
         <div class="splash-content">
-            <img class="splash-logo" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Logo">
-            <img class="splash-title" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra PK">
+            <img class="sp-logo" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo">
+            <img class="sp-title" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra PK">
             
-            <div class="splash-progress-wrapper">
-                <div class="splash-bar"><div class="splash-fill" id="sp-fill"></div></div>
-                <div class="splash-status-row">
-                    <span id="sp-status">Syncing Ecosystem</span>
-                    <span id="sp-percent">0%</span>
-                </div>
+            <div class="sp-progress-box">
+                <div class="sp-bar"><div class="sp-fill" id="sp-fill"></div></div>
+                <div class="sp-status" id="sp-status">Initializing Ecosystem...</div>
             </div>
-            <div class="splash-powered">SECURED BY NEXRA TECH PK</div>
         </div>
+        <div style="position:absolute; bottom:40px; font-size:10px; font-weight:700; color:var(--text-300); letter-spacing:3px;">NEXRA TECH PK</div>
     </div>
 
-    <!-- 3. MAINTENANCE MODE -->
-    <div id="maintenance-screen">
+    <!-- 2. MAINTENANCE OVERLAY -->
+    <div id="maintenance">
         <div class="m-card">
-            <div class="m-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-            <h1 class="m-title" id="m-title">Optimizing System</h1>
-            <p class="m-desc" id="m-desc">We are currently upgrading our digital infrastructure for a better experience. We'll be back shortly.</p>
-            <div class="m-socials" id="m-socials"></div>
+            <div class="m-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.7a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.7z"></path></svg></div>
+            <h1 class="m-title">Optimizing System</h1>
+            <p class="m-desc">We are currently fine-tuning our infrastructure to deliver a more seamless experience. We'll be back shortly.</p>
+            <div id="m-socials" style="display:flex; justify-content:center; gap:15px;"></div>
         </div>
     </div>
 
-    <!-- 4. MAIN APPLICATION SHELL -->
-    <div id="nx-main">
-        <!-- Components injected via JavaScript -->
-        <header id="nx-header"></header>
-        <main id="spa-view"></main>
-        <nav id="nx-bottom-nav"></nav>
-        <div id="nx-ui-notifications"></div>
-    </div>
+    <!-- 3. SHARED UI CONTAINERS -->
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
 
+    <!-- 4. DYNAMIC VIEW CONTAINER -->
+    <main id="spa-main"></main>
+
+    <div id="footer-container"></div>
+    <div id="dock-container"></div>
+
+    <!-- 5. CORE JS ENGINE -->
+    <script src="firebaseconfig.js"></script>
     <script>
-        /**
-         * NEXRA PK - Master Core Engine v3.0
-         * Handles Boot, SPA Routing, and Global Themes
-         */
         window.Nexra = {
             db: null,
-            config: {},
-
-            async boot() {
-                this.updateProgress(10, "Verifying Handshake");
+            
+            /* --- 1. THE SPA ROUTER (ULTRA UX) --- */
+            navTo: async function(view, id = null) {
+                const loader = document.getElementById('top-loader-fill');
+                const main = document.getElementById('spa-main');
                 
-                // Load Config & Firebase
-                await this.loadScript('firebaseconfig.js');
-                this.db = firebase.firestore();
+                // Trigger Progress
+                loader.style.opacity = '1';
+                loader.style.width = '40%';
+                main.classList.add('view-loading');
 
-                this.updateProgress(40, "Establishing Data Link");
-                
-                // Fetch Maintenance Status
-                const sysDoc = await this.db.collection('splash_settings').doc('config').get();
-                if (sysDoc.exists) {
-                    const data = sysDoc.data();
-                    if (data.maintenance_mode) {
-                        this.triggerMaintenance(data);
-                        return;
-                    }
-                }
-
-                this.updateProgress(70, "Assembling Interface");
-
-                // Load Shell Components
-                await this.loadComponent('nx-header', 'navigation.html', 'header');
-                await this.loadComponent('nx-bottom-nav', 'navigation.html', 'bottom-nav');
-                await this.loadComponent('nx-ui-notifications', 'ui-notifications.html');
-
-                this.updateProgress(100, "Ecosystem Ready");
-
-                // Handle Deep Linking
-                const urlParams = new URLSearchParams(window.location.search);
-                const view = urlParams.get('view') || 'home';
-                const id = urlParams.get('id') || null;
-
-                setTimeout(() => {
-                    document.getElementById('splash').style.opacity = '0';
-                    document.getElementById('splash').style.visibility = 'hidden';
-                    document.getElementById('nx-main').classList.add('visible');
-                    this.navTo(view, id);
-                }, 800);
-            },
-
-            // High-Speed SPA Router
-            async navTo(view, id = null) {
-                const bar = document.getElementById('nx-loader-bar');
-                const container = document.getElementById('spa-view');
-                
-                bar.style.width = '30%';
-                
                 const routes = {
                     'home': 'discovery/home.html',
                     'shop': 'shop/shop.html',
-                    'product': 'shop/product-detail.html',
-                    'blog': 'academy/blog.html',
                     'freebies': 'freebies/freebies.html',
-                    'profile': 'user/profile-dashboard.html'
+                    'blog': 'academy/blog.html',
+                    'profile': 'user/profile-dashboard.html',
+                    'reseller': 'reseller/reseller-dashboard.html',
+                    'vip': 'vip/vip-tiers.html'
                 };
 
-                const path = routes[view] || 'system/error-404.html';
-                
-                // URL Update
-                const newUrl = id ? `?view=${view}&id=${id}` : `?view=${view}`;
-                window.history.pushState({view, id}, '', newUrl);
+                const path = routes[view] || routes['home'];
 
                 try {
-                    const res = await fetch(path);
-                    const html = await res.text();
-                    bar.style.width = '100%';
+                    const response = await fetch(path);
+                    const html = await response.text();
                     
-                    container.style.opacity = '0';
-                    setTimeout(() => {
-                        container.innerHTML = html;
-                        this.executeScripts(container);
-                        container.style.opacity = '1';
-                        setTimeout(() => bar.style.width = '0%', 400);
-                    }, 200);
+                    loader.style.width = '80%';
 
-                } catch (e) {
-                    console.error("Route error:", e);
-                    bar.style.width = '0%';
+                    setTimeout(() => {
+                        main.innerHTML = html;
+                        
+                        // Execute scripts in fetched HTML
+                        const scripts = main.querySelectorAll('script');
+                        scripts.forEach(s => {
+                            const newScript = document.createElement('script');
+                            newScript.text = s.innerHTML;
+                            document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                        });
+
+                        // Completion
+                        loader.style.width = '100%';
+                        main.classList.remove('view-loading');
+                        
+                        setTimeout(() => {
+                            loader.style.opacity = '0';
+                            setTimeout(() => loader.style.width = '0', 400);
+                        }, 300);
+
+                        // Sync URL
+                        window.history.pushState({}, '', `?view=${view}${id ? '&id='+id : ''}`);
+                        window.scrollTo(0,0);
+                    }, 400);
+
+                } catch(e) {
+                    console.error("Routing Error:", e);
+                    loader.style.opacity = '0';
                 }
             },
 
-            // Utility Methods
-            updateProgress(pct, text) {
-                document.getElementById('sp-fill').style.width = pct + '%';
-                document.getElementById('sp-percent').innerText = pct + '%';
-                document.getElementById('sp-status').innerText = text;
-            },
+            /* --- 2. THE BOOT SEQUENCE --- */
+            boot: async function() {
+                const fill = document.getElementById('sp-fill');
+                const status = document.getElementById('sp-status');
 
-            triggerMaintenance(data) {
-                document.getElementById('splash').style.display = 'none';
-                const screen = document.getElementById('maintenance-screen');
-                if (data.m_title) document.getElementById('m-title').innerText = data.m_title;
-                if (data.m_desc) document.getElementById('m-desc').innerText = data.m_desc;
-                
-                let socials = '';
-                if(data.s_whatsapp) socials += `<a href="https://wa.me/${data.s_whatsapp}" class="m-social-btn"><i class="fa-brands fa-whatsapp"></i></a>`;
-                if(data.s_telegram) socials += `<a href="${data.s_telegram}" class="m-social-btn"><i class="fa-brands fa-telegram"></i></a>`;
-                document.getElementById('m-socials').innerHTML = socials;
-                
-                screen.classList.add('active');
-            },
+                // Step 1: Initialize Firebase
+                fill.style.width = '30%';
+                status.innerText = "Connecting to Cloud...";
 
-            async loadComponent(id, file, part = null) {
-                try {
-                    const res = await fetch(file);
-                    const html = await res.text();
-                    if(part) {
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(html, 'text/html');
-                        const content = doc.querySelector(part);
-                        if(content) document.getElementById(id).innerHTML = content.innerHTML;
-                    } else {
-                        document.getElementById(id).innerHTML = html;
+                const checkFirebase = setInterval(async () => {
+                    if(window.firebase && firebase.apps.length) {
+                        clearInterval(checkFirebase);
+                        this.db = firebase.firestore();
+                        
+                        // Step 2: Fetch System Settings
+                        fill.style.width = '60%';
+                        status.innerText = "Checking System Integrity...";
+                        
+                        try {
+                            const config = await this.db.collection('splash_settings').doc('config').get();
+                            const data = config.exists ? config.data() : {};
+
+                            if(data.maintenance_mode) {
+                                this.activateMaintenance(data);
+                            } else {
+                                this.launch(data);
+                            }
+                        } catch(e) { this.launch({}); }
                     }
-                } catch(e) { console.warn(`Component ${file} not found yet.`); }
+                }, 100);
             },
 
-            loadScript(src) {
-                return new Promise((resolve) => {
-                    const script = document.createElement('script');
-                    script.src = src;
-                    script.onload = resolve;
-                    document.head.appendChild(script);
-                });
+            /* --- 3. SYSTEM LAUNCHER --- */
+            launch: async function(data) {
+                const fill = document.getElementById('sp-fill');
+                const splash = document.getElementById('splash');
+                
+                fill.style.width = '100%';
+                document.getElementById('sp-status').innerText = "Launching Ecosystem...";
+
+                // Load Shared UI Modules first
+                await this.loadSharedUI();
+
+                setTimeout(() => {
+                    splash.style.opacity = '0';
+                    splash.style.transform = 'scale(1.05)';
+                    setTimeout(() => {
+                        splash.style.display = 'none';
+                        
+                        // Process Deep Links
+                        const params = new URLSearchParams(window.location.search);
+                        const target = params.get('view') || 'home';
+                        this.navTo(target, params.get('id'));
+                    }, 800);
+                }, 600);
             },
 
-            executeScripts(container) {
-                const scripts = container.querySelectorAll("script");
-                scripts.forEach(oldScript => {
-                    const newScript = document.createElement("script");
-                    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-                    oldScript.parentNode.replaceChild(newScript, oldScript);
-                });
+            /* --- 4. SHARED UI LOADER --- */
+            loadSharedUI: async function() {
+                const modules = [
+                    { id: 'header-container', file: 'header.html' },
+                    { id: 'sidebar-container', file: 'sidebar.html' },
+                    { id: 'footer-container', file: 'footer.html' },
+                    { id: 'dock-container', file: 'navigation.html' }
+                ];
+
+                for(const mod of modules) {
+                    try {
+                        const res = await fetch(mod.file);
+                        if(res.ok) document.getElementById(mod.id).innerHTML = await res.text();
+                    } catch(e) { console.warn(`Module ${mod.file} failed to load.`); }
+                }
+            },
+
+            /* --- 5. MAINTENANCE HANDLER --- */
+            activateMaintenance: function(data) {
+                document.getElementById('splash').style.display = 'none';
+                const m = document.getElementById('maintenance');
+                m.style.display = 'flex';
+                setTimeout(() => m.style.opacity = '1', 100);
+
+                if(data.m_title) document.querySelector('.m-title').innerText = data.m_title;
+                if(data.m_desc) document.querySelector('.m-desc').innerText = data.m_desc;
             }
         };
 
-        window.onload = () => Nexra.boot();
-        window.onpopstate = (e) => e.state && Nexra.navTo(e.state.view, e.state.id);
+        // Start the Engine
+        document.addEventListener('DOMContentLoaded', () => Nexra.boot());
     </script>
 </body>
 </html>
