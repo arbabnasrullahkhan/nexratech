@@ -1,74 +1,55 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta name="description" content="Nexra Tech PK - Elite Digital Ecosystem">
-    <meta name="theme-color" content="#020202" id="meta-theme-color">
+    <meta name="theme-color" content="#ffffff" id="meta-theme-color">
     <title>Nexra Tech PK | Elite Digital Ecosystem</title>
 
     <!-- Favicon -->
     <link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
 
-    <!-- Premium SaaS Typography -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Elite Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
     
-    <!-- SVG Icons Library (No Emojis) -->
+    <!-- SVG Library -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
     <style>
         /* ==========================================================================
-           1. CORE DESIGN SYSTEM & DESIGN TOKENS
+           1. PREMIUM DESIGN SYSTEM (LIGHT FIRST)
            ========================================================================== */
         :root {
-            /* BRAND COLORS (Premium Solid, No Excessive Neon) */
-            --brand-main: #FF4A17;
-            --brand-dim: rgba(255, 74, 23, 0.15);
-            --brand-glow: rgba(255, 74, 23, 0.3);
+            /* GLOBAL ACCENT COLOR (Can be changed via Admin/Global Config) */
+            --accent: #FF4A17; 
+            --accent-glow: rgba(255, 74, 23, 0.25);
             
-            /* DARK THEME (Default Cinematic Luxury) */
-            --bg-base: #020202;
-            --bg-surface: #0a0a0a;
-            --bg-elevated: #141414;
-            
-            /* TEXT COLORS */
-            --text-100: #ffffff;
-            --text-200: #a1a1aa;
-            --text-300: #52525b;
-            
-            /* GLASSMORPHISM BORDERS & SHADOWS */
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --glass-bg: rgba(10, 10, 10, 0.6);
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.5);
-            --shadow-float: 0 20px 40px rgba(0, 0, 0, 0.8);
-            
-            /* STATUS COLORS */
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
-            
-            /* BORDER RADIUS */
-            --radius-sm: 8px;
-            --radius-md: 16px;
-            --radius-lg: 24px;
-            
-            /* TYPOGRAPHY */
-            --font-body: 'Plus Jakarta Sans', sans-serif;
-            --font-display: 'Space Grotesk', sans-serif;
+            /* LIGHT THEME (DEFAULT - Apple/Stripe Style) */
+            --bg-base: #FFFFFF;
+            --bg-surface: #F8FAFC;
+            --bg-elevated: #F1F5F9;
+            --text-100: #0F172A;
+            --text-200: #475569;
+            --text-300: #94A3B8;
+            --glass-border: rgba(0, 0, 0, 0.06);
+            --glass-bg: rgba(255, 255, 255, 0.8);
+            --shadow-soft: 0 12px 30px -10px rgba(0,0,0,0.08);
+            --shadow-float: 0 30px 60px -12px rgba(0,0,0,0.12);
         }
 
-        /* Light Theme Override (Controlled via JS) */
-        [data-theme="light"] {
-            --bg-base: #f8fafc;
-            --bg-surface: #ffffff;
-            --bg-elevated: #f1f5f9;
-            --text-100: #0f172a;
-            --text-200: #475569;
-            --text-300: #94a3b8;
-            --glass-border: rgba(0, 0, 0, 0.08);
-            --glass-bg: rgba(255, 255, 255, 0.8);
-            --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.04);
-            --shadow-float: 0 20px 40px rgba(0, 0, 0, 0.08);
+        /* DARK THEME OVERRIDE */
+        [data-theme="dark"] {
+            --bg-base: #050505;
+            --bg-surface: #0F0F0F;
+            --bg-elevated: #161616;
+            --text-100: #FFFFFF;
+            --text-200: #A1A1AA;
+            --text-300: #52525B;
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(10, 10, 10, 0.7);
+            --shadow-soft: 0 20px 40px rgba(0, 0, 0, 0.6);
+            --shadow-float: 0 40px 80px rgba(0, 0, 0, 0.9);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -78,392 +59,291 @@
             height: 100vh;
             background-color: var(--bg-base);
             color: var(--text-100);
-            font-family: var(--font-body);
-            overflow: hidden; /* Locked until splash finishes */
-            transition: background-color 0.3s ease, color 0.3s ease;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow: hidden;
+            transition: background-color 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.5s;
         }
 
-        a { text-decoration: none; color: inherit; }
-        ul { list-style: none; }
-        
         /* ==========================================================================
-           2. INTEGRATED SPLASH SCREEN
+           2. CINEMATIC LOADER & SPLASH
            ========================================================================== */
         #nx-splash {
             position: fixed;
             inset: 0;
-            z-index: 99999;
+            z-index: 100000;
             background: var(--bg-base);
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .splash-logo-container {
+            position: relative;
+            margin-bottom: 40px;
         }
 
         .splash-logo {
-            width: clamp(80px, 20vw, 100px);
-            margin-bottom: 20px;
-            filter: drop-shadow(0 10px 25px var(--brand-glow));
-            animation: pulseLogo 3s infinite alternate;
+            width: 90px;
+            filter: drop-shadow(0 15px 30px var(--accent-glow));
+            animation: breathe 4s infinite ease-in-out;
+            z-index: 2;
+        }
+
+        .splash-glow {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 150px; height: 150px;
+            background: var(--accent);
+            filter: blur(60px);
+            opacity: 0.15;
+            z-index: 1;
         }
 
         .splash-title-img {
-            height: clamp(16px, 4vw, 22px);
-            margin-bottom: 50px;
-            filter: invert(1);
+            height: 20px;
+            margin-bottom: 60px;
+            opacity: 0.8;
+            /* Invert only in light mode for the JPG provided */
+            filter: brightness(0.2); 
         }
-        [data-theme="light"] .splash-title-img { filter: none; }
+        [data-theme="dark"] .splash-title-img { filter: invert(1); }
 
-        .splash-loader-wrap {
-            width: 80%;
-            max-width: 250px;
-        }
-
-        .splash-bar {
-            width: 100%;
-            height: 4px;
-            background: var(--glass-border);
+        /* Sleek Modern Progress */
+        .nx-loader {
+            width: 200px;
+            height: 2px;
+            background: var(--bg-elevated);
             border-radius: 10px;
             overflow: hidden;
             position: relative;
-            margin-bottom: 15px;
         }
 
-        .splash-fill {
+        .nx-fill {
+            position: absolute;
+            top: 0; left: 0;
             height: 100%;
             width: 0%;
-            background: var(--brand-main);
-            transition: width 0.3s ease;
+            background: var(--accent);
+            box-shadow: 0 0 15px var(--accent);
+            transition: width 0.4s ease;
         }
 
-        .splash-status {
-            display: flex;
-            justify-content: space-between;
-            font-size: 11px;
-            font-weight: 700;
-            color: var(--text-200);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .splash-footer {
-            position: absolute;
-            bottom: 30px;
-            font-family: var(--font-display);
+        .nx-status-text {
+            margin-top: 20px;
             font-size: 10px;
+            font-weight: 800;
             color: var(--text-300);
-            letter-spacing: 3px;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        @keyframes pulseLogo {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
+        @keyframes breathe {
+            0%, 100% { transform: scale(1); opacity: 0.9; }
+            50% { transform: scale(1.08); opacity: 1; }
         }
 
         /* ==========================================================================
            3. MAIN APP SHELL
            ========================================================================== */
-        #nx-app-shell {
+        #nx-shell {
             opacity: 0;
-            visibility: hidden;
+            transform: scale(1.02);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: opacity 0.6s ease;
         }
 
-        #nx-app-shell.active {
+        #nx-shell.booted {
             opacity: 1;
-            visibility: visible;
+            transform: scale(1);
         }
 
-        /* SPA Main Container */
-        #spa-main {
+        #spa-container {
             flex: 1;
             overflow-y: auto;
-            overflow-x: hidden;
             scroll-behavior: smooth;
-            /* Padding accommodates fixed header and bottom dock */
-            padding-top: 80px; 
-            padding-bottom: 100px;
+            padding-top: 70px; /* Fixed Header Space */
+            padding-bottom: 90px; /* Bottom Dock Space */
         }
 
-        /* Loader inside main view during route changes */
-        .route-loader {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 60vh;
-            color: var(--brand-main);
-            font-size: 24px;
+        /* Route Animation */
+        .page-enter {
+            animation: slideUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-
-        .route-loader span {
-            margin-top: 15px;
-            font-size: 12px;
-            color: var(--text-200);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- ==========================================================================
-         A. SPLASH SCREEN (Integrated)
-         ========================================================================== -->
+    <!-- SINEMATIC SPLASH -->
     <div id="nx-splash">
-        <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Icon" class="splash-logo">
-        <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Title" class="splash-title-img">
-        
-        <div class="splash-loader-wrap">
-            <div class="splash-bar">
-                <div class="splash-fill" id="splash-progress"></div>
-            </div>
-            <div class="splash-status">
-                <span id="splash-text">Booting Ecosystem...</span>
-                <span id="splash-pct">0%</span>
-            </div>
+        <div class="splash-logo-container">
+            <div class="splash-glow"></div>
+            <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra" class="splash-logo">
         </div>
-
-        <div class="splash-footer">POWERED BY NEXRA TECH PK</div>
-    </div>
-
-    <!-- ==========================================================================
-         B. MAIN APP SHELL (Layout Architecture)
-         ========================================================================== -->
-    <div id="nx-app-shell">
+        <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech" class="splash-title-img">
         
-        <!-- 1. System Configs (Injected via JS) -->
-        <div id="nx-system-core" style="display:none;"></div>
+        <div class="nx-loader">
+            <div class="nx-fill" id="boot-progress"></div>
+        </div>
+        <div class="nx-status-text" id="boot-status">Encrypted Link Establishing...</div>
 
-        <!-- 2. Global Navigation (Header + Mobile Dock) -->
-        <header id="nx-navigation-container"></header>
+        <div style="position: absolute; bottom: 40px; font-size: 9px; font-weight: 700; letter-spacing: 4px; color: var(--text-300);">
+            VERSION 2.0 // SECURE ECOSYSTEM
+        </div>
+    </div>
 
-        <!-- 3. SPA Main View (Dynamic Content Loads Here) -->
-        <main id="spa-main"></main>
+    <!-- MAIN APP SHELL -->
+    <div id="nx-shell">
+        <!-- Components loaded modularly -->
+        <div id="global-config-injection" style="display: none;"></div>
+        <div id="nav-injection"></div>
 
-        <!-- 4. UI Alerts & Overlays (Modals, Toasts, Cart Drawer) -->
-        <div id="nx-ui-container"></div>
+        <!-- MAIN VIEWPORT -->
+        <main id="spa-container"></main>
 
+        <!-- NOTIFICATIONS & MODALS -->
+        <div id="ui-injection"></div>
     </div>
 
     <!-- ==========================================================================
-         C. CORE JAVASCRIPT ENGINE (Router & Initializer)
+         4. CORE ENGINE (ROUTING & DEEP LINKS)
          ========================================================================== -->
     <script>
-        /**
-         * NEXRA PK - Master Core Engine
-         * Handles Boot sequence, Modular Component Loading, and SPA Routing.
-         */
         window.Nexra = {
-            // State
-            isBooted: false,
-            currentRoute: null,
-            
-            // Directory Map for the SPA Router
-            routes: {
-                // Discovery
-                'home': 'discovery/home.html',
-                'community': 'discovery/community-feed.html',
-                'onboarding': 'discovery/onboarding.html',
-                'search': 'discovery/search-results.html',
-                
-                // Shop
-                'shop': 'shop/shop.html',
-                'product': 'shop/product-detail.html',
-                'checkout': 'shop/checkout.html',
-                'bundle': 'shop/bundle-builder.html',
-                'success': 'shop/checkout-success.html',
-                'tracking': 'shop/order-tracking.html',
-                'receipt': 'shop/order-receipt.html',
-
-                // Freebies
-                'freebies': 'freebies/freebies.html',
-                'freebie-detail': 'freebies/freebie-detail.html',
-                'giveaway': 'freebies/giveaway-live.html',
-
-                // Academy
-                'blog': 'academy/blog.html',
-                'blog-detail': 'academy/blog-detail.html',
-
-                // User
-                'auth': 'user/auth-gate.html',
-                'profile': 'user/profile-dashboard.html',
-                'vault': 'user/user-vault.html',
-                'wallet': 'user/user-wallet.html',
-                'wishlist': 'user/user-wishlist.html',
-
-                // Reseller
-                'reseller': 'reseller/reseller-landing.html',
-                'reseller-auth': 'reseller/reseller-auth.html',
-                'reseller-dash': 'reseller/reseller-dashboard.html',
-                'reseller-store': 'reseller/reseller-store-builder.html',
-                'reseller-products': 'reseller/reseller-product-manager.html',
-                'reseller-payouts': 'reseller/reseller-payouts.html',
-
-                // VIP
-                'vip': 'vip/vip-tiers.html',
-                'vip-dash': 'vip/vip-dashboard.html',
-
-                // Support & System
-                'support': 'support/support-hub.html',
-                'chat': 'support/support-chat-view.html',
-                'offline': 'system/offline.html',
-                '404': 'system/error-404.html',
-                'policies': 'system/policies.html',
-                'about': 'system/about.html'
+            config: {
+                brand: "Nexra Tech PK",
+                accent: "#FF4A17",
+                isDark: false
             },
 
-            // 1. Initializer (Splash Screen Logic)
-            async init() {
-                this.updateSplash(20, "Loading Configurations...");
-                
-                // Simulate fetching core files (In real environment, we use fetch API)
-                await this.loadCoreComponent('firebaseconfig.js', 'script');
-                this.updateSplash(40, "Establishing Database Link...");
-                
-                await this.loadCoreComponent('global.html', 'html', 'nx-system-core');
-                this.updateSplash(60, "Building User Interface...");
-                
-                await this.loadCoreComponent('navigation.html', 'html', 'nx-navigation-container');
-                await this.loadCoreComponent('ui-notifications.html', 'html', 'nx-ui-container');
-                
-                this.updateSplash(90, "Finalizing Modules...");
+            // 1. BOOT SEQUENCE
+            async boot() {
+                const progress = document.getElementById('boot-progress');
+                const status = document.getElementById('boot-status');
 
-                // Execute Deep Link or default to 'home'
-                const urlParams = new URLSearchParams(window.location.search);
-                const targetView = urlParams.get('view') || 'home';
-                
-                this.updateSplash(100, "System Ready");
+                const steps = [
+                    { p: 20, t: "Initializing Global Config..." },
+                    { p: 50, t: "Syncing Firebase Auth..." },
+                    { p: 80, t: "Loading Interface..." },
+                    { p: 100, t: "System Ready" }
+                ];
 
+                for (let step of steps) {
+                    await new Promise(r => setTimeout(resolve => {
+                        progress.style.width = step.p + '%';
+                        status.innerText = step.t;
+                        r();
+                    }, 400));
+                }
+
+                this.finalizeBoot();
+            },
+
+            finalizeBoot() {
+                document.getElementById('nx-splash').style.opacity = '0';
+                document.getElementById('nx-splash').style.transform = 'scale(1.1)';
+                
                 setTimeout(() => {
-                    document.getElementById('nx-splash').style.opacity = '0';
                     document.getElementById('nx-splash').style.visibility = 'hidden';
-                    document.body.style.overflow = 'auto'; // Unlock scroll
+                    document.getElementById('nx-shell').classList.add('booted');
                     
-                    const shell = document.getElementById('nx-app-shell');
-                    shell.classList.add('active');
-                    this.isBooted = true;
-
-                    // Navigate to the target page
-                    this.navTo(targetView);
-                }, 800);
+                    // HANDLE REDIRECTION & DEEP LINKS
+                    this.handleDeepLinks();
+                }, 600);
             },
 
-            // Splash UI Updater
-            updateSplash(pct, text) {
-                const fill = document.getElementById('splash-progress');
-                const pctTxt = document.getElementById('splash-pct');
-                const msgTxt = document.getElementById('splash-text');
-                
-                if(fill) fill.style.width = pct + '%';
-                if(pctTxt) pctTxt.innerText = pct + '%';
-                if(msgTxt) msgTxt.innerText = text;
-            },
+            // 2. DEEP LINK REDIRECTION LOGIC
+            handleDeepLinks() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const view = urlParams.get('view');
+                const id = urlParams.get('id');
 
-            // Core Component Injector
-            async loadCoreComponent(file, type, targetId = null) {
-                try {
-                    // For now, we simulate the network delay since files will be created in next steps
-                    return new Promise(resolve => setTimeout(resolve, 300));
-                    
-                    /* REAL IMPLEMENTATION (Uncomment when files exist on server):
-                    const response = await fetch(file);
-                    if(!response.ok) throw new Error("File not found");
-                    const data = await response.text();
-                    
-                    if(type === 'html' && targetId) {
-                        document.getElementById(targetId).innerHTML = data;
-                        this.executeScripts(document.getElementById(targetId));
-                    } else if (type === 'script') {
-                        const script = document.createElement('script');
-                        script.text = data;
-                        document.body.appendChild(script);
-                    }
-                    resolve();
-                    */
-                } catch(e) {
-                    console.warn(`[Nexra Engine] Component ${file} delayed. Generating locally...`);
+                if (view) {
+                    // Direct redirect to product, freebie, or blog
+                    // Example: ?view=product&id=capcut-pro
+                    this.navTo(view, id);
+                } else {
+                    this.navTo('home');
                 }
             },
 
-            // 2. SPA Router Engine
-            async navTo(view, params = null) {
-                const mainContainer = document.getElementById('spa-main');
-                const filePath = this.routes[view];
-
-                if(!filePath) {
-                    return this.navTo('404');
-                }
-
-                this.currentRoute = view;
+            // 3. SPA ROUTER ENGINE
+            async navTo(viewId, documentId = null) {
+                const container = document.getElementById('spa-container');
                 
-                // Show Route Loader
-                mainContainer.innerHTML = `
-                    <div class="route-loader">
-                        <i class="fa-solid fa-circle-notch fa-spin"></i>
-                        <span>Loading Workspace...</span>
+                // Show Inline Loader
+                container.innerHTML = `
+                    <div style="height: 50vh; display: flex; align-items: center; justify-content: center;">
+                        <i class="fa-solid fa-circle-notch fa-spin" style="font-size: 30px; color: var(--accent);"></i>
                     </div>
                 `;
 
-                // Update URL without reload
-                let newUrl = `${window.location.pathname}?view=${view}`;
-                if(params) newUrl += `&id=${params}`;
-                window.history.pushState({path: newUrl}, '', newUrl);
+                // Directory Mapping
+                const pathMap = {
+                    'home': 'discovery/home.html',
+                    'shop': 'shop/shop.html',
+                    'product': 'shop/product-detail.html',
+                    'freebies': 'freebies/freebies.html',
+                    'freebie-detail': 'freebies/freebie-detail.html',
+                    'blog': 'academy/blog.html',
+                    'blog-detail': 'academy/blog-detail.html',
+                    'profile': 'user/profile-dashboard.html',
+                    'checkout': 'shop/checkout.html'
+                };
+
+                const targetFile = pathMap[viewId] || 'system/error-404.html';
+                
+                // Update URL State
+                let stateUrl = `?view=${viewId}`;
+                if(documentId) stateUrl += `&id=${documentId}`;
+                window.history.pushState({viewId, documentId}, '', stateUrl);
 
                 try {
-                    // Simulated fetch for Step 1
+                    // In real step-by-step, we'll build these files.
+                    // Currently simulating fetch:
                     setTimeout(() => {
-                        mainContainer.innerHTML = `
-                            <div style="padding: 100px 20px; text-align:center;">
-                                <i class="fa-solid fa-code" style="font-size: 50px; color: var(--brand-main); margin-bottom:20px;"></i>
-                                <h2 style="font-family: var(--font-display); font-size: 24px; margin-bottom:10px;">Module Requested: ${view}</h2>
-                                <p style="color: var(--text-200); font-size: 14px;">This file (<code>${filePath}</code>) will be built and injected in the upcoming steps.</p>
+                        container.innerHTML = `
+                            <div class="page-enter" style="padding: 40px 20px; text-align:center;">
+                                <h1 style="font-family:'Space Grotesk'; font-size:32px; margin-bottom:10px;">${viewId.toUpperCase()}</h1>
+                                <p style="color:var(--text-300);">Module: ${targetFile}</p>
+                                ${documentId ? `<div class="badge" style="background:var(--accent); color:#fff; padding:5px 15px; border-radius:50px; margin-top:20px;">ID: ${documentId}</div>` : ''}
                             </div>
                         `;
                     }, 500);
-
-                    /* REAL IMPLEMENTATION:
-                    const response = await fetch(filePath);
-                    if(!response.ok) throw new Error("404");
-                    const html = await response.text();
-                    mainContainer.innerHTML = html;
-                    this.executeScripts(mainContainer);
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    */
-                } catch(error) {
-                    this.navTo('404');
+                } catch(e) {
+                    container.innerHTML = "<h1>Failed to load module</h1>";
                 }
             },
 
-            // Utility to execute embedded scripts after dynamic HTML injection
-            executeScripts(container) {
-                const scripts = container.querySelectorAll("script");
-                scripts.forEach(oldScript => {
-                    const newScript = document.createElement("script");
-                    Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                    newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-                    oldScript.parentNode.replaceChild(newScript, oldScript);
-                });
+            // 4. THEME TOGGLE (Persistent)
+            toggleTheme() {
+                const current = document.documentElement.getAttribute('data-theme');
+                const target = current === 'light' ? 'dark' : 'light';
+                document.documentElement.setAttribute('data-theme', target);
+                document.getElementById('meta-theme-color').content = target === 'light' ? '#ffffff' : '#050505';
+                localStorage.setItem('nx_theme', target);
             }
         };
 
-        // Browser History Back/Forward button support
-        window.addEventListener('popstate', (e) => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const targetView = urlParams.get('view') || 'home';
-            Nexra.navTo(targetView);
+        // Initialize on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Apply saved theme
+            const savedTheme = localStorage.getItem('nx_theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            
+            Nexra.boot();
         });
 
-        // Ignite the Engine
-        window.addEventListener('DOMContentLoaded', () => {
-            Nexra.init();
-        });
+        // Browser Back Button Support
+        window.onpopstate = () => Nexra.handleDeepLinks();
     </script>
 </body>
 </html>
