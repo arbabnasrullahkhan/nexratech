@@ -1,212 +1,256 @@
 <!-- 
-  NEXRA TECH PK - GLOBAL CONFIGURATION
-  VERSION: 2.0 (PREMIUM ENTERPRISE)
-  DO NOT REMOVE CORE LOGIC
+  NEXRA PK - GLOBAL CORE ENGINE v3.0 (PREMIUM ENTERPRISE)
+  ARCHITECTURE: MODULAR / EVENT-DRIVEN / REAL-TIME
 -->
 
 <style>
     /* ==========================================================================
-       1. CORE DESIGN SYSTEM (PREMIUM SAAS)
+       1. ADVANCED DESIGN TOKENS (SaaS Standard)
        ========================================================================== */
     :root {
-        /* LIGHT MODE (DEFAULT - APPLE STYLE) */
-        --bg-base: #f8fafc;
-        --bg-surface: #ffffff;
-        --bg-elevated: #f1f5f9;
-        --glass-bg: rgba(255, 255, 255, 0.8);
-        --glass-border: rgba(0, 0, 0, 0.06);
+        /* Core Colors */
         --brand-main: #FF4A17; 
-        --brand-glow: rgba(255, 74, 23, 0.2);
+        --brand-glow: rgba(255, 74, 23, 0.25);
+        --brand-soft: rgba(255, 74, 23, 0.05);
+        
+        /* Light Mode */
+        --bg-base: #ffffff;
+        --bg-surface: #f8fafc;
+        --bg-elevated: #f1f5f9;
         --text-100: #0f172a;
         --text-200: #475569;
         --text-300: #94a3b8;
-        --nav-blur: rgba(255, 255, 255, 0.9);
-        --shadow-soft: 0 12px 30px -10px rgba(0,0,0,0.04);
-        --shadow-float: 0 25px 50px -12px rgba(0,0,0,0.08);
-        --radius-sm: 12px;
-        --radius-md: 22px;
-        --radius-lg: 32px;
-        --success: #10b981;
-        --warning: #f59e0b;
-        --danger: #ef4444;
-        --overlay: rgba(255, 255, 255, 0.85);
+        --glass-border: rgba(0, 0, 0, 0.05);
+        --shadow-premium: 0 20px 50px -12px rgba(0,0,0,0.08);
+        
+        /* Animation & Speed */
         --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        --radius-md: 20px;
+        --radius-lg: 32px;
     }
 
     [data-theme="dark"] {
-        /* DARK MODE (CINEMATIC LUXURY) */
         --bg-base: #050507;
         --bg-surface: #0c0c12;
         --bg-elevated: #16161e;
-        --glass-bg: rgba(12, 12, 18, 0.7);
-        --glass-border: rgba(255, 255, 255, 0.05);
         --text-100: #ffffff;
         --text-200: #a1a1aa;
         --text-300: #52525b;
-        --nav-blur: rgba(5, 5, 7, 0.85);
-        --shadow-soft: 0 20px 40px rgba(0,0,0,0.4);
-        --shadow-float: 0 30px 60px rgba(0,0,0,0.6);
-        --overlay: rgba(0, 0, 0, 0.85);
+        --glass-border: rgba(255, 255, 255, 0.06);
+        --shadow-premium: 0 25px 60px rgba(0,0,0,0.5);
     }
 
-    /* TYPOGRAPHY UTILS */
-    .text-gradient { 
-        background: linear-gradient(135deg, var(--brand-main) 0%, #ff8a00 100%); 
-        -webkit-background-clip: text; 
-        -webkit-text-fill-color: transparent; 
-    }
+    /* Standard Utilities */
+    .tech-font { font-family: 'Space Grotesk', sans-serif; }
+    .text-gradient { background: linear-gradient(135deg, var(--brand-main) 0%, #ff8a00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     
-    /* GLASSMORPHISM 2.0 */
-    .glass-card { 
-        background: var(--glass-bg); 
-        backdrop-filter: blur(20px); 
-        -webkit-backdrop-filter: blur(20px); 
-        border: 1px solid var(--glass-border); 
-        border-radius: var(--radius-md); 
-        box-shadow: var(--shadow-soft); 
-        transition: var(--transition); 
-    }
+    /* Optimized Loader UI */
+    #n-top-loader { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 200000; pointer-events: none; opacity: 0; transition: opacity 0.3s; }
+    #n-top-loader-fill { height: 100%; width: 0; background: var(--brand-main); box-shadow: 0 0 15px var(--brand-main); transition: width 0.3s ease; }
 
-    /* PREMIUM SCROLLBAR */
-    ::-webkit-scrollbar { width: 5px; height: 5px; }
-    ::-webkit-scrollbar-track { background: var(--bg-base); }
-    ::-webkit-scrollbar-thumb { background: var(--text-300); border-radius: 10px; }
+    /* Premium Skeleton Loading */
+    .skeleton { background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-surface) 50%, var(--bg-elevated) 75%); background-size: 400% 100%; animation: skeletonPulse 1.5s infinite; border-radius: 12px; }
+    @keyframes skeletonPulse { 0% { background-position: 100% 0; } 100% { background-position: -100% 0; } }
+
+    /* Hide Elements gracefully */
+    .hidden { display: none !important; opacity: 0; visibility: hidden; }
 </style>
 
 <script>
     /* ==========================================================================
-       2. GLOBAL ENGINE (NEXRA CORE)
+       2. NEXRA GLOBAL ENGINE (JS)
        ========================================================================== */
     
     window.Nexra = {
-        // Core State
         state: {
-            isLoaded: false,
-            currentView: 'home',
-            adsEnabled: true
+            user: null,
+            branding: {},
+            activeListeners: [],
+            isNavigating: false
         },
 
-        // Initialize Global Logic
-        initGlobal: function() {
-            console.log("🚀 Nexra Global Engine Initialized");
-            this.syncBrandSettings();
-            this.handleAdsterra();
+        // Fast-init core modules
+        init: function() {
+            this.ui.initTopLoader();
+            this.branding.syncAll();
+            this.notifications.initRealtime();
+            this.auth.monitor();
         },
 
-        /* --- 1. BRAND SETTINGS SYNC (FROM FIRESTORE) --- */
-        syncBrandSettings: function() {
-            if(!window.db) return;
-            
-            db.collection('settings').doc('appearance').onSnapshot(doc => {
-                if(doc.exists) {
-                    const data = doc.data();
-                    if(data.accentColor) {
-                        document.documentElement.style.setProperty('--brand-main', data.accentColor);
+        /* --- 1. DYNAMIC BRANDING ENGINE --- */
+        branding: {
+            syncAll: function() {
+                // appearance settings کا ریئل ٹائم مانیٹر
+                db.collection('settings').doc('appearance').onSnapshot(doc => {
+                    if(doc.exists) {
+                        const data = doc.data();
+                        this.apply(data);
                     }
-                    // Update Page Title and Logo globally if needed
+                });
+            },
+            apply: function(data) {
+                // Global CSS variables update
+                if(data.accentColor) document.documentElement.style.setProperty('--brand-main', data.accentColor);
+                
+                // Branding Logo & Title updates across all modules
+                document.querySelectorAll('.dynamic-logo').forEach(el => {
+                    if(el.tagName === 'IMG') el.src = data.logoUrl;
+                    else el.style.backgroundImage = `url(${data.logoUrl})`;
+                });
+
+                document.querySelectorAll('.dynamic-brand-name').forEach(el => {
+                    el.innerText = data.siteTitle || "NEXRA TECH PK";
+                });
+
+                // Update tab title
+                if(data.siteTitle) document.title = data.siteTitle;
+            }
+        },
+
+        /* --- 2. ULTRA-FAST UI & LOADER --- */
+        ui: {
+            initTopLoader: function() {
+                const html = `<div id="n-top-loader"><div id="n-top-loader-fill"></div></div>`;
+                document.body.insertAdjacentHTML('afterbegin', html);
+            },
+            startLoader: function() {
+                const loader = document.getElementById('n-top-loader');
+                const fill = document.getElementById('n-top-loader-fill');
+                loader.style.opacity = '1';
+                fill.style.width = '30%';
+                setTimeout(() => fill.style.width = '70%', 200);
+            },
+            stopLoader: function() {
+                const loader = document.getElementById('n-top-loader');
+                const fill = document.getElementById('n-top-loader-fill');
+                fill.style.width = '100%';
+                setTimeout(() => {
+                    loader.style.opacity = '0';
+                    setTimeout(() => fill.style.width = '0', 300);
+                }, 400);
+            }
+        },
+
+        /* --- 3. PREMIUM NOTIFICATION ENGINE --- */
+        notifications: {
+            initRealtime: function() {
+                // صرف 10 سیکنڈ پرانے یا نئے نوٹیفکیشنز دیکھیں
+                db.collection('notifications')
+                  .orderBy('createdAt', 'desc')
+                  .limit(1)
+                  .onSnapshot(snap => {
+                      snap.docChanges().forEach(change => {
+                          if (change.type === "added") {
+                              const notif = change.doc.data();
+                              this.process(notif);
+                          }
+                      });
+                  });
+            },
+            process: function(data) {
+                // Target Filtering (All or Specific User)
+                const currentUid = auth.currentUser ? auth.currentUser.uid : null;
+                if(data.target === 'all' || (currentUid && data.target === currentUid)) {
+                    this.showPremiumBanner(data);
                 }
-            });
+            },
+            showPremiumBanner: function(data) {
+                // یہاں پریمیم UI نوٹیفکیشن الرٹ بنے گا
+                Nexra.showToast(data.message, data.type || 'info');
+                // اگر یہ "Global Alert" ہے تو ساؤنڈ پلے کریں
+                if(data.sound) new Audio('https://assets.mixkit.co/sfx/preview/mixkit-software-interface-start-2574.mp3').play();
+            }
         },
 
-        /* --- 2. ADSTERRA DYNAMIC LOADER --- */
-        // ایڈسٹیرا کے اسکرپٹس کو یہاں سے ہینڈل کیا جائے گا
-        handleAdsterra: function() {
-            if(!this.state.adsEnabled) return;
+        /* --- 4. OPTIMIZED DATA FETCHING --- */
+        fastFetch: async function(col, options = {}) {
+            let query = db.collection(col);
+            if(options.where) query = query.where(options.where[0], options.where[1], options.where[2]);
+            if(options.limit) query = query.limit(options.limit);
+            if(options.order) query = query.orderBy(options.order[0], options.order[1]);
 
-            db.collection('settings').doc('ads').get().then(doc => {
-                if(doc.exists) {
-                    const ads = doc.data();
-                    // اگر ایڈمن پینل سے اسکرپٹ موجود ہے تو اسے باڈی میں شامل کریں
-                    if(ads.global_header_script) {
-                        this.injectScript(ads.global_header_script);
-                    }
-                }
-            });
-        },
-
-        injectScript: function(htmlString) {
-            const div = document.createElement('div');
-            div.innerHTML = htmlString.trim();
-            Array.from(div.querySelectorAll("script")).forEach(oldScript => {
-                const newScript = document.createElement("script");
-                Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-                document.body.appendChild(newScript);
-            });
-        },
-
-        /* --- 3. PREMIUM UI NOTIFICATIONS (TOASTS) --- */
-        showToast: function(msg, type = 'success') {
-            const container = document.getElementById('toast-stack');
-            if(!container) return;
-
-            const toast = document.createElement('div');
-            toast.className = `toast-message ${type}`;
-            
-            // SVG Icons based on type
-            const icons = {
-                success: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>`,
-                error: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
-                info: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`
-            };
-
-            toast.innerHTML = `
-                <div class="toast-icon">${icons[type]}</div>
-                <div class="toast-text">${msg}</div>
-            `;
-
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.add('fade-out');
-                setTimeout(() => toast.remove(), 500);
-            }, 3000);
-        },
-
-        /* --- 4. DATA FETCHING HELPER (ABSTRACTION) --- */
-        // تمام پیجز اس فنکشن کو ڈیٹا لینے کے لیے استعمال کریں گے
-        fetchData: async function(collection, limit = 10) {
             try {
-                const snapshot = await db.collection(collection).limit(limit).get();
-                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            } catch (error) {
-                this.showToast("Database Connection Error", "error");
+                const snap = await query.get();
+                return snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } catch (e) {
+                console.error("Fetch Error:", e);
                 return [];
+            }
+        },
+
+        /* --- 5. SMART ROUTING HELPERS --- */
+        // تمام ماڈیولز (User, VIP, Shop) اس فنکشن کو استعمال کریں گے
+        navTo: function(view, id = null) {
+            this.ui.startLoader();
+            // یہ فنکشن index.html کے مین روٹر کو کال کرے گا
+            if(window.NexraRouter) {
+                window.NexraRouter.navigate(view, id);
+            } else {
+                window.location.href = `index.html?view=${view}${id ? '&id='+id : ''}`;
             }
         }
     };
 
-    // Auto-run on load
-    window.addEventListener('DOMContentLoaded', () => Nexra.initGlobal());
+    // Global UI Helper (Toast)
+    Nexra.showToast = function(msg, type = 'success') {
+        const stack = document.getElementById('toast-stack');
+        if(!stack) return;
+
+        const id = 'toast-' + Date.now();
+        const toast = document.createElement('div');
+        toast.className = `toast-message ${type}`;
+        toast.id = id;
+        
+        toast.innerHTML = `
+            <div class="toast-icon">
+                ${type === 'success' ? '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>' : 
+                  '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>'}
+            </div>
+            <div class="toast-text">${msg}</div>
+        `;
+
+        stack.appendChild(toast);
+        setTimeout(() => {
+            document.getElementById(id).style.opacity = '0';
+            setTimeout(() => document.getElementById(id).remove(), 500);
+        }, 4000);
+    };
+
+    // Auto-Ignition
+    window.addEventListener('DOMContentLoaded', () => Nexra.init());
 </script>
 
-<!-- TOAST STACK CONTAINER -->
-<div id="toast-stack" style="position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 100005; pointer-events: none; display: flex; flex-direction: column; gap: 10px;"></div>
+<!-- UI COMPONENTS CONTAINERS -->
+<div id="toast-stack" style="position: fixed; top: 30px; left: 50%; transform: translateX(-50%); z-index: 1000000; pointer-events: none; display: flex; flex-direction: column; gap: 12px; width: 90%; max-width: 400px;"></div>
 
 <style>
-    /* Toast Styling */
+    /* Premium Toast Animation */
     .toast-message {
-        background: var(--nav-blur);
+        background: var(--bg-surface);
         backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
         border: 1px solid var(--glass-border);
-        padding: 12px 20px;
+        padding: 14px 24px;
         border-radius: 50px;
-        box-shadow: var(--shadow-float);
+        box-shadow: var(--shadow-premium);
         display: flex;
         align-items: center;
         gap: 12px;
         pointer-events: auto;
-        animation: toastSlideUp 0.5s var(--transition) forwards;
+        animation: toastEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        transition: opacity 0.4s ease;
     }
-    .toast-message.success .toast-icon { color: var(--success); }
-    .toast-message.error .toast-icon { color: var(--danger); }
-    .toast-message.info .toast-icon { color: var(--brand-main); }
     
-    .toast-icon svg { width: 18px; height: 18px; }
-    .toast-text { font-size: 13px; font-weight: 700; color: var(--text-100); }
-    .toast-message.fade-out { opacity: 0; transform: translateY(10px); transition: 0.5s; }
+    .toast-icon { width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .toast-icon svg { width: 100%; height: 100%; }
+    .toast-text { font-size: 13px; font-weight: 700; color: var(--text-100); line-height: 1.2; }
+    
+    .toast-message.success .toast-icon { color: #10b981; }
+    .toast-message.info .toast-icon { color: var(--brand-main); }
+    .toast-message.warning .toast-icon { color: #f59e0b; }
 
-    @keyframes toastSlideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
+    @keyframes toastEnter {
+        from { opacity: 0; transform: translateY(-20px) scale(0.9); }
+        to { opacity: 1; transform: translateY(0) scale(1); }
     }
 </style>
