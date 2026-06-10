@@ -20,3 +20,13 @@ if (!firebase.apps.length) {
 window.db = firebase.firestore();
 window.auth = firebase.auth();
 window.storage = null; // As per instructions: not using storage
+
+
+// Optimization: Enable Offline Persistence
+db.enablePersistence().catch((err) => {
+    if (err.code == 'failed-precondition') {
+        console.warn("Multiple tabs open, persistence can only be enabled in one tab at a time.");
+    } else if (err.code == 'unimplemented') {
+        console.warn("The current browser does not support all of the features required to enable persistence");
+    }
+});
