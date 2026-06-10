@@ -1,1 +1,245 @@
- 
+ <!-- ==========================================================================
+     NEXRA TECH PK - MAIN LANDING PAGE (HOME)
+     Integrated with: Firebase products, freebies, and blogs
+     ========================================================================== -->
+
+<style>
+    /* 1. HOME SPECIFIC UI COMPONENTS */
+    .home-wrap { animation: fadeIn 0.8s ease-out; }
+
+    /* Search Section */
+    .hero-search-wrap {
+        padding: 20px 5%;
+        margin-top: -30px; /* Overlap with slider */
+        position: relative;
+        z-index: 10;
+    }
+    .main-search-bar {
+        max-width: 800px; margin: 0 auto;
+        background: var(--bg-surface);
+        border: 1px solid var(--glass-border);
+        border-radius: 50px;
+        padding: 8px 8px 8px 24px;
+        display: flex; align-items: center; gap: 12px;
+        box-shadow: var(--shadow-float);
+    }
+    .main-search-bar input {
+        flex: 1; border: none; background: transparent;
+        font-family: inherit; font-size: 15px; color: var(--text-100);
+        outline: none;
+    }
+
+    /* Category Pills */
+    .cat-scroll {
+        display: flex; gap: 12px; overflow-x: auto;
+        padding: 20px 5% 40px; scrollbar-width: none;
+    }
+    .cat-scroll::-webkit-scrollbar { display: none; }
+    .cat-pill {
+        flex: 0 0 auto; padding: 10px 20px;
+        border-radius: 50px; background: var(--bg-surface);
+        border: 1px solid var(--glass-border);
+        font-size: 13px; font-weight: 700; color: var(--text-200);
+        cursor: pointer; transition: 0.3s;
+    }
+    .cat-pill:hover, .cat-pill.active {
+        border-color: var(--brand-main); color: var(--brand-main);
+        background: var(--brand-dim);
+    }
+
+    /* Section Headers */
+    .sec-head {
+        padding: 0 5%; margin-bottom: 25px;
+        display: flex; justify-content: space-between; align-items: flex-end;
+    }
+    .sec-title { font-size: 24px; font-weight: 800; letter-spacing: -0.5px; }
+
+    /* Product Grid (2 columns on mobile, 4-5 on desktop) */
+    .home-grid {
+        display: grid; gap: 15px; padding: 0 5% 60px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    @media(min-width: 992px) { .home-grid { grid-template-columns: repeat(5, 1fr); gap: 20px; } }
+
+    /* B2B Banner */
+    .b2b-cta-strip {
+        margin: 40px 5% 80px; padding: 60px 40px;
+        background: linear-gradient(135deg, var(--brand-main) 0%, #D83A0E 100%);
+        border-radius: var(--radius-lg); color: #fff;
+        position: relative; overflow: hidden;
+    }
+    .b2b-cta-strip i.bg-icon {
+        position: absolute; right: -5%; bottom: -20%;
+        font-size: 200px; opacity: 0.1; transform: rotate(-15deg);
+    }
+
+    /* Kinetic Typer */
+    .kinetic-typer {
+        text-align: center; padding: 60px 20px;
+        font-family: var(--font-display); font-size: 28px; font-weight: 700;
+    }
+    .k-word { color: var(--brand-main); border-right: 3px solid var(--brand-main); padding-right: 5px; animation: blink 0.7s infinite; }
+    @keyframes blink { 50% { border-color: transparent; } }
+
+</style>
+
+<div class="home-wrap">
+    
+    <!-- 1. SLIDER INJECTOR -->
+    <div id="home-slider-mount"></div>
+
+    <!-- 2. SEARCH ENGINE -->
+    <section class="hero-search-wrap">
+        <div class="main-search-bar">
+            <i class="fa-solid fa-magnifying-glass" style="color:var(--text-300)"></i>
+            <input type="text" id="home-search-input" placeholder="Search premium apps, tools, assets...">
+            <button class="btn btn-primary" onclick="NexraHome.doSearch()" style="padding:12px 25px; font-size:12px;">SEARCH</button>
+        </div>
+    </section>
+
+    <!-- 3. KINETIC TYPER -->
+    <div class="kinetic-typer">
+        Become a <span id="k-target" class="k-word">Creator</span>
+    </div>
+
+    <!-- 4. CATEGORIES PILLS -->
+    <div class="cat-scroll" id="home-cats">
+        <div class="cat-pill active">All Tools</div>
+        <div class="cat-pill">Editing</div>
+        <div class="cat-pill">SaaS</div>
+        <div class="cat-pill">Marketing</div>
+        <div class="cat-pill">AI Tools</div>
+    </div>
+
+    <!-- 5. TRENDING ASSETS SECTION -->
+    <div class="sec-head">
+        <div>
+            <div class="badge" style="margin-bottom:8px;"><i class="fa-solid fa-fire"></i> HOT NOW</div>
+            <h2 class="tech-font sec-title">TRENDING <span class="text-gradient">ASSETS</span></h2>
+        </div>
+        <button class="btn-modal-close" onclick="Nexra.navTo('shop')" style="font-weight:800; color:var(--brand-main)">VIEW ALL</button>
+    </div>
+    <div class="home-grid" id="trending-grid">
+        <!-- JS will inject product cards here -->
+    </div>
+
+    <!-- 6. B2B AGENCY BANNER -->
+    <section class="b2b-cta-strip">
+        <i class="fa-solid fa-chart-line bg-icon"></i>
+        <div style="position:relative; z-index:2; max-width:600px;">
+            <h2 class="tech-font" style="font-size:36px; margin-bottom:15px;">Build Your Agency Empire</h2>
+            <p style="opacity:0.9; margin-bottom:30px; line-height:1.6;">Get direct access to our Reseller API, wholesale pricing, and automated key generation tools.</p>
+            <button class="btn" style="background:#fff; color:var(--brand-main); font-weight:800;" onclick="Nexra.navTo('reseller')">JOIN PARTNER PORTAL</button>
+        </div>
+    </section>
+
+    <!-- 7. FREEBIES PREVIEW SECTION -->
+    <div class="sec-head">
+        <div>
+            <div class="badge" style="margin-bottom:8px;"><i class="fa-solid fa-gift"></i> VAULT</div>
+            <h2 class="tech-font sec-title">FREE <span class="text-gradient">RESOURCES</span></h2>
+        </div>
+        <button class="btn-modal-close" onclick="Nexra.navTo('freebies')" style="font-weight:800; color:var(--brand-main)">BROWSE VAULT</button>
+    </div>
+    <div class="home-grid" id="freebies-grid">
+        <!-- JS will inject freebie cards here -->
+    </div>
+
+</div>
+
+<script>
+    /**
+     * HOME ENGINE
+     * Handles local data fetching and animations
+     */
+    window.NexraHome = {
+        kWords: ["Creator", "Reseller", "Expert", "Founder", "Agency Owner"],
+        kIdx: 0,
+
+        init: async function() {
+            // 1. Mount Slider
+            await Nexra.injectComponent('home-slider-mount', 'slider.html');
+
+            // 2. Start Kinetic Typer
+            this.startTyper();
+
+            // 3. Fetch Data from Firebase (Step-by-step logic)
+            this.loadTrending();
+            this.loadFreebies();
+        },
+
+        startTyper: function() {
+            const target = document.getElementById('k-target');
+            let charIdx = 0;
+            let isDeleting = false;
+
+            const type = () => {
+                const currentWord = this.kWords[this.kIdx];
+                if(isDeleting) {
+                    target.innerText = currentWord.substring(0, charIdx - 1);
+                    charIdx--;
+                } else {
+                    target.innerText = currentWord.substring(0, charIdx + 1);
+                    charIdx++;
+                }
+
+                if(!isDeleting && charIdx === currentWord.length) {
+                    setTimeout(() => isDeleting = true, 2000);
+                } else if(isDeleting && charIdx === 0) {
+                    isDeleting = false;
+                    this.kIdx = (this.kIdx + 1) % this.kWords.length;
+                }
+
+                setTimeout(type, isDeleting ? 50 : 150);
+            };
+            type();
+        },
+
+        loadTrending: async function() {
+            const grid = document.getElementById('trending-grid');
+            grid.innerHTML = Array(4).fill(`<div class="skeleton" style="height:200px; border-radius:20px;"></div>`).join('');
+            
+            // Firebase Query: Products with isTrending == true
+            db.collection('products').where('isTrending', '==', true).limit(6).onSnapshot(snap => {
+                grid.innerHTML = '';
+                snap.forEach(doc => {
+                    const p = doc.data();
+                    grid.innerHTML += this.productTemplate(doc.id, p);
+                });
+            });
+        },
+
+        loadFreebies: async function() {
+            const grid = document.getElementById('freebies-grid');
+            db.collection('freebies').orderBy('createdAt', 'desc').limit(4).onSnapshot(snap => {
+                grid.innerHTML = '';
+                snap.forEach(doc => {
+                    const f = doc.data();
+                    grid.innerHTML += this.productTemplate(doc.id, f, 'freebie-detail');
+                });
+            });
+        },
+
+        productTemplate: function(id, data, view = 'product') {
+            return `
+                <div class="p-card" onclick="Nexra.navTo('${view}', '${id}')" style="background:var(--bg-surface); border:1px solid var(--glass-border); border-radius:20px; padding:10px; cursor:pointer;">
+                    <div style="width:100%; aspect-ratio:1/1; background:var(--bg-elevated); border-radius:15px; overflow:hidden; margin-bottom:10px;">
+                        <img src="${data.image}" style="width:100%; height:100%; object-fit:cover;" onerror="Nexra.utils.handleImgError(this)">
+                    </div>
+                    <div style="padding:5px;">
+                        <h4 style="font-size:13px; font-weight:700; margin-bottom:5px; height:36px; overflow:hidden;">${data.title}</h4>
+                        <div style="font-size:15px; font-weight:800; color:var(--brand-main);">${data.price ? 'Rs ' + data.price : 'FREE'}</div>
+                    </div>
+                </div>
+            `;
+        },
+
+        doSearch: function() {
+            const q = document.getElementById('home-search-input').value;
+            if(q) Nexra.navTo('search', q);
+        }
+    };
+
+    // Auto-init Home
+    NexraHome.init();
+</script>
