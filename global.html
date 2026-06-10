@@ -1,236 +1,212 @@
-<!-- ==========================================================================
-     NEXRA TECH PK - MASTER GLOBAL CONFIGURATION
-     Contains Design System, Brand Identity, and Core JS Helpers
-     ========================================================================== -->
+<!-- 
+  NEXRA TECH PK - GLOBAL CONFIGURATION
+  VERSION: 2.0 (PREMIUM ENTERPRISE)
+  DO NOT REMOVE CORE LOGIC
+-->
 
 <style>
-    /* 1. MASTER DESIGN TOKENS (SaaS Standard) */
+    /* ==========================================================================
+       1. CORE DESIGN SYSTEM (PREMIUM SAAS)
+       ========================================================================== */
     :root {
-        /* BRAND IDENTITY */
-        --brand-main: #FF4A17; 
-        --brand-glow: rgba(255, 74, 23, 0.25);
-        --brand-surface: #FFF5F2;
-
-        /* LIGHT MODE (DEFAULT PREMIUM) */
-        --bg-base: #F8FAFC;
-        --bg-surface: #FFFFFF;
-        --bg-elevated: #F1F5F9;
-        --glass-bg: rgba(255, 255, 255, 0.7);
+        /* LIGHT MODE (DEFAULT - APPLE STYLE) */
+        --bg-base: #f8fafc;
+        --bg-surface: #ffffff;
+        --bg-elevated: #f1f5f9;
+        --glass-bg: rgba(255, 255, 255, 0.8);
         --glass-border: rgba(0, 0, 0, 0.06);
-        
-        /* TEXT SYSTEM */
-        --text-100: #0F172A;
+        --brand-main: #FF4A17; 
+        --brand-glow: rgba(255, 74, 23, 0.2);
+        --text-100: #0f172a;
         --text-200: #475569;
-        --text-300: #94A3B8;
-        
-        /* UTILS */
-        --nav-blur: rgba(255, 255, 255, 0.85);
-        --shadow-soft: 0 12px 30px -10px rgba(0,0,0,0.05);
-        --shadow-float: 0 25px 50px -12px rgba(0,0,0,0.1);
+        --text-300: #94a3b8;
+        --nav-blur: rgba(255, 255, 255, 0.9);
+        --shadow-soft: 0 12px 30px -10px rgba(0,0,0,0.04);
+        --shadow-float: 0 25px 50px -12px rgba(0,0,0,0.08);
         --radius-sm: 12px;
-        --radius-md: 20px;
+        --radius-md: 22px;
         --radius-lg: 32px;
-        
-        /* STATUS */
-        --success: #10B981;
-        --warning: #F59E0B;
-        --danger: #EF4444;
-        --overlay: rgba(255, 255, 255, 0.8);
+        --success: #10b981;
+        --warning: #f59e0b;
+        --danger: #ef4444;
+        --overlay: rgba(255, 255, 255, 0.85);
+        --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* DARK MODE (CINEMATIC LUXURY) */
     [data-theme="dark"] {
-        --bg-base: #020202;
-        --bg-surface: #0A0A0A;
-        --bg-elevated: #121212;
-        --glass-bg: rgba(255, 255, 255, 0.02);
+        /* DARK MODE (CINEMATIC LUXURY) */
+        --bg-base: #050507;
+        --bg-surface: #0c0c12;
+        --bg-elevated: #16161e;
+        --glass-bg: rgba(12, 12, 18, 0.7);
         --glass-border: rgba(255, 255, 255, 0.05);
-        --brand-glow: rgba(255, 74, 23, 0.35);
-        --text-100: #FFFFFF;
-        --text-200: #A1A1AA;
-        --text-300: #52525B;
-        --nav-blur: rgba(2, 2, 2, 0.85);
-        --shadow-soft: 0 20px 40px rgba(0,0,0,0.6);
-        --shadow-float: 0 30px 60px rgba(0,0,0,0.8);
-        --overlay: rgba(0, 0, 0, 0.8);
+        --text-100: #ffffff;
+        --text-200: #a1a1aa;
+        --text-300: #52525b;
+        --nav-blur: rgba(5, 5, 7, 0.85);
+        --shadow-soft: 0 20px 40px rgba(0,0,0,0.4);
+        --shadow-float: 0 30px 60px rgba(0,0,0,0.6);
+        --overlay: rgba(0, 0, 0, 0.85);
     }
 
-    /* GLOBAL CLASS UTILS */
-    .tech-font { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.5px; }
-    .text-gradient { background: linear-gradient(135deg, var(--brand-main) 0%, #FF8A00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-    .text-brand { color: var(--brand-main); }
-    .flex-center { display: flex; align-items: center; justify-content: center; }
-    .flex-between { display: flex; align-items: center; justify-content: space-between; }
+    /* TYPOGRAPHY UTILS */
+    .text-gradient { 
+        background: linear-gradient(135deg, var(--brand-main) 0%, #ff8a00 100%); 
+        -webkit-background-clip: text; 
+        -webkit-text-fill-color: transparent; 
+    }
+    
+    /* GLASSMORPHISM 2.0 */
+    .glass-card { 
+        background: var(--glass-bg); 
+        backdrop-filter: blur(20px); 
+        -webkit-backdrop-filter: blur(20px); 
+        border: 1px solid var(--glass-border); 
+        border-radius: var(--radius-md); 
+        box-shadow: var(--shadow-soft); 
+        transition: var(--transition); 
+    }
+
+    /* PREMIUM SCROLLBAR */
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-base); }
+    ::-webkit-scrollbar-thumb { background: var(--text-300); border-radius: 10px; }
 </style>
 
 <script>
-    /**
-     * CORE ENGINE EXTENSIONS
-     * Integrated with index.html Nexra Object
-     */
+    /* ==========================================================================
+       2. GLOBAL ENGINE (NEXRA CORE)
+       ========================================================================== */
     
-    // Brand Data
-    Nexra.brand = {
-        name: "Nexra Tech PK",
-        icon: "https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png",
-        titleImg: "https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg"
-    };
-
-    // 1. CORE UTILITIES
-    Nexra.utils = {
-        // Price Formatter (Rs 1,000)
-        formatPrice: (num) => {
-            return 'Rs ' + Number(num).toLocaleString();
+    window.Nexra = {
+        // Core State
+        state: {
+            isLoaded: false,
+            currentView: 'home',
+            adsEnabled: true
         },
 
-        // Time Formatter
-        formatDate: (timestamp) => {
-            if(!timestamp) return '...';
-            const date = new Date(timestamp);
-            return date.toLocaleDateString('en-PK', { day: 'numeric', month: 'short', year: 'numeric' });
+        // Initialize Global Logic
+        initGlobal: function() {
+            console.log("🚀 Nexra Global Engine Initialized");
+            this.syncBrandSettings();
+            this.handleAdsterra();
         },
 
-        // Copy to Clipboard
-        copy: function(text, msg = "Copied to clipboard!") {
-            navigator.clipboard.writeText(text).then(() => {
-                Nexra.ui.toast(msg, "fa-solid fa-copy");
-            });
-        },
-
-        // Image Placeholder (Broken Links Fix)
-        handleImgError: function(img) {
-            img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2394a3b8'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z'/%3E%3C/svg%3E";
-            img.onerror = null;
-        }
-    };
-
-    // 2. AUTHENTICATION HUB (Action-Based)
-    Nexra.auth = {
-        user: null,
-        
-        init: function() {
-            auth.onAuthStateChanged(user => {
-                this.user = user;
-                if(user) {
-                    this.syncProfile(user);
+        /* --- 1. BRAND SETTINGS SYNC (FROM FIRESTORE) --- */
+        syncBrandSettings: function() {
+            if(!window.db) return;
+            
+            db.collection('settings').doc('appearance').onSnapshot(doc => {
+                if(doc.exists) {
+                    const data = doc.data();
+                    if(data.accentColor) {
+                        document.documentElement.style.setProperty('--brand-main', data.accentColor);
+                    }
+                    // Update Page Title and Logo globally if needed
                 }
-                // Global Event for profile updates
-                document.dispatchEvent(new CustomEvent('nx-auth-changed', { detail: user }));
             });
         },
 
-        syncProfile: async function(user) {
-            const docRef = db.collection('users').doc(user.uid);
-            const doc = await docRef.get();
-            if(!doc.exists) {
-                await docRef.set({
-                    uid: user.uid,
-                    name: user.displayName || 'Ecosystem User',
-                    email: user.email,
-                    coins: 0,
-                    tier: 'Free',
-                    createdAt: Date.now()
-                });
-            }
+        /* --- 2. ADSTERRA DYNAMIC LOADER --- */
+        // ایڈسٹیرا کے اسکرپٹس کو یہاں سے ہینڈل کیا جائے گا
+        handleAdsterra: function() {
+            if(!this.state.adsEnabled) return;
+
+            db.collection('settings').doc('ads').get().then(doc => {
+                if(doc.exists) {
+                    const ads = doc.data();
+                    // اگر ایڈمن پینل سے اسکرپٹ موجود ہے تو اسے باڈی میں شامل کریں
+                    if(ads.global_header_script) {
+                        this.injectScript(ads.global_header_script);
+                    }
+                }
+            });
         },
 
-        // Triggered when clicking Buy/Wallet without login
-        requireAuth: function(callback) {
-            if(this.user) {
-                callback();
-            } else {
-                Nexra.ui.modal(
-                    "Account Required", 
-                    "Please connect your Google account to secure your Digital Vault and track orders.", 
-                    "fa-solid fa-shield-halved", 
-                    "Login with Google", 
-                    () => this.loginWithGoogle(callback)
-                );
-            }
+        injectScript: function(htmlString) {
+            const div = document.createElement('div');
+            div.innerHTML = htmlString.trim();
+            Array.from(div.querySelectorAll("script")).forEach(oldScript => {
+                const newScript = document.createElement("script");
+                Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                newScript.appendChild(document.createTextNode(oldScript.innerHTML));
+                document.body.appendChild(newScript);
+            });
         },
 
-        loginWithGoogle: async function(successCallback) {
-            const provider = new firebase.auth.GoogleAuthProvider();
-            try {
-                const res = await auth.signInWithPopup(provider);
-                if(res.user && successCallback) successCallback();
-                Nexra.ui.toast("Access Granted", "fa-solid fa-circle-check");
-            } catch(e) {
-                Nexra.ui.toast("Auth Failed", "fa-solid fa-triangle-exclamation");
-            }
-        }
-    };
-
-    // 3. UI ENGINE (Toasts & Modals)
-    Nexra.ui = {
-        toast: function(msg, icon = "fa-solid fa-check") {
-            const container = document.getElementById('nx-notifications');
+        /* --- 3. PREMIUM UI NOTIFICATIONS (TOASTS) --- */
+        showToast: function(msg, type = 'success') {
+            const container = document.getElementById('toast-stack');
             if(!container) return;
-            
+
             const toast = document.createElement('div');
-            toast.className = 'premium-toast';
-            toast.innerHTML = `<i class="${icon}"></i> <span>${msg}</span>`;
-            container.appendChild(toast);
+            toast.className = `toast-message ${type}`;
             
+            // SVG Icons based on type
+            const icons = {
+                success: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>`,
+                error: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>`,
+                info: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>`
+            };
+
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type]}</div>
+                <div class="toast-text">${msg}</div>
+            `;
+
+            container.appendChild(toast);
             setTimeout(() => {
                 toast.classList.add('fade-out');
-                setTimeout(() => toast.remove(), 400);
+                setTimeout(() => toast.remove(), 500);
             }, 3000);
         },
 
-        modal: function(title, desc, icon, btnText, callback) {
-            const container = document.getElementById('nx-notifications');
-            if(!container) return;
-
-            const modal = document.createElement('div');
-            modal.className = 'modal-overlay active';
-            modal.innerHTML = `
-                <div class="modal-box">
-                    <div class="modal-icon"><i class="${icon}"></i></div>
-                    <h3 class="tech-font">${title}</h3>
-                    <p>${desc}</p>
-                    <button class="btn-modal-action">${btnText}</button>
-                    <button class="btn-modal-close">Dismiss</button>
-                </div>
-            `;
-            container.appendChild(modal);
-
-            modal.querySelector('.btn-modal-action').onclick = () => {
-                modal.remove();
-                if(callback) callback();
-            };
-            modal.querySelector('.btn-modal-close').onclick = () => modal.remove();
+        /* --- 4. DATA FETCHING HELPER (ABSTRACTION) --- */
+        // تمام پیجز اس فنکشن کو ڈیٹا لینے کے لیے استعمال کریں گے
+        fetchData: async function(collection, limit = 10) {
+            try {
+                const snapshot = await db.collection(collection).limit(limit).get();
+                return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            } catch (error) {
+                this.showToast("Database Connection Error", "error");
+                return [];
+            }
         }
     };
 
-    // Ignite Auth
-    Nexra.auth.init();
+    // Auto-run on load
+    window.addEventListener('DOMContentLoaded', () => Nexra.initGlobal());
 </script>
 
+<!-- TOAST STACK CONTAINER -->
+<div id="toast-stack" style="position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 100005; pointer-events: none; display: flex; flex-direction: column; gap: 10px;"></div>
+
 <style>
-    /* GLOBAL COMPONENTS CSS (FOR TOASTS/MODALS) */
-    .premium-toast {
-        position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
-        background: var(--bg-surface); border: 1px solid var(--glass-border);
-        padding: 14px 24px; border-radius: 50px; box-shadow: var(--shadow-float);
-        display: flex; align-items: center; gap: 12px; z-index: 10000;
-        animation: toastUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        font-weight: 700; font-size: 13px; color: var(--text-100);
+    /* Toast Styling */
+    .toast-message {
+        background: var(--nav-blur);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--glass-border);
+        padding: 12px 20px;
+        border-radius: 50px;
+        box-shadow: var(--shadow-float);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        pointer-events: auto;
+        animation: toastSlideUp 0.5s var(--transition) forwards;
     }
-    .premium-toast i { color: var(--brand-main); font-size: 16px; }
-    .premium-toast.fade-out { opacity: 0; transform: translate(-50%, 20px); transition: 0.4s; }
-
-    @keyframes toastUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
-
-    .modal-overlay { position: fixed; inset: 0; background: var(--overlay); backdrop-filter: blur(10px); z-index: 10001; display: none; align-items: center; justify-content: center; }
-    .modal-overlay.active { display: flex; }
-    .modal-box { background: var(--bg-surface); padding: 40px; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); width: 90%; max-width: 400px; text-align: center; box-shadow: var(--shadow-float); animation: modalIn 0.4s; }
-    .modal-icon { width: 70px; height: 70px; border-radius: 50%; background: var(--brand-surface); color: var(--brand-main); font-size: 28px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
-    .modal-box h3 { font-size: 22px; margin-bottom: 10px; color: var(--text-100); }
-    .modal-box p { font-size: 14px; color: var(--text-200); line-height: 1.6; margin-bottom: 30px; }
+    .toast-message.success .toast-icon { color: var(--success); }
+    .toast-message.error .toast-icon { color: var(--danger); }
+    .toast-message.info .toast-icon { color: var(--brand-main); }
     
-    .btn-modal-action { width: 100%; padding: 16px; border-radius: 50px; border: none; background: var(--brand-main); color: #fff; font-weight: 800; font-family: inherit; cursor: pointer; margin-bottom: 10px; }
-    .btn-modal-close { background: none; border: none; font-size: 12px; color: var(--text-300); font-weight: 700; cursor: pointer; }
+    .toast-icon svg { width: 18px; height: 18px; }
+    .toast-text { font-size: 13px; font-weight: 700; color: var(--text-100); }
+    .toast-message.fade-out { opacity: 0; transform: translateY(10px); transition: 0.5s; }
 
-    @keyframes modalIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    @keyframes toastSlideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
 </style>
