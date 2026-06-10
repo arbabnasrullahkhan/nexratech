@@ -1,0 +1,197 @@
+/* ==========================================================================
+   NEXRA PK - ELITE DESIGN SYSTEM (THEME.CSS)
+   Typography: Plus Jakarta Sans (Body), Space Grotesk (Headings)
+   ========================================================================== */
+
+/* --- 1. DESIGN TOKENS (CSS VARIABLES) --- */
+:root {
+    /* Light Theme (Apple/Stripe Inspired) */
+    --bg-base: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-elevated: #f1f5f9;
+    
+    --text-100: #0f172a;
+    --text-200: #475569;
+    --text-300: #94a3b8;
+    
+    --brand-main: #FF4A17; 
+    --brand-glow: rgba(255, 74, 23, 0.20);
+    --brand-dim: rgba(255, 74, 23, 0.08);
+    
+    --success: #10b981;
+    --danger: #ef4444;
+    --warning: #f59e0b;
+
+    --glass-bg: rgba(255, 255, 255, 0.7);
+    --glass-border: rgba(0, 0, 0, 0.06);
+    --nav-blur: rgba(255, 255, 255, 0.85);
+    
+    --shadow-soft: 0 10px 30px -10px rgba(0,0,0,0.05);
+    --shadow-float: 0 20px 40px -12px rgba(0,0,0,0.1);
+    
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 32px;
+    
+    --transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Dark Theme Overrides (Cinematic Luxury) */
+[data-theme="dark"] {
+    --bg-base: #020202;
+    --bg-surface: #0a0a0a;
+    --bg-elevated: #121212;
+    
+    --text-100: #ffffff;
+    --text-200: #a1a1aa;
+    --text-300: #52525b;
+    
+    --glass-bg: rgba(20, 20, 20, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --nav-blur: rgba(2, 2, 2, 0.85);
+    
+    --shadow-soft: 0 20px 40px rgba(0,0,0,0.6);
+    --shadow-float: 0 30px 60px rgba(0,0,0,0.8);
+}
+
+/* --- 2. GLOBAL RESET & BASE --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    background-color: var(--bg-base);
+    color: var(--text-100);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    transition: background-color var(--transition), color var(--transition);
+}
+
+a { text-decoration: none; color: inherit; cursor: pointer; }
+ul { list-style: none; }
+img { max-width: 100%; height: auto; display: block; }
+button, input, select, textarea { font-family: inherit; outline: none; border: none; }
+
+/* --- 3. TYPOGRAPHY UTILITIES --- */
+.tech-font { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.5px; }
+.text-brand { color: var(--brand-main); }
+.text-gradient {
+    background: linear-gradient(135deg, var(--brand-main) 0%, #ff8a00 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* --- 4. LAYOUT UTILITIES --- */
+.container { padding: 0 5%; max-width: 1350px; margin: 0 auto; }
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.grid-2 { display: grid; gap: 24px; grid-template-columns: repeat(1, 1fr); }
+@media(min-width: 768px) { .grid-2 { grid-template-columns: repeat(2, 1fr); } }
+
+/* --- 5. PREMIUM UI COMPONENTS --- */
+
+/* Glass Cards */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition);
+    overflow: hidden;
+}
+.glass-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-float);
+    border-color: rgba(255, 74, 23, 0.2);
+}
+
+/* Badges */
+.badge {
+    background: var(--bg-surface);
+    border: 1px solid var(--glass-border);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 10px;
+    font-weight: 800;
+    color: var(--brand-main);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    box-shadow: var(--shadow-soft);
+}
+
+/* Elite Buttons */
+.btn {
+    padding: 16px 32px;
+    border-radius: 50px;
+    font-weight: 700;
+    font-size: 13px;
+    cursor: pointer;
+    transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+.btn-primary {
+    background: var(--brand-main);
+    color: #ffffff;
+    box-shadow: 0 8px 25px var(--brand-glow);
+}
+.btn-primary:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 15px 35px var(--brand-glow);
+}
+.btn-outline {
+    background: var(--bg-surface);
+    color: var(--text-100);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-soft);
+}
+.btn-outline:hover {
+    background: var(--bg-elevated);
+    border-color: var(--brand-main);
+    transform: translateY(-2px);
+}
+
+/* Empty State / Fallbacks */
+.empty-state {
+    text-align: center;
+    padding: 60px 20px;
+    background: var(--bg-surface);
+    border: 1px dashed var(--glass-border);
+    border-radius: var(--radius-md);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.empty-icon {
+    font-size: 48px;
+    color: var(--brand-main);
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
+/* View/Routing Transitions */
+.view-module {
+    display: none;
+    opacity: 0;
+    padding-top: 120px;
+    padding-bottom: 120px;
+    min-height: 100vh;
+    animation: viewEnter 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.view-module.active {
+    display: block;
+}
+@keyframes viewEnter {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--text-300); border-radius: 10px; }
