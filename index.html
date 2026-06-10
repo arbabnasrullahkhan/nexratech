@@ -1,62 +1,77 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- 1. META & SEO HEAD CODE -->
+    <!-- 1. META & SEO CORE -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Nexra Tech PK | Elite Digital Ecosystem</title>
     
-    <!-- Meta Theme & Performance -->
+    <!-- Meta Theme & SEO -->
     <meta name="theme-color" id="meta-theme-color" content="#ffffff">
-    <meta name="description" content="Pakistan's premium digital marketplace for automated software licensing and elite SaaS tools.">
+    <meta name="description" content="Pakistan's elite digital marketplace for automated software licensing and premium SaaS solutions.">
+    <meta name="robots" content="index, follow">
     <link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
     
-    <!-- 2. PREMIUM FONTS (Plus Jakarta & Space Grotesk) -->
+    <!-- Open Graph (Social Sharing) -->
+    <meta property="og:title" content="Nexra Tech PK | Digital Ecosystem">
+    <meta property="og:description" content="Automated digital assets and premium software licensing.">
+    <meta property="og:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
+
+    <!-- 2. PREMIUM TYPOGRAPHY -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
     
-    <!-- 3. FIREBASE SDKS (v9 Compat) -->
+    <!-- 3. FIREBASE SDKS -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-    <!-- 4. CORE ENGINE CSS -->
+    <!-- 4. CORE DESIGN SYSTEM (PREMIUM WHITE & DARK) -->
     <style>
         :root {
-            /* GLOBAL TOKENS - PREMIUM WHITE */
+            /* LIGHT THEME (DEFAULT) */
             --bg-base: #ffffff;
             --bg-surface: #f8fafc;
             --bg-elevated: #f1f5f9;
             --brand-main: #FF4A17; 
-            --brand-glow: rgba(255, 74, 23, 0.2);
+            --brand-glow: rgba(255, 74, 23, 0.15);
             --brand-soft: rgba(255, 74, 23, 0.08);
             --text-100: #0f172a;
             --text-200: #475569;
             --text-300: #94a3b8;
-            --glass-border: rgba(0, 0, 0, 0.06);
-            --shadow-sm: 0 4px 12px rgba(0,0,0,0.03);
-            --shadow-md: 0 12px 34px -10px rgba(0,0,0,0.08);
-            --radius-md: 20px;
-            --radius-lg: 32px;
-            --transition-smooth: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --glass-border: rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 12px 40px -12px rgba(0,0,0,0.08);
+            --radius-md: 24px;
+            --radius-lg: 40px;
+            --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* RESET & BODY UX */
+        [data-theme="dark"] {
+            --bg-base: #050507;
+            --bg-surface: #0c0c12;
+            --bg-elevated: #16161e;
+            --text-100: #ffffff;
+            --text-200: #a1a1aa;
+            --text-300: #52525b;
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-md: 0 15px 50px rgba(0,0,0,0.5);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             background: var(--bg-base); 
             color: var(--text-100); 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             overflow-x: hidden; 
-            line-height: 1.6;
+            min-height: 100vh;
         }
 
-        /* 5. TOP LOADING INDICATOR (Apple Style) */
+        /* TOP LOADER (Apple Style) */
         #top-loader {
             position: fixed; top: 0; left: 0; width: 100%; height: 3px;
-            z-index: 200000; pointer-events: none;
+            z-index: 200000; pointer-events: none; opacity: 0;
         }
         #top-loader-fill {
             height: 100%; width: 0; background: var(--brand-main);
@@ -64,26 +79,27 @@
             transition: width 0.4s ease, opacity 0.4s;
         }
 
-        /* 6. ELITE SPLASH INTERFACE */
+        /* PREMIUM SPLASH INTERFACE */
         #splash {
             position: fixed; inset: 0; z-index: 100000; background: var(--bg-base);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.8s var(--transition-smooth), transform 0.8s var(--transition-smooth);
+            transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
         }
         .splash-glow {
-            position: absolute; width: 50vw; height: 50vw; background: var(--brand-main);
-            filter: blur(140px); opacity: 0.06; border-radius: 50%; animation: pulseGlow 4s infinite alternate;
+            position: absolute; width: 60vw; height: 60vw; background: var(--brand-main);
+            filter: blur(140px); opacity: 0.08; border-radius: 50%; animation: pulseGlow 5s infinite alternate;
         }
         .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
-        .sp-logo { width: 90px; height: auto; filter: drop-shadow(0 10px 20px var(--brand-glow)); animation: logoIn 1s var(--transition-smooth); }
-        .sp-title { height: 20px; margin-top: 30px; opacity: 0; transform: translateY(10px); animation: fadeUp 0.8s 0.3s forwards; }
+        .sp-logo { width: clamp(80px, 20vw, 100px); height: auto; filter: drop-shadow(0 10px 25px var(--brand-glow)); }
+        .sp-title { height: 22px; margin-top: 35px; filter: grayscale(1) brightness(0.2); }
+        [data-theme="dark"] .sp-title { filter: none; }
         
-        .sp-progress-box { width: 220px; margin-top: 50px; text-align: center; }
+        .sp-progress-box { width: 200px; margin-top: 60px; text-align: center; }
         .sp-bar { width: 100%; height: 2px; background: var(--bg-elevated); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
-        .sp-fill { height: 100%; width: 0%; background: var(--brand-main); transition: width 0.3s ease; }
-        .sp-status { font-size: 9px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 2px; }
+        .sp-fill { height: 100%; width: 0%; background: var(--brand-main); transition: width 0.4s ease; }
+        .sp-status { font-size: 10px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 2px; }
 
-        /* 7. MAINTENANCE INTERFACE */
+        /* MAINTENANCE INTERFACE */
         #maintenance {
             position: fixed; inset: 0; z-index: 100005; background: var(--bg-base);
             display: none; align-items: center; justify-content: center; padding: 25px;
@@ -92,85 +108,94 @@
         .m-card {
             background: var(--bg-base); border: 1px solid var(--glass-border);
             padding: 60px 40px; border-radius: var(--radius-lg); text-align: center;
-            max-width: 500px; width: 100%; box-shadow: var(--shadow-md);
+            max-width: 550px; width: 100%; box-shadow: var(--shadow-md);
         }
         .m-icon { 
-            width: 70px; height: 70px; background: var(--brand-soft); color: var(--brand-main);
+            width: 80px; height: 80px; background: var(--brand-soft); color: var(--brand-main);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 28px; margin: 0 auto 30px;
+            font-size: 32px; margin: 0 auto 30px; border: 1px solid var(--brand-glow);
         }
-        .m-title { font-family: 'Space Grotesk'; font-size: 26px; font-weight: 700; margin-bottom: 12px; }
-        .m-desc { color: var(--text-200); font-size: 14px; margin-bottom: 35px; }
+        .m-title { font-family: 'Space Grotesk'; font-size: 28px; font-weight: 800; margin-bottom: 15px; }
+        .m-desc { color: var(--text-200); font-size: 15px; line-height: 1.8; margin-bottom: 40px; }
 
-        /* 8. MAIN VIEW TRANSITIONS */
-        #spa-main { width: 100%; min-height: 100vh; opacity: 1; transition: opacity 0.4s var(--transition-smooth), transform 0.4s var(--transition-smooth); }
-        .view-loading { opacity: 0 !important; transform: translateY(15px); }
+        /* SPA MAIN CONTAINER */
+        #spa-main { 
+            width: 100%; min-height: 100vh; opacity: 1; 
+            transition: opacity 0.4s var(--transition), transform 0.4s var(--transition); 
+        }
+        .view-hidden { opacity: 0 !important; transform: translateY(10px); }
 
-        /* ANIMATIONS */
-        @keyframes pulseGlow { from { opacity: 0.04; transform: scale(1); } to { opacity: 0.1; transform: scale(1.2); } }
-        @keyframes logoIn { from { opacity: 0; transform: scale(0.8) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
-
-        /* BUTTONS & BADGES UTILS */
+        /* UTILS */
         .tech-font { font-family: 'Space Grotesk', sans-serif; }
-        .badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 50px; font-size: 10px; font-weight: 800; background: var(--bg-surface); border: 1px solid var(--glass-border); color: var(--brand-main); text-transform: uppercase; letter-spacing: 1px; }
+        @keyframes pulseGlow { from { opacity: 0.05; transform: scale(1); } to { opacity: 0.12; transform: scale(1.15); } }
     </style>
 </head>
 <body>
 
-    <!-- TOP LOADER -->
+    <!-- TOP-LEVEL UI (LOADER & SHARED) -->
     <div id="top-loader"><div id="top-loader-fill"></div></div>
+    <div id="header-container"></div> <!-- Modules: header.html -->
+    <div id="sidebar-container"></div> <!-- Modules: sidebar.html -->
 
-    <!-- 1. PREMIUM SPLASH SCREEN -->
+    <!-- 1. SPLASH SCREEN -->
     <div id="splash">
         <div class="splash-glow"></div>
         <div class="splash-content">
             <img class="sp-logo" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo">
-            <img class="sp-title" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra PK">
+            <img class="sp-title" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech PK">
             
             <div class="sp-progress-box">
                 <div class="sp-bar"><div class="sp-fill" id="sp-fill"></div></div>
-                <div class="sp-status" id="sp-status">Initializing Ecosystem...</div>
+                <div class="sp-status" id="sp-status">Initializing Cloud...</div>
             </div>
         </div>
-        <div style="position:absolute; bottom:40px; font-size:10px; font-weight:700; color:var(--text-300); letter-spacing:3px;">NEXRA TECH PK</div>
+        <div style="position:absolute; bottom:40px; font-size:9px; font-weight:800; color:var(--text-300); letter-spacing:4px; text-transform:uppercase;">Powered by Nexra Tech PK</div>
     </div>
 
-    <!-- 2. MAINTENANCE OVERLAY -->
+    <!-- 2. MAINTENANCE LAYER -->
     <div id="maintenance">
         <div class="m-card">
-            <div class="m-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.7a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.7z"></path></svg></div>
-            <h1 class="m-title">Optimizing System</h1>
-            <p class="m-desc">We are currently fine-tuning our infrastructure to deliver a more seamless experience. We'll be back shortly.</p>
+            <div class="m-icon">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.7a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.7z"></path></svg>
+            </div>
+            <h1 class="m-title">Optimizing Ecosystem</h1>
+            <p class="m-desc">Our engineers are fine-tuning the platform for elite performance. We will be back online in a moment.</p>
             <div id="m-socials" style="display:flex; justify-content:center; gap:15px;"></div>
         </div>
     </div>
 
-    <!-- 3. SHARED UI CONTAINERS -->
-    <div id="header-container"></div>
-    <div id="sidebar-container"></div>
-
-    <!-- 4. DYNAMIC VIEW CONTAINER -->
+    <!-- 3. SPA VIEW PORT -->
     <main id="spa-main"></main>
 
-    <div id="footer-container"></div>
-    <div id="dock-container"></div>
+    <!-- 4. GLOBAL PERSISTENT UI -->
+    <div id="footer-container"></div> <!-- Modules: footer.html -->
+    <div id="dock-container"></div> <!-- Modules: navigation.html -->
+    <div id="notif-container"></div> <!-- Modules: ui-notifications.html -->
 
-    <!-- 5. CORE JS ENGINE -->
+    <!-- 5. JAVASCRIPT ENGINE -->
     <script src="firebaseconfig.js"></script>
     <script>
         window.Nexra = {
             db: null,
-            
-            /* --- 1. THE SPA ROUTER (ULTRA UX) --- */
+            state: { theme: 'light' },
+
+            /* --- 1. THEME ENGINE --- */
+            initTheme: function() {
+                const saved = localStorage.getItem('theme') || 'light';
+                if(saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+                this.state.theme = saved;
+            },
+
+            /* --- 2. THE SPA ROUTER (MASTER) --- */
             navTo: async function(view, id = null) {
                 const loader = document.getElementById('top-loader-fill');
+                const loaderParent = document.getElementById('top-loader');
                 const main = document.getElementById('spa-main');
                 
-                // Trigger Progress
-                loader.style.opacity = '1';
+                // Start Progress
+                loaderParent.style.opacity = '1';
                 loader.style.width = '40%';
-                main.classList.add('view-loading');
+                main.classList.add('view-hidden');
 
                 const routes = {
                     'home': 'discovery/home.html',
@@ -179,13 +204,15 @@
                     'blog': 'academy/blog.html',
                     'profile': 'user/profile-dashboard.html',
                     'reseller': 'reseller/reseller-dashboard.html',
-                    'vip': 'vip/vip-tiers.html'
+                    'vip': 'vip/vip-tiers.html',
+                    'checkout': 'shop/checkout.html'
                 };
 
                 const path = routes[view] || routes['home'];
 
                 try {
                     const response = await fetch(path);
+                    if(!response.ok) throw new Error("View not found");
                     const html = await response.text();
                     
                     loader.style.width = '80%';
@@ -193,7 +220,7 @@
                     setTimeout(() => {
                         main.innerHTML = html;
                         
-                        // Execute scripts in fetched HTML
+                        // Execute internal scripts
                         const scripts = main.querySelectorAll('script');
                         scripts.forEach(s => {
                             const newScript = document.createElement('script');
@@ -201,50 +228,50 @@
                             document.body.appendChild(newScript).parentNode.removeChild(newScript);
                         });
 
-                        // Completion
+                        // Finalize Animation
                         loader.style.width = '100%';
-                        main.classList.remove('view-loading');
+                        main.classList.remove('view-hidden');
                         
                         setTimeout(() => {
-                            loader.style.opacity = '0';
+                            loaderParent.style.opacity = '0';
                             setTimeout(() => loader.style.width = '0', 400);
                         }, 300);
 
-                        // Sync URL
+                        // Browser Sync
                         window.history.pushState({}, '', `?view=${view}${id ? '&id='+id : ''}`);
-                        window.scrollTo(0,0);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
                     }, 400);
 
                 } catch(e) {
-                    console.error("Routing Error:", e);
-                    loader.style.opacity = '0';
+                    console.error("Router Error:", e);
+                    loaderParent.style.opacity = '0';
+                    // Optional: navTo('404');
                 }
             },
 
-            /* --- 2. THE BOOT SEQUENCE --- */
+            /* --- 3. BOOT SEQUENCE --- */
             boot: async function() {
+                this.initTheme();
                 const fill = document.getElementById('sp-fill');
                 const status = document.getElementById('sp-status');
 
-                // Step 1: Initialize Firebase
                 fill.style.width = '30%';
-                status.innerText = "Connecting to Cloud...";
+                status.innerText = "Syncing Firebase...";
 
                 const checkFirebase = setInterval(async () => {
                     if(window.firebase && firebase.apps.length) {
                         clearInterval(checkFirebase);
                         this.db = firebase.firestore();
                         
-                        // Step 2: Fetch System Settings
                         fill.style.width = '60%';
-                        status.innerText = "Checking System Integrity...";
+                        status.innerText = "Authenticating System...";
                         
                         try {
                             const config = await this.db.collection('splash_settings').doc('config').get();
                             const data = config.exists ? config.data() : {};
 
                             if(data.maintenance_mode) {
-                                this.activateMaintenance(data);
+                                this.showMaintenance(data);
                             } else {
                                 this.launch(data);
                             }
@@ -253,15 +280,16 @@
                 }, 100);
             },
 
-            /* --- 3. SYSTEM LAUNCHER --- */
+            /* --- 4. LAUNCHER & MODULE LOADER --- */
             launch: async function(data) {
                 const fill = document.getElementById('sp-fill');
+                const status = document.getElementById('sp-status');
                 const splash = document.getElementById('splash');
-                
-                fill.style.width = '100%';
-                document.getElementById('sp-status').innerText = "Launching Ecosystem...";
 
-                // Load Shared UI Modules first
+                fill.style.width = '100%';
+                status.innerText = "Opening Ecosystem...";
+
+                // Load Shared Components (Header, Footer, etc)
                 await this.loadSharedUI();
 
                 setTimeout(() => {
@@ -270,7 +298,7 @@
                     setTimeout(() => {
                         splash.style.display = 'none';
                         
-                        // Process Deep Links
+                        // Handle Entry Route
                         const params = new URLSearchParams(window.location.search);
                         const target = params.get('view') || 'home';
                         this.navTo(target, params.get('id'));
@@ -278,25 +306,24 @@
                 }, 600);
             },
 
-            /* --- 4. SHARED UI LOADER --- */
             loadSharedUI: async function() {
-                const modules = [
+                const mods = [
                     { id: 'header-container', file: 'header.html' },
                     { id: 'sidebar-container', file: 'sidebar.html' },
                     { id: 'footer-container', file: 'footer.html' },
-                    { id: 'dock-container', file: 'navigation.html' }
+                    { id: 'dock-container', file: 'navigation.html' },
+                    { id: 'notif-container', file: 'ui-notifications.html' }
                 ];
-
-                for(const mod of modules) {
+                // Concurrent Loading for speed
+                await Promise.all(mods.map(async (m) => {
                     try {
-                        const res = await fetch(mod.file);
-                        if(res.ok) document.getElementById(mod.id).innerHTML = await res.text();
-                    } catch(e) { console.warn(`Module ${mod.file} failed to load.`); }
-                }
+                        const res = await fetch(m.file);
+                        if(res.ok) document.getElementById(m.id).innerHTML = await res.text();
+                    } catch(e) {}
+                }));
             },
 
-            /* --- 5. MAINTENANCE HANDLER --- */
-            activateMaintenance: function(data) {
+            showMaintenance: function(data) {
                 document.getElementById('splash').style.display = 'none';
                 const m = document.getElementById('maintenance');
                 m.style.display = 'flex';
@@ -307,8 +334,14 @@
             }
         };
 
-        // Start the Engine
+        // Start Boot process
         document.addEventListener('DOMContentLoaded', () => Nexra.boot());
+
+        // Handle Browser History
+        window.onpopstate = () => {
+            const params = new URLSearchParams(window.location.search);
+            Nexra.navTo(params.get('view') || 'home');
+        };
     </script>
 </body>
 </html>
