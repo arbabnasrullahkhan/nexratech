@@ -1,0 +1,169 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Syncing Ecosystem... | Nexra PK</title>
+    
+    <!-- No Index for Loader -->
+    <meta name="robots" content="noindex, nofollow">
+
+    <style>
+        :root {
+            --bg-white: #ffffff;
+            --brand-main: #FF4A17;
+            --brand-soft: rgba(255, 74, 23, 0.1);
+            --text-deep: #0f172a;
+            --text-light: #94a3b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body, html { width: 100%; height: 100%; font-family: 'Plus Jakarta Sans', sans-serif; overflow: hidden; background: var(--bg-white); }
+
+        /* LOADER INTERFACE */
+        .loader-overlay {
+            position: fixed; inset: 0;
+            background: var(--bg-white);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 1000000;
+        }
+
+        /* Circular Animated Ring */
+        .loader-circle {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            border: 3px solid var(--brand-soft);
+            border-top-color: var(--brand-main);
+            animation: spin 0.8s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+            margin-bottom: 30px;
+        }
+
+        .loader-text {
+            text-align: center;
+            animation: pulseFade 2s infinite;
+        }
+
+        .loader-text h2 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 18px; font-weight: 800;
+            color: var(--text-deep); letter-spacing: -0.5px;
+            margin-bottom: 8px; text-transform: uppercase;
+        }
+
+        .loader-text p { font-size: 12px; color: var(--text-light); font-weight: 600; letter-spacing: 1px; }
+
+        /* Progress Bar (Visual Polish) */
+        .loader-progress {
+            width: 150px; height: 3px;
+            background: var(--brand-soft);
+            border-radius: 10px; margin-top: 25px;
+            overflow: hidden;
+            position: relative;
+        }
+        .progress-fill {
+            position: absolute; height: 100%; width: 30%;
+            background: var(--brand-main);
+            border-radius: 10px;
+            animation: moveProgress 1.5s infinite ease-in-out;
+        }
+
+        /* ANIMATIONS */
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes pulseFade { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        @keyframes moveProgress {
+            0% { left: -30%; width: 30%; }
+            50% { width: 60%; }
+            100% { left: 100%; width: 30%; }
+        }
+
+        /* ERROR SCREENS (Hidden by default) */
+        .error-screen {
+            position: fixed; inset: 0; background: #fff;
+            display: none; flex-direction: column;
+            align-items: center; justify-content: center; padding: 30px;
+            text-align: center; z-index: 1000001;
+        }
+        .error-icon { font-size: 60px; color: #ef4444; margin-bottom: 25px; }
+        .error-title { font-family: 'Space Grotesk'; font-size: 32px; font-weight: 800; margin-bottom: 15px; }
+        .error-btn {
+            background: var(--text-deep); color: #fff;
+            padding: 15px 40px; border-radius: 50px;
+            text-decoration: none; font-weight: 700; margin-top: 30px;
+            transition: 0.3s; border: none; cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- PRIMARY LOADER -->
+    <div class="loader-overlay" id="loader-view">
+        <div class="loader-circle"></div>
+        <div class="loader-text">
+            <h2>Syncing Ecosystem</h2>
+            <p>Verifying Security Keys</p>
+        </div>
+        <div class="loader-progress">
+            <div class="progress-fill"></div>
+        </div>
+    </div>
+
+    <!-- ERROR 400: OFFLINE -->
+    <div class="error-screen" id="error-400">
+        <div class="error-icon"><i class="fa-solid fa-wifi"></i></div>
+        <h1 class="error-title">Connection Lost</h1>
+        <p>Your network seems to be unstable. We cannot reach the Nexra Cloud.</p>
+        <button class="error-btn" onclick="window.location.reload()">RETRY CONNECTION</button>
+    </div>
+
+    <!-- ERROR 500: BROKEN -->
+    <div class="error-screen" id="error-500">
+        <div class="error-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+        <h1 class="error-title">System Breach</h1>
+        <p>Something went wrong in the ecosystem architecture. Admin has been notified.</p>
+        <a href="index.html" class="error-btn">BACK TO SAFETY</a>
+    </div>
+
+    <script>
+        // 1. Navigation Transition Control
+        window.addEventListener('load', function() {
+            // Fade out loader once page is ready
+            setTimeout(() => {
+                const loader = document.getElementById('loader-view');
+                loader.style.opacity = '0';
+                loader.style.transition = '0.5s ease';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }, 800); // Premium delay for branding
+        });
+
+        // 2. Network Monitoring (UX Improvement)
+        window.addEventListener('offline', function() {
+            document.getElementById('loader-view').style.display = 'none';
+            document.getElementById('error-400').style.display = 'flex';
+        });
+
+        window.addEventListener('online', function() {
+            window.location.reload();
+        });
+
+        // 3. Catch Page Errors (500 Simulation)
+        window.onerror = function() {
+            document.getElementById('loader-view').style.display = 'none';
+            document.getElementById('error-500').style.display = 'flex';
+            return true;
+        };
+
+        // 4. SPA Link Interceptor (Visual Page Loader)
+        document.addEventListener('click', function(e) {
+            const link = e.target.closest('a');
+            if (link && link.href && !link.target && link.host === window.location.host) {
+                e.preventDefault();
+                const loader = document.getElementById('loader-view');
+                loader.style.display = 'flex';
+                loader.style.opacity = '1';
+                setTimeout(() => window.location.href = link.href, 400);
+            }
+        });
+    </script>
+</body>
+</html>
