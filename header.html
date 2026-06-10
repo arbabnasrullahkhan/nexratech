@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    
+    <style>
+        /* ==========================================================================
+           NEXRA PREMIUM ISLAND HEADER (FLOATING)
+           ========================================================================== */
+        
+        .header-wrap {
+            position: fixed;
+            top: 15px; /* Floating from top */
+            left: 0;
+            width: 100%;
+            z-index: 9000;
+            padding: 0 4%;
+            pointer-events: none; /* Allows clicking content behind space */
+        }
+
+        .island-nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--nav-blur, rgba(255, 255, 255, 0.85));
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border, rgba(0, 0, 0, 0.06));
+            border-radius: 50px;
+            padding: 10px 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-soft, 0 10px 30px rgba(0,0,0,0.05));
+            pointer-events: auto; /* Active for clicks */
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Dark Mode Adjustment */
+        [data-theme="dark"] .island-nav {
+            background: rgba(10, 10, 10, 0.8);
+            border-color: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+
+        /* 1. Logo Section */
+        .di-logo-sec {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .di-logo-sec:active { transform: scale(0.95); }
+
+        .di-logo-icon {
+            width: 38px;
+            height: 38px;
+            background: var(--bg-surface, #ffffff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--glass-border);
+            padding: 5px;
+            box-shadow: 0 5px 15px var(--brand-glow, rgba(255, 74, 23, 0.2));
+            overflow: hidden;
+        }
+        .di-logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+
+        .di-title-img {
+            height: 14px;
+            filter: brightness(0); /* Black in light mode */
+            opacity: 0.9;
+            transition: 0.3s;
+        }
+        [data-theme="dark"] .di-title-img { filter: invert(1); }
+
+        /* 2. Desktop Navigation Links (Hidden on Mobile) */
+        .desktop-links {
+            display: none;
+            align-items: center;
+            gap: 25px;
+            background: rgba(0, 0, 0, 0.03);
+            padding: 8px 25px;
+            border-radius: 50px;
+        }
+        [data-theme="dark"] .desktop-links { background: rgba(255, 255, 255, 0.03); }
+
+        .d-nav-item {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-200, #475569);
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .d-nav-item:hover { color: var(--brand-main, #FF4A17); }
+        .d-nav-item.active { color: var(--text-100, #0f172a); }
+
+        /* 3. Action Buttons */
+        .di-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .di-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--bg-surface, #ffffff);
+            border: 1px solid var(--glass-border);
+            color: var(--text-100);
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .di-btn:hover {
+            background: var(--bg-elevated);
+            color: var(--brand-main);
+            transform: scale(1.05);
+            border-color: var(--brand-main);
+        }
+        .di-btn:active { transform: scale(0.95); }
+
+        /* Cart Badge */
+        #cart-count-badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--brand-main, #FF4A17);
+            color: #ffffff;
+            font-size: 9px;
+            font-weight: 800;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px var(--brand-glow);
+            border: 2px solid var(--bg-surface);
+        }
+
+        /* Responsive */
+        @media(min-width: 992px) {
+            .desktop-links { display: flex; }
+            .mobile-menu-btn { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header-wrap">
+        <header class="island-nav">
+            <!-- Left: Brand -->
+            <div class="di-logo-sec" onclick="Nexra.navTo('home')">
+                <div class="di-logo-icon">
+                    <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra">
+                </div>
+                <img class="di-title-img" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech">
+            </div>
+            
+            <!-- Center: Desktop Nav (Hidden on Mobile) -->
+            <nav class="desktop-links">
+                <span class="d-nav-item" onclick="Nexra.navTo('shop')">Market</span>
+                <span class="d-nav-item" onclick="Nexra.navTo('freebies')">Vault</span>
+                <span class="d-nav-item" onclick="Nexra.navTo('vip')">VIP</span>
+                <span class="d-nav-item" onclick="Nexra.navTo('blog')">Insights</span>
+            </nav>
+
+            <!-- Right: Actions -->
+            <div class="di-actions">
+                <!-- Theme Toggle -->
+                <button class="di-btn" onclick="Nexra.toggleTheme()" aria-label="Toggle Theme">
+                    <i class="fa-solid fa-moon theme-icon"></i>
+                </button>
+
+                <!-- Cart Button -->
+                <button class="di-btn" onclick="Nexra.ui.toggleCart()" aria-label="Open Cart">
+                    <i class="fa-solid fa-bag-shopping"></i>
+                    <span id="cart-count-badge">0</span>
+                </button>
+
+                <!-- Sidebar Toggle (Mobile Only) -->
+                <button class="di-btn mobile-menu-btn" onclick="Nexra.ui.toggleSidebar()" aria-label="Menu">
+                    <i class="fa-solid fa-bars-staggered"></i>
+                </button>
+            </div>
+        </header>
+    </div>
+
+    <script>
+        /**
+         * HEADER LOGIC
+         * Updates Cart counts and Theme icons locally
+         */
+        (function() {
+            // Update Theme Icon based on current mode
+            const updateThemeIcon = () => {
+                const icon = document.querySelector('.theme-icon');
+                if(!icon) return;
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                icon.className = isDark ? 'fa-solid fa-sun theme-icon' : 'fa-solid fa-moon theme-icon';
+            };
+
+            // Listen for theme changes
+            const observer = new MutationObserver(updateThemeIcon);
+            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+            updateThemeIcon();
+
+            // Cart Count Sync (Simplified for Step 4)
+            window.NexraHeader = {
+                updateCartBadge: function(count) {
+                    const badge = document.getElementById('cart-count-badge');
+                    if(badge) badge.innerText = count;
+                }
+            };
+        })();
+    </script>
+</body>
+</html>
