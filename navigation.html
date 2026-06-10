@@ -1,274 +1,227 @@
-<!-- 
-  NEXRA TECH PK - NAVIGATION SYSTEM
-  COMPONENTS: TOP HEADER, BOTTOM DOCK, SIDEBAR, FLOATING ACTION
--->
-
-<style>
-    /* ==========================================================================
-       1. TOP HEADER (ISLAND NAV)
-       ========================================================================== */
-    .header-wrap { 
-        position: fixed; top: 15px; left: 0; width: 100%; z-index: 9000; 
-        padding: 0 4%; pointer-events: none; 
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Standard Head for Styles & Icons -->
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     
-    .island-nav { 
-        max-width: 1400px; margin: 0 auto; background: var(--nav-blur); 
-        backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px); 
-        border: 1px solid var(--glass-border); border-radius: 50px; 
-        padding: 10px 18px; display: flex; justify-content: space-between; 
-        align-items: center; box-shadow: var(--shadow-soft); pointer-events: auto; 
-    }
-    
-    .di-logo-sec { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-    .di-logo-icon { 
-        width: 40px; height: 40px; background: var(--bg-surface); border-radius: 50%; 
-        display: flex; align-items: center; justify-content: center; 
-        border: 1px solid var(--glass-border); padding: 5px; box-shadow: 0 4px 12px var(--brand-glow); 
-    }
-    .di-logo-icon img { width: 100%; height: 100%; object-fit: contain; }
-    
-    .di-title-img { height: 16px; transition: var(--transition); filter: brightness(0.1); }
-    [data-theme="dark"] .di-title-img { filter: brightness(1) invert(0); }
-    
-    /* DESKTOP NAV TABS */
-    .desktop-links { 
-        display: none; align-items: center; gap: 25px; background: var(--bg-elevated); 
-        padding: 8px 30px; border-radius: 50px; border: 1px solid var(--glass-border); 
-    }
-    
-    .d-nav-item { 
-        font-size: 13px; font-weight: 700; color: var(--text-200); cursor: pointer; 
-        transition: 0.3s; position: relative; letter-spacing: 0.3px; 
-    }
-    .d-nav-item:hover { color: var(--brand-main); }
-    .d-nav-item.active { color: var(--text-100); }
-    .d-nav-item.active::after { 
-        content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); 
-        width: 4px; height: 4px; border-radius: 50%; background: var(--brand-main); 
-        box-shadow: 0 0 8px var(--brand-main); 
-    }
-
-    .di-actions { display: flex; align-items: center; gap: 10px; }
-    .di-btn { 
-        width: 42px; height: 42px; border-radius: 50%; background: var(--bg-surface); 
-        border: 1px solid var(--glass-border); color: var(--text-100); font-size: 15px; 
-        cursor: pointer; transition: 0.3s; position: relative; display: flex; 
-        align-items: center; justify-content: center;
-    }
-    .di-btn:hover { border-color: var(--brand-main); color: var(--brand-main); transform: translateY(-2px); }
-    
-    #cart-count { 
-        position: absolute; top: -2px; right: -2px; background: var(--brand-main); 
-        color: #fff; font-size: 9px; font-weight: 800; width: 17px; height: 17px; 
-        border-radius: 50%; display: flex; align-items: center; justify-content: center; 
-        box-shadow: 0 2px 8px var(--brand-glow);
-    }
-
-    /* ==========================================================================
-       2. MOBILE BOTTOM DOCK
-       ========================================================================== */
-    .dock-container-wrap { 
-        position: fixed; bottom: 20px; left: 0; width: 100%; 
-        display: flex; justify-content: center; z-index: 8500; pointer-events: none; 
-    }
-    
-    .dock-ui { 
-        background: var(--nav-blur); backdrop-filter: blur(30px); 
-        -webkit-backdrop-filter: blur(30px); border: 1px solid var(--glass-border); 
-        border-radius: 35px; height: 70px; display: flex; justify-content: space-around; 
-        align-items: center; padding: 0 10px; box-shadow: var(--shadow-float); 
-        pointer-events: auto; width: 92%; max-width: 450px; 
-    }
-    
-    .dock-item { 
-        display: flex; flex-direction: column; align-items: center; gap: 4px; 
-        color: var(--text-300); cursor: pointer; transition: 0.4s var(--transition); 
-        flex: 1; position: relative; 
-    }
-    .dock-item i { font-size: 20px; transition: 0.3s; }
-    .dock-item span { 
-        font-size: 9px; font-weight: 800; text-transform: uppercase; 
-        letter-spacing: 0.5px; opacity: 0; transform: translateY(8px); 
-        transition: 0.3s; position: absolute; bottom: -15px; 
-    }
-    
-    .dock-item.active { color: var(--brand-main); transform: translateY(-5px); }
-    .dock-item.active i { filter: drop-shadow(0 4px 10px var(--brand-glow)); }
-    .dock-item.active span { opacity: 1; transform: translateY(0); color: var(--text-100); }
-
-    /* ==========================================================================
-       3. SIDEBAR & OVERLAY
-       ========================================================================== */
-    .sb-overlay { 
-        position: fixed; inset: 0; background: rgba(0,0,0,0.4); 
-        backdrop-filter: blur(8px); z-index: 9998; opacity: 0; 
-        visibility: hidden; transition: 0.4s; 
-    }
-    .sb-overlay.active { opacity: 1; visibility: visible; }
-    
-    .sb-drawer { 
-        position: fixed; top: 0; right: -360px; width: 340px; max-width: 85%; 
-        height: 100%; background: var(--bg-base); z-index: 9999; padding: 30px 20px; 
-        transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: -15px 0 40px rgba(0,0,0,0.1); 
-        border-left: 1px solid var(--glass-border); display: flex; flex-direction: column;
-    }
-    .sb-drawer.active { right: 0; }
-    
-    .sb-group { margin-bottom: 30px; }
-    .sb-head { 
-        font-size: 10px; font-weight: 800; color: var(--text-300); 
-        text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; 
-        display: block; padding-left: 5px; 
-    }
-    
-    .sb-link { 
-        display: flex; align-items: center; gap: 14px; padding: 15px 18px; 
-        border-radius: 16px; color: var(--text-100); font-size: 14px; 
-        font-weight: 600; transition: 0.3s; cursor: pointer; background: var(--bg-surface); 
-        margin-bottom: 8px; border: 1px solid transparent;
-    }
-    .sb-link i { font-size: 16px; width: 22px; text-align: center; color: var(--text-300); }
-    .sb-link:hover { 
-        background: var(--bg-elevated); border-color: var(--glass-border); 
-        transform: translateX(6px); color: var(--brand-main);
-    }
-    .sb-link:hover i { color: var(--brand-main); }
-
-    /* ==========================================================================
-       4. FLOATING ACTION (WHATSAPP)
-       ========================================================================== */
-    .wa-float {
-        position: fixed; bottom: 105px; right: 20px; width: 55px; height: 55px; 
-        background: #25D366; color: #fff; border-radius: 50%; display: flex; 
-        align-items: center; justify-content: center; font-size: 26px; 
-        box-shadow: 0 10px 25px rgba(37, 211, 102, 0.3); z-index: 8000; 
-        transition: 0.4s; text-decoration: none; animation: nxFloat 3s ease-in-out infinite;
-    }
-    .wa-float:hover { transform: scale(1.1); filter: brightness(1.1); }
-
-    @keyframes nxFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
-
-    /* RESPONSIVE LOGIC */
-    @media(min-width: 992px) {
-        .desktop-links { display: flex; }
-        .mobile-menu-btn { display: none; }
-        .dock-container-wrap { display: none !important; }
-        .wa-float { bottom: 30px; }
-    }
-</style>
-
-<!-- TOP NAVIGATION HEADER -->
-<div class="header-wrap">
-    <div class="island-nav">
-        <!-- Logo Section -->
-        <div class="di-logo-sec" onclick="Nexra.navTo('home')">
-            <div class="di-logo-icon">
-                <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Logo">
-            </div>
-            <img class="di-title-img" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech">
-        </div>
+    <style>
+        /* ==========================================================================
+           NEXRA PREMIUM DOCK SYSTEM (UX/UI OPTIMIZED)
+           ========================================================================== */
         
-        <!-- Desktop Central Tabs -->
-        <div class="desktop-links">
-            <div class="d-nav-item active" data-nav="home" onclick="Nexra.navTo('home')">Home</div>
-            <div class="d-nav-item" data-nav="shop" onclick="Nexra.navTo('shop')">Marketplace</div>
-            <div class="d-nav-item" data-nav="freebies" onclick="Nexra.navTo('freebies')">Free Vault</div>
-            <div class="d-nav-item" data-nav="blog" onclick="Nexra.navTo('blog')">Academy</div>
-        </div>
+        /* 1. Container - Floating at Bottom */
+        .dock-container-wrap {
+            position: fixed;
+            bottom: 25px; /* Floating look */
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9500;
+            pointer-events: none; /* Allows clicking content behind if not on bar */
+            padding-bottom: env(safe-area-inset-bottom); /* iOS Notch support */
+        }
 
-        <!-- Action Icons -->
-        <div class="di-actions">
-            <button class="di-btn" onclick="Nexra.toggleCart()" title="View Cart">
-                <i class="fa-solid fa-bag-shopping"></i>
-                <span id="cart-count">0</span>
-            </button>
-            <button class="di-btn" onclick="Nexra.toggleTheme()" title="Switch Theme">
-                <i class="fa-solid fa-moon"></i>
-            </button>
-            <button class="di-btn mobile-menu-btn" onclick="toggleSidebar()" title="More Menus">
-                <i class="fa-solid fa-bars-staggered"></i>
-            </button>
-        </div>
+        /* 2. Dock UI - Glassmorphism Body */
+        .dock-ui {
+            background: var(--glass-bg, rgba(255, 255, 255, 0.85));
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border, rgba(0, 0, 0, 0.08));
+            border-radius: 40px;
+            height: 72px;
+            width: 92%;
+            max-width: 460px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 0 12px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            pointer-events: auto; /* Re-enable clicks for the bar */
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* Dark Mode adjustment for Global Theme */
+        [data-theme="dark"] .dock-ui {
+            background: rgba(10, 10, 10, 0.8);
+            border-color: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* 3. Dock Items */
+        .dock-item {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+            height: 100%;
+            color: var(--text-300, #94a3b8);
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-decoration: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* SVG / FontAwesome Icon Styling */
+        .dock-item i {
+            font-size: 20px;
+            margin-bottom: 2px;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s;
+        }
+
+        /* Labels */
+        .dock-item span {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 9px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: 0.3s ease;
+            position: absolute;
+            bottom: 12px;
+        }
+
+        /* ==========================================================================
+           4. ACTIVE STATE (THE PREMIUM MAGIC)
+           ========================================================================== */
+        
+        .dock-item.active {
+            color: var(--brand-main, #FF4A17);
+        }
+
+        .dock-item.active i {
+            transform: translateY(-14px) scale(1.2);
+            filter: drop-shadow(0 8px 12px var(--brand-glow, rgba(255, 74, 23, 0.3)));
+        }
+
+        .dock-item.active span {
+            opacity: 1;
+            transform: translateY(0);
+            color: var(--text-100, #0f172a);
+        }
+
+        [data-theme="dark"] .dock-item.active span {
+            color: #ffffff;
+        }
+
+        /* Active Indicator Dot */
+        .dock-item.active::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            width: 5px;
+            height: 5px;
+            background: var(--brand-main, #FF4A17);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--brand-main);
+            animation: pulseIn 0.4s forwards;
+        }
+
+        @keyframes pulseIn {
+            from { transform: scale(0); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Tablet & Desktop Tweaks */
+        @media(min-width: 1024px) {
+            .dock-container-wrap {
+                bottom: 30px;
+            }
+            .dock-ui {
+                width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="dock-container-wrap">
+        <nav class="dock-ui">
+            <!-- 1. Home -->
+            <div class="dock-item active" data-target="home" onclick="NexraNavigation.handleNav(this, 'home')">
+                <i class="fa-solid fa-house-chimney"></i>
+                <span>Home</span>
+            </div>
+
+            <!-- 2. Market -->
+            <div class="dock-item" data-target="shop" onclick="NexraNavigation.handleNav(this, 'shop')">
+                <i class="fa-solid fa-store"></i>
+                <span>Market</span>
+            </div>
+
+            <!-- 3. Vault -->
+            <div class="dock-item" data-target="freebies" onclick="NexraNavigation.handleNav(this, 'freebies')">
+                <i class="fa-solid fa-cloud-arrow-down"></i>
+                <span>Vault</span>
+            </div>
+
+            <!-- 4. Insights -->
+            <div class="dock-item" data-target="blog" onclick="NexraNavigation.handleNav(this, 'blog')">
+                <i class="fa-solid fa-newspaper"></i>
+                <span>Insights</span>
+            </div>
+
+            <!-- 5. Profile -->
+            <div class="dock-item" data-target="profile" onclick="NexraNavigation.handleNav(this, 'profile')">
+                <i class="fa-solid fa-circle-user"></i>
+                <span>Profile</span>
+            </div>
+        </nav>
     </div>
-</div>
 
-<!-- MOBILE BOTTOM DOCK -->
-<div class="dock-container-wrap">
-    <div class="dock-ui">
-        <div class="dock-item active" data-nav="home" onclick="Nexra.navTo('home')">
-            <i class="fa-solid fa-house-chimney"></i><span>Home</span>
-        </div>
-        <div class="dock-item" data-nav="shop" onclick="Nexra.navTo('shop')">
-            <i class="fa-solid fa-store"></i><span>Market</span>
-        </div>
-        <div class="dock-item" data-nav="freebies" onclick="Nexra.navTo('freebies')">
-            <i class="fa-solid fa-cloud-arrow-down"></i><span>Vault</span>
-        </div>
-        <div class="dock-item" data-nav="blog" onclick="Nexra.navTo('blog')">
-            <i class="fa-solid fa-newspaper"></i><span>Academy</span>
-        </div>
-        <div class="dock-item" data-nav="profile" onclick="Nexra.navTo('profile')">
-            <i class="fa-solid fa-circle-user"></i><span>Profile</span>
-        </div>
-    </div>
-</div>
+    <script>
+        /**
+         * NEXRA NAVIGATION ENGINE
+         * Handles visual states and triggers Global Router
+         */
+        window.NexraNavigation = {
+            handleNav: function(element, view) {
+                // 1. UI: Change Active Class
+                document.querySelectorAll('.dock-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+                element.classList.add('active');
 
-<!-- SIDEBAR DRAWER -->
-<div class="sb-overlay" id="sidebar-overlay" onclick="toggleSidebar()"></div>
-<div class="sb-drawer" id="sidebar">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
-        <div class="badge" style="background: var(--brand-soft); color: var(--brand-main); border:none;">
-            <i class="fa-solid fa-compass"></i> EXPLORE NEXRA
-        </div>
-        <button class="di-btn" onclick="toggleSidebar()"><i class="fa-solid fa-xmark"></i></button>
-    </div>
-    
-    <div class="sb-group">
-        <span class="sb-head">Elite Services</span>
-        <div class="sb-link" onclick="Nexra.navTo('reseller'); toggleSidebar()">
-            <i class="fa-solid fa-users-gear"></i> Reseller Portal
-        </div>
-        <div class="sb-link" onclick="Nexra.navTo('vip'); toggleSidebar()">
-            <i class="fa-solid fa-crown"></i> VIP Membership
-        </div>
-        <div class="sb-link" onclick="Nexra.navTo('bundle'); toggleSidebar()">
-            <i class="fa-solid fa-cubes"></i> Bundle Builder
-        </div>
-        <div class="sb-link" onclick="Nexra.navTo('giveaway'); toggleSidebar()">
-            <i class="fa-solid fa-gift"></i> Live Giveaway
-        </div>
-    </div>
+                // 2. TRIGGER: Global SPA Router (defined in index.html)
+                if (window.Nexra && typeof window.Nexra.navTo === 'function') {
+                    window.Nexra.navTo(view);
+                } else {
+                    console.warn("[Nexra Nav] Global Router not found.");
+                }
 
-    <div class="sb-group" style="margin-top: auto;">
-        <span class="sb-head">Platform & Legal</span>
-        <div class="sb-link" onclick="Nexra.navTo('policies'); toggleSidebar()">
-            <i class="fa-solid fa-shield-halved"></i> Privacy Policy
-        </div>
-        <div class="sb-link" onclick="Nexra.navTo('about'); toggleSidebar()">
-            <i class="fa-solid fa-building"></i> About Nexra PK
-        </div>
-    </div>
-</div>
+                // 3. UX: Haptic Feedback Simulation (Short Vibration if supported)
+                if ("vibrate" in navigator) {
+                    navigator.vibrate(10);
+                }
+            },
 
-<!-- FLOATING WHATSAPP BUTTON -->
-<a href="https://wa.me/923000000000" class="wa-float dynamic-wa-link" target="_blank">
-    <i class="fa-brands fa-whatsapp"></i>
-</a>
+            // Auto-sync dock state if page is loaded via URL
+            syncState: function(view) {
+                const target = document.querySelector(`[data-target="${view}"]`);
+                if (target) {
+                    document.querySelectorAll('.dock-item').forEach(item => item.classList.remove('active'));
+                    target.classList.add('active');
+                }
+            }
+        };
 
-<script>
-    /* LOCAL TOGGLE LOGIC */
-    function toggleSidebar() {
-        document.getElementById('sidebar').classList.toggle('active');
-        document.getElementById('sidebar-overlay').classList.toggle('active');
-    }
-
-    // Sync active state with Router
-    window.addEventListener('popstate', () => {
-        const params = new URLSearchParams(window.location.search);
-        const view = params.get('view') || 'home';
-        document.querySelectorAll('[data-nav]').forEach(el => {
-            el.classList.toggle('active', el.getAttribute('data-nav') === view);
+        // Listen for back/forward navigation to update dock
+        window.addEventListener('popstate', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const view = urlParams.get('view') || 'home';
+            NexraNavigation.syncState(view);
         });
-    });
-</script>
+
+        // Initialize state on load
+        const initView = new URLSearchParams(window.location.search).get('view') || 'home';
+        NexraNavigation.syncState(initView);
+    </script>
+</body>
+</html>
