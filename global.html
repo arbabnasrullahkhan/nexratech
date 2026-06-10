@@ -1,163 +1,236 @@
-<!DOCTYPE html>
-<html lang="en" data-theme="light">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nexra Global Engine</title>
-    <style>
-        /* ==========================================================================
-           GLOBAL OVERLAYS (TOASTS, MODALS, CART DRAWER)
-           Mobile-Optimized & Premium Glassmorphism
-           ========================================================================== */
+<!-- ==========================================================================
+     NEXRA TECH PK - MASTER GLOBAL CONFIGURATION
+     Contains Design System, Brand Identity, and Core JS Helpers
+     ========================================================================== -->
+
+<style>
+    /* 1. MASTER DESIGN TOKENS (SaaS Standard) */
+    :root {
+        /* BRAND IDENTITY */
+        --brand-main: #FF4A17; 
+        --brand-glow: rgba(255, 74, 23, 0.25);
+        --brand-surface: #FFF5F2;
+
+        /* LIGHT MODE (DEFAULT PREMIUM) */
+        --bg-base: #F8FAFC;
+        --bg-surface: #FFFFFF;
+        --bg-elevated: #F1F5F9;
+        --glass-bg: rgba(255, 255, 255, 0.7);
+        --glass-border: rgba(0, 0, 0, 0.06);
         
-        /* Toast Notifications */
-        #nx-toast-container { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); z-index: 99999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; width: 90%; max-width: 400px; }
-        .nx-toast { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(0,0,0,0.06); padding: 16px 24px; border-radius: 50px; color: #0f172a; font-size: 13px; font-weight: 700; box-shadow: 0 20px 40px rgba(0,0,0,0.1); display: flex; align-items: center; gap: 12px; animation: toastSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; pointer-events: auto; }
-        [data-theme="dark"] .nx-toast { background: rgba(10, 10, 10, 0.85); border-color: rgba(255,255,255,0.08); color: #ffffff; box-shadow: 0 20px 40px rgba(0,0,0,0.8); }
-        .nx-toast.hide { animation: toastFadeOut 0.4s forwards; }
-        @keyframes toastSlideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes toastFadeOut { to { opacity: 0; transform: translateY(20px); } }
-
-        /* Global Modal System */
-        .nx-modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); z-index: 99999; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: 0.4s; padding: 20px; }
-        .nx-modal-overlay.active { opacity: 1; visibility: visible; }
-        .nx-modal-box { background: #ffffff; border: 1px solid rgba(0,0,0,0.06); padding: 40px 30px; border-radius: 32px; max-width: 420px; width: 100%; transform: scale(0.95); opacity: 0; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); box-shadow: 0 30px 60px rgba(0,0,0,0.15); text-align: center; }
-        [data-theme="dark"] .nx-modal-box { background: #0a0a0a; border-color: rgba(255,255,255,0.08); box-shadow: 0 30px 60px rgba(0,0,0,0.8); }
-        .nx-modal-overlay.active .nx-modal-box { transform: scale(1); opacity: 1; }
-        .nx-modal-icon { width: 80px; height: 80px; border-radius: 50%; background: rgba(255,74,23,0.1); color: #FF4A17; font-size: 32px; display: flex; align-items: center; justify-content: center; margin: 0 auto 24px; border: 1px solid rgba(255,74,23,0.2); }
-
-        /* Slide-out Cart Drawer (Mobile First) */
-        .nx-cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 99998; opacity: 0; visibility: hidden; transition: 0.4s; }
-        .nx-cart-overlay.active { opacity: 1; visibility: visible; }
-        .nx-cart-drawer { position: fixed; top: 0; right: -100%; width: 100%; max-width: 400px; height: 100%; background: #ffffff; z-index: 99999; padding: 30px 24px; box-shadow: -20px 0 50px rgba(0,0,0,0.15); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); border-left: 1px solid rgba(0,0,0,0.06); display: flex; flex-direction: column; }
-        [data-theme="dark"] .nx-cart-drawer { background: #0a0a0a; border-color: rgba(255,255,255,0.08); box-shadow: -20px 0 50px rgba(0,0,0,0.8); }
-        .nx-cart-drawer.active { right: 0; }
-    </style>
-</head>
-<body>
-
-    <!-- 1. TOAST CONTAINER -->
-    <div id="nx-toast-container"></div>
-
-    <!-- 2. GLOBAL MODAL -->
-    <div class="nx-modal-overlay" id="nx-global-modal">
-        <div class="nx-modal-box">
-            <div class="nx-modal-icon" id="nx-modal-icon"><i class="fa-solid fa-shield-halved"></i></div>
-            <h2 id="nx-modal-title" style="font-family: 'Space Grotesk', sans-serif; font-size: 24px; font-weight: 800; margin-bottom: 16px;">System Alert</h2>
-            <p id="nx-modal-desc" style="color: #475569; font-size: 14px; margin-bottom: 32px; line-height: 1.6;">Processing request...</p>
-            <button id="nx-modal-btn" style="background: #FF4A17; color: #fff; border: none; padding: 18px 32px; border-radius: 50px; width: 100%; font-weight: 700; font-size: 14px; cursor: pointer; box-shadow: 0 10px 25px rgba(255,74,23,0.3);">OK</button>
-        </div>
-    </div>
-
-    <!-- 3. CART DRAWER -->
-    <div class="nx-cart-overlay" id="nx-cart-overlay" onclick="NexraApp.toggleCart()"></div>
-    <div class="nx-cart-drawer" id="nx-cart-drawer">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0,0,0,0.06); padding-bottom: 20px; margin-bottom: 20px;">
-            <h3 style="font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800;"><i class="fa-solid fa-bag-shopping" style="color: #FF4A17;"></i> YOUR CART</h3>
-            <button onclick="NexraApp.toggleCart()" style="width: 40px; height: 40px; border-radius: 50%; background: #f1f5f9; border: none; cursor: pointer; color: #0f172a;"><i class="fa-solid fa-xmark"></i></button>
-        </div>
+        /* TEXT SYSTEM */
+        --text-100: #0F172A;
+        --text-200: #475569;
+        --text-300: #94A3B8;
         
-        <div id="nx-cart-items" style="flex: 1; overflow-y: auto; padding-right: 5px;">
-            <div style="text-align: center; padding: 60px 20px; color: #94a3b8;">
-                <i class="fa-solid fa-basket-shopping" style="font-size: 48px; opacity: 0.5; margin-bottom: 20px;"></i>
-                <h4 style="font-family: 'Space Grotesk', sans-serif; color: #0f172a;">Cart is Empty</h4>
-                <p style="font-size: 12px; margin-top: 8px;">Browse the market to add assets.</p>
-            </div>
-        </div>
+        /* UTILS */
+        --nav-blur: rgba(255, 255, 255, 0.85);
+        --shadow-soft: 0 12px 30px -10px rgba(0,0,0,0.05);
+        --shadow-float: 0 25px 50px -12px rgba(0,0,0,0.1);
+        --radius-sm: 12px;
+        --radius-md: 20px;
+        --radius-lg: 32px;
         
-        <div style="border-top: 1px solid rgba(0,0,0,0.06); padding-top: 24px; margin-top: auto;">
-            <div style="display: flex; justify-content: space-between; font-size: 18px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; margin-bottom: 24px;">
-                <span>SUBTOTAL</span>
-                <span style="color: #FF4A17;" id="nx-cart-total">Rs. 0</span>
-            </div>
-            <button onclick="NexraApp.toggleCart(); NexraApp.navTo('checkout');" style="width: 100%; background: #0f172a; color: #fff; padding: 20px; border: none; border-radius: 50px; font-weight: 700; font-size: 14px; cursor: pointer;"><i class="fa-solid fa-lock"></i> SECURE CHECKOUT</button>
-        </div>
-    </div>
+        /* STATUS */
+        --success: #10B981;
+        --warning: #F59E0B;
+        --danger: #EF4444;
+        --overlay: rgba(255, 255, 255, 0.8);
+    }
 
-    <!-- 4. CORE JAVASCRIPT ENGINE -->
-    <script>
-        window.NexraApp = {
-            db: null, // Will be linked from firebaseconfig
-            auth: null,
-            user: null,
-            cart: [],
-            isGuest: true,
+    /* DARK MODE (CINEMATIC LUXURY) */
+    [data-theme="dark"] {
+        --bg-base: #020202;
+        --bg-surface: #0A0A0A;
+        --bg-elevated: #121212;
+        --glass-bg: rgba(255, 255, 255, 0.02);
+        --glass-border: rgba(255, 255, 255, 0.05);
+        --brand-glow: rgba(255, 74, 23, 0.35);
+        --text-100: #FFFFFF;
+        --text-200: #A1A1AA;
+        --text-300: #52525B;
+        --nav-blur: rgba(2, 2, 2, 0.85);
+        --shadow-soft: 0 20px 40px rgba(0,0,0,0.6);
+        --shadow-float: 0 30px 60px rgba(0,0,0,0.8);
+        --overlay: rgba(0, 0, 0, 0.8);
+    }
 
-            init: function() {
-                // Link Firebase if available
-                if(typeof firebase !== 'undefined') {
-                    this.db = firebase.firestore();
-                    this.auth = firebase.auth();
-                    
-                    // Auth State Observer (Role-Based Access)
-                    this.auth.onAuthStateChanged(user => {
-                        this.user = user;
-                        this.isGuest = !user;
-                        console.log(user ? "🔐 Authenticated as: " + user.email : "🌍 Browsing as Guest");
-                    });
+    /* GLOBAL CLASS UTILS */
+    .tech-font { font-family: 'Space Grotesk', sans-serif; letter-spacing: -0.5px; }
+    .text-gradient { background: linear-gradient(135deg, var(--brand-main) 0%, #FF8A00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .text-brand { color: var(--brand-main); }
+    .flex-center { display: flex; align-items: center; justify-content: center; }
+    .flex-between { display: flex; align-items: center; justify-content: space-between; }
+</style>
+
+<script>
+    /**
+     * CORE ENGINE EXTENSIONS
+     * Integrated with index.html Nexra Object
+     */
+    
+    // Brand Data
+    Nexra.brand = {
+        name: "Nexra Tech PK",
+        icon: "https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png",
+        titleImg: "https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg"
+    };
+
+    // 1. CORE UTILITIES
+    Nexra.utils = {
+        // Price Formatter (Rs 1,000)
+        formatPrice: (num) => {
+            return 'Rs ' + Number(num).toLocaleString();
+        },
+
+        // Time Formatter
+        formatDate: (timestamp) => {
+            if(!timestamp) return '...';
+            const date = new Date(timestamp);
+            return date.toLocaleDateString('en-PK', { day: 'numeric', month: 'short', year: 'numeric' });
+        },
+
+        // Copy to Clipboard
+        copy: function(text, msg = "Copied to clipboard!") {
+            navigator.clipboard.writeText(text).then(() => {
+                Nexra.ui.toast(msg, "fa-solid fa-copy");
+            });
+        },
+
+        // Image Placeholder (Broken Links Fix)
+        handleImgError: function(img) {
+            img.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%2394a3b8'%3E%3Cpath d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.96-2.36L6.5 17h11l-3.54-4.71z'/%3E%3C/svg%3E";
+            img.onerror = null;
+        }
+    };
+
+    // 2. AUTHENTICATION HUB (Action-Based)
+    Nexra.auth = {
+        user: null,
+        
+        init: function() {
+            auth.onAuthStateChanged(user => {
+                this.user = user;
+                if(user) {
+                    this.syncProfile(user);
                 }
-            },
+                // Global Event for profile updates
+                document.dispatchEvent(new CustomEvent('nx-auth-changed', { detail: user }));
+            });
+        },
 
-            // Premium Toast Notification
-            showToast: function(msg, iconClass = "fa-solid fa-check-circle") {
-                const container = document.getElementById('nx-toast-container');
-                if(!container) return;
-                const toast = document.createElement('div');
-                toast.className = 'nx-toast';
-                toast.innerHTML = `<i class="${iconClass}" style="color: #FF4A17; font-size: 16px;"></i> <span>${msg}</span>`;
-                container.appendChild(toast);
-                setTimeout(() => { 
-                    toast.classList.add('hide'); 
-                    setTimeout(() => toast.remove(), 400); 
-                }, 3500);
-            },
-
-            // Premium Modal
-            showModal: function(title, desc, iconClass, btnText, callback) {
-                const overlay = document.getElementById('nx-global-modal');
-                document.getElementById('nx-modal-icon').innerHTML = `<i class="${iconClass}"></i>`;
-                document.getElementById('nx-modal-title').innerText = title;
-                document.getElementById('nx-modal-desc').innerText = desc;
-                const btn = document.getElementById('nx-modal-btn');
-                btn.innerText = btnText;
-                btn.onclick = () => {
-                    overlay.classList.remove('active');
-                    if(typeof callback === 'function') callback();
-                };
-                overlay.classList.add('active');
-            },
-
-            // Cart Drawer Toggle
-            toggleCart: function() {
-                document.getElementById('nx-cart-drawer').classList.toggle('active');
-                document.getElementById('nx-cart-overlay').classList.toggle('active');
-            },
-
-            // SPA Router (Modular Page Loader)
-            navTo: function(viewId, param = null) {
-                // Hides all views
-                document.querySelectorAll('.view-module').forEach(v => v.classList.remove('active'));
-                
-                // Updates Navigation Active States
-                document.querySelectorAll('.nx-nav-item').forEach(n => n.classList.remove('active'));
-                document.querySelectorAll(`[data-target="${viewId}"]`).forEach(n => n.classList.add('active'));
-
-                // Show target view
-                const target = document.getElementById(`view-${viewId}`);
-                if(target) target.classList.add('active');
-                
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                // Action-Based Authentication Guard
-                if((viewId === 'checkout' || viewId === 'profile') && this.isGuest) {
-                    this.showToast("Login required for this action.", "fa-solid fa-shield-halved");
-                    // Logic to show login form inside profile module
-                }
+        syncProfile: async function(user) {
+            const docRef = db.collection('users').doc(user.uid);
+            const doc = await docRef.get();
+            if(!doc.exists) {
+                await docRef.set({
+                    uid: user.uid,
+                    name: user.displayName || 'Ecosystem User',
+                    email: user.email,
+                    coins: 0,
+                    tier: 'Free',
+                    createdAt: Date.now()
+                });
             }
-        };
+        },
 
-        // Initialize Engine
-        document.addEventListener('DOMContentLoaded', () => NexraApp.init());
-    </script>
-</body>
-</html>
+        // Triggered when clicking Buy/Wallet without login
+        requireAuth: function(callback) {
+            if(this.user) {
+                callback();
+            } else {
+                Nexra.ui.modal(
+                    "Account Required", 
+                    "Please connect your Google account to secure your Digital Vault and track orders.", 
+                    "fa-solid fa-shield-halved", 
+                    "Login with Google", 
+                    () => this.loginWithGoogle(callback)
+                );
+            }
+        },
+
+        loginWithGoogle: async function(successCallback) {
+            const provider = new firebase.auth.GoogleAuthProvider();
+            try {
+                const res = await auth.signInWithPopup(provider);
+                if(res.user && successCallback) successCallback();
+                Nexra.ui.toast("Access Granted", "fa-solid fa-circle-check");
+            } catch(e) {
+                Nexra.ui.toast("Auth Failed", "fa-solid fa-triangle-exclamation");
+            }
+        }
+    };
+
+    // 3. UI ENGINE (Toasts & Modals)
+    Nexra.ui = {
+        toast: function(msg, icon = "fa-solid fa-check") {
+            const container = document.getElementById('nx-notifications');
+            if(!container) return;
+            
+            const toast = document.createElement('div');
+            toast.className = 'premium-toast';
+            toast.innerHTML = `<i class="${icon}"></i> <span>${msg}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        },
+
+        modal: function(title, desc, icon, btnText, callback) {
+            const container = document.getElementById('nx-notifications');
+            if(!container) return;
+
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay active';
+            modal.innerHTML = `
+                <div class="modal-box">
+                    <div class="modal-icon"><i class="${icon}"></i></div>
+                    <h3 class="tech-font">${title}</h3>
+                    <p>${desc}</p>
+                    <button class="btn-modal-action">${btnText}</button>
+                    <button class="btn-modal-close">Dismiss</button>
+                </div>
+            `;
+            container.appendChild(modal);
+
+            modal.querySelector('.btn-modal-action').onclick = () => {
+                modal.remove();
+                if(callback) callback();
+            };
+            modal.querySelector('.btn-modal-close').onclick = () => modal.remove();
+        }
+    };
+
+    // Ignite Auth
+    Nexra.auth.init();
+</script>
+
+<style>
+    /* GLOBAL COMPONENTS CSS (FOR TOASTS/MODALS) */
+    .premium-toast {
+        position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%);
+        background: var(--bg-surface); border: 1px solid var(--glass-border);
+        padding: 14px 24px; border-radius: 50px; box-shadow: var(--shadow-float);
+        display: flex; align-items: center; gap: 12px; z-index: 10000;
+        animation: toastUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        font-weight: 700; font-size: 13px; color: var(--text-100);
+    }
+    .premium-toast i { color: var(--brand-main); font-size: 16px; }
+    .premium-toast.fade-out { opacity: 0; transform: translate(-50%, 20px); transition: 0.4s; }
+
+    @keyframes toastUp { from { opacity: 0; transform: translate(-50%, 20px); } to { opacity: 1; transform: translate(-50%, 0); } }
+
+    .modal-overlay { position: fixed; inset: 0; background: var(--overlay); backdrop-filter: blur(10px); z-index: 10001; display: none; align-items: center; justify-content: center; }
+    .modal-overlay.active { display: flex; }
+    .modal-box { background: var(--bg-surface); padding: 40px; border-radius: var(--radius-lg); border: 1px solid var(--glass-border); width: 90%; max-width: 400px; text-align: center; box-shadow: var(--shadow-float); animation: modalIn 0.4s; }
+    .modal-icon { width: 70px; height: 70px; border-radius: 50%; background: var(--brand-surface); color: var(--brand-main); font-size: 28px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; }
+    .modal-box h3 { font-size: 22px; margin-bottom: 10px; color: var(--text-100); }
+    .modal-box p { font-size: 14px; color: var(--text-200); line-height: 1.6; margin-bottom: 30px; }
+    
+    .btn-modal-action { width: 100%; padding: 16px; border-radius: 50px; border: none; background: var(--brand-main); color: #fff; font-weight: 800; font-family: inherit; cursor: pointer; margin-bottom: 10px; }
+    .btn-modal-close { background: none; border: none; font-size: 12px; color: var(--text-300); font-weight: 700; cursor: pointer; }
+
+    @keyframes modalIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+</style>
