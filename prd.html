@@ -1,646 +1,341 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Nexra Tech — Developer Roadmap OS</title>
-<meta name="description" content="Nexra Tech OS — A premium developer roadmap platform. Track your app-building journey with elegant precision.">
-<!-- 404 Favicon Fix -->
-<link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
-<meta property="og:title" content="Nexra Tech OS">
-<meta property="og:description" content="The premium developer roadmap OS by @NexraTech">
-<meta property="og:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
-<meta name="theme-color" content="#ff5500">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nexra OS | Developer Roadmap Hub</title>
+    
+    <!-- Frameworks -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<!-- Firebase Core & Firestore -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<!-- Confetti -->
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #f5f4ef;
+            --orange: #ff5500;
+            --obsidian: #0f172a;
+            --glass: rgba(255, 255, 255, 0.8);
+            --border: rgba(0, 0, 0, 0.05);
+            --transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+        }
 
-<style>
-:root{
-  --bg:#f5f4ef;
-  --glass:rgba(255,255,255,0.72);
-  --obsidian:#0f172a;
-  --orange:#ff5500;
-  --orange-soft:rgba(255,85,0,0.12);
-  --muted:#94a3b8;
-  --border:rgba(0,0,0,0.06);
-  --shadow:0 8px 32px rgba(0,0,0,0.08);
-  --shadow-lg:0 20px 60px rgba(0,0,0,0.12);
-  --ease:cubic-bezier(0.34,1.56,0.64,1);
-  --ease2:cubic-bezier(0.25,1,0.5,1);
-  --r:20px;
-}
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
-html{scroll-behavior:smooth;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--obsidian);min-height:100vh;overflow-x:hidden;}
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; cursor: crosshair; }
+        body { background: var(--bg); color: var(--obsidian); height: 100vh; overflow: hidden; }
 
-/* ── BOOT SCREEN ── */
-#boot{position:fixed;inset:0;background:var(--obsidian);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s var(--ease2);}
-#boot img{width:72px;margin-bottom:24px;animation:bootPulse 1.4s ease infinite;}
-@keyframes bootPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.08);opacity:.8;}}
-.boot-bar{width:200px;height:3px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin-top:20px;}
-.boot-fill{height:100%;background:var(--orange);border-radius:99px;width:0%;transition:width .3s var(--ease2);}
-.boot-text{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-top:14px;}
+        /* --- WATERMARKS --- */
+        .v-watermark { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 15vw; font-weight: 900; opacity: 0.02; z-index: 0; pointer-events: none; white-space: nowrap; }
+        .v-badge { position: fixed; bottom: 20px; right: 20px; font-size: 10px; font-weight: 800; color: #cbd5e1; z-index: 10; }
 
-/* ── CUSTOM CURSOR ── */
-@media(hover:hover){
-  *{cursor:none!important;}
-  #cur{position:fixed;pointer-events:none;z-index:9998;width:12px;height:12px;background:var(--obsidian);border-radius:50%;transform:translate(-50%,-50%);transition:transform .1s;}
-  #cur-ring{position:fixed;pointer-events:none;z-index:9997;width:36px;height:36px;border:2px solid rgba(255,85,0,.4);border-radius:50%;transform:translate(-50%,-50%);transition:left .12s,top .12s,transform .3s;}
-  body:hover #cur-ring{opacity:1;}
-}
+        /* --- BOOT & LOADER --- */
+        #boot-screen { position: fixed; inset: 0; background: var(--obsidian); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s ease; }
+        .loader-pulse { width: 80px; animation: pulse 1.5s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
 
-/* ── TOP NAV ── */
-#top-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
-.nav-glass{background:var(--glass);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);border-radius:16px;padding:10px 16px;display:flex;align-items:center;gap:12px;}
-.nav-logo{display:flex;align-items:center;gap:10px;}
-.nav-logo img.icon{width:28px;height:28px;border-radius:8px;}
-.nav-logo img.text{height:18px;object-fit:contain;}
-.timer-pill{font-size:11px;font-weight:800;color:var(--obsidian);letter-spacing:.5px;font-variant-numeric:tabular-nums;}
-.dot-live{width:7px;height:7px;background:#22c55e;border-radius:50%;animation:blink 1.4s ease infinite;}
-@keyframes blink{50%{opacity:.3;}}
+        /* --- LAYOUT SHELL --- */
+        .app-shell { display: grid; grid-template-columns: 300px 1fr 320px; height: 100vh; position: relative; z-index: 10; }
 
-/* ── HERO SECTION ── */
-#hero{padding:100px 20px 40px;text-align:center;position:relative;}
-.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--orange-soft);border:1px solid rgba(255,85,0,.2);border-radius:99px;padding:6px 16px;font-size:11px;font-weight:800;color:var(--orange);letter-spacing:1px;margin-bottom:20px;}
-.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,7vw,58px);font-weight:700;line-height:1.1;color:var(--obsidian);margin-bottom:16px;}
-.hero-title span{color:var(--orange);}
-.hero-sub{font-size:15px;color:var(--muted);font-weight:600;max-width:380px;margin:0 auto 32px;}
-.hero-progress-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:40px;}
-.big-ring-wrap{position:relative;width:140px;height:140px;}
-.big-ring-wrap svg{width:140px;height:140px;transform:rotate(-90deg);}
-.ring-bg{fill:none;stroke:rgba(0,0,0,.06);stroke-width:8;}
-.ring-fill{fill:none;stroke:var(--orange);stroke-width:8;stroke-linecap:round;stroke-dasharray:377;stroke-dashoffset:377;transition:stroke-dashoffset 1s var(--ease2);}
-.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.ring-pct{font-family:'Space Grotesk';font-size:26px;font-weight:700;color:var(--obsidian);}
-.ring-label{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:1px;}
-.hero-phase-pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
-.phase-pill{background:var(--glass);border:1px solid rgba(255,255,255,.9);border-radius:99px;padding:8px 18px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow);}
-.phase-dot{width:8px;height:8px;border-radius:50%;}
+        /* --- LEFT SIDE: PROJECT HISTORY --- */
+        .history-panel { background: white; border-right: 1px solid var(--border); padding: 25px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
+        .panel-title { font-family: 'Space Grotesk'; font-size: 12px; letter-spacing: 2px; color: #94a3b8; text-transform: uppercase; font-weight: 800; }
+        .project-card { background: var(--bg); padding: 15px; border-radius: 18px; border: 1px solid transparent; cursor: pointer; transition: 0.3s; }
+        .project-card:hover, .project-card.active { border-color: var(--orange); background: white; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
+        .project-card h4 { font-size: 14px; font-weight: 800; margin-bottom: 5px; }
+        .project-card p { font-size: 10px; color: #64748b; font-weight: 600; }
 
-/* ── FLOATING ORBS ── */
-.orb{position:absolute;border-radius:50%;pointer-events:none;}
-.orb-1{width:300px;height:300px;background:radial-gradient(circle,rgba(255,85,0,.07) 0%,transparent 70%);top:-80px;right:-60px;}
-.orb-2{width:200px;height:200px;background:radial-gradient(circle,rgba(255,85,0,.05) 0%,transparent 70%);bottom:0;left:-40px;}
+        /* --- CENTER: CINEMATIC ROADMAP --- */
+        .main-workspace { position: relative; background: var(--bg); display: flex; align-items: center; justify-content: center; perspective: 2000px; overflow: hidden; }
+        .zoom-layer { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transition: var(--transition); transform-origin: center; }
+        
+        #svg-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+        .line-path { fill: none; stroke-width: 2; stroke-dasharray: 6; animation: flow 20s linear infinite; opacity: 0.3; }
+        @keyframes flow { to { stroke-dashoffset: -500; } }
 
-/* ── TIMELINE (MOBILE) ── */
-#timeline{padding:0 16px 120px;max-width:520px;margin:0 auto;}
-.phase-section{margin-bottom:40px;}
-.phase-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding:0 4px;}
-.phase-num{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-size:16px;font-weight:700;color:white;flex-shrink:0;}
-.phase-info h2{font-size:17px;font-weight:800;color:var(--obsidian);line-height:1.2;}
-.phase-info p{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;}
-.phase-progress-bar{height:3px;background:rgba(0,0,0,.05);border-radius:99px;margin-top:8px;overflow:hidden;}
-.phase-progress-fill{height:100%;border-radius:99px;transition:width .8s var(--ease2);}
+        .hub-core { width: 160px; height: 160px; background: var(--obsidian); border-radius: 50%; border: 5px solid white; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2); z-index: 10; }
+        .hub-core img { width: 45px; margin-bottom: 8px; }
+        .hub-core span { font-size: 9px; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
 
-/* ── TASK CARDS ── */
-.task-card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.9);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:flex;align-items:flex-start;gap:14px;box-shadow:0 4px 16px rgba(0,0,0,.05);transition:.3s var(--ease);position:relative;overflow:hidden;}
-.task-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,85,0,.06),transparent 70%);opacity:0;transition:opacity .3s;}
-.task-card.completed::before{opacity:1;}
-.task-card.completed{background:rgba(255,255,255,.85);}
-.check-wrap{flex-shrink:0;margin-top:1px;}
-.check-btn{width:26px;height:26px;border-radius:8px;border:2px solid #cbd5e1;background:white;display:flex;align-items:center;justify-content:center;transition:.3s var(--ease);cursor:pointer;}
-.check-btn svg{opacity:0;transform:scale(.5);transition:.3s var(--ease);}
-.task-card.completed .check-btn{border-color:var(--theme-color, var(--orange));background:var(--theme-color, var(--orange));}
-.task-card.completed .check-btn svg{opacity:1;transform:scale(1);}
-.task-body{flex:1;min-width:0;}
-.task-title{font-size:14px;font-weight:700;color:var(--obsidian);margin-bottom:4px;transition:.3s;}
-.task-card.completed .task-title{text-decoration:line-through;color:var(--muted);}
-.task-prd{font-size:12px;color:var(--muted);font-weight:600;line-height:1.6;display:none;background:rgba(0,0,0,0.03);padding:10px;border-radius:8px;margin-top:8px;}
-.task-prd.show{display:block;}
-.task-meta{display:flex;align-items:center;gap:8px;margin-top:6px;}
-.task-badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:99px;letter-spacing:.5px;}
-.prd-toggle{font-size:10px;font-weight:800;color:var(--orange);padding:3px 10px;border-radius:99px;background:var(--orange-soft);cursor:pointer;transition:.2s;}
-.lock-overlay{position:absolute;inset:0;background:rgba(255,255,255,.7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;border-radius:var(--r);cursor:pointer;transition:.3s;}
-.lock-overlay:hover{background:rgba(255,255,255,.8);}
-.lock-icon-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;}
-.lock-icon-wrap span{font-size:11px;font-weight:800;color:var(--orange);}
+        .phase-card { position: absolute; width: 260px; background: var(--glass); backdrop-filter: blur(15px); padding: 20px; border-radius: 24px; border: 1px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.05); z-index: 5; transition: 0.3s; }
+        .phase-card:hover { transform: scale(1.03); background: white; }
+        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+        .badge { width: 35px; height: 35px; border-radius: 10px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; }
+        
+        .task-item { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 10px; cursor: pointer; transition: 0.2s; margin-bottom: 4px; }
+        .task-item:hover { background: rgba(0,0,0,0.03); }
+        .check { width: 20px; height: 20px; border: 2px solid #ddd; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: white; }
+        .task-item.done .check { background: var(--c); border-color: var(--c); color: white; }
+        .task-item.done .check::after { content: '✓'; font-size: 10px; font-weight: 900; }
+        .task-item.done span { text-decoration: line-through; color: #94a3b8; }
+        .task-item span { font-size: 12px; font-weight: 700; color: #334155; }
 
-.ripple{position:absolute;border-radius:50%;background:rgba(255,85,0,.25);transform:scale(0);animation:rippleAnim .6s ease-out forwards;pointer-events:none;}
-@keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
+        /* Roadmap Positions */
+        .p1 { top: 12%; left: 12%; }
+        .p2 { top: 12%; right: 12%; }
+        .p3 { bottom: 12%; left: 50%; transform: translateX(-50%); }
 
-/* ── VAULT PANEL ── */
-#vault{position:fixed;bottom:80px;left:16px;z-index:100;background:var(--glass);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.9);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-lg);width:200px;transform:translateX(-220px);transition:.4s var(--ease);}
-#vault.open{transform:translateX(0);}
-.vault-title{font-size:9px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
-.vault-item{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#475569;padding:8px 10px;border-radius:10px;cursor:pointer;transition:.2s;}
-.vault-item:hover{background:white;color:var(--orange);}
-.social-row{display:flex;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
-.s-btn{flex:1;display:flex;align-items:center;justify-content:center;padding:8px;border-radius:10px;background:rgba(0,0,0,.04);cursor:pointer;transition:.2s;}
-.s-btn:hover{background:var(--orange-soft);}
-#vault-toggle{position:fixed;bottom:80px;left:16px;z-index:101;background:var(--obsidian);color:white;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.2);cursor:pointer;transition:.3s var(--ease);}
-#vault-toggle.open{left:220px;}
+        /* --- RIGHT SIDE: PRD VAULT --- */
+        .prd-vault { background: white; border-left: 1px solid var(--border); padding: 25px; display: flex; flex-direction: column; gap: 20px; }
+        .prd-content-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 15px; padding: 20px; flex: 1; font-family: 'Fira Code', monospace; font-size: 11px; line-height: 1.6; overflow-y: auto; color: #475569; white-space: pre-wrap; position: relative; }
+        .copy-btn { position: sticky; top: 0; float: right; background: var(--obsidian); color: white; border: none; padding: 8px 15px; border-radius: 10px; font-size: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; z-index: 5; }
+        .copy-btn:hover { background: var(--orange); }
 
-/* ── MODALS ── */
-.modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.3);backdrop-filter:blur(12px);z-index:800;display:none;align-items:center;justify-content:center;padding:20px;}
-.modal-bg.show{display:flex;}
-.modal-box{background:white;border-radius:28px;padding:28px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);animation:modalIn .4s var(--ease);position:relative;}
-@keyframes modalIn{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
-.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:99px;background:rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;}
+        .social-links { display: flex; justify-content: center; gap: 20px; padding-top: 15px; border-top: 1px solid var(--border); font-size: 20px; color: #cbd5e1; }
+        .social-links i:hover { color: var(--orange); transform: scale(1.2); transition: 0.3s; }
 
-/* Premium */
-.premium-crown{width:64px;height:64px;background:linear-gradient(135deg,#ff5500,#ff8c00);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
-.premium-title{font-family:'Space Grotesk';font-size:22px;font-weight:700;margin-bottom:8px;text-align:center;}
-.premium-sub{font-size:14px;color:var(--muted);font-weight:600;margin-bottom:24px;line-height:1.6;text-align:center;}
-.btn-premium{background:var(--obsidian);color:white;border:none;border-radius:14px;padding:16px 32px;font-size:14px;font-weight:800;width:100%;cursor:pointer;}
-.btn-premium:hover{background:var(--orange);}
+        /* --- CONTROLS --- */
+        .director-bar { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--obsidian); padding: 8px 25px; border-radius: 50px; display: flex; gap: 10px; z-index: 100; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+        .cam-btn { background: transparent; border: none; color: #64748b; font-size: 11px; font-weight: 800; padding: 10px 18px; border-radius: 20px; transition: 0.3s; }
+        .cam-btn.active { color: white; background: #334155; }
+        .cam-btn:hover:not(.active) { color: var(--orange); }
 
-/* File View */
-.code-block{background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:16px;font-family:monospace;font-size:12px;color:#334155;white-space:pre-wrap;margin:14px 0;max-height:200px;overflow-y:auto;line-height:1.7;}
-.btn-copy{background:var(--obsidian);color:white;border:none;border-radius:12px;padding:12px;width:100%;font-size:13px;font-weight:800;cursor:pointer;}
-.btn-copy:hover{background:var(--orange);}
+        /* --- HEADER --- */
+        .top-nav { position: fixed; top: 0; left: 0; right: 0; height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; z-index: 100; pointer-events: none; }
+        .nav-brand { background: white; padding: 10px 20px; border-radius: 15px; display: flex; align-items: center; gap: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); pointer-events: auto; }
+        .nav-brand img { height: 32px; }
+        .nav-brand h2 { font-size: 16px; font-weight: 800; }
 
-/* Easter Egg */
-#egg-modal .modal-box{background:var(--obsidian);color:white;text-align:center;}
-#egg-modal .modal-close{background:rgba(255,255,255,.1);}
-#egg-modal .modal-close svg path{stroke:white;}
-.egg-title{font-family:'Space Grotesk';font-size:20px;font-weight:700;color:var(--orange);margin:16px 0 8px;}
-.egg-code{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px;font-size:12px;font-family:monospace;color:#86efac;text-align:left;margin-bottom:16px;line-height:1.8;}
-
-/* ── TOAST ── */
-#toasts{position:fixed;top:80px;right:16px;z-index:500;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
-.toast{background:white;border-left:3px solid var(--orange);border-radius:12px;padding:10px 16px;font-size:12px;font-weight:800;color:var(--obsidian);box-shadow:var(--shadow-lg);animation:toastIn .4s var(--ease) forwards;pointer-events:auto;max-width:240px;}
-@keyframes toastIn{from{transform:translateX(110%);opacity:0;}to{transform:translateX(0);opacity:1;}}
-
-/* ── PC MINDMAP ── */
-@media(min-width:900px){
-  body{overflow:hidden;}
-  #timeline{display:none;}
-  #hero{display:none;}
-  #mindmap-wrapper{display:flex!important;}
-  #vault-toggle{left:auto;right:16px;bottom:100px;}
-  #vault{left:auto;right:16px;bottom:160px;transform:translateX(240px);}
-  #vault.open{transform:translateX(0);}
-  #vault-toggle.open{right:220px;}
-}
-@media(max-width:899px){ #mindmap-wrapper{display:none!important;} }
-
-#mindmap-wrapper{display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;}
-#mindmap-zoom{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform 1s var(--ease2);transform-origin:center;}
-#mm-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
-.mm-card{position:absolute;z-index:10;width:260px;}
-.mm-hub{width:160px;height:160px;border-radius:50%;background:var(--obsidian);border:6px solid white;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative;cursor:pointer;z-index:20;transition:.3s var(--ease);}
-.mm-hub:hover{transform:scale(1.05);}
-.mm-hub img{width:44px;margin-bottom:6px;}
-.mm-hub span{font-family:'Space Grotesk';font-size:10px;letter-spacing:1.5px;opacity:.8;}
-.mm-ring{position:absolute;top:-10px;left:-10px;width:180px;height:180px;transform:rotate(-90deg);pointer-events:none;}
-.mm-ring circle{fill:none;stroke:var(--orange);stroke-width:4;stroke-dasharray:503;stroke-dashoffset:503;transition:stroke-dashoffset 1s var(--ease2);stroke-linecap:round;}
-.mm-cam-btns{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--obsidian);border-radius:50px;padding:6px 10px;display:flex;gap:4px;z-index:200;box-shadow:0 8px 32px rgba(0,0,0,.25);}
-.cam-btn{background:none;border:none;color:#94a3b8;font-size:11px;font-weight:800;padding:8px 16px;border-radius:20px;cursor:pointer;transition:.3s;}
-.cam-btn.active{color:white;background:#334155;}
-.cam-btn:hover:not(.active){color:var(--orange);}
-
-/* PC Stats */
-#pc-stats{position:fixed;top:80px;left:20px;z-index:100;background:var(--glass);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.9);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);width:200px;display:none;}
-@media(min-width:900px){#pc-stats{display:block;}}
-.stat-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);}
-.stat-item:last-child{border-bottom:none;}
-.stat-name{font-size:11px;font-weight:700;color:var(--muted);}
-.stat-val{font-size:13px;font-weight:800;color:var(--obsidian);}
-
-/* User Local Reset */
-.user-reset-btn{position:fixed;bottom:20px;left:20px;z-index:100;font-size:10px;font-weight:800;color:var(--muted);background:var(--glass);padding:8px 12px;border-radius:10px;border:1px solid var(--border);cursor:pointer;transition:.3s;}
-.user-reset-btn:hover{color:var(--orange);}
-@media(min-width:900px){.user-reset-btn{bottom:30px;}}
-
-.empty-state{text-align:center;padding:40px 20px;color:var(--muted);}
-.empty-state p{font-size:14px;font-weight:700;}
-</style>
+        @media (max-width: 1024px) {
+            .app-shell { grid-template-columns: 1fr; overflow-y: auto; height: auto; }
+            .history-panel, .prd-vault { display: none; }
+            .main-workspace { height: 100vh; }
+            .director-bar { bottom: 10px; scale: 0.9; }
+        }
+    </style>
 </head>
 <body>
 
-<!-- Boot Screen -->
-<div id="boot">
-  <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Tech">
-  <div class="boot-bar"><div class="boot-fill" id="boot-fill"></div></div>
-  <div class="boot-text" id="boot-msg">LOADING OS...</div>
-</div>
-
-<!-- Cursor (desktop) -->
-<div id="cur"></div><div id="cur-ring"></div>
-
-<!-- Top Nav -->
-<nav id="top-nav">
-  <div class="nav-glass nav-logo" style="gap:10px;">
-    <img class="icon" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
-    <img class="text" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg">
-  </div>
-  <div class="nav-glass" style="gap:12px;">
-    <div class="dot-live"></div>
-    <span class="timer-pill" id="session-timer">00:00:00</span>
-    <span style="font-size:10px;font-weight:800;color:var(--muted);">AUTO-SAVE</span>
-  </div>
-</nav>
-
-<div id="toasts"></div>
-
-<!-- Hero Section (Mobile) -->
-<section id="hero">
-  <div class="orb orb-1"></div><div class="orb orb-2"></div>
-  <div class="hero-badge"><div class="dot-live"></div>ONE MAN ARMY PROTOCOL</div>
-  <h1 class="hero-title">Build Your<br><span>Dream App.</span></h1>
-  <p class="hero-sub">Your live developer journey — every step, every sprint, beautifully tracked.</p>
-
-  <div class="hero-progress-wrap">
-    <div class="big-ring-wrap">
-      <svg><circle class="ring-bg" cx="70" cy="70" r="60"></circle><circle class="ring-fill" id="hero-ring" cx="70" cy="70" r="60"></circle></svg>
-      <div class="ring-center">
-        <div class="ring-pct" id="hero-pct">0%</div>
-        <div class="ring-label">COMPLETE</div>
-      </div>
+    <!-- Boot Sequence -->
+    <div id="boot-screen">
+        <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" class="loader-pulse">
+        <p style="color: white; margin-top: 20px; font-weight: 800; letter-spacing: 3px; font-size: 10px;">INITIALIZING NEXRA TECH OS</p>
     </div>
-    <div class="hero-phase-pills" id="phase-pills"></div>
-  </div>
-</section>
 
-<!-- Mobile Timeline -->
-<div id="timeline"></div>
+    <div class="v-watermark">NEXRA TECH</div>
+    <div class="v-badge">v3.0 One Man Army</div>
 
-<!-- PC Mind Map -->
-<div id="mindmap-wrapper">
-  <div id="mindmap-zoom">
-    <svg id="mm-svg">
-      <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><circle cx="4" cy="4" r="2" fill="rgba(255,85,0,.4)"/></marker></defs>
-      <path id="mm-line1" fill="none" stroke="rgba(255,85,0,.3)" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"></path>
-      <path id="mm-line2" fill="none" stroke="rgba(0,122,255,.3)" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"></path>
-      <path id="mm-line3" fill="none" stroke="rgba(52,199,89,.3)" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"></path>
-    </svg>
-    <div class="mm-hub" id="mm-hub">
-      <svg class="mm-ring"><circle id="mm-ring-circle" cx="90" cy="90" r="80"></circle></svg>
-      <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
-      <span>PROJECT<br>EVOLUTION</span>
-    </div>
-    <div class="mm-card" id="mm-c1" style="top:10%;left:10%;"></div>
-    <div class="mm-card" id="mm-c2" style="top:10%;right:10%;"></div>
-    <div class="mm-card" id="mm-c3" style="bottom:12%;left:50%;transform:translateX(-50%);"></div>
-  </div>
-  <!-- Cinematic Camera Controls -->
-  <div class="mm-cam-btns">
-    <button class="cam-btn active" onclick="mmFocus('global',this)">GLOBAL</button>
-    <button class="cam-btn" onclick="mmFocus('p1',this)">PHASE 01</button>
-    <button class="cam-btn" onclick="mmFocus('p2',this)">PHASE 02</button>
-    <button class="cam-btn" onclick="mmFocus('p3',this)">PHASE 03</button>
-  </div>
-</div>
-
-<!-- PC Stats -->
-<aside id="pc-stats">
-  <div class="vault-title" style="font-size:9px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">Live Stats</div>
-  <div class="stat-item"><span class="stat-name">Session</span><span class="stat-val" id="pc-timer">00:00</span></div>
-  <div class="stat-item"><span class="stat-name">Completed</span><span class="stat-val" id="pc-done">0 / 0</span></div>
-  <div class="stat-item"><span class="stat-name">Progress</span><span class="stat-val" id="pc-pct">0%</span></div>
-  <div class="stat-item"><span class="stat-name">Phases</span><span class="stat-val" id="pc-phases">0</span></div>
-  <div style="margin-top:14px;padding:12px;background:var(--orange-soft);border-radius:12px;text-align:center;">
-    <div style="font-size:22px;font-weight:800;color:var(--orange);" id="pc-streak">0</div>
-    <div style="font-size:10px;font-weight:800;color:var(--muted);letter-spacing:1px;margin-top:2px;">DAY STREAK</div>
-  </div>
-</aside>
-
-<!-- User Reset Button -->
-<button class="user-reset-btn" onclick="resetUserProgress()">Reset My Progress</button>
-
-<!-- Developer Vault Toggle -->
-<button id="vault-toggle">
-  <svg width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="12" height="14" rx="2"></rect><path d="M7 7h4M7 10h4M7 13h2"></path></svg>
-</button>
-
-<!-- Developer Vault -->
-<aside id="vault">
-  <div style="font-size:9px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">Developer Vault</div>
-  <div class="vault-item" onclick="openFile('AI Prompt Template','Act as a Senior App Developer.\nGenerate a scalable architecture for [App Name].\nTech: React Native + Firebase.\nRequirements:\n- Offline-first\n- Real-time sync\n- Role-based auth\nOutput: Full folder structure + key files.')">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2h6l3 3v9H4V2z"></path></svg> AI Prompt Template
-  </div>
-  <div class="vault-item" onclick="openFile('Firebase Rules','rules_version = \\'2\\';\\nservice cloud.firestore {\\n  match /databases/{database}/documents {\\n    match /RoadmapData/{document=**} {\\n      allow read: if true;\\n      allow write: if request.auth != null;\\n    }\\n  }\\n}')">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6l2 2 4-4M12 5a7 7 0 1 1-9 9"></path></svg> Firebase Rules
-  </div>
-  <div class="vault-item" onclick="openFile('AdMob Config','// AdMob IDs (Test)\nconst AD_CONFIG = {\n  banner: \"ca-app-pub-xxx/banner\",\n  interstitial: \"ca-app-pub-xxx/interstitial\",\n  rewarded: \"ca-app-pub-xxx/rewarded\"\n}')">
-    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"></circle><path d="M7 4v3l2 2"></path></svg> AdMob Config
-  </div>
-  <div class="social-row">
-    <div class="s-btn" onclick="window.open('https://youtube.com/@NexraTech','_blank')">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--orange)"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.4 2.8 12 2.8 12 2.8s-4.4 0-6.8.1c-.6.1-1.9.1-3 1.3C1.3 5 1 7 1 7S.7 9.2.7 11.3v2c0 2.1.3 4.3.3 4.3s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.4 21.7 12 21.7 12 21.7s4.4 0 6.8-.1c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.3v-2C23.3 9.2 23 7 23 7zM9.7 15.5V8.4l8.1 3.6-8.1 3.5z"/></svg>
-    </div>
-    <div class="s-btn" onclick="window.open('https://wa.me/NexraTech','_blank')">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.8-1.4C8.3 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
-    </div>
-  </div>
-</aside>
-
-<!-- Modals -->
-<div class="modal-bg" id="premium-modal">
-  <div class="modal-box" style="text-align:center;">
-    <div class="modal-close" onclick="closeModal('premium-modal')"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 2l10 10M12 2L2 12"></path></svg></div>
-    <div class="premium-crown"><svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 2l2.4 7.2H22l-6.2 4.5 2.4 7.2L12 17 5.8 20.9l2.4-7.2L2 9.2h7.6z"></path></svg></div>
-    <h2 class="premium-title" id="premium-title">Premium Content</h2>
-    <p class="premium-sub" id="premium-sub">This is a premium resource by Nexra Tech. Unlock it to access the full blueprint.</p>
-    <button class="btn-copy" onclick="window.open('https://wa.me/NexraTech','_blank');closeModal('premium-modal')">Unlock via WhatsApp →</button>
-  </div>
-</div>
-
-<div class="modal-bg" id="egg-modal">
-  <div class="modal-box" style="background:var(--obsidian);color:white;text-align:center;">
-    <div class="modal-close" onclick="closeModal('egg-modal')" style="background:rgba(255,255,255,.1);"><svg width="14" height="14" fill="none" stroke="white" stroke-width="2.5"><path d="M2 2l10 10M12 2L2 12"></path></svg></div>
-    <div style="font-size:36px;margin-bottom:8px;">🥚</div>
-    <h2 class="egg-title">You Found It.</h2>
-    <p style="font-size:13px;color:rgba(255,255,255,.7);font-weight:600;margin-bottom:20px;">You just unlocked a secret bonus — a free Firebase Architecture Code!</p>
-    <div class="egg-code" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px;font-size:12px;font-family:monospace;color:#86efac;text-align:left;margin-bottom:16px;">import { initializeApp } from 'firebase/app';\nconst db = getFirestore(app);</div>
-    <button class="btn-copy" style="background:var(--orange);" onclick="window.open('https://youtube.com/@NexraTech','_blank')">Watch Tutorial @NexraTech</button>
-  </div>
-</div>
-
-<div class="modal-bg" id="file-modal">
-  <div class="modal-box">
-    <div class="modal-close" onclick="closeModal('file-modal')"><svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 2l10 10M12 2L2 12"></path></svg></div>
-    <h2 style="font-family:'Space Grotesk';font-size:18px;font-weight:700;" id="file-title">File</h2>
-    <div class="code-block" id="file-content"></div>
-    <button class="btn-copy" onclick="copyFile()">Copy to Clipboard</button>
-  </div>
-</div>
-
-<script>
-// ════ FIREBASE CONFIG ════
-const firebaseConfig = {
-  apiKey: "AIzaSyDeNZBtVQ5iX5PjV5Gj4xXgxqB3KaJ4cZw",
-  authDomain: "nexrapk.firebaseapp.com",
-  projectId: "nexrapk",
-  storageBucket: "nexrapk.firebasestorage.app",
-  messagingSenderId: "958761878252",
-  appId: "1:958761878252:web:099246eb11de0e08755bc9"
-};
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-db.enablePersistence().catch(()=>{});
-
-// ════ STATE & HISTORY ════
-const COLLECTION = "RoadmapData";
-let roadmapData = [];
-let userProgress = {};
-let hubTaps = 0, hubTapTimer = null;
-let sessionStart = Date.now();
-
-// ════ BOOT ════
-const bootMsgs = ["INITIALIZING NEXRA OS...","CONNECTING DATABASE...","MOUNTING UI...","SYSTEM READY."];
-let bootIdx = 0;
-function runBoot(){
-  if(bootIdx >= bootMsgs.length){
-    document.getElementById('boot').style.opacity = '0';
-    setTimeout(()=>{ document.getElementById('boot').style.display = 'none'; initApp(); }, 600);
-    return;
-  }
-  document.getElementById('boot-msg').textContent = bootMsgs[bootIdx];
-  document.getElementById('boot-fill').style.width = ((bootIdx+1)/bootMsgs.length*100)+'%';
-  bootIdx++;
-  setTimeout(runBoot, 350);
-}
-setTimeout(runBoot, 400);
-
-// ════ CURSOR ════
-document.addEventListener('mousemove', e=>{
-  const cur=document.getElementById('cur'), ring=document.getElementById('cur-ring');
-  if(cur){ cur.style.left=e.clientX+'px'; cur.style.top=e.clientY+'px'; }
-  if(ring){ ring.style.left=e.clientX+'px'; ring.style.top=e.clientY+'px'; }
-});
-
-// ════ TIMERS & COOKIES ════
-function startTimer(){
-  setInterval(()=>{
-    const s = Math.floor((Date.now()-sessionStart)/1000);
-    const m = String(Math.floor((s%3600)/60)).padStart(2,'0');
-    const sec = String(s%60).padStart(2,'0');
-    document.getElementById('session-timer').textContent = `${String(Math.floor(s/3600)).padStart(2,'0')}:${m}:${sec}`;
-    document.getElementById('pc-timer').textContent = `${m}:${sec}`;
-  },1000);
-}
-
-function saveProgress(){
-  localStorage.setItem('nx_progress',JSON.stringify(userProgress));
-  const e=new Date(); e.setTime(e.getTime()+(365*24*60*60*1000));
-  document.cookie = `nx_progress=${encodeURIComponent(JSON.stringify(userProgress))};expires=${e.toUTCString()};path=/;SameSite=Lax`;
-}
-
-function loadProgress(){
-  try{
-    const ls = localStorage.getItem('nx_progress');
-    if(ls){ userProgress=JSON.parse(ls); return; }
-    const c=document.cookie.split('; ').find(row=>row.startsWith('nx_progress='));
-    if(c){ userProgress=JSON.parse(decodeURIComponent(c.split('=')[1])); }
-  }catch(e){ userProgress={}; }
-}
-
-// THE BUG FIX IS HERE
-function resetUserProgress(){
-  if(!confirm('Reset your personal progress?')) return;
-  userProgress = {};
-  saveProgress();
-  renderTimeline();
-  renderMindmap();
-  updateGlobalProgress();
-  showToast('🔄 Progress Reset');
-}
-
-function saveStreak(){
-  const today = new Date().toDateString();
-  const last = localStorage.getItem('nx_last_visit');
-  let streak = parseInt(localStorage.getItem('nx_streak')||'0');
-  if(last !== today){ streak++; localStorage.setItem('nx_streak', streak); localStorage.setItem('nx_last_visit', today); }
-  document.getElementById('pc-streak').textContent = streak;
-}
-
-// ════ FIRESTORE LIVE FETCH ════
-function listenToRoadmap(){
-  db.collection(COLLECTION).orderBy('order','asc').onSnapshot(snap=>{
-    roadmapData = snap.docs.map(d=>({id:d.id,...d.data(),tasks:(d.data().tasks||[])}));
-    renderTimeline();
-    renderMindmap();
-    updateGlobalProgress();
-  }, err=>{
-    try{ const c=localStorage.getItem('nx_cached_data'); if(c){ roadmapData=JSON.parse(c); renderTimeline(); renderMindmap(); updateGlobalProgress(); } }catch(e){}
-  });
-}
-
-// ════ RENDER UI ════
-function renderTimeline(){
-  const tl = document.getElementById('timeline');
-  // SAFELY check for loader to avoid TypeError null bug
-  const loader = document.getElementById('timeline-loader');
-  if (loader) loader.style.display = 'none';
-  
-  try{ localStorage.setItem('nx_cached_data',JSON.stringify(roadmapData)); }catch(e){}
-
-  if(!roadmapData.length){
-    tl.innerHTML = `<div class="empty-state"><p>Waiting for roadmap data...</p></div>`; return;
-  }
-  
-  // Safe to clear timeline HTML now
-  tl.innerHTML = '';
-  const phaseColors = ['var(--orange)','#007aff','#34c759','#af52de','#ff2d55','#ff9500'];
-
-  roadmapData.forEach((phase,pi)=>{
-    const color = phase.color || phaseColors[pi%phaseColors.length];
-    const tasks = phase.tasks || [];
-    const done = tasks.filter(t=>userProgress[t.id]).length;
-    const pct = tasks.length ? Math.round((done/tasks.length)*100) : 0;
-
-    const sec = document.createElement('div');
-    sec.className = 'phase-section';
-    sec.innerHTML = `
-      <div class="phase-header">
-        <div class="phase-num" style="background:${color};">${String(pi+1).padStart(2,'0')}</div>
-        <div class="phase-info" style="flex:1;">
-          <h2>${escHtml(phase.title)}</h2>
-          <p>${escHtml(phase.subtitle||'')}</p>
-          <div class="phase-progress-bar"><div class="phase-progress-fill" style="background:${color};width:${pct}%"></div></div>
+    <!-- Top Navigation -->
+    <header class="top-nav">
+        <div class="nav-brand">
+            <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
+            <h2>Nexra OS <span style="color: var(--orange);">Hub</span></h2>
         </div>
-        <div style="text-align:center;"><div style="font-family:'Space Grotesk';font-size:16px;font-weight:700;color:${color};">${pct}%</div><div style="font-size:9px;font-weight:800;color:var(--muted);">${done}/${tasks.length}</div></div>
-      </div>`;
+        <div class="nav-brand" style="gap: 15px;">
+            <i class="fa-solid fa-bolt" style="color: var(--orange);"></i>
+            <span id="global-progress" style="font-weight: 800;">0% SYNCED</span>
+        </div>
+    </header>
 
-    tasks.forEach(task=>sec.appendChild(buildTaskCard(task, color)));
-    tl.appendChild(sec);
-  });
+    <div class="app-shell">
+        
+        <!-- Left: Project History -->
+        <aside class="history-panel">
+            <h5 class="panel-title">Project History</h5>
+            <div id="project-list-container">
+                <!-- Projects from Firebase will load here -->
+                <div class="project-card active">
+                    <h4>Nexra Billing App</h4>
+                    <p>Modified: 2 mins ago</p>
+                </div>
+            </div>
+        </aside>
 
-  const pillsEl = document.getElementById('phase-pills');
-  pillsEl.innerHTML = '';
-  roadmapData.forEach((phase,pi)=>{
-    const color = phase.color || phaseColors[pi%phaseColors.length];
-    const done = (phase.tasks||[]).filter(t=>userProgress[t.id]).length;
-    pillsEl.innerHTML += `<div class="phase-pill"><div class="phase-dot" style="background:${color};"></div><span style="font-size:11px;">${escHtml(phase.title)}</span><span style="font-size:11px;font-weight:800;color:${color};">${done}/${(phase.tasks||[]).length}</span></div>`;
-  });
-}
+        <!-- Center: Roadmap Visualization -->
+        <main class="main-workspace">
+            <div class="zoom-layer" id="zoom-world">
+                
+                <svg id="svg-canvas">
+                    <path id="l1" class="line-path" stroke="var(--orange)"></path>
+                    <path id="l2" class="line-path" stroke="#007aff"></path>
+                    <path id="l3" class="line-path" stroke="#34c759"></path>
+                </svg>
 
-function buildTaskCard(task, color){
-  const isDone = !!userProgress[task.id];
-  const div = document.createElement('div');
-  div.className = 'task-card' + (isDone ? ' completed' : '');
-  div.style.setProperty('--theme-color', color);
+                <div class="hub-core" id="core-hub">
+                    <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
+                    <span>PROJECT<br>SYNC</span>
+                </div>
 
-  div.innerHTML = `
-    <div class="check-wrap"><div class="check-btn"><svg width="12" height="12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6l3 3 5-5"></path></svg></div></div>
-    <div class="task-body">
-      <div class="task-title">${escHtml(task.title)}</div>
-      <div class="task-meta">
-        ${task.prd?`<span class="prd-toggle" onclick="togglePrd(this)">DOCS ▾</span>`:''}
-        ${task.locked?'<span class="task-badge" style="background:rgba(255,85,0,.1);color:var(--orange);">PREMIUM</span>':''}
-      </div>
-      ${task.prd?`<div class="task-prd">${escHtml(task.prd)}<br><button onclick="openFile('${escHtml(task.title)} PRD', '${escHtml(task.prd.replace(/'/g,"\\'"))}')" style="margin-top:6px;background:var(--orange);color:white;border:none;padding:4px 8px;border-radius:6px;font-size:10px;font-weight:800;cursor:pointer;">Expand to Copy</button></div>`:''}
-    </div>`;
+                <!-- Phase Cards (Data will be injected here) -->
+                <div id="phases-container"></div>
 
-  if(task.locked){
-    div.innerHTML += `<div class="lock-overlay" onclick="openPremium('${escHtml(task.title)}')"><div class="lock-icon-wrap"><svg width="28" height="28" fill="none" stroke="var(--orange)" stroke-width="2"><rect x="6" y="12" width="16" height="11" rx="3"></rect><path d="M9 12V8a5 5 0 0 1 10 0v4"></path></svg><span>UNLOCK</span></div></div>`;
-  } else {
-    div.onclick = (e)=>{ if(!e.target.closest('.prd-toggle') && !e.target.closest('button')) toggleTask(div, task.id, color); };
-  }
-  div.addEventListener('pointerdown', createRipple);
-  return div;
-}
+            </div>
+        </main>
 
-// ════ INTERACTION ════
-function toggleTask(el, id, color){
-  el.classList.toggle('completed');
-  userProgress[id] = el.classList.contains('completed');
-  saveProgress(); updateGlobalProgress();
-  showToast(userProgress[id] ? '✅ Task checked' : '↩ Task undone');
-  renderMindmap();
-  if(navigator.vibrate) navigator.vibrate(50);
-}
+        <!-- Right: PRD Vault -->
+        <aside class="prd-vault">
+            <h5 class="panel-title">Full PRD Vault</h5>
+            <div class="prd-content-box">
+                <button class="copy-btn" onclick="copyPRD()">COPY ALL</button>
+                <div id="prd-text-display">Select a project to view its full PRD script...</div>
+            </div>
+            <div class="social-links">
+                <a href="https://youtube.com/@NexraTech"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#"><i class="fa-brands fa-telegram"></i></a>
+                <a href="#"><i class="fa-brands fa-github"></i></a>
+            </div>
+        </aside>
 
-function togglePrd(btn){
-  const prd = btn.closest('.task-body').querySelector('.task-prd');
-  if(!prd) return;
-  const show = prd.classList.toggle('show');
-  btn.textContent = show ? 'DOCS ▴' : 'DOCS ▾';
-}
+    </div>
 
-function createRipple(e){
-  const r = document.createElement('span'); r.className = 'ripple';
-  const rect = e.currentTarget.getBoundingClientRect(); const size = Math.max(rect.width, rect.height)*2;
-  r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
-  e.currentTarget.appendChild(r); setTimeout(()=>r.remove(), 700);
-}
+    <!-- Director Tools -->
+    <div class="director-bar">
+        <button class="cam-btn active" onclick="cam('global', this)">GLOBAL VIEW</button>
+        <button class="cam-btn" onclick="cam('p1', this)">PHASE 01</button>
+        <button class="cam-btn" onclick="cam('p2', this)">PHASE 02</button>
+        <button class="cam-btn" onclick="cam('p3', this)">PHASE 03</button>
+    </div>
 
-// ════ GLOBAL PROGRESS ════
-function updateGlobalProgress(){
-  let total=0, done=0;
-  roadmapData.forEach(p=>(p.tasks||[]).forEach(t=>{ total++; if(userProgress[t.id]) done++; }));
-  const pct = total ? Math.round((done/total)*100) : 0;
-  const circ=377, offset = circ - (pct/100*circ);
-  const ring = document.getElementById('hero-ring'), mmRing = document.getElementById('mm-ring-circle');
-  if(ring){ ring.style.strokeDashoffset = offset; }
-  if(mmRing){ const mc=503; mmRing.style.strokeDashoffset=mc-(pct/100*mc); }
-  document.getElementById('hero-pct').textContent = pct+'%';
-  document.getElementById('pc-pct').textContent = pct+'%';
-  document.getElementById('pc-done').textContent = `${done} / ${total}`;
-  document.getElementById('pc-phases').textContent = roadmapData.length;
+    <script>
+        // === FIREBASE CONFIGURATION ===
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeNZBtVQ5iX5PjV5Gj4xXgxqB3KaJ4cZw",
+            authDomain: "nexrapk.firebaseapp.com",
+            projectId: "nexrapk",
+            storageBucket: "nexrapk.firebasestorage.app",
+            messagingSenderId: "958761878252",
+            appId: "1:958761878252:web:099246eb11de0e08755bc9"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
 
-  if(pct===100 && done>0){
-    confetti({particleCount:250,spread:120,origin:{y:.5},colors:['#ff5500','#ffd700','#0f172a','#ffffff']});
-    showToast('🏆 MISSION ACCOMPLISHED!');
-  }
-}
+        let currentProjectData = null;
+        let userProgress = JSON.parse(localStorage.getItem('nexra_progress') || '{}');
 
-// ════ PC MINDMAP ════
-function renderMindmap(){
-  const phaseColors = ['var(--orange)','#007aff','#34c759','#af52de','#ff2d55','#ff9500'];
-  ['mm-c1','mm-c2','mm-c3'].forEach((id,i)=>{
-    const el = document.getElementById(id);
-    if(!el || !roadmapData[i]) { if(el) el.innerHTML=''; return; }
-    const p = roadmapData[i], color = p.color||phaseColors[i%phaseColors.length];
-    const tasks = p.tasks||[], done = tasks.filter(t=>userProgress[t.id]).length;
-    el.innerHTML = `
-      <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:0 4px;">
-        <div style="width:38px;height:38px;border-radius:12px;background:${color};display:flex;align-items:center;justify-content:center;color:white;font-weight:700;">${String(i+1).padStart(2,'0')}</div>
-        <div><div style="font-size:13px;font-weight:800;">${escHtml(p.title)}</div><div style="font-size:10px;color:var(--muted);font-weight:600;">${done}/${tasks.length} done</div></div>
-      </div>`;
-    tasks.slice(0,3).forEach(task=>el.appendChild(buildTaskCard(task, color)));
-  });
-  setTimeout(drawMmLines,100);
-}
+        // === BOOT SEQUENCE ===
+        window.onload = () => {
+            setTimeout(() => {
+                document.getElementById('boot-screen').style.opacity = '0';
+                setTimeout(() => document.getElementById('boot-screen').style.display = 'none', 800);
+                loadProjectHistory();
+            }, 1500);
+        };
 
-function drawMmLines(){
-  const hub = document.getElementById('mm-hub'); if(!hub) return;
-  const hr = hub.getBoundingClientRect(), cx = hr.left+hr.width/2, cy = hr.top+hr.height/2;
-  ['mm-c1','mm-c2','mm-c3'].forEach((id,i)=>{
-    const c=document.getElementById(id), line=document.getElementById('mm-line'+(i+1));
-    if(c && line && c.innerHTML){ const cr=c.getBoundingClientRect(); line.setAttribute('d',`M ${cx} ${cy} Q ${cx} ${cr.top+cr.height/2} ${cr.left+cr.width/2} ${cr.top+cr.height/2}`); }
-  });
-}
-window.addEventListener('resize',drawMmLines);
+        // === LOAD HISTORY FROM FIREBASE ===
+        function loadProjectHistory() {
+            db.collection("RoadmapData").orderBy("order", "asc").onSnapshot(snap => {
+                const list = document.getElementById('project-list-container');
+                list.innerHTML = "";
+                snap.docs.forEach((doc, index) => {
+                    const data = doc.data();
+                    const card = document.createElement('div');
+                    card.className = `project-card ${index === 0 ? 'active' : ''}`;
+                    card.innerHTML = `<h4>${data.title}</h4><p>Roadmap ID: ${doc.id.substring(0,8)}</p>`;
+                    card.onclick = () => selectProject(doc.id, data, card);
+                    list.appendChild(card);
+                    if(index === 0) selectProject(doc.id, data, card); // Load first project by default
+                });
+            });
+        }
 
-function mmFocus(t, btn){
-  document.querySelectorAll('.cam-btn').forEach(b=>b.classList.remove('active')); btn.classList.add('active');
-  const z = document.getElementById('mindmap-zoom');
-  const trans = { global:'scale(1) translate(0,0)', p1:'scale(1.7) translate(18%,16%)', p2:'scale(1.7) translate(-18%,16%)', p3:'scale(1.7) translate(0,-22%)' };
-  z.style.transform = trans[t]||'scale(1)';
-}
+        // === SELECT PROJECT & LOAD ROADMAP ===
+        function selectProject(id, data, cardEl) {
+            document.querySelectorAll('.project-card').forEach(c => c.classList.remove('active'));
+            cardEl.classList.add('active');
+            currentProjectData = data;
 
-// ════ EASTER EGG ════
-function setupHubTap(){
-  const hub = document.getElementById('mm-hub');
-  if(!hub) return;
-  hub.addEventListener('click',()=>{
-    hubTaps++; if(hubTapTimer) clearTimeout(hubTapTimer);
-    if(hubTaps>=3){ hubTaps=0; openModal('egg-modal'); confetti({particleCount:80,spread:60,origin:{y:.5},colors:['#ff5500','#ffd700']}); }
-    else hubTapTimer=setTimeout(()=>hubTaps=0, 1500);
-  });
-}
+            // Update PRD Vault
+            let prdFullText = `PROJECT: ${data.title.toUpperCase()}\n-----------------------\n`;
+            data.tasks.forEach(t => {
+                prdFullText += `\n[TASK]: ${t.title}\nDETAILS: ${t.prd || 'No details provided.'}\n`;
+            });
+            document.getElementById('prd-text-display').innerText = prdFullText;
 
-// ════ MODALS & VAULT ════
-document.getElementById('vault-toggle').addEventListener('click',()=>{ document.getElementById('vault').classList.toggle('open'); document.getElementById('vault-toggle').classList.toggle('open'); });
-function openModal(id){ document.getElementById(id).classList.add('show'); }
-function closeModal(id){ document.getElementById(id).classList.remove('show'); }
-function openPremium(title){ document.getElementById('premium-title').textContent = title+' — Premium'; openModal('premium-modal'); }
-function openFile(title,content){ document.getElementById('file-title').textContent=title; document.getElementById('file-content').textContent=content; openModal('file-modal'); }
-function copyFile(){ navigator.clipboard.writeText(document.getElementById('file-content').textContent).then(()=>showToast('📋 Copied to clipboard!')); closeModal('file-modal'); }
-function showToast(msg){ const t=document.createElement('div'); t.className='toast'; t.textContent=msg; document.getElementById('toasts').appendChild(t); setTimeout(()=>t.remove(), 3100); }
-document.querySelectorAll('.modal-bg').forEach(m=>{ m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('show');}); });
-function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+            // Render Roadmap
+            renderRoadmap(data);
+            updateProgress();
+            setTimeout(drawLines, 500);
+        }
 
-// ════ INIT ════
-function initApp(){ loadProgress(); saveStreak(); startTimer(); listenToRoadmap(); setupHubTap(); }
-</script>
+        function renderRoadmap(data) {
+            const container = document.getElementById('phases-container');
+            container.innerHTML = "";
+            const colors = ['#ff5500', '#007aff', '#34c759'];
+            
+            // For simplicity, we split tasks into 3 logical phases
+            const tasksPerPhase = Math.ceil(data.tasks.length / 3);
+            for(let i=0; i<3; i++) {
+                const phaseTasks = data.tasks.slice(i * tasksPerPhase, (i + 1) * tasksPerPhase);
+                const phaseDiv = document.createElement('div');
+                phaseDiv.className = `phase-card p${i+1}`;
+                phaseDiv.id = `card${i+1}`;
+                
+                let taskHTML = "";
+                phaseTasks.forEach(task => {
+                    const isDone = userProgress[task.id] ? 'done' : '';
+                    taskHTML += `
+                        <div class="task-item ${isDone}" style="--c: ${colors[i]}" onclick="toggleTask(this, '${task.id}')">
+                            <div class="check"></div>
+                            <span>${task.title}</span>
+                        </div>`;
+                });
+
+                phaseDiv.innerHTML = `
+                    <div class="card-header">
+                        <div class="badge" style="background: ${colors[i]}">0${i+1}</div>
+                        <h3 style="font-size: 13px; font-weight: 800;">Phase 0${i+1}<br><span style="font-size: 9px; color: #94a3b8;">Sync Protocol</span></h3>
+                    </div>
+                    ${taskHTML}
+                `;
+                container.appendChild(phaseDiv);
+            }
+        }
+
+        // === CINEMATIC CAMERA ===
+        function cam(view, btn) {
+            document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const world = document.getElementById('zoom-world');
+            
+            const transforms = {
+                'global': 'scale(1) translate(0, 0)',
+                'p1': 'scale(1.8) translate(25%, 18%)',
+                'p2': 'scale(1.8) translate(-25%, 18%)',
+                'p3': 'scale(1.8) translate(0, -25%)'
+            };
+            world.style.transform = transforms[view];
+        }
+
+        // === TASK LOGIC ===
+        function toggleTask(el, id) {
+            el.classList.toggle('done');
+            userProgress[id] = el.classList.contains('done');
+            localStorage.setItem('nexra_progress', JSON.stringify(userProgress));
+            updateProgress();
+        }
+
+        function updateProgress() {
+            const total = currentProjectData ? currentProjectData.tasks.length : 0;
+            const done = Object.values(userProgress).filter(v => v === true).length;
+            const perc = total > 0 ? Math.round((done / total) * 100) : 0;
+            document.getElementById('global-progress').innerText = perc + '% SYNCED';
+            if(perc === 100) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff5500', '#000'] });
+        }
+
+        // === SVG DRAWING ===
+        function drawLines() {
+            const hub = document.getElementById('core-hub').getBoundingClientRect();
+            const cx = hub.left + hub.width / 2;
+            const cy = hub.top + hub.height / 2;
+
+            for(let i=1; i<=3; i++) {
+                const card = document.getElementById('card'+i);
+                if(!card) continue;
+                const rect = card.getBoundingClientRect();
+                const tx = rect.left + rect.width / 2;
+                const ty = rect.top + rect.height / 2;
+                document.getElementById('l'+i).setAttribute('d', `M ${cx} ${cy} Q ${cx} ${ty} ${tx} ${ty}`);
+            }
+        }
+
+        function copyPRD() {
+            const text = document.getElementById('prd-text-display').innerText;
+            navigator.clipboard.writeText(text);
+            alert("📋 Entire PRD Script copied to Nexra Vault!");
+        }
+
+        window.onresize = drawLines;
+    </script>
 </body>
 </html>
