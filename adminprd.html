@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Nexra Tech — Secret Admin Panel</title>
+<link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
+
+<!-- Firebase Core & Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#f5f4ef;
+  --glass:rgba(255,255,255,0.72);
+  --obsidian:#0f172a;
+  --orange:#ff5500;
+  --orange-soft:rgba(255,85,0,0.12);
+  --muted:#94a3b8;
+  --border:rgba(0,0,0,0.06);
+  --shadow:0 8px 32px rgba(0,0,0,0.08);
+  --ease:cubic-bezier(0.34,1.56,0.64,1);
+  --r:20px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--obsidian);min-height:100vh;}
+button,input,textarea,select{font-family:inherit;}
+
+/* ── PIN LOGIN SCREEN ── */
+#pin-screen{position:fixed;inset:0;background:var(--obsidian);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.pin-box{background:white;padding:40px;border-radius:24px;text-align:center;box-shadow:var(--shadow);max-width:400px;width:90%;}
+.pin-icon{width:64px;height:64px;background:var(--obsidian);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
+.pin-inputs{display:flex;gap:12px;justify-content:center;margin:24px 0;}
+.pin-input{width:56px;height:64px;border:2px solid var(--border);border-radius:14px;text-align:center;font-size:28px;font-weight:800;color:var(--obsidian);background:var(--bg);transition:.3s;outline:none;}
+.pin-input:focus{border-color:var(--orange);box-shadow:0 0 0 4px var(--orange-soft);}
+.pin-input.filled{border-color:var(--obsidian);}
+.btn-pin{background:var(--orange);color:white;border:none;border-radius:14px;padding:16px;width:100%;font-size:15px;font-weight:800;cursor:pointer;transition:.3s;}
+.btn-pin:hover{filter:brightness(1.1);}
+
+/* ── ADMIN DASHBOARD ── */
+#admin-dashboard{display:none;max-width:800px;margin:0 auto;padding:40px 20px 100px;}
+.header{text-align:center;margin-bottom:40px;}
+.header img{height:30px;margin-bottom:12px;}
+.header h1{font-family:'Space Grotesk';font-size:32px;font-weight:800;}
+.header p{font-size:14px;color:var(--muted);font-weight:600;}
+
+.card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.9);border-radius:var(--r);padding:24px;margin-bottom:24px;box-shadow:var(--shadow);}
+.card h3{font-size:16px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);padding-bottom:12px;}
+
+.form-group{margin-bottom:16px;}
+.form-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block;}
+.form-input{width:100%;padding:14px;border:2px solid var(--border);border-radius:12px;font-size:14px;font-weight:600;outline:none;transition:.3s;}
+.form-input:focus{border-color:var(--orange);}
+.form-textarea{resize:vertical;min-height:100px;}
+
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;}
+.toggle{position:relative;width:50px;height:28px;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:#cbd5e1;border-radius:99px;transition:.3s;cursor:pointer;}
+.toggle-slider::before{content:'';position:absolute;width:22px;height:22px;border-radius:50%;background:white;top:3px;left:3px;transition:.3s;box-shadow:0 2px 4px rgba(0,0,0,.2);}
+.toggle input:checked + .toggle-slider{background:var(--orange);}
+.toggle input:checked + .toggle-slider::before{transform:translateX(22px);}
+
+.btn-save{background:var(--obsidian);color:white;border:none;border-radius:12px;padding:16px;width:100%;font-size:14px;font-weight:800;cursor:pointer;transition:.3s;margin-top:10px;}
+.btn-save:hover{background:var(--orange);}
+.btn-danger{background:rgba(239,68,68,.1);color:#ef4444;border:none;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:800;cursor:pointer;transition:.2s;}
+.btn-danger:hover{background:#ef4444;color:white;}
+
+/* Phase List Styles */
+.phase-item{background:white;border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;}
+.phase-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+.phase-title{font-size:16px;font-weight:800;}
+.task-row{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg);border-radius:10px;margin-bottom:8px;border:1px solid var(--border);}
+.task-title{font-size:13px;font-weight:700;}
+
+/* Floating Back Button */
+.back-btn{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--obsidian);color:white;padding:12px 24px;border-radius:99px;font-size:12px;font-weight:800;text-decoration:none;box-shadow:var(--shadow);transition:.3s;z-index:100;}
+.back-btn:hover{background:var(--orange);}
+
+/* TOAST */
+#toasts{position:fixed;top:20px;right:20px;z-index:500;display:flex;flex-direction:column;gap:10px;}
+.toast{background:white;border-left:4px solid var(--orange);padding:12px 20px;border-radius:10px;font-size:13px;font-weight:800;box-shadow:var(--shadow);animation:slideIn .4s forwards;}
+@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
+</style>
+</head>
+<body>
+
+<!-- Toasts -->
+<div id="toasts"></div>
+
+<!-- 1. PIN LOGIN SCREEN -->
+<div id="pin-screen">
+  <div class="pin-box">
+    <div class="pin-icon">
+      <svg width="28" height="28" fill="none" stroke="var(--orange)" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 1 1 8 0v4"></path></svg>
+    </div>
+    <h2 style="font-family:'Space Grotesk';font-size:24px;font-weight:800;margin-bottom:8px;">Admin Login</h2>
+    <p style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:20px;">Enter your 4-digit master PIN</p>
+    
+    <div class="pin-inputs">
+      <input class="pin-input" type="password" maxlength="1" id="p0" inputmode="numeric">
+      <input class="pin-input" type="password" maxlength="1" id="p1" inputmode="numeric">
+      <input class="pin-input" type="password" maxlength="1" id="p2" inputmode="numeric">
+      <input class="pin-input" type="password" maxlength="1" id="p3" inputmode="numeric">
+    </div>
+    <p id="pin-error" style="color:#ef4444;font-size:12px;font-weight:700;display:none;margin-bottom:16px;">Invalid PIN. Try again.</p>
+    
+    <button class="btn-pin" onclick="checkPin()">Unlock OS</button>
+  </div>
+</div>
+
+<!-- 2. ADMIN DASHBOARD -->
+<div id="admin-dashboard">
+  <div class="header">
+    <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo">
+    <h1>Data Control Center</h1>
+    <p>Live sync with Nexra OS Public Interface</p>
+  </div>
+
+  <!-- Add Phase -->
+  <div class="card">
+    <h3>
+      <svg width="18" height="18" fill="none" stroke="var(--orange)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M12 8v8M8 12h8"></path></svg>
+      Create New Phase
+    </h3>
+    <div class="form-group">
+      <label class="form-label">Phase Title</label>
+      <input type="text" class="form-input" id="ph-title" placeholder="e.g. Architectural Logic">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Phase Subtitle</label>
+      <input type="text" class="form-input" id="ph-sub" placeholder="e.g. Foundation & Setup">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Theme Color</label>
+      <select class="form-input" id="ph-color">
+        <option value="#ff5500">Electric Orange (Default)</option>
+        <option value="#007aff">Sky Blue</option>
+        <option value="#34c759">Emerald Green</option>
+        <option value="#af52de">Deep Violet</option>
+      </select>
+    </div>
+    <button class="btn-save" onclick="addPhase()">Create Phase</button>
+  </div>
+
+  <!-- Add Task -->
+  <div class="card">
+    <h3>
+      <svg width="18" height="18" fill="none" stroke="var(--orange)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8M8 12h8"></path></svg>
+      Add Task & PRD
+    </h3>
+    <div class="form-group">
+      <label class="form-label">Select Parent Phase</label>
+      <select class="form-input" id="task-phase-select">
+        <option value="">Loading...</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Task Name</label>
+      <input type="text" class="form-input" id="task-title" placeholder="e.g. Firebase Integration">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Task PRD / Code Snippet (Optional)</label>
+      <textarea class="form-input form-textarea" id="task-prd" placeholder="Write full documentation or paste code here..."></textarea>
+    </div>
+    <div class="toggle-row">
+      <div>
+        <div style="font-size:14px;font-weight:800;">🔒 Monetization Lock</div>
+        <div style="font-size:11px;color:var(--muted);font-weight:600;">Hide PRD behind premium wall</div>
+      </div>
+      <label class="toggle"><input type="checkbox" id="task-locked"><span class="toggle-slider"></span></label>
+    </div>
+    <button class="btn-save" onclick="addTask()">Add Task to Phase</button>
+  </div>
+
+  <!-- Manage Existing Data -->
+  <div class="card">
+    <h3>
+      <svg width="18" height="18" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
+      Manage Live Roadmap
+    </h3>
+    <div id="live-roadmap-list">
+      <p style="text-align:center;color:var(--muted);font-size:14px;font-weight:600;padding:20px;">Fetching Live Data...</p>
+    </div>
+  </div>
+
+  <!-- Danger Zone -->
+  <div class="card" style="background:rgba(239,68,68,.05);border-color:rgba(239,68,68,.2);">
+    <h3 style="color:#ef4444;border-color:rgba(239,68,68,.2);">
+      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+      Danger Zone
+    </h3>
+    <button class="btn-save" style="background:#ef4444;" onclick="hardReset()">Delete Entire Roadmap Data</button>
+  </div>
+
+</div>
+
+<!-- Back to Public -->
+<a href="index.html" class="back-btn">← Back to Public OS</a>
+
+<script>
+// ════ FIREBASE CONFIG ════
+const firebaseConfig = {
+  apiKey: "AIzaSyDeNZBtVQ5iX5PjV5Gj4xXgxqB3KaJ4cZw",
+  authDomain: "nexrapk.firebaseapp.com",
+  projectId: "nexrapk",
+  storageBucket: "nexrapk.firebasestorage.app",
+  messagingSenderId: "958761878252",
+  appId: "1:958761878252:web:099246eb11de0e08755bc9"
+};
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+// ════ STATE ════
+const ADMIN_PIN = "1234"; // 👈 Change your PIN here
+const COLLECTION = "RoadmapData";
+let roadmapData = [];
+
+// ════ PIN LOGIN LOGIC ════
+['p0','p1','p2','p3'].forEach((id,i)=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input',()=>{
+    el.classList.toggle('filled', el.value.length>0);
+    if(el.value.length===1 && i<3) document.getElementById('p'+(i+1)).focus();
+    if(i===3 && el.value.length===1) checkPin();
+  });
+  el.addEventListener('keydown',e=>{ if(e.key==='Backspace' && !el.value && i>0) document.getElementById('p'+(i-1)).focus(); });
+});
+
+function checkPin(){
+  const pin = ['p0','p1','p2','p3'].map(id=>document.getElementById(id).value).join('');
+  if(pin === ADMIN_PIN){
+    document.getElementById('pin-screen').style.display = 'none';
+    document.getElementById('admin-dashboard').style.display = 'block';
+    showToast('🔓 Access Granted');
+    fetchData(); // Load Data
+  } else {
+    document.getElementById('pin-error').style.display = 'block';
+    ['p0','p1','p2','p3'].forEach(id=>{ document.getElementById(id).value=''; document.getElementById(id).classList.remove('filled'); });
+    document.getElementById('p0').focus();
+  }
+}
+
+// ════ TOAST NOTIFICATION ════
+function showToast(msg){
+  const t=document.createElement('div'); t.className='toast'; t.textContent=msg;
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='.3s'; setTimeout(()=>t.remove(),300); }, 3000);
+}
+
+// ════ FETCH DATA FROM FIRESTORE ════
+function fetchData(){
+  db.collection(COLLECTION).orderBy('order','asc').onSnapshot(snap=>{
+    roadmapData = snap.docs.map(d=>({ id:d.id, ...d.data(), tasks:d.data().tasks||[] }));
+    renderSelects();
+    renderLists();
+  });
+}
+
+// ════ CRUD: ADD PHASE ════
+async function addPhase(){
+  const title = document.getElementById('ph-title').value.trim();
+  const subtitle = document.getElementById('ph-sub').value.trim();
+  const color = document.getElementById('ph-color').value;
+  if(!title){ showToast('⚠️ Phase title required'); return; }
+  
+  try {
+    await db.collection(COLLECTION).add({
+      title, subtitle, color,
+      order: Date.now(),
+      tasks: [],
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    document.getElementById('ph-title').value = '';
+    document.getElementById('ph-sub').value = '';
+    showToast('✅ Phase Created Successfully');
+  } catch(e) { showToast('❌ Error: ' + e.message); }
+}
+
+// ════ CRUD: ADD TASK ════
+async function addTask(){
+  const phaseId = document.getElementById('task-phase-select').value;
+  const title = document.getElementById('task-title').value.trim();
+  const prd = document.getElementById('task-prd').value.trim();
+  const locked = document.getElementById('task-locked').checked;
+  
+  if(!phaseId || !title){ showToast('⚠️ Select Phase & Add Title'); return; }
+  
+  const phase = roadmapData.find(p=>p.id===phaseId);
+  if(!phase) return;
+
+  const tasks = [...(phase.tasks||[]), { id:'t_'+Date.now(), title, prd, locked }];
+  
+  try {
+    await db.collection(COLLECTION).doc(phaseId).update({ tasks });
+    document.getElementById('task-title').value = '';
+    document.getElementById('task-prd').value = '';
+    document.getElementById('task-locked').checked = false;
+    showToast('✅ Task Added');
+  } catch(e) { showToast('❌ Error: ' + e.message); }
+}
+
+// ════ CRUD: DELETE PHASE ════
+async function deletePhase(id){
+  if(!confirm('Delete this entire phase and all its tasks?')) return;
+  try {
+    await db.collection(COLLECTION).doc(id).delete();
+    showToast('🗑️ Phase Deleted');
+  } catch(e) { showToast('❌ Error: ' + e.message); }
+}
+
+// ════ CRUD: DELETE TASK ════
+async function deleteTask(phaseId, taskId){
+  if(!confirm('Delete this task?')) return;
+  const phase = roadmapData.find(p=>p.id===phaseId);
+  const tasks = phase.tasks.filter(t=>t.id!==taskId);
+  try {
+    await db.collection(COLLECTION).doc(phaseId).update({ tasks });
+    showToast('🗑️ Task Deleted');
+  } catch(e) { showToast('❌ Error: ' + e.message); }
+}
+
+// ════ RENDER ADMIN UI ════
+function renderSelects(){
+  const sel = document.getElementById('task-phase-select');
+  sel.innerHTML = roadmapData.length ? '<option value="">Select a Phase...</option>' : '<option value="">Create a phase first</option>';
+  roadmapData.forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.textContent=p.title; sel.appendChild(o); });
+}
+
+function renderLists(){
+  const el = document.getElementById('live-roadmap-list');
+  if(!roadmapData.length){ el.innerHTML='<p style="text-align:center;color:var(--muted);font-size:14px;font-weight:600;padding:20px;">Database is empty.</p>'; return; }
+  
+  el.innerHTML = '';
+  roadmapData.forEach(p=>{
+    const sec = document.createElement('div');
+    sec.className = 'phase-item';
+    sec.innerHTML = `
+      <div class="phase-item-header">
+        <div>
+          <div class="phase-title" style="color:${p.color}">${p.title}</div>
+          <div style="font-size:12px;color:var(--muted);font-weight:600;">${p.tasks.length} Tasks attached</div>
+        </div>
+        <button class="btn-danger" onclick="deletePhase('${p.id}')">Delete Phase</button>
+      </div>`;
+    
+    p.tasks.forEach(t=>{
+      sec.innerHTML += `
+        <div class="task-row">
+          <div class="task-title">${t.title} ${t.locked?'<span style="color:var(--orange);">🔒 Premium</span>':''}</div>
+          <button class="btn-danger" onclick="deleteTask('${p.id}', '${t.id}')">Del</button>
+        </div>`;
+    });
+    el.appendChild(sec);
+  });
+}
+
+// ════ DANGER ZONE ════
+async function hardReset(){
+  const code = prompt('Type "DELETE" to wipe the entire database:');
+  if(code !== 'DELETE') return;
+  
+  try {
+    const snap = await db.collection(COLLECTION).get();
+    const batch = db.batch();
+    snap.docs.forEach(d=>batch.delete(d.ref));
+    await batch.commit();
+    showToast('🧨 DATABASE WIPED CLEAN');
+  } catch(e) { showToast('❌ Error: '+e.message); }
+}
+</script>
+</body>
+</html>
