@@ -1,6 +1,5 @@
-<!-- --- START OF FILE index.html --- -->
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <!-- 1. META & SEO CORE -->
     <meta charset="UTF-8">
@@ -13,24 +12,19 @@
     <meta name="description" content="Pakistan's elite digital marketplace for automated software licensing and premium SaaS solutions.">
     <meta name="robots" content="index, follow">
     <link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
-    
-    <!-- Open Graph (Social Sharing) -->
-    <meta property="og:title" content="Nexra Tech PK | Digital Ecosystem">
-    <meta property="og:description" content="Automated digital assets and premium software licensing.">
-    <meta property="og:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
 
     <!-- 2. PREMIUM TYPOGRAPHY & ICONS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-
+    
     <!-- 3. FIREBASE SDKS -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-    <!-- 4. CORE DESIGN SYSTEM -->
+    <!-- 4. CORE DESIGN SYSTEM (PREMIUM WHITE & DARK) -->
     <style>
         :root {
             /* LIGHT THEME (DEFAULT) */
@@ -47,7 +41,7 @@
             --shadow-md: 0 12px 40px -12px rgba(0,0,0,0.08);
             --radius-md: 24px;
             --radius-lg: 40px;
-            --transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         [data-theme="dark"] {
@@ -68,7 +62,6 @@
             font-family: 'Plus Jakarta Sans', sans-serif; 
             overflow-x: hidden; 
             min-height: 100vh;
-            transition: background var(--transition), color var(--transition);
         }
 
         /* TOP LOADER (Apple Style) */
@@ -79,7 +72,7 @@
         #top-loader-fill {
             height: 100%; width: 0; background: var(--brand-main);
             box-shadow: 0 0 15px var(--brand-main);
-            transition: width 0.3s ease, opacity 0.3s;
+            transition: width 0.4s ease, opacity 0.4s;
         }
 
         /* PREMIUM SPLASH INTERFACE */
@@ -93,13 +86,13 @@
             filter: blur(140px); opacity: 0.08; border-radius: 50%; animation: pulseGlow 5s infinite alternate;
         }
         .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
-        .sp-logo { width: clamp(80px, 20vw, 100px); height: auto; filter: drop-shadow(0 10px 25px var(--brand-glow)); animation: floatLogo 4s ease-in-out infinite; }
-        .sp-title { height: 22px; margin-top: 35px; filter: grayscale(1) brightness(0.2); transition: filter 0.5s; }
+        .sp-logo { width: clamp(80px, 20vw, 100px); height: auto; filter: drop-shadow(0 10px 25px var(--brand-glow)); }
+        .sp-title { height: 22px; margin-top: 35px; filter: grayscale(1) brightness(0.2); }
         [data-theme="dark"] .sp-title { filter: none; }
         
-        .sp-progress-box { width: 220px; margin-top: 60px; text-align: center; }
-        .sp-bar { width: 100%; height: 3px; background: var(--bg-elevated); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
-        .sp-fill { height: 100%; width: 0%; background: var(--brand-main); transition: width 0.4s ease; box-shadow: 0 0 10px var(--brand-glow); }
+        .sp-progress-box { width: 200px; margin-top: 60px; text-align: center; }
+        .sp-bar { width: 100%; height: 2px; background: var(--bg-elevated); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+        .sp-fill { height: 100%; width: 0%; background: var(--brand-main); transition: width 0.4s ease; }
         .sp-status { font-size: 10px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 2px; }
 
         /* MAINTENANCE INTERFACE */
@@ -118,195 +111,132 @@
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-size: 32px; margin: 0 auto 30px; border: 1px solid var(--brand-glow);
         }
-        .m-title { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 15px; }
+        .m-title { font-family: 'Space Grotesk'; font-size: 28px; font-weight: 800; margin-bottom: 15px; }
         .m-desc { color: var(--text-200); font-size: 15px; line-height: 1.8; margin-bottom: 40px; }
 
         /* SPA MAIN CONTAINER */
         #spa-main { 
-            width: 100%; min-height: 100vh; opacity: 1; padding-top: 100px;
+            width: 100%; min-height: 100vh; opacity: 1; 
             transition: opacity 0.4s var(--transition), transform 0.4s var(--transition); 
         }
         .view-hidden { opacity: 0 !important; transform: translateY(15px); }
 
-        /* UTILS */
         .tech-font { font-family: 'Space Grotesk', sans-serif; }
         @keyframes pulseGlow { from { opacity: 0.05; transform: scale(1); } to { opacity: 0.12; transform: scale(1.15); } }
-        @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
 
-    <!-- 1. TOP-LEVEL UI (LOADER) -->
+    <!-- TOP-LEVEL UI (LOADER) -->
     <div id="top-loader"><div id="top-loader-fill"></div></div>
 
-    <!-- 2. GLOBAL UI MOUNTS (Header, Footer, Nav, Notifications) -->
-    <div id="header-mount"></div> 
-    <div id="nav-mount"></div> 
-    <div id="notif-mount"></div>
+    <!-- 1. SHARED COMPONENTS MOUNT POINTS -->
+    <div id="global-container"></div> <!-- Loads global.html (Logic & Colors) -->
+    <div id="navigation-container"></div> <!-- Loads navigation.html (Header/Dock/Sidebar) -->
+    <div id="ui-notifications-container"></div> <!-- Loads ui-notifications.html (Toasts/Modals) -->
 
-    <!-- 3. SPLASH SCREEN -->
+    <!-- 2. SPLASH SCREEN -->
     <div id="splash">
         <div class="splash-glow"></div>
         <div class="splash-content">
-            <img class="sp-logo" id="splash-logo" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo">
-            <img class="sp-title" id="splash-title" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech PK">
+            <img class="sp-logo" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo">
+            <img class="sp-title" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech PK">
             
             <div class="sp-progress-box">
                 <div class="sp-bar"><div class="sp-fill" id="sp-fill"></div></div>
-                <div class="sp-status" id="sp-status">Initializing Core...</div>
+                <div class="sp-status" id="sp-status">Initializing Cloud...</div>
             </div>
         </div>
-        <div style="position:absolute; bottom:40px; font-size:9px; font-weight:800; color:var(--text-300); letter-spacing:4px; text-transform:uppercase;">Engineered by Arbab Nasrullah</div>
+        <div style="position:absolute; bottom:40px; font-size:9px; font-weight:800; color:var(--text-300); letter-spacing:4px; text-transform:uppercase;">Powered by Nexra Tech PK</div>
     </div>
 
-    <!-- 4. MAINTENANCE LAYER -->
+    <!-- 3. MAINTENANCE LAYER -->
     <div id="maintenance">
         <div class="m-card">
-            <div class="m-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-            <h1 class="m-title" id="m-title">Optimizing Ecosystem</h1>
-            <p class="m-desc" id="m-desc">Our engineers are fine-tuning the platform for elite performance. We will be back online in a moment.</p>
+            <div class="m-icon">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+            <h1 class="m-title">Optimizing Ecosystem</h1>
+            <p class="m-desc">Our engineers are fine-tuning the platform for elite performance. We will be back online in a moment.</p>
         </div>
     </div>
 
-    <!-- 5. SPA VIEW PORT (Where pages load) -->
+    <!-- 4. SPA VIEW PORT (Pages load here) -->
     <main id="spa-main"></main>
 
-    <div id="footer-mount"></div> 
-
-    <!-- 6. FIREBASE & JAVASCRIPT MASTER ENGINE -->
+    <!-- 5. JAVASCRIPT ENGINE (CLEAN URL ROUTER) -->
     <script src="firebaseconfig.js"></script>
     <script>
         window.Nexra = {
             db: null,
-            auth: null,
-            user: null,
-            currentRoute: null,
-            currentId: null, // Stores deep link IDs
             state: { theme: 'light' },
 
-            // ROUTE MAP (Maps clean URL params to actual folders)
+            // Route Mapping (URL -> Folder/File)
             routes: {
-                'home': 'discovery/home.html',
-                'shop': 'shop/shop.html',
-                'product-detail': 'shop/product-detail.html',
-                'checkout': 'shop/checkout.html',
-                'checkout-success': 'shop/checkout-success.html',
-                'bundle': 'shop/bundle-builder.html',
-                'freebies': 'freebies/freebies.html',
-                'freebie-detail': 'freebies/freebie-detail.html',
-                'giveaway': 'freebies/giveaway-live.html',
-                'blog': 'academy/blog.html',
-                'blog-detail': 'academy/blog-detail.html',
-                'profile': 'user/profile-dashboard.html',
-                'auth': 'user/auth-gate.html',
-                'vip': 'vip/vip-tiers.html',
-                'vip-hub': 'vip/vip-dashboard.html',
-                'reseller': 'reseller/reseller-landing.html',
-                'reseller-hub': 'reseller/reseller-dashboard.html',
-                'support': 'support/support-hub.html',
-                'about': 'system/about.html',
-                'policies': 'system/policies.html',
-                '404': 'system/error-404.html'
+                '/': 'discovery/home.html',
+                '/home': 'discovery/home.html',
+                '/shop': 'shop/shop.html',
+                '/product': 'shop/product-detail.html', // Requires ID
+                '/checkout': 'shop/checkout.html',
+                '/freebies': 'freebies/freebies.html',
+                '/freebie': 'freebies/freebie-detail.html', // Requires ID
+                '/blog': 'academy/blog.html',
+                '/article': 'academy/blog-detail.html', // Requires ID
+                '/profile': 'user/profile-dashboard.html',
+                '/vault': 'user/user-vault.html',
+                '/reseller': 'reseller/reseller-landing.html',
+                '/vip': 'vip/vip-tiers.html'
             },
 
-            /* --- 1. BOOT SEQUENCE --- */
-            boot: async function() {
-                this.initTheme();
-                this.updateSplash(20, "Connecting to Cloud...");
-
-                const checkFirebase = setInterval(async () => {
-                    if(window.firebase && firebase.apps.length) {
-                        clearInterval(checkFirebase);
-                        this.db = firebase.firestore();
-                        this.auth = firebase.auth();
-                        
-                        this.updateSplash(50, "Fetching Ecosystem Data...");
-                        
-                        try {
-                            // Check Maintenance Mode
-                            const configSnap = await this.db.collection('splash_settings').doc('config').get();
-                            const data = configSnap.exists ? configSnap.data() : {};
-
-                            if(data.maintenance_mode) {
-                                this.showMaintenance(data);
-                            } else {
-                                // Start fetching external Global UI files
-                                await this.loadSharedUI();
-                                
-                                // Listen to User State globally
-                                this.auth.onAuthStateChanged(user => {
-                                    this.user = user;
-                                    // Update Header Profile Icon if loaded
-                                    if(window.NXR && window.NXR.setUser) window.NXR.setUser(user);
-                                });
-
-                                this.updateSplash(90, "Preparing Interface...");
-                                this.launch();
-                            }
-                        } catch(e) { 
-                            console.error("Boot Error:", e);
-                            await this.loadSharedUI();
-                            this.launch(); 
-                        }
-                    }
-                }, 100);
+            /* --- 1. THEME ENGINE --- */
+            initTheme: function() {
+                const saved = localStorage.getItem('theme') || 'light';
+                if(saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+                this.state.theme = saved;
             },
 
-            updateSplash: function(percent, text) {
-                document.getElementById('sp-fill').style.width = percent + '%';
-                document.getElementById('sp-status').innerText = text;
-            },
-
-            /* --- 2. LOAD SHARED MODULES (HEADER/FOOTER) --- */
-            loadSharedUI: async function() {
-                const modules = [
-                    { id: 'header-mount', file: 'header.html' },
-                    { id: 'nav-mount', file: 'navigation.html' },
-                    { id: 'notif-mount', file: 'ui-notifications.html' },
-                    { id: 'footer-mount', file: 'footer.html' }
-                ];
-                
-                await Promise.all(modules.map(async (m) => {
-                    try {
-                        const res = await fetch(m.file);
-                        if(res.ok) {
-                            const html = await res.text();
-                            document.getElementById(m.id).innerHTML = html;
-                            this.executeScripts(document.getElementById(m.id));
-                        }
-                    } catch(e) { console.warn("Failed to load module:", m.file); }
-                }));
-            },
-
-            /* --- 3. THE SPA ROUTER (PREMIUM LINKS) --- */
-            navTo: async function(view, id = null) {
-                this.currentRoute = view;
-                this.currentId = id; // Store ID globally so child pages can read it
-
+            /* --- 2. THE CLEAN URL SPA ROUTER --- */
+            navTo: async function(path, id = null, pushState = true) {
                 const loader = document.getElementById('top-loader-fill');
                 const loaderParent = document.getElementById('top-loader');
                 const main = document.getElementById('spa-main');
                 
-                // UX: Start Top Loader
+                // Base Path resolving (e.g., /product)
+                const basePath = path.split('/')[1] ? `/${path.split('/')[1]}` : '/';
+                const fileToLoad = this.routes[basePath] || 'system/error-404.html';
+
+                // UI Loading State
                 loaderParent.style.opacity = '1';
-                loader.style.width = '30%';
+                loader.style.width = '40%';
                 main.classList.add('view-hidden');
 
-                const path = this.routes[view] || this.routes['404'];
-
                 try {
-                    const response = await fetch(path);
-                    if(!response.ok) throw new Error("404");
-                    
-                    loader.style.width = '60%';
+                    const response = await fetch(fileToLoad);
+                    if(!response.ok) throw new Error("File not found");
                     const html = await response.text();
+                    
+                    loader.style.width = '80%';
 
                     setTimeout(() => {
                         main.innerHTML = html;
-                        loader.style.width = '90%';
                         
-                        // Execute internal JS of the loaded page
-                        this.executeScripts(main);
+                        // Execute internal scripts of the loaded file
+                        const scripts = main.querySelectorAll('script');
+                        scripts.forEach(s => {
+                            const newScript = document.createElement('script');
+                            newScript.text = s.innerHTML;
+                            document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                        });
+
+                        // Clean URL Update (e.g., nexrapk.com/product/123)
+                        if (pushState) {
+                            let newUrl = basePath;
+                            if (id) newUrl += `/${id}`;
+                            window.history.pushState({ path: basePath, id: id }, '', newUrl);
+                        }
+
+                        // Store ID globally if a detail page is loaded
+                        window.Nexra.currentViewId = id;
 
                         // Finalize Animation
                         loader.style.width = '100%';
@@ -314,60 +244,112 @@
                         
                         setTimeout(() => {
                             loaderParent.style.opacity = '0';
-                            setTimeout(() => loader.style.width = '0', 300);
-                        }, 400);
+                            setTimeout(() => loader.style.width = '0', 400);
+                        }, 300);
 
-                        // PREMIUM DEEP LINKING UPDATE (e.g., ?p=shop)
-                        const newUrl = `?p=${view}${id ? '&id='+id : ''}`;
-                        window.history.pushState({view, id}, '', newUrl);
                         window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                        // Sync Active states in Navigation if NXR exists
-                        if(window.NXR && window.NXR.navigate) window.NXR.navigate(view, true); // true = sync only, don't trigger fetch again
-
-                    }, 300);
+                    }, 400);
 
                 } catch(e) {
-                    console.error("Router Error:", e);
-                    this.navTo('404');
+                    console.error("Routing Error:", e);
+                    loaderParent.style.opacity = '0';
+                    // Load 404
+                    if(path !== '/404') this.navTo('/404', null, false);
                 }
             },
 
-            /* --- 4. SCRIPT EXECUTOR --- */
-            executeScripts: function(container) {
-                const scripts = container.querySelectorAll('script');
-                scripts.forEach(s => {
-                    const newScript = document.createElement('script');
-                    if(s.src) newScript.src = s.src;
-                    else newScript.text = s.innerHTML;
-                    document.body.appendChild(newScript).parentNode.removeChild(newScript);
-                });
+            /* --- 3. BOOT SEQUENCE --- */
+            boot: async function() {
+                this.initTheme();
+                const fill = document.getElementById('sp-fill');
+                const status = document.getElementById('sp-status');
+
+                fill.style.width = '30%';
+                status.innerText = "Syncing Firebase...";
+
+                const checkFirebase = setInterval(async () => {
+                    if(window.firebase && firebase.apps.length) {
+                        clearInterval(checkFirebase);
+                        this.db = firebase.firestore();
+                        
+                        fill.style.width = '60%';
+                        status.innerText = "Loading Shared Modules...";
+                        
+                        // Load Global UI Components First
+                        await this.loadSharedUI();
+
+                        status.innerText = "Authenticating System...";
+                        try {
+                            const config = await this.db.collection('splash_settings').doc('config').get();
+                            const data = config.exists ? config.data() : {};
+
+                            if(data.maintenance_mode) {
+                                this.showMaintenance(data);
+                            } else {
+                                this.launch();
+                            }
+                        } catch(e) { this.launch(); } // Launch anyway on config fetch fail
+                    }
+                }, 100);
             },
 
-            /* --- 5. FINALIZE LAUNCH & READ DEEP LINKS --- */
-            launch: function() {
-                this.updateSplash(100, "Ready.");
+            /* --- 4. LAUNCHER & DEEP LINK RESTORATION --- */
+            launch: async function() {
+                const fill = document.getElementById('sp-fill');
+                const status = document.getElementById('sp-status');
                 const splash = document.getElementById('splash');
-                
+
+                fill.style.width = '100%';
+                status.innerText = "Opening Ecosystem...";
+
                 setTimeout(() => {
                     splash.style.opacity = '0';
                     splash.style.transform = 'scale(1.05)';
                     setTimeout(() => {
                         splash.style.display = 'none';
                         
-                        // Read URL Parameters (Deep Link logic)
-                        const params = new URLSearchParams(window.location.search);
-                        const target = params.get('p') || params.get('view') || 'home';
-                        const targetId = params.get('id');
+                        // DEEP LINKING: Parse the actual URL path instead of query params
+                        const currentPath = window.location.pathname;
+                        const segments = currentPath.split('/').filter(Boolean);
                         
-                        this.navTo(target, targetId);
+                        let baseRoute = '/';
+                        let extractedId = null;
+
+                        if (segments.length > 0) {
+                            baseRoute = `/${segments[0]}`;
+                            if (segments.length > 1) {
+                                extractedId = segments[1]; // e.g. /product/123 -> ID = 123
+                            }
+                        }
+
+                        this.navTo(baseRoute, extractedId, false); // false = Don't push to history on first load
                     }, 800);
-                }, 500);
+                }, 600);
             },
 
-            initTheme: function() {
-                const saved = localStorage.getItem('nxr-theme') || 'light';
-                if(saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+            loadSharedUI: async function() {
+                // Fetch UI modules from root folder as defined in architecture
+                const mods = [
+                    { id: 'global-container', file: 'global.html' },
+                    { id: 'navigation-container', file: 'navigation.html' },
+                    { id: 'ui-notifications-container', file: 'ui-notifications.html' }
+                ];
+                
+                await Promise.all(mods.map(async (m) => {
+                    try {
+                        const res = await fetch(m.file);
+                        if(res.ok) {
+                            document.getElementById(m.id).innerHTML = await res.text();
+                            // Execute scripts inside shared UI
+                            const scripts = document.getElementById(m.id).querySelectorAll('script');
+                            scripts.forEach(s => {
+                                const newScript = document.createElement('script');
+                                newScript.text = s.innerHTML;
+                                document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                            });
+                        }
+                    } catch(e) { console.error(`Failed to load ${m.file}`); }
+                }));
             },
 
             showMaintenance: function(data) {
@@ -375,23 +357,36 @@
                 const m = document.getElementById('maintenance');
                 m.style.display = 'flex';
                 setTimeout(() => m.style.opacity = '1', 100);
-
-                if(data.m_title) document.getElementById('m-title').innerText = data.m_title;
-                if(data.m_desc) document.getElementById('m-desc').innerText = data.m_desc;
             }
         };
 
-        // Ignite System
-        document.addEventListener('DOMContentLoaded', () => Nexra.boot());
+        // Intercept all <a> tags to use SPA router instead of native browser load
+        document.body.addEventListener('click', e => {
+            const link = e.target.closest('a');
+            if(link && link.href.startsWith(window.location.origin)) {
+                e.preventDefault();
+                const path = new URL(link.href).pathname;
+                
+                // Extract possible ID (e.g. /product/123)
+                const segments = path.split('/').filter(Boolean);
+                const baseRoute = segments.length > 0 ? `/${segments[0]}` : '/';
+                const id = segments.length > 1 ? segments[1] : null;
 
-        // Handle Browser Back/Forward Buttons
+                window.Nexra.navTo(baseRoute, id);
+            }
+        });
+
+        // Handle Browser Forward/Back Buttons
         window.onpopstate = (event) => {
-            const params = new URLSearchParams(window.location.search);
-            const view = params.get('p') || params.get('view') || 'home';
-            const id = params.get('id');
-            Nexra.navTo(view, id);
+            if (event.state) {
+                window.Nexra.navTo(event.state.path, event.state.id, false);
+            } else {
+                window.Nexra.navTo('/', null, false);
+            }
         };
+
+        // Start Boot process
+        document.addEventListener('DOMContentLoaded', () => Nexra.boot());
     </script>
 </body>
 </html>
-<!-- --- END OF FILE index.html --- -->
