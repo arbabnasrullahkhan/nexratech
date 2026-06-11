@@ -1,345 +1,313 @@
 <!-- 
-  NEXRA PK - PREMIUM OFF-CANVAS NAVIGATION v5.0
-  INTEGRATION: Firebase Real-time, Header Sync, Auth System, Theme Engine
+  NEXRA PK - GLOBAL DYNAMIC SLIDER SYSTEM v3.0
+  INTEGRATED WITH: Firebase, Auth, Theme Engine, and SPA Router
 -->
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <style>
-        /* ==========================================================================
-           1. SIDEBAR CORE STYLING (ISLAND UX)
-           ========================================================================== */
-        :root {
-            --sb-width: 380px;
-            --sb-shadow: -20px 0 60px rgba(0,0,0,0.1);
-        }
+<style>
+    /* ==========================================================================
+       OFF-CANVAS DRAWER CORE STYLING
+       ========================================================================== */
+    :root {
+        --slider-w: 360px;
+        --slider-z: 100001;
+    }
 
-        /* Overlay / Backdrop */
-        .sb-overlay {
-            position: fixed;
-            inset: 0;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(8px);
-            z-index: 100001;
-            opacity: 0;
-            visibility: hidden;
-            transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .sb-overlay.active { opacity: 1; visibility: visible; }
+    /* 1. Backdrop Overlay */
+    #n-slider-overlay {
+        position: fixed; inset: 0;
+        background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        z-index: calc(var(--slider-z) - 1);
+        opacity: 0; visibility: hidden;
+        transition: var(--transition);
+    }
+    #n-slider-overlay.active { opacity: 1; visibility: visible; }
 
-        /* Sidebar Container */
-        .sb-drawer {
-            position: fixed;
-            top: 0;
-            right: calc(var(--sb-width) * -1);
-            width: var(--sb-width);
-            max-width: 85%;
-            height: 100%;
-            background: var(--bg-base);
-            z-index: 100002;
-            box-shadow: var(--sb-shadow);
-            transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            display: flex;
-            flex-direction: column;
-            border-left: 1px solid var(--glass-border);
-        }
-        .sb-drawer.active { right: 0; }
+    /* 2. Main Drawer */
+    #n-slider {
+        position: fixed; top: 0; right: calc(var(--slider-w) * -1);
+        width: var(--slider-w); max-width: 85%; height: 100%;
+        background: var(--bg-surface);
+        border-left: 1px solid var(--glass-border);
+        z-index: var(--slider-z);
+        display: flex; flex-direction: column;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: -20px 0 50px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    #n-slider.active { transform: translateX(calc(var(--slider-w) * -1)); }
 
-        /* 2. HEADER: Profile & Search */
-        .sb-header {
-            padding: 35px 25px 20px;
-            background: var(--bg-surface);
-            border-bottom: 1px solid var(--glass-border);
-        }
+    /* 3. Slider Header & Search */
+    .ns-header { padding: 30px 25px 20px; flex-shrink: 0; }
+    .ns-search-box {
+        background: var(--bg-elevated);
+        border: 1px solid var(--glass-border);
+        border-radius: 16px;
+        padding: 12px 18px;
+        display: flex; align-items: center; gap: 12px;
+        transition: 0.3s;
+    }
+    .ns-search-box:focus-within { border-color: var(--brand-main); box-shadow: 0 0 0 4px var(--brand-glow); }
+    .ns-search-box input {
+        border: none; background: transparent; color: var(--text-100);
+        font-family: inherit; font-size: 14px; width: 100%;
+    }
 
-        .sb-profile-card {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
-            padding: 15px;
-            background: var(--bg-elevated);
-            border-radius: var(--radius-md);
-            border: 1px solid var(--glass-border);
-            cursor: pointer;
-            transition: 0.3s;
-        }
-        .sb-profile-card:hover { border-color: var(--brand-main); transform: translateY(-3px); }
+    /* 4. User Profile Card */
+    .ns-profile-card {
+        margin: 10px 25px 25px;
+        padding: 20px;
+        background: var(--brand-soft);
+        border-radius: var(--radius-md);
+        border: 1px solid var(--brand-glow);
+        display: flex; align-items: center; gap: 15px;
+        cursor: pointer; transition: 0.3s;
+    }
+    .ns-profile-card:hover { transform: translateY(-3px); background: var(--bg-elevated); }
+    .ns-avatar { 
+        width: 50px; height: 50px; border-radius: 50%; 
+        border: 2px solid var(--brand-main); padding: 2px;
+        background: var(--bg-surface); object-fit: cover;
+    }
+    .ns-user-info h4 { font-size: 15px; font-weight: 800; color: var(--text-100); }
+    .ns-user-info p { font-size: 10px; font-weight: 700; color: var(--brand-main); text-transform: uppercase; letter-spacing: 1px; }
 
-        .sb-avatar {
-            width: 55px; height: 55px;
-            border-radius: 50%;
-            background: var(--brand-soft);
-            display: flex; align-items: center; justify-content: center;
-            font-size: 20px; color: var(--brand-main);
-            overflow: hidden; border: 2px solid #fff;
-        }
-        .sb-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    /* 5. Navigation Menu Body */
+    .ns-body { flex: 1; overflow-y: auto; padding: 0 15px 30px; scrollbar-width: none; }
+    .ns-body::-webkit-scrollbar { display: none; }
+    
+    .ns-group { margin-bottom: 25px; }
+    .ns-group-label { 
+        font-size: 10px; font-weight: 800; color: var(--text-300); 
+        text-transform: uppercase; letter-spacing: 2px;
+        padding-left: 15px; margin-bottom: 12px; display: block;
+    }
 
-        .sb-user-info h4 { font-family: 'Space Grotesk'; font-size: 16px; margin-bottom: 2px; }
-        .sb-user-info p { font-size: 11px; font-weight: 700; color: var(--success); text-transform: uppercase; }
+    .ns-item {
+        display: flex; align-items: center; gap: 15px;
+        padding: 14px 18px; border-radius: 14px;
+        color: var(--text-200); font-size: 14px; font-weight: 700;
+        cursor: pointer; transition: 0.3s; margin-bottom: 4px;
+        position: relative;
+    }
+    .ns-item svg { width: 20px; height: 20px; opacity: 0.8; }
+    .ns-item:hover { background: var(--bg-elevated); color: var(--brand-main); }
+    .ns-item.active { background: var(--brand-soft); color: var(--brand-main); }
+    .ns-item.active::after {
+        content: ''; position: absolute; left: 0; top: 25%; height: 50%;
+        width: 4px; background: var(--brand-main); border-radius: 0 4px 4px 0;
+    }
 
-        /* Search Section */
-        .sb-search {
-            position: relative;
-            margin-top: 10px;
-        }
-        .sb-search input {
-            width: 100%;
-            background: var(--bg-base);
-            border: 1px solid var(--glass-border);
-            padding: 14px 20px 14px 45px;
-            border-radius: 50px;
-            font-family: inherit;
-            font-size: 13px;
-            color: var(--text-100);
-            transition: 0.3s;
-        }
-        .sb-search input:focus { border-color: var(--brand-main); box-shadow: 0 0 0 4px var(--brand-glow); }
-        .sb-search svg { position: absolute; left: 18px; top: 50%; transform: translateY(-50%); width: 16px; color: var(--text-300); }
+    /* Item Badges */
+    .ns-badge {
+        margin-left: auto; font-size: 9px; font-weight: 800;
+        padding: 2px 8px; border-radius: 6px;
+    }
+    .badge-new { background: var(--brand-main); color: #fff; }
+    .badge-vip { background: #ffd700; color: #000; }
 
-        /* 3. BODY: Dynamic Navigation */
-        .sb-body {
-            flex: 1;
-            overflow-y: auto;
-            padding: 20px 15px;
-            scrollbar-width: none;
-        }
-        .sb-body::-webkit-scrollbar { display: none; }
+    /* 6. Bottom Actions */
+    .ns-footer {
+        padding: 20px 25px 40px;
+        border-top: 1px solid var(--glass-border);
+        background: var(--bg-surface);
+        display: flex; align-items: center; justify-content: space-between;
+    }
+    .ns-theme-toggle {
+        display: flex; gap: 5px; background: var(--bg-elevated);
+        padding: 5px; border-radius: 50px; border: 1px solid var(--glass-border);
+    }
+    .theme-circle {
+        width: 30px; height: 30px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        cursor: pointer; transition: 0.3s; color: var(--text-300);
+    }
+    .theme-circle.active { background: var(--bg-surface); color: var(--brand-main); box-shadow: var(--shadow-sm); }
 
-        .sb-group-label {
-            font-size: 10px;
-            font-weight: 800;
-            color: var(--text-300);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 25px 0 12px 15px;
-            display: block;
-        }
+    /* Animations */
+    @keyframes slideInItem { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    .ns-body .ns-item { animation: slideInItem 0.4s forwards; }
+</style>
 
-        .sb-link {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            padding: 16px 18px;
-            border-radius: 16px;
-            color: var(--text-100);
-            font-size: 14px;
-            font-weight: 700;
-            transition: 0.3s;
-            cursor: pointer;
-            position: relative;
-            margin-bottom: 5px;
-        }
-        .sb-link:hover { background: var(--bg-elevated); color: var(--brand-main); transform: translateX(8px); }
-        
-        .sb-link svg { width: 20px; height: 20px; opacity: 0.8; }
-        .sb-link .badge { margin-left: auto; font-size: 9px; padding: 3px 8px; }
+<div id="n-slider-overlay" onclick="NexraSlider.close()"></div>
 
-        /* 4. FOOTER: Theme & Logout */
-        .sb-footer {
-            padding: 25px;
-            background: var(--bg-surface);
-            border-top: 1px solid var(--glass-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+<aside id="n-slider">
+    <!-- Header: Close & Search -->
+    <div class="ns-header">
+        <div class="flex-between" style="margin-bottom: 25px;">
+            <div class="badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><polyline points="12 16 16 12 12 8"></polyline><line x1="8" y1="12" x2="16" y2="12"></line></svg> DASHBOARD</div>
+            <button class="di-btn" onclick="NexraSlider.close()" style="border:none;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+            </button>
+        </div>
+        <div class="ns-search-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="ns-search-input" placeholder="Search Ecosystem..." onkeyup="NexraSlider.search(this.value)">
+        </div>
+    </div>
 
-        .sb-theme-pill {
-            display: flex;
-            background: var(--bg-elevated);
-            padding: 5px;
-            border-radius: 50px;
-            border: 1px solid var(--glass-border);
-        }
-        .theme-btn-mini {
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer; transition: 0.3s;
-            color: var(--text-300);
-        }
-        .theme-btn-mini.active { background: var(--brand-main); color: #fff; box-shadow: 0 4px 10px var(--brand-glow); }
+    <!-- User Profile Area -->
+    <div class="ns-profile-card" onclick="Nexra.navTo('profile'); NexraSlider.close()">
+        <img id="ns-user-dp" class="ns-avatar" src="https://via.placeholder.com/100" alt="User">
+        <div class="ns-user-info">
+            <h4 id="ns-user-name">Guest Explorer</h4>
+            <p id="ns-user-status">Standard Access</p>
+        </div>
+        <svg style="margin-left:auto; opacity:0.5;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
+    </div>
 
-        .logout-btn {
-            color: var(--danger);
-            font-size: 13px;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            cursor: pointer;
-        }
+    <!-- Dynamic Menu Content -->
+    <div class="ns-body" id="ns-menu-container">
+        <!-- JS will inject dynamic groups and items here -->
+        <div class="ns-group">
+            <span class="ns-group-label">Loading Core...</span>
+            <div class="nav-skeleton" style="margin: 10px 15px;"></div>
+            <div class="nav-skeleton" style="margin: 10px 15px; width: 70%;"></div>
+        </div>
+    </div>
 
-        /* Responsive */
-        @media(max-width: 480px) {
-            --sb-width: 100%;
-        }
-    </style>
-</head>
-<body>
-
-    <!-- Overlay -->
-    <div class="sb-overlay" id="sb-overlay" onclick="NexraSlider.close()"></div>
-
-    <!-- Sidebar Drawer -->
-    <aside class="sb-drawer" id="sb-drawer">
-        
-        <!-- Header: Profile & Search -->
-        <div class="sb-header">
-            <div class="sb-profile-card" onclick="Nexra.navTo('profile'); NexraSlider.close()">
-                <div class="sb-avatar" id="sb-user-avatar">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                </div>
-                <div class="sb-user-info">
-                    <h4 id="sb-user-name">Nexra Guest</h4>
-                    <p id="sb-user-status">Free Member</p>
-                </div>
+    <!-- Footer: Theme & Recently Visited -->
+    <div class="ns-footer">
+        <div class="ns-theme-toggle">
+            <div class="theme-circle active" id="ts-light" onclick="NexraSlider.setTheme('light')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
             </div>
-
-            <div class="sb-search">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-                <input type="text" id="sb-global-search" placeholder="Search ecosystem..." onkeyup="NexraSlider.handleSearch(event)">
+            <div class="theme-circle" id="ts-dark" onclick="NexraSlider.setTheme('dark')">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
             </div>
         </div>
+        <button class="btn btn-outline" style="padding: 10px 20px; font-size: 11px;" onclick="NexraSlider.logout()">
+            <svg style="margin-right:8px;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> LOGOUT
+        </button>
+    </div>
+</aside>
 
-        <!-- Body: Dynamic Links -->
-        <div class="sb-body" id="sb-nav-container">
-            <!-- Navigation items injected from Firebase -->
-            <div class="sb-group-label">Ecosystem</div>
-            <div class="sb-link" onclick="Nexra.navTo('reseller'); NexraSlider.close()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                Agency Portal <span class="badge" style="background:var(--brand-main); color:#fff;">HOT</span>
-            </div>
-            <div class="sb-link" onclick="Nexra.navTo('vip'); NexraSlider.close()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m2 4 3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"></path></svg>
-                VIP Membership
-            </div>
-            <div class="sb-link" onclick="Nexra.navTo('giveaway'); NexraSlider.close()">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M12 7V3a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"/><path d="M12 7H2"/></svg>
-                Live Giveaway
-            </div>
-        </div>
-
-        <!-- Footer: Theme & System -->
-        <div class="sb-footer">
-            <div class="sb-theme-pill">
-                <div class="theme-btn-mini active" id="sb-theme-light" onclick="NexraSlider.setTheme('light')">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"/><path d="M12 1v2m0 18v2M4.2 4.2l1.4 1.4m12.8 12.8 1.4 1.4M1 12h2m18 0h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
-                </div>
-                <div class="theme-btn-mini" id="sb-theme-dark" onclick="NexraSlider.setTheme('dark')">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                </div>
-            </div>
-
-            <div class="logout-btn" id="sb-logout-trigger" onclick="NexraSlider.handleLogout()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
-                Logout
-            </div>
-        </div>
-    </aside>
-
-    <script>
-        /* ==========================================
-           SIDEBAR NAVIGATION ENGINE
-           ========================================== */
-        window.NexraSlider = {
-            db: window.db,
-            
-            init: function() {
-                this.monitorAuth();
-                this.syncDynamicMenu();
-                this.syncThemeState();
-            },
-
-            open: function() {
-                document.getElementById('sb-drawer').classList.add('active');
-                document.getElementById('sb-overlay').classList.add('active');
-            },
-
-            close: function() {
-                document.getElementById('sb-drawer').classList.remove('active');
-                document.getElementById('sb-overlay').classList.remove('active');
-            },
-
-            // 1. MONITOR USER AUTH
-            monitorAuth: function() {
-                window.auth.onAuthStateChanged(user => {
-                    const avatarBox = document.getElementById('sb-user-avatar');
-                    const nameTxt = document.getElementById('sb-user-name');
-                    const statusTxt = document.getElementById('sb-user-status');
-                    const logoutBtn = document.getElementById('sb-logout-trigger');
-
-                    if (user) {
-                        if(user.photoURL) avatarBox.innerHTML = `<img src="${user.photoURL}">`;
-                        nameTxt.innerText = user.displayName || "Nexra Member";
-                        logoutBtn.style.display = 'flex';
-                        // Fetch tier from Firestore
-                        this.db.collection('users').doc(user.uid).onSnapshot(doc => {
-                            if(doc.exists) statusTxt.innerText = `${doc.data().tier || 'Free'} Member`;
-                        });
-                    } else {
-                        avatarBox.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`;
-                        nameTxt.innerText = "Nexra Guest";
-                        statusTxt.innerText = "Login to access Vault";
-                        logoutBtn.style.display = 'none';
-                    }
-                });
-            },
-
-            // 2. DYNAMIC MENU SYNC (Admin Controlled)
-            syncDynamicMenu: function() {
-                // In production, this would fetch from a 'sidebar_menu' collection
-                // For now, it updates the visual labels from global settings
-                this.db.collection('settings').doc('homepage').onSnapshot(doc => {
-                    if(doc.exists) {
-                        // Example: Updating dynamic links based on Admin text
-                    }
-                });
-            },
-
-            // 3. THEME MANAGEMENT
-            setTheme: function(type) {
-                document.documentElement.setAttribute('data-theme', type);
-                localStorage.setItem('theme', type);
-                this.syncThemeState();
-                if(window.Nexra) Nexra.showToast(`Theme updated to ${type}`, 'info');
-            },
-
-            syncThemeState: function() {
-                const current = document.documentElement.getAttribute('data-theme') || 'light';
-                document.getElementById('sb-theme-light').classList.toggle('active', current === 'light');
-                document.getElementById('sb-theme-dark').classList.toggle('active', current === 'dark');
-            },
-
-            // 4. GLOBAL SEARCH ACTION
-            handleSearch: function(e) {
-                if(e.key === 'Enter') {
-                    const query = e.target.value.trim();
-                    if(query) {
-                        this.close();
-                        Nexra.navTo('search', query);
-                    }
+<script>
+    /**
+     * NEXRA SLIDER ENGINE v3.0
+     * Handles Dynamic Menu, Auth Sync, and UI Interactions
+     */
+    window.NexraSlider = {
+        db: null,
+        init: function() {
+            const checkDb = setInterval(() => {
+                if(window.db) {
+                    clearInterval(checkDb);
+                    this.db = window.db;
+                    this.syncAuth();
+                    this.loadMenu();
+                    this.syncThemeUI();
                 }
-            },
+            }, 100);
+        },
 
-            handleLogout: function() {
-                if(confirm("Securely terminate session?")) {
-                    window.auth.signOut();
-                    this.close();
+        // 1. OPEN/CLOSE CONTROLS
+        open: function() {
+            document.getElementById('n-slider').classList.add('active');
+            document.getElementById('n-slider-overlay').classList.add('active');
+            document.body.style.overflow = 'hidden'; // Prevent scroll
+        },
+        close: function() {
+            document.getElementById('n-slider').classList.remove('active');
+            document.getElementById('n-slider-overlay').classList.remove('active');
+            document.body.style.overflow = '';
+        },
+
+        // 2. AUTH SYNC (Profile Card)
+        syncAuth: function() {
+            firebase.auth().onAuthStateChanged(user => {
+                const nameEl = document.getElementById('ns-user-name');
+                const statusEl = document.getElementById('ns-user-status');
+                const dpEl = document.getElementById('ns-user-dp');
+
+                if(user) {
+                    nameEl.innerText = user.displayName || "Nexra Member";
+                    dpEl.src = user.photoURL || "https://via.placeholder.com/100";
+                    // Check VIP Status from Firestore
+                    this.db.collection('users').doc(user.uid).onSnapshot(doc => {
+                        if(doc.exists && doc.data().tier === 'VIP') {
+                            statusEl.innerText = "Diamond VIP Member";
+                            statusEl.style.color = "#ffd700";
+                        } else {
+                            statusEl.innerText = "Verified Member";
+                        }
+                    });
+                } else {
+                    nameEl.innerText = "Guest Explorer";
+                    statusEl.innerText = "Standard Access";
+                    dpEl.src = "https://via.placeholder.com/100";
                 }
-            }
-        };
+            });
+        },
 
-        // Connect Sidebar Trigger to Global Nexra UI
-        window.Nexra = window.Nexra || {};
-        window.Nexra.ui = window.Nexra.ui || {};
-        window.Nexra.ui.toggleSidebar = function() { NexraSlider.open(); };
+        // 3. DYNAMIC MENU LOADER (Firebase)
+        loadMenu: function() {
+            const container = document.getElementById('ns-menu-container');
+            // Listen to 'navigation' collection or a config doc
+            this.db.collection('settings').doc('slider_menu').onSnapshot(doc => {
+                if(!doc.exists) return;
+                const groups = doc.data().groups || [];
+                container.innerHTML = '';
 
-        // Auto-run
-        setTimeout(() => NexraSlider.init(), 100);
-    </script>
-</body>
-</html>
+                groups.forEach((group, gIdx) => {
+                    if(!group.visible) return;
+                    
+                    let itemsHTML = '';
+                    group.items.forEach(item => {
+                        if(!item.active) return;
+                        const activeClass = (new URLSearchParams(window.location.search).get('view') === item.route) ? 'active' : '';
+                        itemsHTML += `
+                            <div class="ns-item ${activeClass}" onclick="Nexra.navTo('${item.route}'); NexraSlider.close()" style="animation-delay: ${gIdx * 0.1}s">
+                                ${item.svgIcon}
+                                <span>${item.name}</span>
+                                ${item.badge ? `<span class="ns-badge ${item.badgeClass}">${item.badge}</span>` : ''}
+                            </div>
+                        `;
+                    });
+
+                    container.innerHTML += `
+                        <div class="ns-group">
+                            <span class="ns-group-label">${group.label}</span>
+                            ${itemsHTML}
+                        </div>
+                    `;
+                });
+            });
+        },
+
+        // 4. THEME & UTILS
+        setTheme: function(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            this.syncThemeUI();
+            if(window.Nexra) Nexra.showToast(`${theme.toUpperCase()} Mode Enabled`, 'info');
+        },
+
+        syncThemeUI: function() {
+            const current = document.documentElement.getAttribute('data-theme') || 'light';
+            document.getElementById('ts-light').classList.toggle('active', current === 'light');
+            document.getElementById('ts-dark').classList.toggle('active', current === 'dark');
+        },
+
+        search: function(query) {
+            // Global Search Integration logic
+            console.log("Searching for:", query);
+        },
+
+        logout: function() {
+            firebase.auth().signOut().then(() => {
+                this.close();
+                Nexra.navTo('home');
+            });
+        }
+    };
+
+    // Auto-init
+    NexraSlider.init();
+
+    // Link Nexra global UI trigger to this module
+    window.Nexra = window.Nexra || {};
+    window.Nexra.ui = window.Nexra.ui || {};
+    window.Nexra.ui.toggleSidebar = function() { NexraSlider.open(); };
+</script>
