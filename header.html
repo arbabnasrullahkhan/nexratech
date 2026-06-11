@@ -1,385 +1,504 @@
-<!-- 
-  NEXRA TECH PK - PREMIUM DYNAMIC GLOBAL HEADER SYSTEM v4.0
-  ARCH: CLOUD-SYNCED / MODULAR / MOBILE-OPTIMIZED
--->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- 1. META & SEO CORE -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Global Header | Nexra Tech PK</title>
+    
+    <!-- Open Graph & SEO -->
+    <meta name="description" content="Nexra Tech PK Global Navigation System.">
+    <meta name="robots" content="noindex, nofollow"> <!-- Header file doesn't need indexing alone -->
 
-<style>
-    /* ==========================================================================
-       1. CORE HEADER LAYOUT (FLOATING ISLAND)
-       ========================================================================== */
-    .header-wrap {
-        position: fixed;
-        top: 12px;
-        left: 0;
-        width: 100%;
-        z-index: 10000;
-        padding: 0 4%;
-        pointer-events: none;
-        transition: var(--transition);
-    }
+    <!-- 2. PREMIUM TYPOGRAPHY & ICONS -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    
+    <!-- 3. FIREBASE SDKS (v9 Compat) -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-    .island-nav {
-        max-width: 1440px;
-        margin: 0 auto;
-        background: var(--nav-blur, rgba(255, 255, 255, 0.8));
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
-        border: 1px solid var(--glass-border, rgba(0, 0, 0, 0.08));
-        border-radius: 60px;
-        padding: 8px 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: var(--shadow-premium, 0 15px 40px rgba(0,0,0,0.06));
-        pointer-events: auto;
-        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+    <!-- 4. GLOBAL CONFIGURATION CONNECTION -->
+    <script src="firebaseconfig.js"></script>
 
-    /* 2. DYNAMIC BRANDING (FIREBASE SYNCED) */
-    .brand-core {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        padding: 4px 10px;
-        border-radius: 40px;
-        transition: 0.3s;
-    }
+    <!-- 5. HEADER SPECIFIC CSS (ISLAND UI) -->
+    <style>
+        /* CSS Variables (Fallback if global.html is loading) */
+        :root {
+            --bg-surface: #ffffff;
+            --bg-elevated: #f1f5f9;
+            --brand-main: #FF4A17; 
+            --brand-glow: rgba(255, 74, 23, 0.2);
+            --text-100: #0f172a;
+            --text-200: #475569;
+            --text-300: #94a3b8;
+            --glass-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.06);
+            --shadow-premium: 0 15px 35px -5px rgba(0,0,0,0.08);
+            --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --danger: #ef4444;
+        }
 
-    .logo-container {
-        width: 42px;
-        height: 42px;
-        background: #fff;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 1.5px solid var(--brand-glow);
-        box-shadow: 0 5px 15px var(--brand-glow);
-        overflow: hidden;
-    }
+        [data-theme="dark"] {
+            --bg-surface: #0c0c12;
+            --bg-elevated: #16161e;
+            --glass-bg: rgba(12, 12, 18, 0.85);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --text-100: #ffffff;
+            --text-200: #a1a1aa;
+            --text-300: #52525b;
+            --shadow-premium: 0 15px 40px rgba(0,0,0,0.6);
+        }
 
-    .logo-container img {
-        width: 75%;
-        height: 75%;
-        object-fit: contain;
-    }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; }
 
-    .brand-visuals {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
+        /* ==========================================================================
+           FLOATING ISLAND HEADER WRAPPER
+           ========================================================================== */
+        .header-wrap {
+            position: fixed;
+            top: 15px; 
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            padding: 0 3%;
+            pointer-events: none; /* Let clicks pass through empty space */
+            animation: slideDown 0.6s var(--transition);
+        }
 
-    .brand-title-img {
-        height: 18px;
-        object-fit: contain;
-        transition: 0.4s;
-    }
+        .island-nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: var(--glass-bg);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 8px 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: var(--shadow-premium);
+            pointer-events: auto; /* Re-enable clicks */
+            transition: var(--transition);
+            position: relative;
+        }
 
-    [data-theme="dark"] .brand-title-img { filter: invert(1); }
+        /* 1. DYNAMIC LOGO SECTION */
+        .di-logo-sec {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            padding: 4px 14px 4px 4px;
+            border-radius: 40px;
+            transition: 0.3s ease;
+        }
+        .di-logo-sec:hover { background: var(--bg-elevated); }
+        .di-logo-sec:active { transform: scale(0.95); }
 
-    /* 3. CENTRAL DESKTOP NAVIGATION (ANIMATED) */
-    .nav-center {
-        display: none; /* Mobile Hidden */
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        background: var(--bg-elevated, rgba(0,0,0,0.04));
-        padding: 6px;
-        border-radius: 50px;
-        gap: 4px;
-        border: 1px solid var(--glass-border);
-    }
-
-    .nav-btn {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 20px;
-        border-radius: 40px;
-        font-size: 11px;
-        font-weight: 800;
-        color: var(--text-200);
-        text-transform: uppercase;
-        letter-spacing: 0.8px;
-        cursor: pointer;
-        transition: 0.4s var(--transition);
-        position: relative;
-    }
-
-    .nav-btn i { font-size: 14px; opacity: 0.7; transition: 0.3s; }
-
-    .nav-btn:hover { background: var(--bg-surface); color: var(--brand-main); }
-    .nav-btn:hover i { transform: translateY(-2px); opacity: 1; }
-
-    .nav-btn.active {
-        background: var(--brand-main);
-        color: #fff;
-        box-shadow: 0 8px 20px var(--brand-glow);
-    }
-    .nav-btn.active i { opacity: 1; }
-
-    /* 4. PREMIUM SEARCH ENGINE INTEGRATION */
-    .search-pill {
-        display: none;
-        align-items: center;
-        background: var(--bg-base);
-        border: 1px solid var(--glass-border);
-        border-radius: 40px;
-        padding: 4px 15px;
-        margin-right: 15px;
-        transition: 0.4s;
-        width: 180px;
-    }
-
-    .search-pill:focus-within {
-        width: 250px;
-        border-color: var(--brand-main);
-        box-shadow: 0 0 0 4px var(--brand-soft);
-    }
-
-    .search-pill input {
-        background: transparent;
-        border: none;
-        padding: 8px;
-        font-size: 12px;
-        color: var(--text-100);
-        width: 100%;
-        font-family: inherit;
-    }
-
-    /* 5. ACTION CENTER (NOTIFICATION, PROFILE, THEME) */
-    .action-center {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .action-icon-btn {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        background: var(--bg-surface);
-        border: 1px solid var(--glass-border);
-        color: var(--text-100);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        position: relative;
-        transition: 0.4s var(--transition);
-    }
-
-    .action-icon-btn:hover {
-        transform: translateY(-3px) scale(1.05);
-        border-color: var(--brand-main);
-        color: var(--brand-main);
-    }
-
-    /* Badge Styling */
-    .center-badge {
-        position: absolute;
-        top: 2px;
-        right: 2px;
-        background: var(--brand-main);
-        color: #fff;
-        font-size: 9px;
-        font-weight: 900;
-        min-width: 16px;
-        height: 16px;
-        border-radius: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: 2px solid var(--bg-surface);
-        animation: pulseBadge 2s infinite;
-    }
-
-    /* User Profile Bubble */
-    .user-pill {
-        width: 44px;
-        height: 44px;
-        border-radius: 50%;
-        border: 2px solid var(--glass-border);
-        overflow: hidden;
-        background: var(--bg-elevated);
-        display: none; /* Only Desktop */
-    }
-
-    .user-pill img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* RESPONSIVE LOGIC */
-    @media(min-width: 992px) {
-        .nav-center, .search-pill, .user-pill { display: flex; }
-        .mobile-toggle { display: none; }
-    }
-
-    @keyframes pulseBadge {
-        0% { box-shadow: 0 0 0 0 var(--brand-glow); }
-        70% { box-shadow: 0 0 0 8px transparent; }
-        100% { box-shadow: 0 0 0 0 transparent; }
-    }
-</style>
-
-<div class="header-wrap">
-    <header class="island-nav" id="global-header-core">
+        .di-logo-icon {
+            width: 40px; height: 40px;
+            background: #ffffff;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 4px 15px var(--brand-glow);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+        .di-logo-icon img { width: 100%; height: 100%; object-fit: contain; padding: 4px; transition: 0.3s; }
         
-        <!-- [LEFT] REAL-TIME BRANDING SECTION -->
-        <div class="brand-core" id="brand-trigger" onclick="Nexra.header.smartAction()">
-            <div class="logo-container">
-                <img id="header-primary-logo" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra">
-            </div>
-            <div class="brand-visuals">
-                <img id="header-brand-text" class="brand-title-img" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra PK">
-            </div>
-        </div>
+        .di-title-img { height: 15px; filter: brightness(0); opacity: 0.9; transition: 0.3s; }
+        [data-theme="dark"] .di-title-img { filter: invert(1); }
 
-        <!-- [CENTER] DYNAMIC NAVIGATION (FIREBASE CONTROLLED) -->
-        <nav class="nav-center" id="dynamic-nav-container">
-            <div class="nav-btn active" data-id="home" onclick="Nexra.navTo('home')">
-                <i class="fa-solid fa-house-chimney"></i> Home
+        /* 2. DYNAMIC DESKTOP NAVIGATION (CENTER) */
+        .desktop-links {
+            display: none;
+            align-items: center;
+            gap: 5px;
+            background: var(--bg-elevated);
+            padding: 6px;
+            border-radius: 50px;
+            border: 1px solid var(--glass-border);
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .d-nav-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-200);
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 40px;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 1;
+        }
+        .d-nav-item svg { width: 14px; height: 14px; opacity: 0.7; transition: 0.3s; }
+        
+        .d-nav-item:hover { color: var(--brand-main); background: var(--bg-surface); }
+        .d-nav-item:hover svg { opacity: 1; transform: scale(1.1); }
+        
+        .d-nav-item.active { 
+            color: #ffffff; 
+            background: var(--brand-main); 
+            box-shadow: 0 5px 15px var(--brand-glow); 
+        }
+        .d-nav-item.active svg { opacity: 1; }
+
+        /* Skeleton for Nav */
+        .nav-skeleton { width: 80px; height: 35px; border-radius: 40px; background: var(--glass-border); animation: pulse 1.5s infinite; }
+
+        /* 3. ACTION BUTTONS (RIGHT) */
+        .di-actions { display: flex; align-items: center; gap: 8px; }
+
+        .di-btn {
+            width: 44px; height: 44px;
+            border-radius: 50%;
+            background: var(--bg-surface);
+            border: 1px solid var(--glass-border);
+            color: var(--text-100);
+            display: flex; align-items: center; justify-content: center;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        .di-btn svg { width: 20px; height: 20px; transition: 0.3s; }
+        
+        .di-btn:hover { 
+            background: var(--brand-main); 
+            color: #ffffff; 
+            border-color: var(--brand-main); 
+            transform: translateY(-2px); 
+            box-shadow: 0 5px 15px var(--brand-glow); 
+        }
+
+        /* Profile Avatar inside Button */
+        .auth-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: none; }
+
+        /* Badges (Notif & Cart) */
+        .action-badge {
+            position: absolute;
+            top: -2px; right: -2px;
+            background: var(--danger);
+            color: #ffffff;
+            font-size: 9px; font-weight: 800;
+            width: 18px; height: 18px;
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: 2px solid var(--bg-surface);
+            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
+            opacity: 0; transform: scale(0); transition: 0.3s;
+        }
+        .action-badge.show { opacity: 1; transform: scale(1); }
+        .cart-badge { background: var(--brand-main); box-shadow: 0 4px 10px var(--brand-glow); }
+
+        /* 4. THEME COLOR PALETTE (LONG PRESS) */
+        .theme-palette {
+            position: absolute; top: 70px; right: 20px;
+            background: var(--bg-surface);
+            border: 1px solid var(--glass-border);
+            padding: 15px; border-radius: 20px;
+            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
+            box-shadow: var(--shadow-premium);
+            opacity: 0; visibility: hidden; transform: translateY(10px);
+            transition: var(--transition);
+            z-index: 100;
+        }
+        .theme-palette.active { opacity: 1; visibility: visible; transform: translateY(0); }
+        
+        .color-dot {
+            width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
+            border: 2px solid transparent; transition: 0.2s;
+        }
+        .color-dot:hover { transform: scale(1.15); border-color: var(--text-100); }
+
+        /* RESPONSIVE LOGIC */
+        @media(min-width: 992px) {
+            .desktop-links { display: flex; }
+            .mobile-menu-btn { display: none !important; }
+        }
+        @media(max-width: 991px) {
+            .hide-mobile { display: none !important; }
+        }
+
+        /* Keyframes */
+        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.8; } }
+    </style>
+</head>
+<body>
+
+    <div class="header-wrap">
+        <header class="island-nav">
+            
+            <!-- 1. DYNAMIC BRAND LOGO (Firebase Synced) -->
+            <div class="di-logo-sec" id="h-logo-trigger" onclick="NexraHeader.handleLogoClick()">
+                <div class="di-logo-icon">
+                    <img id="h-logo-img" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo">
+                </div>
+                <img id="h-title-img" class="di-title-img" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech">
             </div>
-            <div class="nav-btn" data-id="shop" onclick="Nexra.navTo('shop')">
-                <i class="fa-solid fa-store"></i> Market
+            
+            <!-- 2. DYNAMIC NAVIGATION (Firebase Synced) -->
+            <nav class="desktop-links" id="h-dynamic-nav">
+                <!-- Skeletons for Loading State -->
+                <div class="nav-skeleton"></div>
+                <div class="nav-skeleton"></div>
+                <div class="nav-skeleton"></div>
+            </nav>
+
+            <!-- 3. ACTIONS & MODULE TRIGGERS -->
+            <div class="di-actions">
+                
+                <!-- A. Theme Controller (Click: B&W, Hold: Color Palette) -->
+                <div style="position: relative;">
+                    <button class="di-btn hide-mobile" id="h-theme-btn" aria-label="Theme Controller">
+                        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+                    </button>
+                    <!-- Long Press Palette -->
+                    <div class="theme-palette" id="h-theme-palette">
+                        <div class="color-dot" style="background: #FF4A17;" onclick="NexraHeader.setCustomColor('#FF4A17')"></div>
+                        <div class="color-dot" style="background: #10b981;" onclick="NexraHeader.setCustomColor('#10b981')"></div>
+                        <div class="color-dot" style="background: #3b82f6;" onclick="NexraHeader.setCustomColor('#3b82f6')"></div>
+                        <div class="color-dot" style="background: #a855f7;" onclick="NexraHeader.setCustomColor('#a855f7')"></div>
+                        <div class="color-dot" style="background: #ec4899;" onclick="NexraHeader.setCustomColor('#ec4899')"></div>
+                        <div class="color-dot" style="background: #f59e0b;" onclick="NexraHeader.setCustomColor('#f59e0b')"></div>
+                    </div>
+                </div>
+
+                <!-- B. Notification Center -->
+                <button class="di-btn hide-mobile" onclick="Nexra.navTo('notifications')" aria-label="Notifications">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span class="action-badge" id="h-notif-badge">0</span>
+                </button>
+
+                <!-- C. Global Cart / Wallet -->
+                <button class="di-btn" onclick="Nexra.ui.toggleCart()" aria-label="Cart">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    <span class="action-badge cart-badge" id="h-cart-badge">0</span>
+                </button>
+
+                <!-- D. Profile / Auth Auth System -->
+                <button class="di-btn hide-mobile" id="h-profile-btn" onclick="Nexra.navTo('profile')" aria-label="User Profile">
+                    <svg id="h-profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                    <img id="h-profile-avatar" class="auth-avatar" src="" alt="User">
+                </button>
+
+                <!-- E. Slider Trigger (Mobile/Tablet & Global Sidebar) -->
+                <button class="di-btn mobile-menu-btn" onclick="Nexra.ui.toggleSidebar()" aria-label="Open Sidebar">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                </button>
+
             </div>
-            <div class="nav-btn" data-id="freebies" onclick="Nexra.navTo('freebies')">
-                <i class="fa-solid fa-vault"></i> Vault
-            </div>
-            <div class="nav-btn" data-id="vip" onclick="Nexra.navTo('vip')">
-                <i class="fa-solid fa-crown"></i> VIP
-            </div>
-        </nav>
+        </header>
+    </div>
 
-        <!-- [RIGHT] INTELLIGENT ACTION HUB -->
-        <div class="action-center">
-            <!-- Global Search -->
-            <div class="search-pill">
-                <i class="fa-solid fa-magnifying-glass" style="color:var(--text-300); font-size:12px;"></i>
-                <input type="text" id="global-search-input" placeholder="Search ecosystem..." onkeyup="Nexra.header.searchHandler(event)">
-            </div>
+    <!-- ==========================================================================
+         HEADER ENGINE LOGIC (INTEGRATED WITH NEXRA GLOBAL)
+         ========================================================================== -->
+    <script>
+        window.NexraHeader = {
+            db: null,
+            init: function() {
+                console.log("⚡ Header Engine Activated");
+                // Wait for Firebase to initialize from global.js
+                const checkDb = setInterval(() => {
+                    if(window.firebase && firebase.firestore) {
+                        clearInterval(checkDb);
+                        this.db = firebase.firestore();
+                        this.syncBranding();
+                        this.syncNavigation();
+                        this.syncNotifications();
+                        this.initThemeController();
+                        this.monitorAuth();
+                    }
+                }, 100);
+            },
 
-            <!-- Notifications -->
-            <button class="action-icon-btn" onclick="Nexra.ui.toggleNotifications()" title="Notifications">
-                <i class="fa-regular fa-bell"></i>
-                <span class="center-badge" id="notif-count">0</span>
-            </button>
+            // 1. SMART LOGO ACTION (Refresh or Home)
+            handleLogoClick: function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentView = urlParams.get('view') || 'home';
+                
+                if (currentView === 'home') {
+                    // Already on Home -> Smart Refresh / Top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    if(window.Nexra && typeof window.Nexra.navTo === 'function') window.Nexra.navTo('home');
+                } else {
+                    // Navigate to Home
+                    if(window.Nexra) window.Nexra.navTo('home');
+                    else window.location.href = 'index.html?view=home';
+                }
+            },
 
-            <!-- Theme Engine -->
-            <button class="action-icon-btn" onclick="Nexra.theme.toggle()" title="Toggle Theme">
-                <i class="fa-solid fa-moon theme-icon"></i>
-            </button>
-
-            <!-- User Authentication -->
-            <div class="user-pill" id="header-user-trigger" onclick="Nexra.navTo('profile')">
-                <img id="header-user-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User">
-            </div>
-
-            <!-- Slider Trigger (Mobile) -->
-            <button class="action-icon-btn mobile-toggle" onclick="Nexra.ui.toggleSidebar()">
-                <i class="fa-solid fa-bars-staggered"></i>
-            </button>
-        </div>
-    </header>
-</div>
-
-<script>
-    /**
-     * NEXRA GLOBAL HEADER ENGINE v4.0
-     * Handles: Firebase Real-time Sync, Auth, Theme, Search, and Modular Nav
-     */
-    (function() {
-        // 1. Firebase Synchronization (Real-time)
-        Nexra.header = {
-            sync: function() {
-                if(!window.db) return;
-
-                // Sync Branding (Logo & Title)
-                db.collection('settings').doc('appearance').onSnapshot(doc => {
+            // 2. FIREBASE REAL-TIME BRANDING
+            syncBranding: function() {
+                this.db.collection('settings').doc('appearance').onSnapshot(doc => {
                     if(doc.exists) {
                         const data = doc.data();
-                        const pLogo = document.getElementById('header-primary-logo');
-                        const bText = document.getElementById('header-brand-text');
-                        
-                        if(data.logoUrl) pLogo.src = data.logoUrl;
-                        if(data.titleImgUrl) bText.src = data.titleImgUrl;
-                        if(data.accentColor) document.documentElement.style.setProperty('--brand-main', data.accentColor);
+                        if(data.logoUrl) document.getElementById('h-logo-img').src = data.logoUrl;
+                        if(data.titleImgUrl) document.getElementById('h-title-img').src = data.titleImgUrl;
+                        if(data.accentColor && !localStorage.getItem('custom-accent')) {
+                            document.documentElement.style.setProperty('--brand-main', data.accentColor);
+                        }
                     }
-                });
-
-                // Sync Notifications Badge
-                db.collection('notifications').where('read', '==', false).onSnapshot(snap => {
-                    const countEl = document.getElementById('notif-count');
-                    countEl.innerText = snap.size;
-                    countEl.style.display = snap.size > 0 ? 'flex' : 'none';
-                });
-
-                // Sync Navigation Items
-                db.collection('settings').doc('navigation').onSnapshot(doc => {
-                    if(doc.exists) this.renderNav(doc.data().items);
                 });
             },
 
-            // 2. Dynamic Nav Renderer
-            renderNav: function(items) {
-                const container = document.getElementById('dynamic-nav-container');
-                if(!items || !container) return;
+            // 3. DYNAMIC NAVIGATION (ADMIN CONTROLLED)
+            syncNavigation: function() {
+                this.db.collection('settings').doc('homepage').onSnapshot(doc => {
+                    const navContainer = document.getElementById('h-dynamic-nav');
+                    if(doc.exists) {
+                        const data = doc.data();
+                        // SVG Icons Dictionary
+                        const icons = {
+                            home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
+                            shop: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`,
+                            freebies: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`,
+                            blog: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>`
+                        };
+
+                        navContainer.innerHTML = `
+                            <div class="d-nav-item" data-view="home" onclick="Nexra.navTo('home')">${icons.home} ${data.navHome || 'Home'}</div>
+                            <div class="d-nav-item" data-view="shop" onclick="Nexra.navTo('shop')">${icons.shop} ${data.navShop || 'Market'}</div>
+                            <div class="d-nav-item" data-view="freebies" onclick="Nexra.navTo('freebies')">${icons.freebies} ${data.navFreebies || 'Vault'}</div>
+                            <div class="d-nav-item" data-view="blog" onclick="Nexra.navTo('blog')">${icons.blog} ${data.navBlog || 'Insights'}</div>
+                        `;
+                        this.updateActiveTab();
+                    }
+                });
+            },
+
+            // 4. THEME CONTROLLER (Click & Long-Press)
+            initThemeController: function() {
+                const btn = document.getElementById('h-theme-btn');
+                const palette = document.getElementById('h-theme-palette');
+                const icon = btn.querySelector('.theme-icon');
+                let pressTimer;
+
+                // Sync Icon
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                icon.innerHTML = isDark ? `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>` 
+                                        : `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+
+                // Long Press Logic
+                const startPress = () => {
+                    pressTimer = setTimeout(() => {
+                        palette.classList.add('active');
+                        window.isPaletteOpen = true;
+                    }, 600); // 0.6s hold
+                };
+                const endPress = () => {
+                    clearTimeout(pressTimer);
+                    if(!window.isPaletteOpen) this.toggleBWTheme(icon);
+                    setTimeout(() => window.isPaletteOpen = false, 200);
+                };
+
+                btn.addEventListener('mousedown', startPress);
+                btn.addEventListener('touchstart', startPress, {passive: true});
+                btn.addEventListener('mouseup', endPress);
+                btn.addEventListener('touchend', endPress);
+
+                // Close palette on outside click
+                document.addEventListener('click', (e) => {
+                    if(!btn.contains(e.target) && !palette.contains(e.target)) {
+                        palette.classList.remove('active');
+                    }
+                });
+
+                // Apply saved custom color
+                const savedColor = localStorage.getItem('custom-accent');
+                if(savedColor) this.setCustomColor(savedColor, true);
+            },
+
+            toggleBWTheme: function(icon) {
+                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+                const target = isDark ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', target);
+                localStorage.setItem('theme', target);
                 
-                // Keep default hardcoded logic but allow admin to override
-                // Logic to reorder or add new items would go here
+                // Switch Icon
+                icon.innerHTML = target === 'dark' ? `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>` 
+                                                   : `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+                
+                if(window.Nexra) Nexra.showToast(`Switched to ${target.toUpperCase()} Mode`, 'success');
             },
 
-            // 3. Intelligent Search Logic
-            searchHandler: function(e) {
-                if(e.key === 'Enter') {
-                    const query = e.target.value.trim();
-                    if(query.length > 2) {
-                        Nexra.navTo('search', { q: query });
-                        e.target.value = '';
+            setCustomColor: function(color, quiet = false) {
+                document.documentElement.style.setProperty('--brand-main', color);
+                localStorage.setItem('custom-accent', color);
+                document.getElementById('h-theme-palette').classList.remove('active');
+                if(!quiet && window.Nexra) Nexra.showToast("Custom Theme Applied", "info");
+            },
+
+            // 5. NOTIFICATION CENTER SYNC
+            syncNotifications: function() {
+                // Mocking Unread Notification logic. Real implementation connects to users/{uid}/notifications
+                const badge = document.getElementById('h-notif-badge');
+                firebase.auth().onAuthStateChanged(user => {
+                    if(user) {
+                        this.db.collection('notifications').limit(5).onSnapshot(snap => {
+                            const count = snap.size; // Replace with unread filter
+                            if(count > 0) {
+                                badge.innerText = count;
+                                badge.classList.add('show');
+                            } else {
+                                badge.classList.remove('show');
+                            }
+                        });
                     }
-                }
+                });
             },
 
-            // 4. Smart Branding Action
-            smartAction: function() {
-                const currentView = new URLSearchParams(window.location.search).get('view') || 'home';
-                if(currentView === 'home') {
-                    // Refresh current engine or jump to top
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                } else {
-                    Nexra.navTo('home');
-                }
+            // 6. PROFILE AUTH SYNC
+            monitorAuth: function() {
+                const icon = document.getElementById('h-profile-icon');
+                const avatar = document.getElementById('h-profile-avatar');
+
+                firebase.auth().onAuthStateChanged(user => {
+                    if (user && user.photoURL) {
+                        icon.style.display = 'none';
+                        avatar.src = user.photoURL;
+                        avatar.style.display = 'block';
+                    } else {
+                        icon.style.display = 'block';
+                        avatar.style.display = 'none';
+                    }
+                });
             },
 
-            // 5. Auth Connection
-            syncAuth: function(user) {
-                const trigger = document.getElementById('header-user-trigger');
-                const avatar = document.getElementById('header-user-avatar');
-                if(user) {
-                    avatar.src = user.photoURL || avatar.src;
-                    trigger.style.display = 'block';
-                } else {
-                    trigger.style.display = 'none';
-                }
+            // 7. ACTIVE TAB SYNC
+            updateActiveTab: function() {
+                const urlParams = new URLSearchParams(window.location.search);
+                const currentView = urlParams.get('view') || 'home';
+                
+                document.querySelectorAll('.d-nav-item').forEach(item => {
+                    if(item.dataset.view === currentView) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
             }
         };
 
         // Initialize Header Engine
-        document.addEventListener('DOMContentLoaded', () => {
-            Nexra.header.sync();
-            // Connect with global auth if available
-            if(window.auth) {
-                auth.onAuthStateChanged(user => Nexra.header.syncAuth(user));
-            }
-        });
+        window.addEventListener('DOMContentLoaded', () => NexraHeader.init());
 
-        // SPA Navigation State Listener
-        window.addEventListener('popstate', () => {
-            const view = new URLSearchParams(window.location.search).get('view') || 'home';
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.id === view);
-            });
-        });
+        // Listen for SPA Route Changes to update Active Tab
+        window.addEventListener('popstate', () => NexraHeader.updateActiveTab());
 
-    })();
-</script>
+    </script>
+</body>
+</html>
