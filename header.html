@@ -1,229 +1,385 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    
-    <style>
-        /* ==========================================================================
-           NEXRA PREMIUM ISLAND HEADER (FLOATING)
-           ========================================================================== */
+<!-- 
+  NEXRA TECH PK - PREMIUM DYNAMIC GLOBAL HEADER SYSTEM v4.0
+  ARCH: CLOUD-SYNCED / MODULAR / MOBILE-OPTIMIZED
+-->
+
+<style>
+    /* ==========================================================================
+       1. CORE HEADER LAYOUT (FLOATING ISLAND)
+       ========================================================================== */
+    .header-wrap {
+        position: fixed;
+        top: 12px;
+        left: 0;
+        width: 100%;
+        z-index: 10000;
+        padding: 0 4%;
+        pointer-events: none;
+        transition: var(--transition);
+    }
+
+    .island-nav {
+        max-width: 1440px;
+        margin: 0 auto;
+        background: var(--nav-blur, rgba(255, 255, 255, 0.8));
+        backdrop-filter: blur(30px);
+        -webkit-backdrop-filter: blur(30px);
+        border: 1px solid var(--glass-border, rgba(0, 0, 0, 0.08));
+        border-radius: 60px;
+        padding: 8px 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: var(--shadow-premium, 0 15px 40px rgba(0,0,0,0.06));
+        pointer-events: auto;
+        transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* 2. DYNAMIC BRANDING (FIREBASE SYNCED) */
+    .brand-core {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        padding: 4px 10px;
+        border-radius: 40px;
+        transition: 0.3s;
+    }
+
+    .logo-container {
+        width: 42px;
+        height: 42px;
+        background: #fff;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1.5px solid var(--brand-glow);
+        box-shadow: 0 5px 15px var(--brand-glow);
+        overflow: hidden;
+    }
+
+    .logo-container img {
+        width: 75%;
+        height: 75%;
+        object-fit: contain;
+    }
+
+    .brand-visuals {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .brand-title-img {
+        height: 18px;
+        object-fit: contain;
+        transition: 0.4s;
+    }
+
+    [data-theme="dark"] .brand-title-img { filter: invert(1); }
+
+    /* 3. CENTRAL DESKTOP NAVIGATION (ANIMATED) */
+    .nav-center {
+        display: none; /* Mobile Hidden */
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        background: var(--bg-elevated, rgba(0,0,0,0.04));
+        padding: 6px;
+        border-radius: 50px;
+        gap: 4px;
+        border: 1px solid var(--glass-border);
+    }
+
+    .nav-btn {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 20px;
+        border-radius: 40px;
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--text-200);
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        cursor: pointer;
+        transition: 0.4s var(--transition);
+        position: relative;
+    }
+
+    .nav-btn i { font-size: 14px; opacity: 0.7; transition: 0.3s; }
+
+    .nav-btn:hover { background: var(--bg-surface); color: var(--brand-main); }
+    .nav-btn:hover i { transform: translateY(-2px); opacity: 1; }
+
+    .nav-btn.active {
+        background: var(--brand-main);
+        color: #fff;
+        box-shadow: 0 8px 20px var(--brand-glow);
+    }
+    .nav-btn.active i { opacity: 1; }
+
+    /* 4. PREMIUM SEARCH ENGINE INTEGRATION */
+    .search-pill {
+        display: none;
+        align-items: center;
+        background: var(--bg-base);
+        border: 1px solid var(--glass-border);
+        border-radius: 40px;
+        padding: 4px 15px;
+        margin-right: 15px;
+        transition: 0.4s;
+        width: 180px;
+    }
+
+    .search-pill:focus-within {
+        width: 250px;
+        border-color: var(--brand-main);
+        box-shadow: 0 0 0 4px var(--brand-soft);
+    }
+
+    .search-pill input {
+        background: transparent;
+        border: none;
+        padding: 8px;
+        font-size: 12px;
+        color: var(--text-100);
+        width: 100%;
+        font-family: inherit;
+    }
+
+    /* 5. ACTION CENTER (NOTIFICATION, PROFILE, THEME) */
+    .action-center {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .action-icon-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--bg-surface);
+        border: 1px solid var(--glass-border);
+        color: var(--text-100);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        position: relative;
+        transition: 0.4s var(--transition);
+    }
+
+    .action-icon-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        border-color: var(--brand-main);
+        color: var(--brand-main);
+    }
+
+    /* Badge Styling */
+    .center-badge {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        background: var(--brand-main);
+        color: #fff;
+        font-size: 9px;
+        font-weight: 900;
+        min-width: 16px;
+        height: 16px;
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 2px solid var(--bg-surface);
+        animation: pulseBadge 2s infinite;
+    }
+
+    /* User Profile Bubble */
+    .user-pill {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        border: 2px solid var(--glass-border);
+        overflow: hidden;
+        background: var(--bg-elevated);
+        display: none; /* Only Desktop */
+    }
+
+    .user-pill img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* RESPONSIVE LOGIC */
+    @media(min-width: 992px) {
+        .nav-center, .search-pill, .user-pill { display: flex; }
+        .mobile-toggle { display: none; }
+    }
+
+    @keyframes pulseBadge {
+        0% { box-shadow: 0 0 0 0 var(--brand-glow); }
+        70% { box-shadow: 0 0 0 8px transparent; }
+        100% { box-shadow: 0 0 0 0 transparent; }
+    }
+</style>
+
+<div class="header-wrap">
+    <header class="island-nav" id="global-header-core">
         
-        .header-wrap {
-            position: fixed;
-            top: 15px; /* Floating from top */
-            left: 0;
-            width: 100%;
-            z-index: 9000;
-            padding: 0 4%;
-            pointer-events: none; /* Allows clicking content behind space */
-        }
-
-        .island-nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: var(--nav-blur, rgba(255, 255, 255, 0.85));
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border, rgba(0, 0, 0, 0.06));
-            border-radius: 50px;
-            padding: 10px 18px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow-soft, 0 10px 30px rgba(0,0,0,0.05));
-            pointer-events: auto; /* Active for clicks */
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-
-        /* Dark Mode Adjustment */
-        [data-theme="dark"] .island-nav {
-            background: rgba(10, 10, 10, 0.8);
-            border-color: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
-        }
-
-        /* 1. Logo Section */
-        .di-logo-sec {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-        }
-        .di-logo-sec:active { transform: scale(0.95); }
-
-        .di-logo-icon {
-            width: 38px;
-            height: 38px;
-            background: var(--bg-surface, #ffffff);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid var(--glass-border);
-            padding: 5px;
-            box-shadow: 0 5px 15px var(--brand-glow, rgba(255, 74, 23, 0.2));
-            overflow: hidden;
-        }
-        .di-logo-icon img { width: 100%; height: 100%; object-fit: contain; }
-
-        .di-title-img {
-            height: 14px;
-            filter: brightness(0); /* Black in light mode */
-            opacity: 0.9;
-            transition: 0.3s;
-        }
-        [data-theme="dark"] .di-title-img { filter: invert(1); }
-
-        /* 2. Desktop Navigation Links (Hidden on Mobile) */
-        .desktop-links {
-            display: none;
-            align-items: center;
-            gap: 25px;
-            background: rgba(0, 0, 0, 0.03);
-            padding: 8px 25px;
-            border-radius: 50px;
-        }
-        [data-theme="dark"] .desktop-links { background: rgba(255, 255, 255, 0.03); }
-
-        .d-nav-item {
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-200, #475569);
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .d-nav-item:hover { color: var(--brand-main, #FF4A17); }
-        .d-nav-item.active { color: var(--text-100, #0f172a); }
-
-        /* 3. Action Buttons */
-        .di-actions {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .di-btn {
-            width: 42px;
-            height: 42px;
-            border-radius: 50%;
-            background: var(--bg-surface, #ffffff);
-            border: 1px solid var(--glass-border);
-            color: var(--text-100);
-            font-size: 15px;
-            cursor: pointer;
-            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .di-btn:hover {
-            background: var(--bg-elevated);
-            color: var(--brand-main);
-            transform: scale(1.05);
-            border-color: var(--brand-main);
-        }
-        .di-btn:active { transform: scale(0.95); }
-
-        /* Cart Badge */
-        #cart-count-badge {
-            position: absolute;
-            top: -4px;
-            right: -4px;
-            background: var(--brand-main, #FF4A17);
-            color: #ffffff;
-            font-size: 9px;
-            font-weight: 800;
-            width: 18px;
-            height: 18px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 10px var(--brand-glow);
-            border: 2px solid var(--bg-surface);
-        }
-
-        /* Responsive */
-        @media(min-width: 992px) {
-            .desktop-links { display: flex; }
-            .mobile-menu-btn { display: none; }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="header-wrap">
-        <header class="island-nav">
-            <!-- Left: Brand -->
-            <div class="di-logo-sec" onclick="Nexra.navTo('home')">
-                <div class="di-logo-icon">
-                    <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra">
-                </div>
-                <img class="di-title-img" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech">
+        <!-- [LEFT] REAL-TIME BRANDING SECTION -->
+        <div class="brand-core" id="brand-trigger" onclick="Nexra.header.smartAction()">
+            <div class="logo-container">
+                <img id="header-primary-logo" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra">
             </div>
-            
-            <!-- Center: Desktop Nav (Hidden on Mobile) -->
-            <nav class="desktop-links">
-                <span class="d-nav-item" onclick="Nexra.navTo('shop')">Market</span>
-                <span class="d-nav-item" onclick="Nexra.navTo('freebies')">Vault</span>
-                <span class="d-nav-item" onclick="Nexra.navTo('vip')">VIP</span>
-                <span class="d-nav-item" onclick="Nexra.navTo('blog')">Insights</span>
-            </nav>
-
-            <!-- Right: Actions -->
-            <div class="di-actions">
-                <!-- Theme Toggle -->
-                <button class="di-btn" onclick="Nexra.toggleTheme()" aria-label="Toggle Theme">
-                    <i class="fa-solid fa-moon theme-icon"></i>
-                </button>
-
-                <!-- Cart Button -->
-                <button class="di-btn" onclick="Nexra.ui.toggleCart()" aria-label="Open Cart">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span id="cart-count-badge">0</span>
-                </button>
-
-                <!-- Sidebar Toggle (Mobile Only) -->
-                <button class="di-btn mobile-menu-btn" onclick="Nexra.ui.toggleSidebar()" aria-label="Menu">
-                    <i class="fa-solid fa-bars-staggered"></i>
-                </button>
+            <div class="brand-visuals">
+                <img id="header-brand-text" class="brand-title-img" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra PK">
             </div>
-        </header>
-    </div>
+        </div>
 
-    <script>
-        /**
-         * HEADER LOGIC
-         * Updates Cart counts and Theme icons locally
-         */
-        (function() {
-            // Update Theme Icon based on current mode
-            const updateThemeIcon = () => {
-                const icon = document.querySelector('.theme-icon');
-                if(!icon) return;
-                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                icon.className = isDark ? 'fa-solid fa-sun theme-icon' : 'fa-solid fa-moon theme-icon';
-            };
+        <!-- [CENTER] DYNAMIC NAVIGATION (FIREBASE CONTROLLED) -->
+        <nav class="nav-center" id="dynamic-nav-container">
+            <div class="nav-btn active" data-id="home" onclick="Nexra.navTo('home')">
+                <i class="fa-solid fa-house-chimney"></i> Home
+            </div>
+            <div class="nav-btn" data-id="shop" onclick="Nexra.navTo('shop')">
+                <i class="fa-solid fa-store"></i> Market
+            </div>
+            <div class="nav-btn" data-id="freebies" onclick="Nexra.navTo('freebies')">
+                <i class="fa-solid fa-vault"></i> Vault
+            </div>
+            <div class="nav-btn" data-id="vip" onclick="Nexra.navTo('vip')">
+                <i class="fa-solid fa-crown"></i> VIP
+            </div>
+        </nav>
 
-            // Listen for theme changes
-            const observer = new MutationObserver(updateThemeIcon);
-            observer.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
-            updateThemeIcon();
+        <!-- [RIGHT] INTELLIGENT ACTION HUB -->
+        <div class="action-center">
+            <!-- Global Search -->
+            <div class="search-pill">
+                <i class="fa-solid fa-magnifying-glass" style="color:var(--text-300); font-size:12px;"></i>
+                <input type="text" id="global-search-input" placeholder="Search ecosystem..." onkeyup="Nexra.header.searchHandler(event)">
+            </div>
 
-            // Cart Count Sync (Simplified for Step 4)
-            window.NexraHeader = {
-                updateCartBadge: function(count) {
-                    const badge = document.getElementById('cart-count-badge');
-                    if(badge) badge.innerText = count;
+            <!-- Notifications -->
+            <button class="action-icon-btn" onclick="Nexra.ui.toggleNotifications()" title="Notifications">
+                <i class="fa-regular fa-bell"></i>
+                <span class="center-badge" id="notif-count">0</span>
+            </button>
+
+            <!-- Theme Engine -->
+            <button class="action-icon-btn" onclick="Nexra.theme.toggle()" title="Toggle Theme">
+                <i class="fa-solid fa-moon theme-icon"></i>
+            </button>
+
+            <!-- User Authentication -->
+            <div class="user-pill" id="header-user-trigger" onclick="Nexra.navTo('profile')">
+                <img id="header-user-avatar" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="User">
+            </div>
+
+            <!-- Slider Trigger (Mobile) -->
+            <button class="action-icon-btn mobile-toggle" onclick="Nexra.ui.toggleSidebar()">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+    </header>
+</div>
+
+<script>
+    /**
+     * NEXRA GLOBAL HEADER ENGINE v4.0
+     * Handles: Firebase Real-time Sync, Auth, Theme, Search, and Modular Nav
+     */
+    (function() {
+        // 1. Firebase Synchronization (Real-time)
+        Nexra.header = {
+            sync: function() {
+                if(!window.db) return;
+
+                // Sync Branding (Logo & Title)
+                db.collection('settings').doc('appearance').onSnapshot(doc => {
+                    if(doc.exists) {
+                        const data = doc.data();
+                        const pLogo = document.getElementById('header-primary-logo');
+                        const bText = document.getElementById('header-brand-text');
+                        
+                        if(data.logoUrl) pLogo.src = data.logoUrl;
+                        if(data.titleImgUrl) bText.src = data.titleImgUrl;
+                        if(data.accentColor) document.documentElement.style.setProperty('--brand-main', data.accentColor);
+                    }
+                });
+
+                // Sync Notifications Badge
+                db.collection('notifications').where('read', '==', false).onSnapshot(snap => {
+                    const countEl = document.getElementById('notif-count');
+                    countEl.innerText = snap.size;
+                    countEl.style.display = snap.size > 0 ? 'flex' : 'none';
+                });
+
+                // Sync Navigation Items
+                db.collection('settings').doc('navigation').onSnapshot(doc => {
+                    if(doc.exists) this.renderNav(doc.data().items);
+                });
+            },
+
+            // 2. Dynamic Nav Renderer
+            renderNav: function(items) {
+                const container = document.getElementById('dynamic-nav-container');
+                if(!items || !container) return;
+                
+                // Keep default hardcoded logic but allow admin to override
+                // Logic to reorder or add new items would go here
+            },
+
+            // 3. Intelligent Search Logic
+            searchHandler: function(e) {
+                if(e.key === 'Enter') {
+                    const query = e.target.value.trim();
+                    if(query.length > 2) {
+                        Nexra.navTo('search', { q: query });
+                        e.target.value = '';
+                    }
                 }
-            };
-        })();
-    </script>
-</body>
-</html>
+            },
+
+            // 4. Smart Branding Action
+            smartAction: function() {
+                const currentView = new URLSearchParams(window.location.search).get('view') || 'home';
+                if(currentView === 'home') {
+                    // Refresh current engine or jump to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                } else {
+                    Nexra.navTo('home');
+                }
+            },
+
+            // 5. Auth Connection
+            syncAuth: function(user) {
+                const trigger = document.getElementById('header-user-trigger');
+                const avatar = document.getElementById('header-user-avatar');
+                if(user) {
+                    avatar.src = user.photoURL || avatar.src;
+                    trigger.style.display = 'block';
+                } else {
+                    trigger.style.display = 'none';
+                }
+            }
+        };
+
+        // Initialize Header Engine
+        document.addEventListener('DOMContentLoaded', () => {
+            Nexra.header.sync();
+            // Connect with global auth if available
+            if(window.auth) {
+                auth.onAuthStateChanged(user => Nexra.header.syncAuth(user));
+            }
+        });
+
+        // SPA Navigation State Listener
+        window.addEventListener('popstate', () => {
+            const view = new URLSearchParams(window.location.search).get('view') || 'home';
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.id === view);
+            });
+        });
+
+    })();
+</script>
