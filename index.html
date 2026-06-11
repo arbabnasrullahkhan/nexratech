@@ -1,6 +1,6 @@
 <!-- --- START OF FILE index.html --- -->
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
     <!-- 1. META & SEO CORE -->
     <meta charset="UTF-8">
@@ -14,19 +14,26 @@
     <meta name="robots" content="index, follow">
     <link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
     
-    <!-- 2. PREMIUM TYPOGRAPHY -->
+    <!-- Open Graph (Social Sharing) -->
+    <meta property="og:title" content="Nexra Tech PK | Digital Ecosystem">
+    <meta property="og:description" content="Automated digital assets and premium software licensing.">
+    <meta property="og:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
+
+    <!-- 2. PREMIUM TYPOGRAPHY & ICONS -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     
     <!-- 3. FIREBASE SDKS -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-    <!-- 4. CORE DESIGN SYSTEM -->
+    <!-- 4. CORE DESIGN SYSTEM (PREMIUM WHITE & DARK) -->
     <style>
         :root {
+            /* LIGHT THEME (DEFAULT) */
             --bg-base: #ffffff;
             --bg-surface: #f8fafc;
             --bg-elevated: #f1f5f9;
@@ -59,15 +66,27 @@
             background: var(--bg-base); 
             color: var(--text-100); 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            overflow: hidden; /* Prevent scroll on root splash */
-            height: 100vh;
+            overflow-x: hidden; 
+            min-height: 100vh;
+            transition: background 0.4s ease, color 0.4s ease;
+        }
+
+        /* TOP LOADER (Apple Style) */
+        #top-loader {
+            position: fixed; top: 0; left: 0; width: 100%; height: 3px;
+            z-index: 200000; pointer-events: none; opacity: 0;
+        }
+        #top-loader-fill {
+            height: 100%; width: 0; background: var(--brand-main);
+            box-shadow: 0 0 15px var(--brand-main);
+            transition: width 0.4s ease, opacity 0.4s;
         }
 
         /* PREMIUM SPLASH INTERFACE */
         #splash {
             position: fixed; inset: 0; z-index: 100000; background: var(--bg-base);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.6s var(--transition), transform 0.6s var(--transition);
+            transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
         }
         .splash-glow {
             position: absolute; width: 60vw; height: 60vw; background: var(--brand-main);
@@ -75,7 +94,7 @@
         }
         .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
         .sp-logo { width: clamp(80px, 20vw, 100px); height: auto; filter: drop-shadow(0 10px 25px var(--brand-glow)); }
-        .sp-title { height: 22px; margin-top: 35px; filter: grayscale(1) brightness(0.2); transition: 0.3s; }
+        .sp-title { height: 22px; margin-top: 35px; filter: grayscale(1) brightness(0.2); }
         [data-theme="dark"] .sp-title { filter: none; }
         
         .sp-progress-box { width: 200px; margin-top: 60px; text-align: center; }
@@ -99,15 +118,32 @@
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             font-size: 32px; margin: 0 auto 30px; border: 1px solid var(--brand-glow);
         }
-        .m-title { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 15px; }
+        .m-title { font-family: 'Space Grotesk'; font-size: 28px; font-weight: 800; margin-bottom: 15px; }
         .m-desc { color: var(--text-200); font-size: 15px; line-height: 1.8; margin-bottom: 40px; }
 
+        /* SPA MAIN CONTAINER */
+        #spa-main { 
+            width: 100%; min-height: 100vh; opacity: 1; 
+            transition: opacity 0.4s var(--transition), transform 0.4s var(--transition); 
+        }
+        .view-hidden { opacity: 0 !important; transform: translateY(10px); }
+
+        /* UTILS */
+        .tech-font { font-family: 'Space Grotesk', sans-serif; }
         @keyframes pulseGlow { from { opacity: 0.05; transform: scale(1); } to { opacity: 0.12; transform: scale(1.15); } }
     </style>
 </head>
 <body>
 
-    <!-- 1. SPLASH SCREEN (ROOT ENTRY) -->
+    <!-- TOP-LEVEL UI (LOADER & SHARED) -->
+    <div id="top-loader"><div id="top-loader-fill"></div></div>
+    
+    <!-- Shared Global Modules -->
+    <div id="global-container"></div> <!-- Modules: global.html -->
+    <div id="header-container"></div> <!-- Modules: header.html -->
+    <div id="notif-container"></div>  <!-- Modules: ui-notifications.html -->
+
+    <!-- 1. SPLASH SCREEN -->
     <div id="splash">
         <div class="splash-glow"></div>
         <div class="splash-content">
@@ -125,51 +161,117 @@
     <!-- 2. MAINTENANCE LAYER -->
     <div id="maintenance">
         <div class="m-card">
-            <div class="m-icon">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.7a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.7z"></path></svg>
-            </div>
-            <h1 class="m-title" id="m-title-text">Optimizing Ecosystem</h1>
-            <p class="m-desc" id="m-desc-text">Our engineers are fine-tuning the platform for elite performance. We will be back online in a moment.</p>
+            <div class="m-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
+            <h1 class="m-title" id="m-title">Optimizing Ecosystem</h1>
+            <p class="m-desc" id="m-desc">Our engineers are fine-tuning the platform for elite performance. We will be back online in a moment.</p>
         </div>
     </div>
 
-    <!-- 3. ROOT GATEWAY SCRIPT -->
+    <!-- 3. SPA VIEW PORT -->
+    <main id="spa-main"></main>
+
+    <!-- 4. BOTTOM PERSISTENT UI -->
+    <div id="dock-container"></div>   <!-- Modules: navigation.html -->
+    <div id="footer-container"></div> <!-- Modules: footer.html -->
+
+    <!-- 5. JAVASCRIPT ENGINE (MASTER CONTROLLER) -->
     <script src="firebaseconfig.js"></script>
     <script>
-        window.NexraRoot = {
+        window.Nexra = {
             db: null,
+            auth: null,
+            user: null,
+            state: { theme: 'light', currentView: '' },
 
-            // 1. Theme Check (Avoid Flash of White)
+            /* --- 1. THEME ENGINE --- */
             initTheme: function() {
-                const saved = localStorage.getItem('nxr-theme') || 'light';
-                if(saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+                const saved = localStorage.getItem('theme') || 'light';
+                if(saved === 'dark') {
+                    document.documentElement.setAttribute('data-theme', 'dark');
+                    document.getElementById('meta-theme-color').content = "#050507";
+                }
+                this.state.theme = saved;
             },
 
-            // 2. Multi-Page Routing Function (HTML href location)
-            navTo: function(view, id = null) {
-                // Map logical views to actual HTML file paths
+            /* --- 2. DEEP LINK ROUTER (SPA ENGINE) --- */
+            navTo: async function(view, id = null) {
+                if (this.state.currentView === view && !id) return; // Prevent double loads
+                this.state.currentView = view;
+
+                const loader = document.getElementById('top-loader-fill');
+                const loaderParent = document.getElementById('top-loader');
+                const main = document.getElementById('spa-main');
+                
+                // Start Progress
+                loaderParent.style.opacity = '1';
+                loader.style.width = '40%';
+                main.classList.add('view-hidden');
+
+                // Map Virtual Views to Actual Folders
                 const routes = {
                     'home': 'discovery/home.html',
                     'shop': 'shop/shop.html',
+                    'product-detail': 'shop/product-detail.html',
+                    'checkout': 'shop/checkout.html',
                     'freebies': 'freebies/freebies.html',
+                    'freebie-detail': 'freebies/freebie-detail.html',
                     'blog': 'academy/blog.html',
+                    'blog-detail': 'academy/blog-detail.html',
                     'profile': 'user/profile-dashboard.html',
-                    'reseller': 'reseller/reseller-landing.html',
-                    'vip': 'vip/vip-tiers.html',
-                    'checkout': 'shop/checkout.html'
+                    'auth': 'user/auth-gate.html',
+                    'reseller': 'reseller/reseller-dashboard.html',
+                    'vip': 'vip/vip-tiers.html'
                 };
 
-                let targetFile = routes[view] || routes['home'];
-                if (id) {
-                    targetFile += `?id=${id}`;
-                }
+                const path = routes[view] || 'system/error-404.html';
 
-                // Standard Redirect (Not SPA fetch)
-                window.location.href = targetFile;
+                try {
+                    const response = await fetch(path);
+                    if(!response.ok) throw new Error("View not found");
+                    const html = await response.text();
+                    
+                    loader.style.width = '80%';
+
+                    setTimeout(() => {
+                        main.innerHTML = html;
+                        
+                        // Smart Script Execution (Ensures JS inside loaded HTML runs)
+                        const scripts = main.querySelectorAll('script');
+                        scripts.forEach(s => {
+                            const newScript = document.createElement('script');
+                            Array.from(s.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
+                            newScript.text = s.innerHTML;
+                            document.body.appendChild(newScript).parentNode.removeChild(newScript);
+                        });
+
+                        // Finalize Animation
+                        loader.style.width = '100%';
+                        main.classList.remove('view-hidden');
+                        
+                        setTimeout(() => {
+                            loaderParent.style.opacity = '0';
+                            setTimeout(() => loader.style.width = '0', 400);
+                        }, 300);
+
+                        // Premium URL Generation & Push
+                        const newUrl = id ? `?view=${view}&id=${id}` : `?view=${view}`;
+                        window.history.pushState({view, id}, '', newUrl);
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+                        // Sync Active State with Dock & Header
+                        if(window.NexraNavigation) window.NexraNavigation.syncState(view);
+
+                    }, 400);
+
+                } catch(e) {
+                    console.error("Router Error:", e);
+                    loaderParent.style.opacity = '0';
+                    this.navTo('error-404');
+                }
             },
 
-            // 3. Boot Sequence (Splash -> Firebase -> Redirect)
-            boot: function() {
+            /* --- 3. BOOT SEQUENCE & DEEP LINK RESTORATION --- */
+            boot: async function() {
                 this.initTheme();
                 const fill = document.getElementById('sp-fill');
                 const status = document.getElementById('sp-status');
@@ -177,70 +279,121 @@
                 fill.style.width = '30%';
                 status.innerText = "Syncing Firebase...";
 
+                // Wait for Firebase to become available (Handles slow connections)
                 const checkFirebase = setInterval(async () => {
                     if(window.firebase && firebase.apps.length) {
                         clearInterval(checkFirebase);
                         this.db = firebase.firestore();
+                        this.auth = firebase.auth();
                         
-                        fill.style.width = '70%';
+                        fill.style.width = '60%';
                         status.innerText = "Authenticating System...";
                         
+                        // Load Shared Global UI Modules
+                        await this.loadSharedUI();
+
                         try {
                             const config = await this.db.collection('splash_settings').doc('config').get();
                             const data = config.exists ? config.data() : {};
 
-                            if(data.maintenance_mode === true) {
+                            if(data.maintenance_mode) {
                                 this.showMaintenance(data);
                             } else {
                                 this.launch();
                             }
                         } catch(e) { 
-                            console.error("Firebase fetch error:", e);
-                            this.launch(); // Fallback launch if db read fails
+                            // Fallback if DB fails
+                            this.launch(); 
                         }
                     }
                 }, 100);
             },
 
-            // 4. Launch to Home.html
+            /* --- 4. LAUNCHER --- */
             launch: function() {
                 const fill = document.getElementById('sp-fill');
                 const status = document.getElementById('sp-status');
                 const splash = document.getElementById('splash');
 
                 fill.style.width = '100%';
-                status.innerText = "Entering Ecosystem...";
+                status.innerText = "Opening Ecosystem...";
 
                 setTimeout(() => {
                     splash.style.opacity = '0';
                     splash.style.transform = 'scale(1.05)';
-                    
                     setTimeout(() => {
-                        // Check if a specific deep link was requested (e.g., site.com/?view=shop)
+                        splash.style.display = 'none';
+                        
+                        // Deep Link Restoration Handler
                         const params = new URLSearchParams(window.location.search);
-                        const target = params.get('view') || 'home';
-                        const targetId = params.get('id');
-
-                        // REDIRECT TO ACTUAL HTML FILE
-                        this.navTo(target, targetId);
-                    }, 600);
-                }, 800);
+                        const targetView = params.get('view') || 'home';
+                        const targetId = params.get('id') || null;
+                        
+                        this.navTo(targetView, targetId);
+                    }, 800);
+                }, 600);
             },
 
-            // 5. Maintenance UI
+            /* --- 5. UI LOADERS & EVENT LISTENERS --- */
+            loadSharedUI: async function() {
+                // Fetch external global UI components silently
+                const mods = [
+                    { id: 'global-container', file: 'global.html' },
+                    { id: 'header-container', file: 'header.html' },
+                    { id: 'sidebar-container', file: 'sidebar.html' },
+                    { id: 'dock-container', file: 'navigation.html' },
+                    { id: 'notif-container', file: 'ui-notifications.html' },
+                    { id: 'footer-container', file: 'footer.html' }
+                ];
+                
+                await Promise.all(mods.map(async (m) => {
+                    try {
+                        const res = await fetch(m.file);
+                        if(res.ok) {
+                            document.getElementById(m.id).innerHTML = await res.text();
+                            // Run inner scripts for components like Navbar
+                            const scripts = document.getElementById(m.id).querySelectorAll('script');
+                            scripts.forEach(s => eval(s.innerText));
+                        }
+                    } catch(e) { console.warn("Failed loading module:", m.file); }
+                }));
+
+                // Native Link Interception (Converts standard <a> tags into SPA navTo)
+                document.body.addEventListener('click', (e) => {
+                    const link = e.target.closest('a');
+                    if (link && link.getAttribute('href') && link.getAttribute('href').startsWith('?view=')) {
+                        e.preventDefault();
+                        const url = new URL(link.href, window.location.origin);
+                        const view = url.searchParams.get('view');
+                        const id = url.searchParams.get('id');
+                        this.navTo(view, id);
+                    }
+                });
+            },
+
             showMaintenance: function(data) {
                 document.getElementById('splash').style.display = 'none';
                 const m = document.getElementById('maintenance');
                 m.style.display = 'flex';
                 setTimeout(() => m.style.opacity = '1', 100);
 
-                if(data.m_title) document.getElementById('m-title-text').innerText = data.m_title;
-                if(data.m_desc) document.getElementById('m-desc-text').innerText = data.m_desc;
+                if(data.m_title) document.querySelector('.m-title').innerText = data.m_title;
+                if(data.m_desc) document.querySelector('.m-desc').innerText = data.m_desc;
             }
         };
 
-        // Start Boot Process
-        document.addEventListener('DOMContentLoaded', () => NexraRoot.boot());
+        // Initialize Core System
+        document.addEventListener('DOMContentLoaded', () => Nexra.boot());
+
+        // Handle Browser Forward/Back Buttons properly
+        window.onpopstate = (event) => {
+            if(event.state && event.state.view) {
+                Nexra.navTo(event.state.view, event.state.id);
+            } else {
+                const params = new URLSearchParams(window.location.search);
+                Nexra.navTo(params.get('view') || 'home', params.get('id'));
+            }
+        };
     </script>
 </body>
 </html>
