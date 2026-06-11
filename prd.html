@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Nexra Tech — Developer Roadmap OS</title>
 <meta name="description" content="Nexra Tech OS — A premium developer roadmap platform. Track your app-building journey with elegant precision.">
+<!-- 404 Favicon Fix -->
+<link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
 <meta property="og:title" content="Nexra Tech OS">
 <meta property="og:description" content="The premium developer roadmap OS by @NexraTech">
 <meta property="og:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
@@ -159,7 +161,6 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 #egg-modal .modal-close svg path{stroke:white;}
 .egg-title{font-family:'Space Grotesk';font-size:20px;font-weight:700;color:var(--orange);margin:16px 0 8px;}
 .egg-code{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px;font-size:12px;font-family:monospace;color:#86efac;text-align:left;margin-bottom:16px;line-height:1.8;}
-.btn-egg{background:var(--orange);color:white;border:none;border-radius:12px;padding:12px 24px;font-size:13px;font-weight:800;cursor:pointer;width:100%;}
 
 /* ── TOAST ── */
 #toasts{position:fixed;top:80px;right:16px;z-index:500;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
@@ -208,11 +209,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 @media(min-width:900px){.user-reset-btn{bottom:30px;}}
 
 .empty-state{text-align:center;padding:40px 20px;color:var(--muted);}
-.empty-state svg{margin-bottom:12px;opacity:.4;}
 .empty-state p{font-size:14px;font-weight:700;}
-.empty-state span{font-size:12px;font-weight:600;display:block;margin-top:4px;}
-.loading-line{height:3px;background:linear-gradient(90deg,transparent,var(--orange),transparent);border-radius:99px;animation:shimmer 1.5s ease infinite;}
-@keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
 </style>
 </head>
 <body>
@@ -262,9 +259,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 </section>
 
 <!-- Mobile Timeline -->
-<div id="timeline">
-  <div class="loading-line" id="timeline-loader"></div>
-</div>
+<div id="timeline"></div>
 
 <!-- PC Mind Map -->
 <div id="mindmap-wrapper">
@@ -295,7 +290,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 <!-- PC Stats -->
 <aside id="pc-stats">
-  <div class="vault-title">Live Stats</div>
+  <div class="vault-title" style="font-size:9px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">Live Stats</div>
   <div class="stat-item"><span class="stat-name">Session</span><span class="stat-val" id="pc-timer">00:00</span></div>
   <div class="stat-item"><span class="stat-name">Completed</span><span class="stat-val" id="pc-done">0 / 0</span></div>
   <div class="stat-item"><span class="stat-name">Progress</span><span class="stat-val" id="pc-pct">0%</span></div>
@@ -306,7 +301,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
   </div>
 </aside>
 
-<!-- User Reset Button (Local Only) -->
+<!-- User Reset Button -->
 <button class="user-reset-btn" onclick="resetUserProgress()">Reset My Progress</button>
 
 <!-- Developer Vault Toggle -->
@@ -316,7 +311,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 
 <!-- Developer Vault -->
 <aside id="vault">
-  <div class="vault-title">Developer Vault</div>
+  <div style="font-size:9px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;">Developer Vault</div>
   <div class="vault-item" onclick="openFile('AI Prompt Template','Act as a Senior App Developer.\nGenerate a scalable architecture for [App Name].\nTech: React Native + Firebase.\nRequirements:\n- Offline-first\n- Real-time sync\n- Role-based auth\nOutput: Full folder structure + key files.')">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2h6l3 3v9H4V2z"></path></svg> AI Prompt Template
   </div>
@@ -353,7 +348,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
     <div style="font-size:36px;margin-bottom:8px;">🥚</div>
     <h2 class="egg-title">You Found It.</h2>
     <p style="font-size:13px;color:rgba(255,255,255,.7);font-weight:600;margin-bottom:20px;">You just unlocked a secret bonus — a free Firebase Architecture Code!</p>
-    <div class="egg-code">import { initializeApp } from 'firebase/app';\nconst db = getFirestore(app);</div>
+    <div class="egg-code" style="background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px;font-size:12px;font-family:monospace;color:#86efac;text-align:left;margin-bottom:16px;">import { initializeApp } from 'firebase/app';\nconst db = getFirestore(app);</div>
     <button class="btn-copy" style="background:var(--orange);" onclick="window.open('https://youtube.com/@NexraTech','_blank')">Watch Tutorial @NexraTech</button>
   </div>
 </div>
@@ -368,7 +363,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(-
 </div>
 
 <script>
-// ════ FIREBASE CONFIG (Public Read-Only) ════
+// ════ FIREBASE CONFIG ════
 const firebaseConfig = {
   apiKey: "AIzaSyDeNZBtVQ5iX5PjV5Gj4xXgxqB3KaJ4cZw",
   authDomain: "nexrapk.firebaseapp.com",
@@ -437,6 +432,7 @@ function loadProgress(){
   }catch(e){ userProgress={}; }
 }
 
+// THE BUG FIX IS HERE
 function resetUserProgress(){
   if(!confirm('Reset your personal progress?')) return;
   userProgress = {};
@@ -470,12 +466,17 @@ function listenToRoadmap(){
 // ════ RENDER UI ════
 function renderTimeline(){
   const tl = document.getElementById('timeline');
-  document.getElementById('timeline-loader').style.display = 'none';
+  // SAFELY check for loader to avoid TypeError null bug
+  const loader = document.getElementById('timeline-loader');
+  if (loader) loader.style.display = 'none';
+  
   try{ localStorage.setItem('nx_cached_data',JSON.stringify(roadmapData)); }catch(e){}
 
   if(!roadmapData.length){
     tl.innerHTML = `<div class="empty-state"><p>Waiting for roadmap data...</p></div>`; return;
   }
+  
+  // Safe to clear timeline HTML now
   tl.innerHTML = '';
   const phaseColors = ['var(--orange)','#007aff','#34c759','#af52de','#ff2d55','#ff9500'];
 
@@ -544,8 +545,6 @@ function toggleTask(el, id, color){
   saveProgress(); updateGlobalProgress();
   showToast(userProgress[id] ? '✅ Task checked' : '↩ Task undone');
   renderMindmap();
-  
-  // Haptic Pop Sound Simulation (Base64 silent pop structure - skipped actual audio data for text limits, using visual haptic)
   if(navigator.vibrate) navigator.vibrate(50);
 }
 
@@ -588,7 +587,7 @@ function renderMindmap(){
   const phaseColors = ['var(--orange)','#007aff','#34c759','#af52de','#ff2d55','#ff9500'];
   ['mm-c1','mm-c2','mm-c3'].forEach((id,i)=>{
     const el = document.getElementById(id);
-    if(!el || !roadmapData[i]) return;
+    if(!el || !roadmapData[i]) { if(el) el.innerHTML=''; return; }
     const p = roadmapData[i], color = p.color||phaseColors[i%phaseColors.length];
     const tasks = p.tasks||[], done = tasks.filter(t=>userProgress[t.id]).length;
     el.innerHTML = `
