@@ -474,11 +474,12 @@
 <div class="nxr-toast-stack" id="nxr-toast-stack"></div>
 
 <!-- ── CORE JS ENGINE ── -->
-<script>
-'use strict';
+<script>'use strict';
 
 window.NXR = (function() {
 
+  // --- 1. GLOBAL BASE CONFIG ---
+  // اگر آپ کسی سب-فولڈر سے مین پیج پر جا رہے ہیں تو یہ کام آئے گا
   window.NXR_BASE_PATH = window.NXR_BASE_PATH || '';
   
   const ROUTES = {
@@ -501,6 +502,7 @@ window.NXR = (function() {
 
   const safeInt = (v) => isNaN(parseInt(v)) ? 0 : parseInt(v);
 
+  // --- 2. ENGINE STATE ---
   const state = {
     theme:       localStorage.getItem('nxr-theme')  || 'light',
     accent:      localStorage.getItem('nxr-accent') || '#FF4A17',
@@ -511,48 +513,47 @@ window.NXR = (function() {
     sliderOpen:  false,
     paletteOpen: false,
     user:        null,
+    isOnline:    navigator.onLine
   };
 
+  // --- 3. DOM CACHE ---
   const DOM = {};
   function cacheDOM() {
-    DOM.progress = document.getElementById('nxr-progress');
-    DOM.cartBadge = document.getElementById('nxr-cart-badge');
+    DOM.progress   = document.getElementById('nxr-progress');
+    DOM.cartBadge  = document.getElementById('nxr-cart-badge');
     DOM.notifBadge = document.getElementById('nxr-notif-badge');
-    DOM.palette = document.getElementById('nxr-palette');
-    DOM.slider = document.getElementById('nxr-slider');
-    DOM.overlay = document.getElementById('nxr-overlay');
-    DOM.langBtn = document.getElementById('nxr-lang-btn');
-    DOM.pwaBtn = document.getElementById('nxr-pwa-btn');
+    DOM.palette    = document.getElementById('nxr-palette');
+    DOM.slider     = document.getElementById('nxr-slider');
+    DOM.overlay    = document.getElementById('nxr-overlay');
+    DOM.langBtn    = document.getElementById('nxr-lang-btn');
+    DOM.pwaBtn     = document.getElementById('nxr-pwa-btn');
+    DOM.themeIcon  = document.getElementById('nxr-theme-icon');
+    DOM.themeIconM = document.getElementById('nxr-theme-icon-mobile');
   }
 
   function getPath(file) {
     return window.NXR_BASE_PATH + file;
   }
 
-  /* ── THEME ── */
+  // --- 4. THEME & ACCENT ENGINE ---
   function applyTheme(t) {
     state.theme = t;
     document.documentElement.setAttribute('data-theme', t);
     localStorage.setItem('nxr-theme', t);
 
+    // Dark Mode = Show Moon, Light Mode = Show Sun (Fix confusion)
     const moonPath = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
     const sunLines = `<circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+    
     const inner = t === 'dark' ? moonPath : sunLines; 
 
-    const icon = document.getElementById('nxr-theme-icon');
-    const iconMobile = document.getElementById('nxr-theme-icon-mobile');
-    if (icon) icon.innerHTML = inner;
-    if (iconMobile) iconMobile.innerHTML = inner;
+    if (DOM.themeIcon)  DOM.themeIcon.innerHTML = inner;
+    if (DOM.themeIconM) DOM.themeIconM.innerHTML = inner;
 
     const slLight = document.getElementById('nxr-sl-light');
-    const slDark = document.getElementById('nxr-sl-dark');
+    const slDark  = document.getElementById('nxr-sl-dark');
     if(slLight) slLight.classList.toggle('active', t === 'light');
-    if(slDark) slDark.classList.toggle('active', t === 'dark');
-  }
-
-  function toggleTheme() {
-    applyTheme(state.theme === 'dark' ? 'light' : 'dark');
-    toast(state.theme === 'dark' ? '🌙 Dark Mode On' : '☀️ Light Mode On', 'info');
+    if(slDark)  slDark.classList.toggle('active', t === 'dark');
   }
 
   function applyAccent(color) {
@@ -564,13 +565,14 @@ window.NXR = (function() {
     localStorage.setItem('nxr-accent', color);
 
     document.querySelectorAll('.nxr-dot, .nxr-sl-dot').forEach(d => {
-      d.classList.toggle('selected', d.dataset.color === color);
-      d.classList.toggle('active', d.dataset.color === color);
-      if(d.classList.contains('nxr-dot')) d.style.color = d.dataset.color === color ? color : 'transparent';
+      const isMatch = d.dataset.color === color;
+      d.classList.toggle('selected', isMatch);
+      d.classList.toggle('active', isMatch);
+      if(d.classList.contains('nxr-dot')) d.style.color = isMatch ? color : 'transparent';
     });
   }
 
-  /* ── NAVIGATION ── */
+  // --- 5. NAVIGATION & ROUTING ---
   function updateActiveNav() {
     document.querySelectorAll('[data-route]').forEach(el => {
       if(el.classList.contains('nxr-nav-item') || el.classList.contains('nxr-sl-item')) {
@@ -580,45 +582,90 @@ window.NXR = (function() {
   }
 
   function navigate(routeKey) {
+    if (!ROUTES[routeKey]) {
+        console.warn('Route not found:', routeKey);
+        return;
+    }
     state.currentRoute = routeKey;
     updateActiveNav();
     slider.close();
-    const targetFile = ROUTES[routeKey] || ROUTES.home;
+    
+    const targetFile = ROUTES[routeKey];
     window.location.href = getPath(targetFile);
   }
 
-  /* ── SLIDER ── */
+  // --- 6. SLIDER ENGINE (FIXED TOGGLE) ---
   const slider = {
     open() {
       state.sliderOpen = true;
-      if(DOM.slider) DOM.slider.classList.add('open');
+      if(DOM.slider)  DOM.slider.classList.add('open');
       if(DOM.overlay) DOM.overlay.classList.add('open');
       document.body.style.overflow = 'hidden';
     },
     close() {
       state.sliderOpen = false;
-      if(DOM.slider) DOM.slider.classList.remove('open');
+      if(DOM.slider)  DOM.slider.classList.remove('open');
       if(DOM.overlay) DOM.overlay.classList.remove('open');
       document.body.style.removeProperty('overflow');
+    },
+    toggle() {
+      state.sliderOpen ? this.close() : this.open();
     }
   };
 
-  /* ── PALETTE LONG-PRESS ── */
+  // --- 7. UI INTERACTORS (TOAST, PALETTE, BADGE) ---
+  function toast(message, type = 'info', duration = 3500) {
+    const stack = document.getElementById('nxr-toast-stack');
+    if(!stack) return;
+    const el = document.createElement('div');
+    el.className = 'nxr-toast';
+    const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: 'var(--brand)' };
+    const icons  = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+    el.style.setProperty('--toast-color', colors[type] || colors.info);
+    el.innerHTML = `<span class="nxr-toast-icon">${icons[type] || 'ℹ️'}</span><span>${message}</span>`;
+    stack.appendChild(el);
+
+    // Auto cleanup logic
+    while (stack.children.length > 4) stack.removeChild(stack.firstChild);
+    setTimeout(() => {
+      el.classList.add('out');
+      setTimeout(() => el.remove(), 400); 
+    }, duration);
+  }
+
+  function setBadge(type, count) {
+    const el = type === 'cart' ? DOM.cartBadge : DOM.notifBadge;
+    if (!el) return;
+    if (count > 0) { 
+      el.textContent = count > 99 ? '99+' : count; 
+      el.classList.add('visible'); 
+    } else { 
+      el.classList.remove('visible'); 
+    }
+    if (type === 'cart') { state.cartCount = count; localStorage.setItem('nxr-cart', count); } 
+    else { state.notifCount = count; localStorage.setItem('nxr-notif', count); }
+  }
+
+  // --- 8. PALETTE LOGIC (LONG PRESS) ---
   let holdTimer = null, holdFired = false;
   function initPalette() {
     const btn = document.getElementById('nxr-theme-btn');
     if (!btn) return;
-    btn.addEventListener('pointerdown', () => {
+
+    btn.addEventListener('pointerdown', (e) => {
       holdFired = false;
-      holdTimer = setTimeout(() => { holdFired = true; if(DOM.palette) DOM.palette.classList.add('open'); }, 700);
+      holdTimer = setTimeout(() => {
+        holdFired = true;
+        if(DOM.palette) DOM.palette.classList.add('open');
+      }, 700);
     });
+
     btn.addEventListener('pointerup', () => {
       clearTimeout(holdTimer);
-      if (!holdFired) toggleTheme();
-      setTimeout(() => { holdFired = false; }, 100);
+      if (!holdFired) applyTheme(state.theme === 'dark' ? 'light' : 'dark');
     });
-    btn.addEventListener('pointercancel', () => { clearTimeout(holdTimer); holdFired = false; });
-    btn.addEventListener('pointerleave', () => { clearTimeout(holdTimer); holdFired = false; });
+
+    btn.addEventListener('pointerleave', () => clearTimeout(holdTimer));
 
     document.addEventListener('click', (e) => {
       if (DOM.palette && !btn.contains(e.target) && !DOM.palette.contains(e.target)) {
@@ -627,36 +674,13 @@ window.NXR = (function() {
     });
   }
 
-  /* ── BADGES & TOAST ── */
-  function setBadge(type, count) {
-    const el = type === 'cart' ? DOM.cartBadge : DOM.notifBadge;
-    if (!el) return;
-    if (count > 0) { el.textContent = count > 99 ? '99+' : count; el.classList.add('visible'); } 
-    else { el.classList.remove('visible'); }
-    if (type === 'cart') { state.cartCount = count; localStorage.setItem('nxr-cart', count); } 
-    else { state.notifCount = count; localStorage.setItem('nxr-notif', count); }
-  }
-
-  function toast(message, type = 'info', duration = 3500) {
-    const stack = document.getElementById('nxr-toast-stack');
-    if(!stack) return;
-    const el = document.createElement('div');
-    el.className = 'nxr-toast';
-    const colors = { success: '#10b981', error: '#ef4444', warning: '#f59e0b', info: 'var(--brand)' };
-    const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
-    el.style.setProperty('--toast-color', colors[type] || colors.info);
-    el.innerHTML = `<span class="nxr-toast-icon">${icons[type] || 'ℹ️'}</span><span>${message}</span>`;
-    stack.appendChild(el);
-    while (stack.children.length > 4) stack.removeChild(stack.firstChild);
-    setTimeout(() => {
-      el.classList.add('out');
-      setTimeout(() => el.remove(), 400); 
-    }, duration);
-  }
-
-  /* ── EVENTS & PWA ── */
+  // --- 9. EVENT LISTENERS & SYSTEM ---
   function initEvents() {
-    // Delegation for routes
+    // Online/Offline status
+    window.addEventListener('online',  () => { state.isOnline = true;  toast('System Online', 'success'); updateOnlineUI(); });
+    window.addEventListener('offline', () => { state.isOnline = false; toast('System Offline', 'error');   updateOnlineUI(); });
+
+    // Link Delegation
     document.addEventListener('click', (e) => {
       const routeEl = e.target.closest('[data-route]');
       if(routeEl) {
@@ -665,10 +689,14 @@ window.NXR = (function() {
       }
     });
 
-    // Theme dots delegation
+    // Theme/Accent clicks
     document.addEventListener('click', (e) => {
       const colorDot = e.target.closest('[data-color]');
-      if(colorDot) { applyAccent(colorDot.dataset.color); if(DOM.palette) DOM.palette.classList.remove('open'); }
+      if(colorDot) {
+        applyAccent(colorDot.dataset.color);
+        if(DOM.palette) DOM.palette.classList.remove('open');
+        toast('Accent Color Updated', 'success');
+      }
       
       const themeSet = e.target.closest('[data-theme-set]');
       if(themeSet) applyTheme(themeSet.dataset.themeSet);
@@ -680,17 +708,17 @@ window.NXR = (function() {
         state.lang = state.lang === 'en' ? 'ur' : 'en';
         localStorage.setItem('nxr-lang', state.lang);
         DOM.langBtn.textContent = state.lang.toUpperCase();
-        toast(`Language changed to ${state.lang.toUpperCase()}`, 'info');
+        toast(`Language: ${state.lang.toUpperCase()}`, 'info');
       });
     }
 
     // Slider controls
     const slBtn = document.getElementById('nxr-slider-btn');
     const slClose = document.getElementById('nxr-slider-close');
-    if(slBtn) slBtn.addEventListener('click', () => slider.toggle());
+    if(slBtn)   slBtn.addEventListener('click', (e) => { e.stopPropagation(); slider.toggle(); });
     if(slClose) slClose.addEventListener('click', () => slider.close());
 
-    // Scroll throttle
+    // Throttled Scroll for Progress Bar
     let ticking = false;
     window.addEventListener('scroll', () => {
       if (!ticking) {
@@ -705,66 +733,85 @@ window.NXR = (function() {
       }
     }, { passive: true });
 
-    // Keyboard
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') { slider.close(); if(DOM.palette) DOM.palette.classList.remove('open'); }
-    });
-
     // PWA Support
     let deferredPrompt;
     window.addEventListener('beforeinstallprompt', (e) => {
       e.preventDefault(); deferredPrompt = e;
       if(DOM.pwaBtn) {
         DOM.pwaBtn.style.display = 'flex';
-        DOM.pwaBtn.addEventListener('click', () => {
+        DOM.pwaBtn.onclick = () => {
           deferredPrompt.prompt();
           deferredPrompt.userChoice.then(() => { deferredPrompt = null; DOM.pwaBtn.style.display = 'none'; });
-        });
+        };
       }
     });
 
-    // Logout trigger
+    // Logout
     const logoutBtn = document.getElementById('nxr-logout-trigger');
     if(logoutBtn) logoutBtn.addEventListener('click', () => {
-      toast('👋 Logged out securely', 'info');
-      setTimeout(() => window.location.href = getPath(ROUTES.settings), 800);
+        toast('Logging out...', 'info');
+        setTimeout(() => window.location.href = getPath(ROUTES.settings), 1000);
     });
   }
 
-  /* ── INIT ── */
+  function updateOnlineUI() {
+    const dots = document.querySelectorAll('.nxr-online-dot');
+    dots.forEach(dot => {
+      dot.style.background = state.isOnline ? 'var(--success)' : 'var(--danger)';
+    });
+  }
+
+  // --- 10. INITIALIZATION ---
   function init() {
     cacheDOM();
     applyTheme(state.theme);
     applyAccent(state.accent);
+    
     if(DOM.langBtn) DOM.langBtn.textContent = state.lang.toUpperCase();
-    setBadge('cart', state.cartCount);
+    
+    setBadge('cart',  state.cartCount);
     setBadge('notif', state.notifCount);
+    
     initPalette();
     initEvents();
+    updateOnlineUI();
 
-    const hashRoute = window.location.hash.replace('#','');
-    const paramRoute = new URLSearchParams(window.location.search).get('view');
-    state.currentRoute = paramRoute || hashRoute || 'home';
+    // Route sync from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    state.currentRoute = urlParams.get('view') || 'home';
     updateActiveNav();
+
+    console.log('%c⚡ NXR ENGINE 2.0: BUGS FIXED & UI SYNCED', 'color:#FF4A17; font-weight:800; padding:4px;');
   }
 
   return {
-    init, navigate, slider, setBadge, toast, toggleTheme,
+    init, 
+    navigate, 
+    slider, 
+    setBadge, 
+    toast, 
+    applyTheme,
     setUser: (user) => { 
       state.user = user; 
       const avatarWrap = document.getElementById('nxr-avatar-wrap');
       const icon = document.getElementById('nxr-profile-icon');
       if(user && user.photoURL) {
          if(icon) icon.style.display = 'none';
-         if(avatarWrap) { avatarWrap.style.display = 'block'; avatarWrap.querySelector('img').src = user.photoURL; }
+         if(avatarWrap) { 
+           avatarWrap.style.display = 'block'; 
+           avatarWrap.querySelector('img').src = user.photoURL; 
+         }
          const slAvatar = document.getElementById('nxr-sl-avatar');
          if(slAvatar) slAvatar.src = user.photoURL;
+         const slName = document.getElementById('nxr-sl-uname');
+         if(slName) slName.textContent = user.displayName || 'User';
       }
     }
   };
 
 })();
 
+// Ignite
 document.addEventListener('DOMContentLoaded', NXR.init);
 </script>
 <!-- --- END OF FILE navigation.html --- -->
