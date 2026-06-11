@@ -5,209 +5,257 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nexra OS | The One Man Army Protocol</title>
     
-    <!-- Favicon & SEO -->
     <link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
-    <meta name="theme-color" content="#ff5500">
-
+    
     <!-- Frameworks -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=Space+Grotesk:wght@500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
 
     <style>
         :root {
             --bg: #f5f4ef;
             --orange: #ff5500;
             --obsidian: #0f172a;
-            --glass: rgba(255, 255, 255, 0.85);
+            --glass: rgba(255, 255, 255, 0.7);
             --border: rgba(0, 0, 0, 0.05);
-            --transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1);
+            --spring: cubic-bezier(0.4, 0, 0.2, 1);
+            --director-ease: cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        /* --- UI RESET & NO SCROLL --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; cursor: crosshair; }
-        body { background: var(--bg); color: var(--obsidian); height: 100vh; overflow: hidden; }
-
-        /* --- HARD REFRESH MOVIE GATE --- */
-        #gate-container {
-            position: fixed; inset: 0; z-index: 10000; display: flex; 
-            pointer-events: none; visibility: hidden;
+        /* --- UI CORE & NOISE TEXTURE --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; cursor: none; outline: none; }
+        body { background: var(--bg); color: var(--obsidian); height: 100vh; overflow: hidden; position: relative; }
+        
+        body::before {
+            content: ""; position: fixed; inset: 0; z-index: 9999; pointer-events: none;
+            background-image: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.03;
         }
-        .gate-panel {
-            flex: 1; background: var(--obsidian); height: 100%; transition: transform 1.5s var(--transition);
+
+        /* --- CINEMATIC BOOT SEQUENCE --- */
+        #boot-os {
+            position: fixed; inset: 0; background: var(--obsidian); z-index: 10000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1s var(--director-ease);
+        }
+        .boot-status { color: var(--orange); font-family: 'Fira Code', monospace; font-size: 12px; margin-top: 20px; letter-spacing: 2px; }
+        .boot-bar { width: 200px; height: 2px; background: rgba(255,255,255,0.1); border-radius: 10px; margin-top: 10px; overflow: hidden; }
+        .boot-progress { height: 100%; width: 0%; background: var(--orange); transition: width 0.4s ease; box-shadow: 0 0 15px var(--orange); }
+
+        /* --- BACKGROUND PARTICLES --- */
+        #particle-canvas { position: fixed; inset: 0; z-index: 1; pointer-events: none; opacity: 0.4; }
+
+        /* --- CUSTOM CURSOR --- */
+        #os-cursor { position: fixed; width: 12px; height: 12px; background: var(--obsidian); border-radius: 50%; z-index: 10001; pointer-events: none; transform: translate(-50%, -50%); transition: transform 0.1s ease; }
+        #os-cursor-glow { position: fixed; width: 40px; height: 40px; border: 1px solid var(--orange); border-radius: 50%; z-index: 10000; pointer-events: none; transform: translate(-50%, -50%); transition: all 0.15s var(--spring); opacity: 0.3; }
+
+        /* --- MAIN VIEWPORT CANVAS --- */
+        .os-viewport {
+            width: 100vw; height: 100vh; display: flex; align-items: center; justify-content: center;
+            perspective: 2000px; z-index: 10; position: relative;
+        }
+        .world-layer {
+            position: relative; width: 3000px; height: 3000px;
             display: flex; align-items: center; justify-content: center;
+            transition: transform 1.2s var(--director-ease); transform-origin: center center;
+            will-change: transform;
         }
-        #gate-l { transform: translateX(0); border-right: 1px solid var(--orange); }
-        #gate-r { transform: translateX(0); border-left: 1px solid var(--orange); }
-        .gate-logo { width: 120px; filter: drop-shadow(0 0 20px var(--orange)); opacity: 0; transition: 0.5s; }
-        
-        body.booting #gate-container { visibility: visible; pointer-events: all; }
-        body.open-gate #gate-l { transform: translateX(-100%); }
-        body.open-gate #gate-r { transform: translateX(100%); }
 
-        /* --- WATERMARKS --- */
-        .watermark-img { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 60vw; opacity: 0.02; z-index: 0; pointer-events: none; }
-        .watermark-text { position: fixed; bottom: 5%; right: 2%; font-family: 'Space Grotesk'; font-size: 10vw; font-weight: 900; color: #000; opacity: 0.015; z-index: 0; pointer-events: none; white-space: nowrap; }
+        /* --- NEURAL GLOW HUB & ORBIT RINGS --- */
+        .neural-hub {
+            position: relative; width: 220px; height: 220px;
+            background: var(--obsidian); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            border: 8px solid white; z-index: 100;
+            box-shadow: 0 30px 100px rgba(0,0,0,0.3);
+            animation: pulse-heart 3s infinite ease-in-out;
+        }
+        @keyframes pulse-heart { 0%, 100% { transform: scale(1); box-shadow: 0 30px 100px rgba(0,0,0,0.3); } 50% { transform: scale(1.05); box-shadow: 0 30px 120px rgba(255,85,0,0.2); } }
 
-        /* --- APP SHELL (PC LAYOUT) --- */
-        .app-shell { display: grid; grid-template-columns: 280px 1fr 80px; height: 100vh; position: relative; z-index: 10; }
+        .orbit-ring {
+            position: absolute; border: 1px dashed rgba(0,0,0,0.05); border-radius: 50%;
+            pointer-events: none; animation: rotate-orbit 60s linear infinite;
+        }
+        .ring-1 { width: 500px; height: 500px; }
+        .ring-2 { width: 800px; height: 800px; animation-duration: 90s; }
+        @keyframes rotate-orbit { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-        /* --- LEFT SIDEBAR: NEXUS HISTORY & YT --- */
-        .left-sidebar { background: white; border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
-        .yt-preview { background: var(--bg); border-radius: 20px; padding: 15px; border: 1px solid var(--border); text-align: center; }
-        .yt-logo { width: 45px; border-radius: 12px; margin-bottom: 10px; }
-        .subs-count { font-family: 'Space Grotesk'; font-size: 18px; font-weight: 800; color: var(--obsidian); }
-        .nexus-history { flex: 1; display: flex; flex-direction: column; gap: 10px; margin-top: 10px; }
-        .project-card { padding: 12px; border-radius: 14px; background: #fafafa; border: 1px solid transparent; cursor: pointer; transition: 0.3s; }
-        .project-card:hover, .project-card.active { border-color: var(--orange); background: white; box-shadow: 0 5px 15px rgba(0,0,0,0.02); }
-        
-        .social-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 15px; }
-        .social-grid i { font-size: 18px; color: #94a3b8; cursor: pointer; transition: 0.3s; }
-        .social-grid i:hover { color: var(--orange); transform: scale(1.1); }
+        /* --- GLASS CARDS (3D TILT) --- */
+        .os-card {
+            position: absolute; width: 280px; background: var(--glass);
+            backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+            padding: 24px; border-radius: 30px; border: 1px solid white;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.05); z-index: 50;
+            transition: transform 0.1s ease, box-shadow 0.3s ease;
+            transform-style: preserve-3d;
+        }
+        .os-card:hover { box-shadow: 0 25px 60px rgba(0,0,0,0.1); border-color: var(--orange); }
 
-        /* --- CENTER: EVOLUTION HUB --- */
-        .roadmap-workspace { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; perspective: 1500px; }
-        .zoom-layer { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transition: var(--transition); transform-origin: center center; }
+        .os-card .badge {
+            width: 40px; height: 40px; border-radius: 12px; color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; transform: translateZ(20px);
+        }
 
-        #svg-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-        .line-path { fill: none; stroke-width: 2.5; stroke-dasharray: 6; animation: march 15s linear infinite; opacity: 0.2; }
-        @keyframes march { to { stroke-dashoffset: -500; } }
+        /* --- XP & PROGRESS --- */
+        .xp-container {
+            position: fixed; top: 85px; left: 50%; transform: translateX(-50%);
+            width: 300px; text-align: center; z-index: 1000;
+        }
+        .xp-bar { width: 100%; height: 6px; background: rgba(0,0,0,0.05); border-radius: 10px; overflow: hidden; margin-top: 5px; }
+        .xp-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--orange), #ffae00); transition: width 1s var(--spring); }
 
-        .hub-core { width: 160px; height: 160px; background: var(--obsidian); border-radius: 50%; border: 6px solid white; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.2); z-index: 100; position: relative; }
-        .hub-core img { width: 50px; margin-bottom: 5px; }
-        .hub-core span { font-size: 8px; letter-spacing: 2px; font-weight: 800; text-transform: uppercase; }
+        /* --- COMMAND PALETTE --- */
+        #cmd-palette {
+            position: fixed; top: 20%; left: 50%; transform: translateX(-50%) scale(0.9);
+            width: 600px; background: white; border-radius: 24px;
+            box-shadow: 0 50px 150px rgba(0,0,0,0.2); z-index: 10000;
+            padding: 10px; border: 1px solid var(--border);
+            display: none; opacity: 0; transition: 0.3s var(--spring);
+        }
+        #cmd-palette.active { display: block; opacity: 1; transform: translateX(-50%) scale(1); }
+        .cmd-input { width: 100%; padding: 15px 20px; border: none; font-size: 18px; font-weight: 600; color: var(--obsidian); background: transparent; }
 
-        .phase-card { position: absolute; width: 250px; background: var(--glass); backdrop-filter: blur(20px); padding: 18px; border-radius: 24px; border: 1px solid white; box-shadow: 0 10px 40px rgba(0,0,0,0.04); z-index: 50; transition: 0.4s; }
-        .phase-card:hover { transform: translateY(-5px); background: white; }
-        .badge { width: 32px; height: 32px; border-radius: 8px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; }
+        /* --- SIDEBARS --- */
+        .os-sidebar {
+            position: fixed; left: 20px; top: 100px; bottom: 100px; width: 260px;
+            background: white; border-radius: 30px; padding: 25px;
+            box-shadow: var(--border) 0px 10px 30px; z-index: 1000;
+            transition: transform 0.5s var(--spring);
+        }
+        .os-sidebar.hidden { transform: translateX(-300px); }
 
-        /* --- RIGHT DOCK: ICONS ONLY --- */
-        .right-dock { background: white; border-left: 1px solid var(--border); display: flex; flex-direction: column; align-items: center; padding: 20px 0; gap: 25px; }
-        .dock-icon { width: 32px; height: 32px; cursor: pointer; transition: 0.3s; opacity: 0.6; filter: grayscale(1); }
-        .dock-icon:hover { opacity: 1; filter: grayscale(0); transform: scale(1.2); }
+        /* --- SVG SYSTEM ICONS --- */
+        .svg-icon { width: 20px; height: 20px; fill: currentColor; }
 
-        /* --- MODALS (TXT VIEW) --- */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.1); backdrop-filter: blur(10px); z-index: 2000; display: none; align-items: center; justify-content: center; }
-        .modal-box { background: white; width: 600px; padding: 35px; border-radius: 30px; box-shadow: 0 30px 100px rgba(0,0,0,0.1); border: 1px solid white; position: relative; }
-        .txt-area { background: #f8fafc; padding: 20px; border-radius: 15px; font-family: 'Fira Code', monospace; font-size: 12px; color: #334155; height: 300px; overflow-y: auto; white-space: pre-wrap; border: 1px solid #edf2f7; margin-bottom: 20px; }
-        .copy-btn { background: var(--obsidian); color: white; border: none; padding: 12px 25px; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; transition: 0.3s; }
-        .copy-btn:hover { background: var(--orange); }
+        /* --- STATS & HEALTH --- */
+        .health-dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; margin-right: 8px; box-shadow: 0 0 10px currentColor; }
+        .health-online { color: #22c55e; background: #22c55e; }
 
-        /* --- DIRECTOR CONTROLS --- */
-        .director-bar { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--obsidian); padding: 8px 12px; border-radius: 50px; display: flex; gap: 8px; z-index: 1000; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-        .cam-btn { background: transparent; border: none; color: #94a3b8; font-size: 10px; font-weight: 800; padding: 10px 18px; border-radius: 20px; transition: 0.3s; }
-        .cam-btn.active { color: white; background: #334155; }
+        /* --- ANIMATIONS --- */
+        .stagger-load { animation: slideUp 0.8s var(--spring) forwards; opacity: 0; transform: translateY(30px); }
+        @keyframes slideUp { to { opacity: 1; transform: translateY(0); } }
 
-        /* --- LICENSING (PREMIUM LOCK) --- */
-        .premium-lock { position: absolute; inset: 0; background: rgba(255,255,255,0.7); backdrop-filter: blur(5px); border-radius: 24px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; z-index: 100; cursor: pointer; }
-        .lock-icon { font-size: 40px; color: var(--orange); margin-bottom: 10px; }
+        /* --- DIRECTOR ZOOM BUTTONS --- */
+        .os-controls {
+            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+            background: var(--obsidian); padding: 8px; border-radius: 100px;
+            display: flex; gap: 5px; z-index: 1000; box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+        }
+        .os-btn {
+            background: transparent; border: none; color: #64748b; font-size: 10px;
+            font-weight: 800; padding: 12px 20px; border-radius: 100px; transition: 0.3s;
+        }
+        .os-btn.active { color: white; background: #334155; }
+        .os-btn:hover:not(.active) { color: var(--orange); }
 
-        /* Positions for 3 main cards */
-        .p1 { top: 10%; left: 10%; }
-        .p2 { top: 10%; right: 10%; }
-        .p3 { bottom: 10%; left: 50%; transform: translateX(-50%); }
-
+        /* --- MOBILE ADAPTIVE --- */
         @media (max-width: 1024px) {
-            .app-shell { grid-template-columns: 1fr; overflow-y: auto; height: auto; }
-            .left-sidebar, .right-dock { display: none; }
-            .zoom-layer { flex-direction: column; height: auto; padding: 120px 0; }
-            .phase-card { position: relative; left: auto; top: auto; transform: none !important; margin: 20px auto; }
-            #svg-canvas, .director-bar { display: none; }
+            .world-layer { flex-direction: column; height: auto; padding: 150px 0; transform: none !important; }
+            .os-card { position: relative; left: auto !important; top: auto !important; transform: none !important; margin: 20px auto; }
+            .os-sidebar, .os-controls, #particle-canvas, .orbit-ring { display: none; }
+            body { overflow-y: auto; }
         }
     </style>
 </head>
-<body class="booting">
+<body class="loading-state">
 
-    <!-- Hard Refresh Gate -->
-    <div id="gate-container">
-        <div id="gate-l" class="gate-panel"><img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" class="gate-logo"></div>
-        <div id="gate-r" class="gate-panel"></div>
+    <!-- 1. OS Boot Screen -->
+    <div id="boot-os">
+        <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" width="100" style="filter: drop-shadow(0 0 20px rgba(255,85,0,0.5))">
+        <div class="boot-status" id="boot-text">INITIALIZING NEXRA_OS...</div>
+        <div class="boot-bar"><div class="boot-progress" id="boot-load"></div></div>
     </div>
 
-    <!-- Watermarks -->
-    <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" class="watermark-img">
-    <div class="watermark-text">NEXRA TECH</div>
+    <!-- 2. Interactive Background -->
+    <canvas id="particle-canvas"></canvas>
+    <div id="os-cursor"></div>
+    <div id="os-cursor-glow"></div>
 
-    <div class="app-shell">
-        
-        <!-- Left: Nexus History & YT -->
-        <aside class="left-sidebar">
-            <div class="yt-preview">
-                <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" class="yt-logo">
-                <h4>Nexra Tech</h4>
-                <p class="subs-count">84+ <span style="font-size:10px; color:#94a3b8;">Subscribers</span></p>
-                <div class="social-grid">
-                    <a href="https://youtube.com/@NexraTech"><i class="fa-brands fa-youtube"></i></a>
-                    <i class="fa-brands fa-tiktok"></i>
-                    <i class="fa-brands fa-telegram"></i>
-                    <i class="fa-brands fa-whatsapp"></i>
-                </div>
+    <!-- 3. Top Status Bar -->
+    <header style="position: fixed; top: 0; left: 0; right: 0; height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; z-index: 10000; pointer-events: none;">
+        <div style="background: white; padding: 10px 20px; border-radius: 20px; display: flex; align-items: center; gap: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); pointer-events: all;">
+            <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" height="30">
+            <h2 style="font-size: 14px; font-weight: 800;">NEXRA <span style="color: var(--orange);">OS</span></h2>
+        </div>
+
+        <div class="xp-container" style="pointer-events: all;">
+            <div style="display: flex; justify-content: space-between; font-size: 10px; font-weight: 900; letter-spacing: 1px;">
+                <span>LEVEL <span id="user-level">1</span></span>
+                <span>XP: <span id="user-xp">0</span>/1000</span>
+            </div>
+            <div class="xp-bar"><div class="xp-fill" id="xp-fill"></div></div>
+        </div>
+
+        <div style="background: white; padding: 10px 20px; border-radius: 20px; display: flex; align-items: center; gap: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); pointer-events: all;">
+            <div class="health-dot health-online"></div>
+            <span style="font-size: 11px; font-weight: 800;" id="system-time">00:00:00</span>
+        </div>
+    </header>
+
+    <!-- 4. Main OS Sidebar -->
+    <aside class="os-sidebar" id="main-sidebar">
+        <div style="margin-bottom: 30px; text-align: center;">
+            <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" width="60" style="border-radius: 15px; margin-bottom: 10px;">
+            <h3 style="font-size: 16px;">Nexra Tech</h3>
+            <p style="font-size: 10px; color: #94a3b8; font-weight: 800;">84+ SUBSCRIBERS</p>
+        </div>
+
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <div style="font-size: 10px; font-weight: 800; color: #cbd5e1; letter-spacing: 2px; margin-bottom: 5px;">PROJECT VAULT</div>
+            <div id="history-list" style="display: flex; flex-direction: column; gap: 8px;">
+                <!-- Projects from Firebase -->
+            </div>
+        </div>
+
+        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border); display: flex; justify-content: center; gap: 20px;">
+            <!-- SVG Icons only -->
+            <a href="https://youtube.com/@NexraTech"><svg class="svg-icon" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.016 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.016 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.455L15.818 12l-6.273 3.568z"/></svg></a>
+            <svg class="svg-icon" viewBox="0 0 24 24" onclick="toggleFocus()"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"/></svg>
+        </div>
+    </aside>
+
+    <!-- 5. Cinematic Roadmap Canvas -->
+    <div class="os-viewport" id="viewport">
+        <div class="world-layer" id="world">
+            
+            <div class="orbit-ring ring-1"></div>
+            <div class="orbit-ring ring-2"></div>
+
+            <svg style="position: absolute; inset: 0; pointer-events: none; z-index: 5;">
+                <path id="flow-1" class="line-path" stroke="var(--orange)" d=""></path>
+                <path id="flow-2" class="line-path" stroke="#007aff" d=""></path>
+                <path id="flow-3" class="line-path" stroke="#22c55e" d=""></path>
+            </svg>
+
+            <!-- Neural Center Hub -->
+            <div class="neural-hub" id="hub-trigger">
+                <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" width="60">
+                <div style="position: absolute; bottom: 35px; color: white; font-family: 'Space Grotesk'; font-size: 8px; letter-spacing: 3px; font-weight: 800;">PROTOCOL</div>
             </div>
 
-            <h5 style="font-size:10px; letter-spacing:2px; color:#94a3b8; text-transform:uppercase; font-weight:800; margin-top:10px;">Nexus History Vault</h5>
-            <div id="project-list" class="nexus-history">
-                <!-- Projects Load Here -->
-            </div>
+            <!-- Phase Containers (Dynamic) -->
+            <div id="cards-container"></div>
 
-            <div style="background:#f1f5f9; padding:15px; border-radius:15px; margin-top:auto;">
-                <p style="font-size:11px; font-weight:700; color:#64748b;">Get free PRDs, roadmaps & templates from our official site.</p>
-                <a href="https://nexratech.vercel.app" style="font-size:10px; color:var(--orange); font-weight:800; text-decoration:none;">nexratech.vercel.app</a>
-            </div>
-        </aside>
-
-        <!-- Center: Evolution Roadmap Hub -->
-        <main class="roadmap-workspace">
-            <div class="zoom-layer" id="main-zoom">
-                
-                <svg id="svg-canvas">
-                    <path id="path1" class="line-path" stroke="var(--orange)"></path>
-                    <path id="path2" class="line-path" stroke="#007aff"></path>
-                    <path id="path3" class="line-path" stroke="#34c759"></path>
-                </svg>
-
-                <div class="hub-core" id="core-logo">
-                    <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
-                    <span>Evolution<br>Engine</span>
-                </div>
-
-                <div id="roadmap-cards-container"></div>
-
-            </div>
-        </main>
-
-        <!-- Right: Smart File Dock -->
-        <aside class="right-dock">
-            <img src="https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png" class="dock-icon" onclick="openFile('Firebase Config', 'Firebase API Key: AIzaSyDeNZBt...\nProject ID: nexrapk\nFirestore Rules: allow read, write: if true;')" title="Firebase Config">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_AdMob_logo.svg" class="dock-icon" onclick="openAdMob()" title="AdMob Testing IDs">
-            <img src="https://uxwing.com/wp-content/themes/uxwing/download/brands-and-social-media/google-ai-studio-gemini-icon.png" class="dock-icon" title="Google AI Studio">
-            <i class="fa-solid fa-file-invoice dock-icon" style="font-size:24px; color:#475569;" onclick="openPRD()"></i>
-            <i class="fa-solid fa-clock-rotate-left dock-icon" style="font-size:24px; color:#475569;"></i>
-        </aside>
-
-    </div>
-
-    <!-- Director's Cut Bar -->
-    <div class="director-bar">
-        <button class="cam-btn active" onclick="setCam('global', this)">GLOBAL</button>
-        <button class="cam-btn" onclick="setCam('p1', this)">PHASE 1</button>
-        <button class="cam-btn" onclick="setCam('p2', this)">PHASE 2</button>
-        <button class="cam-btn" onclick="setCam('p3', this)">PHASE 3</button>
-    </div>
-
-    <!-- Modals -->
-    <div class="modal-overlay" id="file-modal">
-        <div class="modal-box">
-            <h3 id="modal-title" style="margin-bottom:15px; font-family:'Space Grotesk';">File Preview</h3>
-            <div class="txt-area" id="modal-content"></div>
-            <button class="copy-btn" onclick="copyContent()">COPY TO CLIPBOARD</button>
-            <p onclick="closeModal()" style="text-align:center; font-size:11px; margin-top:15px; color:#94a3b8; cursor:pointer;">Close Viewer</p>
         </div>
     </div>
 
+    <!-- 6. Command Palette Overlay -->
+    <div id="cmd-palette">
+        <input type="text" class="cmd-input" placeholder="Type a command (e.g. /focus, /reset, /prd)..." id="cmd-field">
+    </div>
+
+    <!-- 7. Director's Cut Bar -->
+    <div class="os-controls">
+        <button class="os-btn active" onclick="osView('global', this)">GLOBAL</button>
+        <button class="os-btn" onclick="osView('p1', this)">PHASE 01</button>
+        <button class="os-btn" onclick="osView('p2', this)">PHASE 02</button>
+        <button class="os-btn" onclick="osView('p3', this)">PHASE 03</button>
+    </div>
+
     <script>
-        // === FIREBASE CONFIG ===
+        // === FIREBASE CONFIG (SAME AS BEFORE) ===
         const firebaseConfig = {
             apiKey: "AIzaSyDeNZBtVQ5iX5PjV5Gj4xXgxqB3KaJ4cZw",
             authDomain: "nexrapk.firebaseapp.com",
@@ -219,163 +267,221 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        let activeProject = null;
+        let currentXP = parseInt(localStorage.getItem('nexra_xp')) || 0;
+        let userLevel = Math.floor(currentXP / 1000) + 1;
+        let isDragging = false;
+        let startX, startY, scrollLeft, scrollTop;
 
-        // === BOOT SEQUENCE (GATE ANIMATION) ===
+        // === 1. BOOT SEQUENCE ===
         window.onload = () => {
-            const isHardRefresh = performance.navigation.type === 1;
-            if(isHardRefresh) {
-                document.querySelector('.gate-logo').style.opacity = '1';
-                setTimeout(() => {
-                    document.body.classList.add('open-gate');
-                    setTimeout(() => document.body.classList.remove('booting'), 1500);
-                }, 1000);
-            } else {
-                document.body.classList.remove('booting');
-            }
-            loadProjects();
+            const bootStages = ["MOUNTING_DRIVES...", "SYNCING_FIREBASE...", "INITIALIZING_UI...", "OS_READY."];
+            let stage = 0;
+            const interval = setInterval(() => {
+                document.getElementById('boot-load').style.width = ((stage + 1) * 25) + "%";
+                document.getElementById('boot-text').innerText = bootStages[stage];
+                stage++;
+                if(stage >= 4) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('boot-os').style.opacity = '0';
+                        setTimeout(() => {
+                            document.getElementById('boot-os').style.display = 'none';
+                            initOS();
+                        }, 1000);
+                    }, 500);
+                }
+            }, 600);
         };
 
-        // === KEYBOARD SHORTCUTS ===
-        window.addEventListener('keydown', e => {
-            if(e.ctrlKey) {
-                e.preventDefault();
-                if(e.key === 'p') openPRD();
-                if(e.key === 'b') openFile('Firebase Config', 'Firebase Logic Locked.');
-                if(e.key === 'd') openFile('Documentation', 'Project Documentation loading...');
-            }
+        // === 2. PARTICLE SYSTEM ===
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        let particles = [];
+        for(let i=0; i<80; i++) particles.push({ x: Math.random()*canvas.width, y: Math.random()*canvas.height, r: Math.random()*2, d: Math.random()*1 });
+
+        function drawParticles() {
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.fillStyle = "rgba(0,0,0,0.1)";
+            particles.forEach(p => {
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI*2); ctx.fill();
+                p.y -= p.d; if(p.y < 0) p.y = canvas.height;
+            });
+            requestAnimationFrame(drawParticles);
+        }
+        drawParticles();
+
+        // === 3. CUSTOM CURSOR & TILT ===
+        document.addEventListener('mousemove', e => {
+            document.getElementById('os-cursor').style.left = e.clientX + 'px';
+            document.getElementById('os-cursor').style.top = e.clientY + 'px';
+            document.getElementById('os-cursor-glow').style.left = e.clientX + 'px';
+            document.getElementById('os-cursor-glow').style.top = e.clientY + 'px';
         });
 
-        // === LOAD PROJECTS FROM FIREBASE ===
-        function loadProjects() {
+        // === 4. CORE OS FUNCTIONS ===
+        function initOS() {
+            updateXP(0);
+            startTime();
+            loadHistory();
+            initDragCanvas();
+            // Start listening to Firebase
             db.collection("RoadmapData").orderBy("order", "asc").onSnapshot(snap => {
-                const list = document.getElementById('project-list');
-                list.innerHTML = "";
-                snap.docs.forEach((doc, i) => {
-                    const data = doc.data();
-                    const card = document.createElement('div');
-                    card.className = `project-card ${i === 0 ? 'active' : ''}`;
-                    card.innerHTML = `<h4>${data.title}</h4><p>v2.0 • Last Synced</p>`;
-                    card.onclick = () => selectProject(doc.id, data, card);
-                    list.appendChild(card);
-                    if(i === 0) selectProject(doc.id, data, card);
-                });
+                renderCards(snap.docs);
             });
         }
 
-        function selectProject(id, data, el) {
-            document.querySelectorAll('.project-card').forEach(c => c.classList.remove('active'));
-            el.classList.add('active');
-            activeProject = data;
-            renderRoadmap(data);
-            setTimeout(drawPaths, 600);
+        function startTime() {
+            setInterval(() => {
+                const now = new Date();
+                document.getElementById('system-time').innerText = now.getHours().toString().padStart(2,'0') + ":" + now.getMinutes().toString().padStart(2,'0') + ":" + now.getSeconds().toString().padStart(2,'0');
+            }, 1000);
         }
 
-        // === RENDER ROADMAP CARDS ===
-        function renderRoadmap(data) {
-            const container = document.getElementById('roadmap-cards-container');
-            container.innerHTML = "";
-            const colors = ['#ff5500', '#007aff', '#34c759'];
-            
-            for(let i=0; i<3; i++) {
-                const card = document.createElement('div');
-                card.className = `phase-card p${i+1}`;
-                card.id = `card${i+1}`;
-                
-                // Add Premium Lock logic if data.isLocked is true
-                if(data.tasks[i]?.locked) {
-                    card.innerHTML = `<div class="premium-lock" onclick="window.open('https://wa.me/NexraTech')"><i class="fa-solid fa-lock lock-icon"></i><p style="font-size:12px; font-weight:800;">LICENSE REQUIRED<br><span style="color:var(--orange)">Tap to Purchase</span></p></div>`;
-                }
+        function updateXP(amount) {
+            currentXP += amount;
+            localStorage.setItem('nexra_xp', currentXP);
+            userLevel = Math.floor(currentXP / 1000) + 1;
+            const progress = (currentXP % 1000) / 10;
+            document.getElementById('xp-fill').style.width = progress + "%";
+            document.getElementById('user-xp').innerText = currentXP % 1000;
+            document.getElementById('user-level').innerText = userLevel;
+        }
 
-                card.innerHTML += `
-                    <div class="card-header">
-                        <div class="badge" style="background:${colors[i]}">0${i+1}</div>
-                        <h3 style="font-size:13px; font-weight:800;">Phase 0${i+1}<br><span style="font-size:9px; color:#94a3b8; text-transform:uppercase;">Protocol</span></h3>
+        // === 5. COMMAND PALETTE ===
+        document.addEventListener('keydown', e => {
+            if(e.ctrlKey && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('cmd-palette').classList.add('active');
+                document.getElementById('cmd-field').focus();
+            }
+            if(e.key === 'Escape') {
+                document.getElementById('cmd-palette').classList.remove('active');
+            }
+            if(e.key === '?') {
+                alert("COMMANDS:\nCtrl+K: Open Console\n/focus: Hide Sidebar\n/reset: Clear Data");
+            }
+        });
+
+        // === 6. CINEMATIC CAMERA ===
+        function osView(view, btn) {
+            document.querySelectorAll('.os-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            const world = document.getElementById('world');
+            const trans = {
+                'global': 'scale(1) translate(0,0)',
+                'p1': 'scale(1.8) translate(20%, 15%)',
+                'p2': 'scale(1.8) translate(-20%, 15%)',
+                'p3': 'scale(1.8) translate(0, -25%)'
+            };
+            world.style.transform = trans[view];
+        }
+
+        function toggleFocus() {
+            document.getElementById('main-sidebar').classList.toggle('hidden');
+        }
+
+        // === 7. FIREBASE & CARDS ===
+        function renderCards(docs) {
+            const container = document.getElementById('cards-container');
+            container.innerHTML = "";
+            const pos = [
+                { top: '10%', left: '10%', c: '#ff5500' },
+                { top: '10%', right: '10%', c: '#007aff' },
+                { bottom: '10%', left: '50%', transform: 'translateX(-50%)', c: '#22c55e' }
+            ];
+
+            docs.forEach((doc, i) => {
+                if(i > 2) return; // Support top 3 phases for cinematic view
+                const data = doc.data();
+                const card = document.createElement('div');
+                card.className = "os-card stagger-load";
+                Object.assign(card.style, pos[i]);
+                
+                card.innerHTML = `
+                    <div style="display:flex; align-items:center; gap:15px; margin-bottom:15px;">
+                        <div class="badge" style="background:${pos[i].c}">0${i+1}</div>
+                        <div>
+                            <h4 style="font-size:14px; font-weight:800;">${data.title}</h4>
+                            <p style="font-size:9px; color:#94a3b8; font-weight:700;">PHASE_SYNC_ID: ${doc.id.substring(0,5)}</p>
+                        </div>
                     </div>
-                    <div id="tasks-p${i}"></div>
                 `;
+                
+                data.tasks.forEach(t => {
+                    const taskItem = document.createElement('div');
+                    taskItem.style = "display:flex; align-items:center; gap:12px; padding:10px; border-radius:15px; cursor:pointer; transition:0.2s; margin-bottom:5px; border:1px solid transparent;";
+                    taskItem.innerHTML = `
+                        <div style="width:20px; height:20px; border:2px solid #ddd; border-radius:6px;" class="task-check"></div>
+                        <span style="font-size:12px; font-weight:700; color:#475569;">${t.title}</span>
+                    `;
+                    taskItem.onclick = () => {
+                        taskItem.style.background = "rgba(34, 197, 94, 0.1)";
+                        taskItem.querySelector('.task-check').style.background = pos[i].c;
+                        updateXP(150);
+                    };
+                    card.appendChild(taskItem);
+                });
+
                 container.appendChild(card);
                 
-                // Simplified task display (first 4 tasks)
-                const taskContainer = card.querySelector(`#tasks-p${i}`);
-                data.tasks.slice(i*3, (i+1)*3).forEach(t => {
-                    taskContainer.innerHTML += `
-                        <div style="display:flex; align-items:center; gap:10px; padding:8px; border-radius:10px; cursor:pointer;">
-                            <div style="width:18px; height:18px; border:2px solid #ddd; border-radius:5px;"></div>
-                            <span style="font-size:12px; font-weight:700; color:#475569;">${t.title}</span>
-                        </div>
-                    `;
+                // Tilt logic
+                card.addEventListener('mousemove', e => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+                    const xc = rect.width/2; const yc = rect.height/2;
+                    const dx = x - xc; const dy = y - yc;
+                    card.style.transform = `rotateY(${dx/15}deg) rotateX(${-dy/15}deg) translateZ(10px)`;
                 });
-            }
+                card.addEventListener('mouseleave', () => card.style.transform = `rotateX(0) rotateY(0)`);
+            });
+            setTimeout(drawFlowLines, 1000);
         }
 
-        // === CINEMATIC CAMERA SYSTEM ===
-        function setCam(view, btn) {
-            document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            const zoomLayer = document.getElementById('main-zoom');
-            const hubLogo = document.getElementById('core-logo');
-
-            if(view === 'global') {
-                zoomLayer.style.transform = "scale(1) translate(0, 0)";
-                hubLogo.style.opacity = "1";
-            } else if(view === 'p1') {
-                zoomLayer.style.transform = "scale(1.7) translate(25%, 15%)";
-            } else if(view === 'p2') {
-                zoomLayer.style.transform = "scale(1.7) translate(-25%, 15%)";
-            } else if(view === 'p3') {
-                zoomLayer.style.transform = "scale(1.7) translate(0, -25%)";
-            }
-        }
-
-        // === SVG PATH ENGINE ===
-        function drawPaths() {
-            const hub = document.getElementById('core-logo').getBoundingClientRect();
+        function drawFlowLines() {
+            const hub = document.getElementById('hub-trigger').getBoundingClientRect();
             const cx = hub.left + hub.width / 2;
             const cy = hub.top + hub.height / 2;
 
             for(let i=1; i<=3; i++) {
-                const card = document.getElementById('card'+i);
+                const card = document.querySelector(`.os-card:nth-child(${i+2})`); // +2 for orbit rings
                 if(!card) continue;
-                const rect = card.getBoundingClientRect();
-                const tx = rect.left + rect.width / 2;
-                const ty = rect.top + rect.height / 2;
-                document.getElementById('path'+i).setAttribute('d', `M ${cx} ${cy} Q ${cx} ${ty} ${tx} ${ty}`);
+                const cr = card.getBoundingClientRect();
+                const path = document.getElementById(`flow-${i}`);
+                path.setAttribute('d', `M ${cx} ${cy} Q ${cx} ${cr.top+cr.height/2} ${cr.left+cr.width/2} ${cr.top+cr.height/2}`);
             }
         }
 
-        // === DOCS & MODAL LOGIC ===
-        function openFile(title, content) {
-            document.getElementById('modal-title').innerText = title;
-            document.getElementById('modal-content').innerText = content;
-            document.getElementById('file-modal').style.display = 'flex';
+        // === 8. CANVAS DRAG ===
+        function initDragCanvas() {
+            const view = document.getElementById('viewport');
+            view.addEventListener('mousedown', (e) => {
+                isDragging = true; view.style.cursor = 'grabbing';
+                startX = e.pageX; startY = e.pageY;
+            });
+            window.addEventListener('mouseup', () => { isDragging = false; view.style.cursor = 'crosshair'; });
+            window.addEventListener('mousemove', (e) => {
+                if(!isDragging) return;
+                const dx = e.pageX - startX; const dy = e.pageY - startY;
+                const world = document.getElementById('world');
+                // Subtle drift movement
+                world.style.marginLeft = dx/5 + 'px';
+                world.style.marginTop = dy/5 + 'px';
+            });
         }
 
-        function openPRD() {
-            if(!activeProject) return;
-            let prdText = `NEXRA TECH OFFICIAL PRD\nPROJECT: ${activeProject.title}\n==========================\n`;
-            activeProject.tasks.forEach(t => prdText += `\n[TASK]: ${t.title}\nDETAILS: ${t.prd}\n`);
-            openFile('Master PRD Script', prdText);
+        function loadHistory() {
+            db.collection("RoadmapData").limit(5).get().then(snap => {
+                const list = document.getElementById('history-list');
+                snap.forEach(doc => {
+                    const item = document.createElement('div');
+                    item.style = "padding:12px; border-radius:15px; background:#f8f9fa; font-size:12px; font-weight:700; cursor:pointer;";
+                    item.innerText = doc.data().title;
+                    list.appendChild(item);
+                });
+            });
         }
-
-        function openAdMob() {
-            const ads = {
-                "Banner": "ca-app-pub-3940256099942544/6300978111",
-                "Interstitial": "ca-app-pub-3940256099942544/1033173712",
-                "Rewarded": "ca-app-pub-3940256099942544/5224354917"
-            };
-            openFile('AdMob Testing IDs', JSON.stringify(ads, null, 4));
-        }
-
-        function closeModal() { document.getElementById('file-modal').style.display = 'none'; }
-        
-        function copyContent() {
-            const text = document.getElementById('modal-content').innerText;
-            navigator.clipboard.writeText(text);
-            alert("📋 Copied to Nexra Clipboard!");
-        }
-
-        window.onresize = drawPaths;
     </script>
 </body>
 </html>
