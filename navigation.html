@@ -1,227 +1,190 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <!-- Standard Head for Styles & Icons -->
-    <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+<!-- --- START OF FILE navigation-dock.html --- -->
+<style>
+    /* ==========================================================================
+       NEXRA PREMIUM MOBILE DOCK (SYNCED & OPTIMIZED)
+       ========================================================================== */
     
-    <style>
-        /* ==========================================================================
-           NEXRA PREMIUM DOCK SYSTEM (UX/UI OPTIMIZED)
-           ========================================================================== */
-        
-        /* 1. Container - Floating at Bottom */
-        .dock-container-wrap {
-            position: fixed;
-            bottom: 25px; /* Floating look */
-            left: 0;
-            width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9500;
-            pointer-events: none; /* Allows clicking content behind if not on bar */
-            padding-bottom: env(safe-area-inset-bottom); /* iOS Notch support */
+    .nxr-dock-wrap {
+        position: fixed;
+        bottom: 24px;
+        left: 0;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9500;
+        pointer-events: none;
+        padding-bottom: env(safe-area-inset-bottom);
+        animation: nxr-dock-up 0.6s var(--ease) both;
+    }
+
+    /* ── DESKTOP PER: HIDE DOCK ── */
+    @media (min-width: 992px) {
+        .nxr-dock-wrap { display: none !important; }
+    }
+
+    @keyframes nxr-dock-up {
+        from { transform: translateY(100px); opacity: 0; }
+        to   { transform: translateY(0); opacity: 1; }
+    }
+
+    .nxr-dock-ui {
+        background: var(--glass-bg);
+        backdrop-filter: blur(24px) saturate(180%);
+        -webkit-backdrop-filter: blur(24px) saturate(180%);
+        border: 1px solid var(--glass-border);
+        border-radius: 40px;
+        height: 70px;
+        width: 92%;
+        max-width: 440px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        padding: 0 10px;
+        box-shadow: var(--shadow-float);
+        pointer-events: auto;
+    }
+
+    .nxr-dock-item {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        height: 100%;
+        color: var(--text-300);
+        cursor: pointer;
+        transition: 0.3s var(--ease);
+        text-decoration: none;
+    }
+
+    .nxr-dock-item i {
+        font-size: 19px;
+        margin-bottom: 2px;
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s;
+    }
+
+    .nxr-dock-item span {
+        font-size: 9px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+        opacity: 0;
+        transform: translateY(10px);
+        transition: 0.3s var(--ease);
+        position: absolute;
+        bottom: 12px;
+    }
+
+    /* ── ACTIVE STATE ── */
+    .nxr-dock-item.active {
+        color: var(--brand);
+    }
+
+    .nxr-dock-item.active i {
+        transform: translateY(-12px) scale(1.15);
+        filter: drop-shadow(0 6px 10px var(--brand-glow));
+    }
+
+    .nxr-dock-item.active span {
+        opacity: 1;
+        transform: translateY(0);
+        color: var(--text-100);
+    }
+
+    .nxr-dock-item.active::after {
+        content: '';
+        position: absolute;
+        bottom: 6px;
+        width: 4px;
+        height: 4px;
+        background: var(--brand);
+        border-radius: 50%;
+        box-shadow: 0 0 8px var(--brand);
+        animation: nxr-pop-in 0.4s forwards;
+    }
+
+    @keyframes nxr-pop-in {
+        from { transform: scale(0); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+</style>
+
+<div class="nxr-dock-wrap">
+    <nav class="nxr-dock-ui">
+        <!-- 1. Home -->
+        <div class="nxr-dock-item active" data-route="home">
+            <i class="fa-solid fa-house-chimney"></i>
+            <span>Home</span>
+        </div>
+
+        <!-- 2. Market -->
+        <div class="nxr-dock-item" data-route="shop">
+            <i class="fa-solid fa-store"></i>
+            <span>Market</span>
+        </div>
+
+        <!-- 3. Vault -->
+        <div class="nxr-dock-item" data-route="vault">
+            <i class="fa-solid fa-cloud-arrow-down"></i>
+            <span>Vault</span>
+        </div>
+
+        <!-- 4. Insights -->
+        <div class="nxr-dock-item" data-route="blog">
+            <i class="fa-solid fa-newspaper"></i>
+            <span>Insights</span>
+        </div>
+
+        <!-- 5. Profile -->
+        <div class="nxr-dock-item" data-route="profile">
+            <i class="fa-solid fa-circle-user"></i>
+            <span>Profile</span>
+        </div>
+    </nav>
+</div>
+
+<script>
+    /**
+     * MOBILE DOCK LOGIC
+     * Integrates directly with NXR Global Engine
+     */
+    (function() {
+        function updateDockUI(route) {
+            document.querySelectorAll('.nxr-dock-item').forEach(item => {
+                item.classList.toggle('active', item.dataset.route === route);
+            });
         }
 
-        /* 2. Dock UI - Glassmorphism Body */
-        .dock-ui {
-            background: var(--glass-bg, rgba(255, 255, 255, 0.85));
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid var(--glass-border, rgba(0, 0, 0, 0.08));
-            border-radius: 40px;
-            height: 72px;
-            width: 92%;
-            max-width: 460px;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            padding: 0 12px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
-            pointer-events: auto; /* Re-enable clicks for the bar */
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        /* Dark Mode adjustment for Global Theme */
-        [data-theme="dark"] .dock-ui {
-            background: rgba(10, 10, 10, 0.8);
-            border-color: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
-        }
-
-        /* 3. Dock Items */
-        .dock-item {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            flex: 1;
-            height: 100%;
-            color: var(--text-300, #94a3b8);
-            cursor: pointer;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            text-decoration: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-
-        /* SVG / FontAwesome Icon Styling */
-        .dock-item i {
-            font-size: 20px;
-            margin-bottom: 2px;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.3s;
-        }
-
-        /* Labels */
-        .dock-item span {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 9px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            opacity: 0;
-            transform: translateY(10px);
-            transition: 0.3s ease;
-            position: absolute;
-            bottom: 12px;
-        }
-
-        /* ==========================================================================
-           4. ACTIVE STATE (THE PREMIUM MAGIC)
-           ========================================================================== */
-        
-        .dock-item.active {
-            color: var(--brand-main, #FF4A17);
-        }
-
-        .dock-item.active i {
-            transform: translateY(-14px) scale(1.2);
-            filter: drop-shadow(0 8px 12px var(--brand-glow, rgba(255, 74, 23, 0.3)));
-        }
-
-        .dock-item.active span {
-            opacity: 1;
-            transform: translateY(0);
-            color: var(--text-100, #0f172a);
-        }
-
-        [data-theme="dark"] .dock-item.active span {
-            color: #ffffff;
-        }
-
-        /* Active Indicator Dot */
-        .dock-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            width: 5px;
-            height: 5px;
-            background: var(--brand-main, #FF4A17);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--brand-main);
-            animation: pulseIn 0.4s forwards;
-        }
-
-        @keyframes pulseIn {
-            from { transform: scale(0); opacity: 0; }
-            to { transform: scale(1); opacity: 1; }
-        }
-
-        /* Tablet & Desktop Tweaks */
-        @media(min-width: 1024px) {
-            .dock-container-wrap {
-                bottom: 30px;
-            }
-            .dock-ui {
-                width: 400px;
-            }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="dock-container-wrap">
-        <nav class="dock-ui">
-            <!-- 1. Home -->
-            <div class="dock-item active" data-target="home" onclick="NexraNavigation.handleNav(this, 'home')">
-                <i class="fa-solid fa-house-chimney"></i>
-                <span>Home</span>
-            </div>
-
-            <!-- 2. Market -->
-            <div class="dock-item" data-target="shop" onclick="NexraNavigation.handleNav(this, 'shop')">
-                <i class="fa-solid fa-store"></i>
-                <span>Market</span>
-            </div>
-
-            <!-- 3. Vault -->
-            <div class="dock-item" data-target="freebies" onclick="NexraNavigation.handleNav(this, 'freebies')">
-                <i class="fa-solid fa-cloud-arrow-down"></i>
-                <span>Vault</span>
-            </div>
-
-            <!-- 4. Insights -->
-            <div class="dock-item" data-target="blog" onclick="NexraNavigation.handleNav(this, 'blog')">
-                <i class="fa-solid fa-newspaper"></i>
-                <span>Insights</span>
-            </div>
-
-            <!-- 5. Profile -->
-            <div class="dock-item" data-target="profile" onclick="NexraNavigation.handleNav(this, 'profile')">
-                <i class="fa-solid fa-circle-user"></i>
-                <span>Profile</span>
-            </div>
-        </nav>
-    </div>
-
-    <script>
-        /**
-         * NEXRA NAVIGATION ENGINE
-         * Handles visual states and triggers Global Router
-         */
-        window.NexraNavigation = {
-            handleNav: function(element, view) {
-                // 1. UI: Change Active Class
-                document.querySelectorAll('.dock-item').forEach(item => {
-                    item.classList.remove('active');
-                });
-                element.classList.add('active');
-
-                // 2. TRIGGER: Global SPA Router (defined in index.html)
-                if (window.Nexra && typeof window.Nexra.navTo === 'function') {
-                    window.Nexra.navTo(view);
-                } else {
-                    console.warn("[Nexra Nav] Global Router not found.");
+        // Listen for Global Navigation events
+        document.addEventListener('click', (e) => {
+            const dockItem = e.target.closest('.nxr-dock-item');
+            if (dockItem) {
+                const route = dockItem.dataset.route;
+                
+                // Trigger NXR Engine Navigation
+                if (window.NXR && typeof window.NXR.navigate === 'function') {
+                    window.NXR.navigate(route);
+                    updateDockUI(route);
                 }
 
-                // 3. UX: Haptic Feedback Simulation (Short Vibration if supported)
-                if ("vibrate" in navigator) {
-                    navigator.vibrate(10);
-                }
-            },
-
-            // Auto-sync dock state if page is loaded via URL
-            syncState: function(view) {
-                const target = document.querySelector(`[data-target="${view}"]`);
-                if (target) {
-                    document.querySelectorAll('.dock-item').forEach(item => item.classList.remove('active'));
-                    target.classList.add('active');
-                }
+                // Haptic Feedback
+                if ("vibrate" in navigator) navigator.vibrate(12);
             }
-        };
-
-        // Listen for back/forward navigation to update dock
-        window.addEventListener('popstate', () => {
-            const urlParams = new URLSearchParams(window.location.search);
-            const view = urlParams.get('view') || 'home';
-            NexraNavigation.syncState(view);
         });
 
-        // Initialize state on load
-        const initView = new URLSearchParams(window.location.search).get('view') || 'home';
-        NexraNavigation.syncState(initView);
-    </script>
-</body>
-</html>
+        // Initial Sync on load
+        window.addEventListener('load', () => {
+            const currentView = new URLSearchParams(window.location.search).get('view') || 'home';
+            updateDockUI(currentView);
+        });
+
+        // Popstate support (Back button)
+        window.addEventListener('popstate', () => {
+            const currentView = new URLSearchParams(window.location.search).get('view') || 'home';
+            updateDockUI(currentView);
+        });
+    })();
+</script>
+<!-- --- END OF FILE navigation-dock.html --- -->
