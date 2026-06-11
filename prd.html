@@ -1,313 +1,1296 @@
-<!-- 
-  NEXRA PK - GLOBAL DYNAMIC SLIDER SYSTEM v3.0
-  INTEGRATED WITH: Firebase, Auth, Theme Engine, and SPA Router
--->
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Nexra Tech — Developer Roadmap OS</title>
+<meta name="description" content="Nexra Tech OS — A premium developer roadmap platform. Track your app-building journey with elegant precision.">
+<meta property="og:title" content="Nexra Tech OS">
+<meta property="og:description" content="The premium developer roadmap OS by @NexraTech">
+<meta property="og:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
+<meta name="theme-color" content="#ff5500">
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
-    /* ==========================================================================
-       OFF-CANVAS DRAWER CORE STYLING
-       ========================================================================== */
-    :root {
-        --slider-w: 360px;
-        --slider-z: 100001;
-    }
+:root{
+  --bg:#f5f4ef;
+  --glass:rgba(255,255,255,0.72);
+  --glass2:rgba(255,255,255,0.55);
+  --obsidian:#0f172a;
+  --orange:#ff5500;
+  --orange-soft:rgba(255,85,0,0.12);
+  --muted:#94a3b8;
+  --border:rgba(0,0,0,0.06);
+  --shadow:0 8px 32px rgba(0,0,0,0.08);
+  --shadow-lg:0 20px 60px rgba(0,0,0,0.12);
+  --ease:cubic-bezier(0.34,1.56,0.64,1);
+  --ease2:cubic-bezier(0.25,1,0.5,1);
+  --r:20px;
+  --r-lg:28px;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--obsidian);min-height:100vh;overflow-x:hidden;}
+button,input,textarea,select{font-family:inherit;}
 
-    /* 1. Backdrop Overlay */
-    #n-slider-overlay {
-        position: fixed; inset: 0;
-        background: rgba(0, 0, 0, 0.4);
-        backdrop-filter: blur(8px);
-        -webkit-backdrop-filter: blur(8px);
-        z-index: calc(var(--slider-z) - 1);
-        opacity: 0; visibility: hidden;
-        transition: var(--transition);
-    }
-    #n-slider-overlay.active { opacity: 1; visibility: visible; }
+/* ── BOOT ── */
+#boot{position:fixed;inset:0;background:var(--obsidian);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s var(--ease2);}
+#boot img{width:72px;margin-bottom:24px;animation:bootPulse 1.4s ease infinite;}
+@keyframes bootPulse{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.08);opacity:.8;}}
+.boot-bar{width:200px;height:3px;background:rgba(255,255,255,.1);border-radius:99px;overflow:hidden;margin-top:20px;}
+.boot-fill{height:100%;background:var(--orange);border-radius:99px;width:0%;transition:width .3s var(--ease2);}
+.boot-text{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--muted);margin-top:14px;}
 
-    /* 2. Main Drawer */
-    #n-slider {
-        position: fixed; top: 0; right: calc(var(--slider-w) * -1);
-        width: var(--slider-w); max-width: 85%; height: 100%;
-        background: var(--bg-surface);
-        border-left: 1px solid var(--glass-border);
-        z-index: var(--slider-z);
-        display: flex; flex-direction: column;
-        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        box-shadow: -20px 0 50px rgba(0,0,0,0.1);
-        overflow: hidden;
-    }
-    #n-slider.active { transform: translateX(calc(var(--slider-w) * -1)); }
+/* ── CUSTOM CURSOR (desktop only) ── */
+@media(hover:hover){
+  *{cursor:none!important;}
+  #cur{position:fixed;pointer-events:none;z-index:9998;width:12px;height:12px;background:var(--obsidian);border-radius:50%;transform:translate(-50%,-50%);transition:transform .1s,width .3s,height .3s,background .3s;}
+  #cur-ring{position:fixed;pointer-events:none;z-index:9997;width:36px;height:36px;border:2px solid rgba(255,85,0,.4);border-radius:50%;transform:translate(-50%,-50%);transition:left .12s,top .12s,transform .3s;}
+  body:hover #cur-ring{opacity:1;}
+}
 
-    /* 3. Slider Header & Search */
-    .ns-header { padding: 30px 25px 20px; flex-shrink: 0; }
-    .ns-search-box {
-        background: var(--bg-elevated);
-        border: 1px solid var(--glass-border);
-        border-radius: 16px;
-        padding: 12px 18px;
-        display: flex; align-items: center; gap: 12px;
-        transition: 0.3s;
-    }
-    .ns-search-box:focus-within { border-color: var(--brand-main); box-shadow: 0 0 0 4px var(--brand-glow); }
-    .ns-search-box input {
-        border: none; background: transparent; color: var(--text-100);
-        font-family: inherit; font-size: 14px; width: 100%;
-    }
+/* ── TOP NAV ── */
+#top-nav{position:fixed;top:0;left:0;right:0;z-index:200;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.nav-glass{background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.9);box-shadow:var(--shadow);border-radius:16px;padding:10px 16px;display:flex;align-items:center;gap:12px;}
+.nav-logo{display:flex;align-items:center;gap:10px;}
+.nav-logo img.icon{width:28px;height:28px;border-radius:8px;}
+.nav-logo img.text{height:18px;object-fit:contain;}
+.timer-pill{font-size:11px;font-weight:800;color:var(--obsidian);letter-spacing:.5px;font-variant-numeric:tabular-nums;}
+.dot-live{width:7px;height:7px;background:#22c55e;border-radius:50%;animation:blink 1.4s ease infinite;}
+@keyframes blink{50%{opacity:.3;}}
 
-    /* 4. User Profile Card */
-    .ns-profile-card {
-        margin: 10px 25px 25px;
-        padding: 20px;
-        background: var(--brand-soft);
-        border-radius: var(--radius-md);
-        border: 1px solid var(--brand-glow);
-        display: flex; align-items: center; gap: 15px;
-        cursor: pointer; transition: 0.3s;
-    }
-    .ns-profile-card:hover { transform: translateY(-3px); background: var(--bg-elevated); }
-    .ns-avatar { 
-        width: 50px; height: 50px; border-radius: 50%; 
-        border: 2px solid var(--brand-main); padding: 2px;
-        background: var(--bg-surface); object-fit: cover;
-    }
-    .ns-user-info h4 { font-size: 15px; font-weight: 800; color: var(--text-100); }
-    .ns-user-info p { font-size: 10px; font-weight: 700; color: var(--brand-main); text-transform: uppercase; letter-spacing: 1px; }
+/* ── ADMIN LINK ── */
+#admin-trigger{position:fixed;bottom:20px;right:20px;z-index:150;opacity:.15;transition:opacity .3s;font-size:9px;font-weight:800;letter-spacing:2px;color:var(--obsidian);padding:8px 12px;background:var(--glass);border-radius:10px;border:1px solid var(--border);}
+#admin-trigger:hover{opacity:.6;}
 
-    /* 5. Navigation Menu Body */
-    .ns-body { flex: 1; overflow-y: auto; padding: 0 15px 30px; scrollbar-width: none; }
-    .ns-body::-webkit-scrollbar { display: none; }
-    
-    .ns-group { margin-bottom: 25px; }
-    .ns-group-label { 
-        font-size: 10px; font-weight: 800; color: var(--text-300); 
-        text-transform: uppercase; letter-spacing: 2px;
-        padding-left: 15px; margin-bottom: 12px; display: block;
-    }
+/* ── HERO SECTION ── */
+#hero{padding:100px 20px 40px;text-align:center;position:relative;}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--orange-soft);border:1px solid rgba(255,85,0,.2);border-radius:99px;padding:6px 16px;font-size:11px;font-weight:800;color:var(--orange);letter-spacing:1px;margin-bottom:20px;}
+.hero-title{font-family:'Space Grotesk',sans-serif;font-size:clamp(32px,7vw,58px);font-weight:700;line-height:1.1;color:var(--obsidian);margin-bottom:16px;}
+.hero-title span{color:var(--orange);}
+.hero-sub{font-size:15px;color:var(--muted);font-weight:600;max-width:380px;margin:0 auto 32px;}
+.hero-progress-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:40px;}
+.big-ring-wrap{position:relative;width:140px;height:140px;}
+.big-ring-wrap svg{width:140px;height:140px;transform:rotate(-90deg);}
+.ring-bg{fill:none;stroke:rgba(0,0,0,.06);stroke-width:8;}
+.ring-fill{fill:none;stroke:var(--orange);stroke-width:8;stroke-linecap:round;stroke-dasharray:377;stroke-dashoffset:377;transition:stroke-dashoffset 1s var(--ease2);}
+.ring-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.ring-pct{font-family:'Space Grotesk';font-size:26px;font-weight:700;color:var(--obsidian);}
+.ring-label{font-size:10px;font-weight:800;color:var(--muted);letter-spacing:1px;}
+.hero-phase-pills{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;}
+.phase-pill{background:var(--glass);border:1px solid rgba(255,255,255,.9);border-radius:99px;padding:8px 18px;font-size:12px;font-weight:700;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow);transition:.3s var(--ease);}
+.phase-pill:active{transform:scale(.96);}
+.phase-dot{width:8px;height:8px;border-radius:50%;}
 
-    .ns-item {
-        display: flex; align-items: center; gap: 15px;
-        padding: 14px 18px; border-radius: 14px;
-        color: var(--text-200); font-size: 14px; font-weight: 700;
-        cursor: pointer; transition: 0.3s; margin-bottom: 4px;
-        position: relative;
-    }
-    .ns-item svg { width: 20px; height: 20px; opacity: 0.8; }
-    .ns-item:hover { background: var(--bg-elevated); color: var(--brand-main); }
-    .ns-item.active { background: var(--brand-soft); color: var(--brand-main); }
-    .ns-item.active::after {
-        content: ''; position: absolute; left: 0; top: 25%; height: 50%;
-        width: 4px; background: var(--brand-main); border-radius: 0 4px 4px 0;
-    }
+/* ── FLOATING ORBS ── */
+.orb{position:absolute;border-radius:50%;pointer-events:none;}
+.orb-1{width:300px;height:300px;background:radial-gradient(circle,rgba(255,85,0,.07) 0%,transparent 70%);top:-80px;right:-60px;}
+.orb-2{width:200px;height:200px;background:radial-gradient(circle,rgba(255,85,0,.05) 0%,transparent 70%);bottom:0;left:-40px;}
 
-    /* Item Badges */
-    .ns-badge {
-        margin-left: auto; font-size: 9px; font-weight: 800;
-        padding: 2px 8px; border-radius: 6px;
-    }
-    .badge-new { background: var(--brand-main); color: #fff; }
-    .badge-vip { background: #ffd700; color: #000; }
+/* ── TIMELINE (MOBILE) ── */
+#timeline{padding:0 16px 120px;max-width:520px;margin:0 auto;}
+.phase-section{margin-bottom:40px;}
+.phase-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding:0 4px;}
+.phase-num{width:44px;height:44px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk';font-size:16px;font-weight:700;color:white;flex-shrink:0;}
+.phase-info h2{font-size:17px;font-weight:800;color:var(--obsidian);line-height:1.2;}
+.phase-info p{font-size:12px;color:var(--muted);font-weight:600;margin-top:2px;}
+.phase-progress-bar{height:3px;background:rgba(0,0,0,.05);border-radius:99px;margin-top:8px;overflow:hidden;}
+.phase-progress-fill{height:100%;border-radius:99px;transition:width .8s var(--ease2);}
 
-    /* 6. Bottom Actions */
-    .ns-footer {
-        padding: 20px 25px 40px;
-        border-top: 1px solid var(--glass-border);
-        background: var(--bg-surface);
-        display: flex; align-items: center; justify-content: space-between;
-    }
-    .ns-theme-toggle {
-        display: flex; gap: 5px; background: var(--bg-elevated);
-        padding: 5px; border-radius: 50px; border: 1px solid var(--glass-border);
-    }
-    .theme-circle {
-        width: 30px; height: 30px; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center;
-        cursor: pointer; transition: 0.3s; color: var(--text-300);
-    }
-    .theme-circle.active { background: var(--bg-surface); color: var(--brand-main); box-shadow: var(--shadow-sm); }
+/* ── TASK CARDS ── */
+.task-card{background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.9);border-radius:var(--r);padding:16px 18px;margin-bottom:10px;display:flex;align-items:flex-start;gap:14px;box-shadow:0 4px 16px rgba(0,0,0,.05);transition:.3s var(--ease);position:relative;overflow:hidden;}
+.task-card::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(255,85,0,.06),transparent 70%);opacity:0;transition:opacity .3s;}
+.task-card.completed::before{opacity:1;}
+.task-card:active{transform:scale(.98);}
+.task-card.completed{background:rgba(255,255,255,.85);}
+.check-wrap{flex-shrink:0;margin-top:1px;}
+.check-btn{width:26px;height:26px;border-radius:8px;border:2px solid #cbd5e1;background:white;display:flex;align-items:center;justify-content:center;transition:.3s var(--ease);cursor:pointer;}
+.check-btn svg{opacity:0;transform:scale(.5);transition:.3s var(--ease);}
+.task-card.completed .check-btn{border-color:var(--theme-color, var(--orange));background:var(--theme-color, var(--orange));}
+.task-card.completed .check-btn svg{opacity:1;transform:scale(1);}
+.task-body{flex:1;min-width:0;}
+.task-title{font-size:14px;font-weight:700;color:var(--obsidian);margin-bottom:4px;transition:.3s;}
+.task-card.completed .task-title{text-decoration:line-through;color:var(--muted);}
+.task-prd{font-size:12px;color:var(--muted);font-weight:600;line-height:1.6;display:none;}
+.task-prd.show{display:block;}
+.task-meta{display:flex;align-items:center;gap:8px;margin-top:6px;}
+.task-badge{font-size:10px;font-weight:800;padding:3px 8px;border-radius:99px;letter-spacing:.5px;}
+.prd-toggle{font-size:10px;font-weight:800;color:var(--orange);padding:3px 10px;border-radius:99px;background:var(--orange-soft);cursor:pointer;transition:.2s;}
+.prd-toggle:active{transform:scale(.95);}
+.lock-overlay{position:absolute;inset:0;background:rgba(255,255,255,.7);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;border-radius:var(--r);cursor:pointer;transition:.3s;}
+.lock-overlay:hover{background:rgba(255,255,255,.8);}
+.lock-icon-wrap{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.lock-icon-wrap span{font-size:11px;font-weight:800;color:var(--orange);}
 
-    /* Animations */
-    @keyframes slideInItem { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
-    .ns-body .ns-item { animation: slideInItem 0.4s forwards; }
+/* ── RIPPLE ── */
+.ripple{position:absolute;border-radius:50%;background:rgba(255,85,0,.25);transform:scale(0);animation:rippleAnim .6s ease-out forwards;pointer-events:none;}
+@keyframes rippleAnim{to{transform:scale(4);opacity:0;}}
+
+/* ── VAULT PANEL ── */
+#vault{position:fixed;bottom:80px;left:16px;z-index:100;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.9);border-radius:var(--r);padding:16px;box-shadow:var(--shadow-lg);width:200px;transform:translateX(-220px);transition:.4s var(--ease);}
+#vault.open{transform:translateX(0);}
+.vault-title{font-size:9px;font-weight:800;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:12px;}
+.vault-item{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:#475569;padding:8px 10px;border-radius:10px;cursor:pointer;transition:.2s;}
+.vault-item:hover{background:white;color:var(--orange);}
+.social-row{display:flex;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--border);}
+.s-btn{flex:1;display:flex;align-items:center;justify-content:center;padding:8px;border-radius:10px;background:rgba(0,0,0,.04);cursor:pointer;transition:.2s;}
+.s-btn:hover{background:var(--orange-soft);}
+#vault-toggle{position:fixed;bottom:80px;left:16px;z-index:101;background:var(--obsidian);color:white;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.2);cursor:pointer;transition:.3s var(--ease);}
+#vault-toggle.open{left:220px;}
+
+/* ── TOAST ── */
+#toasts{position:fixed;top:80px;right:16px;z-index:500;display:flex;flex-direction:column;gap:8px;pointer-events:none;}
+.toast{background:white;border-left:3px solid var(--orange);border-radius:12px;padding:10px 16px;font-size:12px;font-weight:800;color:var(--obsidian);box-shadow:var(--shadow-lg);animation:toastIn .4s var(--ease) forwards;pointer-events:auto;max-width:240px;}
+@keyframes toastIn{from{transform:translateX(110%);opacity:0;}to{transform:translateX(0);opacity:1;}}
+
+/* ── MODALS ── */
+.modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.3);backdrop-filter:blur(12px);z-index:800;display:none;align-items:center;justify-content:center;padding:20px;}
+.modal-bg.show{display:flex;}
+.modal-box{background:white;border-radius:var(--r-lg);padding:28px;width:100%;max-width:420px;box-shadow:var(--shadow-lg);animation:modalIn .4s var(--ease);}
+@keyframes modalIn{from{transform:scale(.9);opacity:0;}to{transform:scale(1);opacity:1;}}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:99px;background:rgba(0,0,0,.06);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;}
+.modal-close:hover{background:rgba(0,0,0,.1);}
+
+/* ── PREMIUM MODAL ── */
+#premium-modal .modal-box{text-align:center;position:relative;}
+.premium-crown{width:64px;height:64px;background:linear-gradient(135deg,#ff5500,#ff8c00);border-radius:20px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;}
+.premium-title{font-family:'Space Grotesk';font-size:22px;font-weight:700;margin-bottom:8px;}
+.premium-sub{font-size:14px;color:var(--muted);font-weight:600;margin-bottom:24px;line-height:1.6;}
+.btn-premium{background:var(--obsidian);color:white;border:none;border-radius:14px;padding:16px 32px;font-size:14px;font-weight:800;width:100%;cursor:pointer;transition:.3s var(--ease);}
+.btn-premium:hover{background:var(--orange);}
+.btn-premium:active{transform:scale(.97);}
+
+/* ── EASTER EGG MODAL ── */
+#egg-modal .modal-box{text-align:center;position:relative;background:var(--obsidian);color:white;}
+#egg-modal .modal-close{background:rgba(255,255,255,.1);}
+#egg-modal .modal-close svg path{stroke:white;}
+.egg-title{font-family:'Space Grotesk';font-size:20px;font-weight:700;color:var(--orange);margin:16px 0 8px;}
+.egg-sub{font-size:13px;color:rgba(255,255,255,.7);font-weight:600;line-height:1.7;margin-bottom:20px;}
+.egg-code{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:14px;font-size:12px;font-family:monospace;color:#86efac;text-align:left;margin-bottom:16px;line-height:1.8;}
+.btn-egg{background:var(--orange);color:white;border:none;border-radius:12px;padding:12px 24px;font-size:13px;font-weight:800;cursor:pointer;transition:.3s var(--ease);width:100%;}
+
+/* ── FILE MODAL ── */
+#file-modal .modal-box{position:relative;}
+.code-block{background:#f8fafc;border:1px solid var(--border);border-radius:12px;padding:16px;font-family:monospace;font-size:12px;color:#334155;white-space:pre-wrap;margin:14px 0;max-height:200px;overflow-y:auto;line-height:1.7;}
+.btn-copy{background:var(--obsidian);color:white;border:none;border-radius:12px;padding:12px;width:100%;font-size:13px;font-weight:800;cursor:pointer;transition:.3s;}
+.btn-copy:hover{background:var(--orange);}
+
+/* ── ADMIN PIN MODAL ── */
+#admin-pin-modal .modal-box{text-align:center;position:relative;}
+.pin-inputs{display:flex;gap:10px;justify-content:center;margin:20px 0;}
+.pin-input{width:52px;height:60px;border:2px solid var(--border);border-radius:14px;text-align:center;font-size:24px;font-weight:700;color:var(--obsidian);background:var(--bg);transition:.3s;outline:none;}
+.pin-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-soft);}
+.pin-input.filled{border-color:var(--obsidian);}
+.btn-pin{background:var(--obsidian);color:white;border:none;border-radius:14px;padding:14px;width:100%;font-size:14px;font-weight:800;cursor:pointer;transition:.3s var(--ease);margin-top:4px;}
+.btn-pin:hover{background:var(--orange);}
+
+/* ── ADMIN PANEL ── */
+#admin-panel{display:none;min-height:100vh;padding:80px 16px 120px;}
+#admin-panel.show{display:block;}
+.admin-header{text-align:center;margin-bottom:32px;}
+.admin-header h1{font-family:'Space Grotesk';font-size:28px;font-weight:700;color:var(--obsidian);}
+.admin-header p{font-size:13px;color:var(--muted);font-weight:600;margin-top:6px;}
+.admin-section{background:var(--glass);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.9);border-radius:var(--r);padding:20px;margin-bottom:16px;box-shadow:var(--shadow);}
+.admin-section h3{font-size:14px;font-weight:800;color:var(--obsidian);margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.form-group{margin-bottom:14px;}
+.form-label{font-size:11px;font-weight:800;color:var(--muted);letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;display:block;}
+.form-input{width:100%;padding:12px 14px;border:1.5px solid var(--border);border-radius:12px;font-size:14px;font-weight:600;color:var(--obsidian);background:white;outline:none;transition:.3s;}
+.form-input:focus{border-color:var(--orange);box-shadow:0 0 0 3px var(--orange-soft);}
+.form-textarea{resize:vertical;min-height:80px;line-height:1.6;}
+.form-select{appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='%2394a3b8'%3E%3Cpath d='M5 8l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center;background-size:16px;padding-right:36px;}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;}
+.toggle-row label{font-size:13px;font-weight:700;color:var(--obsidian);}
+.toggle{position:relative;width:46px;height:26px;}
+.toggle input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:#cbd5e1;border-radius:99px;transition:.3s;cursor:pointer;}
+.toggle-slider::before{content:'';position:absolute;width:20px;height:20px;border-radius:50%;background:white;top:3px;left:3px;transition:.3s;box-shadow:0 1px 4px rgba(0,0,0,.2);}
+.toggle input:checked + .toggle-slider{background:var(--orange);}
+.toggle input:checked + .toggle-slider::before{transform:translateX(20px);}
+.btn-save{background:var(--obsidian);color:white;border:none;border-radius:14px;padding:14px;width:100%;font-size:14px;font-weight:800;cursor:pointer;transition:.3s var(--ease);margin-top:4px;}
+.btn-save:hover{background:var(--orange);}
+.btn-save:active{transform:scale(.98);}
+.btn-danger{background:rgba(239,68,68,.1);color:#ef4444;border:none;border-radius:10px;padding:8px 14px;font-size:12px;font-weight:800;cursor:pointer;transition:.2s;}
+.btn-danger:hover{background:rgba(239,68,68,.2);}
+.admin-task-row{display:flex;align-items:center;gap:10px;padding:10px 12px;background:white;border-radius:12px;margin-bottom:8px;border:1px solid var(--border);}
+.admin-task-title{flex:1;font-size:13px;font-weight:700;color:var(--obsidian);}
+.admin-back{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:800;color:var(--muted);margin-bottom:24px;cursor:pointer;transition:.2s;}
+.admin-back:hover{color:var(--obsidian);}
+
+/* ── SOCIAL STICKY BAR ── */
+#social-bar{position:fixed;bottom:0;left:0;right:0;z-index:150;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-top:1px solid rgba(255,255,255,.9);padding:10px 16px;display:flex;align-items:center;justify-content:center;gap:16px;box-shadow:0 -4px 20px rgba(0,0,0,.06);}
+.soc-link{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:99px;transition:.3s;white-space:nowrap;}
+.soc-link:hover{color:var(--orange);background:var(--orange-soft);}
+.soc-link svg{flex-shrink:0;}
+
+/* ── PC MINDMAP ── */
+@media(min-width:900px){
+  body{overflow:hidden;}
+  #timeline{display:none;}
+  #hero{display:none;}
+  #social-bar{left:auto;right:0;width:auto;bottom:30px;flex-direction:column;background:var(--glass);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.9);border-radius:var(--r);padding:12px;gap:6px;box-shadow:var(--shadow);}
+  #mindmap-wrapper{display:flex!important;}
+  #vault-toggle{left:auto;right:16px;bottom:200px;}
+  #vault{left:auto;right:16px;bottom:260px;transform:translateX(240px);}
+  #vault.open{transform:translateX(0);}
+  #vault-toggle.open{right:220px;}
+  #admin-trigger{bottom:30px;left:30px;}
+}
+@media(max-width:899px){
+  #mindmap-wrapper{display:none!important;}
+}
+
+/* ── MINDMAP CANVAS ── */
+#mindmap-wrapper{display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;}
+#mindmap-zoom{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center;transition:transform 1s var(--ease2);transform-origin:center;}
+#mm-svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;}
+.mm-card{position:absolute;z-index:10;width:260px;}
+.mm-card .task-card{margin-bottom:8px;}
+.mm-hub{width:160px;height:160px;border-radius:50%;background:var(--obsidian);border:6px solid white;display:flex;flex-direction:column;align-items:center;justify-content:center;color:white;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.2);position:relative;cursor:pointer;z-index:20;transition:.3s var(--ease);}
+.mm-hub:hover{transform:scale(1.05);}
+.mm-hub img{width:44px;margin-bottom:6px;}
+.mm-hub span{font-family:'Space Grotesk';font-size:10px;letter-spacing:1.5px;opacity:.8;}
+.mm-ring{position:absolute;top:-10px;left:-10px;width:180px;height:180px;transform:rotate(-90deg);pointer-events:none;}
+.mm-ring circle{fill:none;stroke:var(--orange);stroke-width:4;stroke-dasharray:503;stroke-dashoffset:503;transition:stroke-dashoffset 1s var(--ease2);stroke-linecap:round;}
+.mm-cam-btns{position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:var(--obsidian);border-radius:50px;padding:6px 10px;display:flex;gap:4px;z-index:200;box-shadow:0 8px 32px rgba(0,0,0,.25);}
+.cam-btn{background:none;border:none;color:#94a3b8;font-size:11px;font-weight:800;padding:8px 16px;border-radius:20px;cursor:pointer;transition:.3s;letter-spacing:.5px;}
+.cam-btn.active{color:white;background:#334155;}
+.cam-btn:hover:not(.active){color:var(--orange);}
+
+/* ── PC STATS BAR ── */
+#pc-stats{position:fixed;top:80px;left:20px;z-index:100;background:var(--glass);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.9);border-radius:var(--r);padding:16px;box-shadow:var(--shadow);width:200px;display:none;}
+@media(min-width:900px){#pc-stats{display:block;}}
+.stat-item{display:flex;align-items:center;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--border);}
+.stat-item:last-child{border-bottom:none;}
+.stat-name{font-size:11px;font-weight:700;color:var(--muted);}
+.stat-val{font-size:13px;font-weight:800;color:var(--obsidian);}
+
+/* ── UTILITY ── */
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;}
+.loading-line{height:3px;background:linear-gradient(90deg,transparent,var(--orange),transparent);border-radius:99px;animation:shimmer 1.5s ease infinite;}
+@keyframes shimmer{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+.spinner{width:20px;height:20px;border:2.5px solid rgba(0,0,0,.1);border-top-color:var(--orange);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.empty-state{text-align:center;padding:40px 20px;color:var(--muted);}
+.empty-state svg{margin-bottom:12px;opacity:.4;}
+.empty-state p{font-size:14px;font-weight:700;}
+.empty-state span{font-size:12px;font-weight:600;display:block;margin-top:4px;}
 </style>
+</head>
+<body>
 
-<div id="n-slider-overlay" onclick="NexraSlider.close()"></div>
+<!-- Boot Screen -->
+<div id="boot">
+  <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Tech">
+  <div class="boot-bar"><div class="boot-fill" id="boot-fill"></div></div>
+  <div class="boot-text" id="boot-msg">LOADING OS...</div>
+</div>
 
-<aside id="n-slider">
-    <!-- Header: Close & Search -->
-    <div class="ns-header">
-        <div class="flex-between" style="margin-bottom: 25px;">
-            <div class="badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="12" cy="12" r="10"></circle><polyline points="12 16 16 12 12 8"></polyline><line x1="8" y1="12" x2="16" y2="12"></line></svg> DASHBOARD</div>
-            <button class="di-btn" onclick="NexraSlider.close()" style="border:none;">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-            </button>
-        </div>
-        <div class="ns-search-box">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" id="ns-search-input" placeholder="Search Ecosystem..." onkeyup="NexraSlider.search(this.value)">
-        </div>
+<!-- Cursor (desktop) -->
+<div id="cur" aria-hidden="true"></div>
+<div id="cur-ring" aria-hidden="true"></div>
+
+<!-- Top Nav -->
+<nav id="top-nav" aria-label="Main navigation">
+  <div class="nav-glass nav-logo" style="gap:10px;">
+    <img class="icon" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Tech icon">
+    <img class="text" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech" onerror="this.style.display='none'">
+  </div>
+  <div class="nav-glass" style="gap:12px;">
+    <div class="dot-live" aria-hidden="true"></div>
+    <span class="timer-pill" id="session-timer" aria-label="Session timer">00:00:00</span>
+    <span style="font-size:10px;font-weight:800;color:var(--muted);">AUTO-SAVE</span>
+  </div>
+</nav>
+
+<!-- Toast container -->
+<div id="toasts" role="status" aria-live="polite"></div>
+
+<!-- ═══════════════════════════════════════════
+     PUBLIC DASHBOARD
+════════════════════════════════════════════ -->
+<main id="public-view">
+
+  <!-- Hero -->
+  <section id="hero" aria-labelledby="hero-title">
+    <div class="orb orb-1" aria-hidden="true"></div>
+    <div class="orb orb-2" aria-hidden="true"></div>
+    <div class="hero-badge" aria-label="Status: One Man Army Protocol active">
+      <div class="dot-live" aria-hidden="true"></div>
+      ONE MAN ARMY PROTOCOL
     </div>
+    <h1 class="hero-title" id="hero-title">Build Your<br><span>Dream App.</span></h1>
+    <p class="hero-sub">Your live developer journey — every step, every sprint, beautifully tracked.</p>
 
-    <!-- User Profile Area -->
-    <div class="ns-profile-card" onclick="Nexra.navTo('profile'); NexraSlider.close()">
-        <img id="ns-user-dp" class="ns-avatar" src="https://via.placeholder.com/100" alt="User">
-        <div class="ns-user-info">
-            <h4 id="ns-user-name">Guest Explorer</h4>
-            <p id="ns-user-status">Standard Access</p>
+    <div class="hero-progress-wrap">
+      <div class="big-ring-wrap">
+        <svg aria-hidden="true" role="img">
+          <title>Overall progress</title>
+          <circle class="ring-bg" cx="70" cy="70" r="60"></circle>
+          <circle class="ring-fill" id="hero-ring" cx="70" cy="70" r="60"></circle>
+        </svg>
+        <div class="ring-center">
+          <div class="ring-pct" id="hero-pct" aria-label="0 percent complete">0%</div>
+          <div class="ring-label">COMPLETE</div>
         </div>
-        <svg style="margin-left:auto; opacity:0.5;" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 18 15 12 9 6"></polyline></svg>
+      </div>
+      <div class="hero-phase-pills" id="phase-pills" aria-label="Phase progress overview"></div>
     </div>
+  </section>
 
-    <!-- Dynamic Menu Content -->
-    <div class="ns-body" id="ns-menu-container">
-        <!-- JS will inject dynamic groups and items here -->
-        <div class="ns-group">
-            <span class="ns-group-label">Loading Core...</span>
-            <div class="nav-skeleton" style="margin: 10px 15px;"></div>
-            <div class="nav-skeleton" style="margin: 10px 15px; width: 70%;"></div>
-        </div>
-    </div>
+  <!-- Mobile Timeline -->
+  <div id="timeline" aria-label="Project roadmap timeline" role="list">
+    <div class="loading-line" id="timeline-loader" aria-label="Loading roadmap data"></div>
+  </div>
 
-    <!-- Footer: Theme & Recently Visited -->
-    <div class="ns-footer">
-        <div class="ns-theme-toggle">
-            <div class="theme-circle active" id="ts-light" onclick="NexraSlider.setTheme('light')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
-            </div>
-            <div class="theme-circle" id="ts-dark" onclick="NexraSlider.setTheme('dark')">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-            </div>
-        </div>
-        <button class="btn btn-outline" style="padding: 10px 20px; font-size: 11px;" onclick="NexraSlider.logout()">
-            <svg style="margin-right:8px;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg> LOGOUT
-        </button>
+  <!-- PC Mind Map -->
+  <div id="mindmap-wrapper" role="img" aria-label="Project roadmap mind map">
+    <div id="mindmap-zoom">
+      <svg id="mm-svg" aria-hidden="true">
+        <defs>
+          <marker id="arr" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+            <circle cx="4" cy="4" r="2" fill="rgba(255,85,0,.4)"/>
+          </marker>
+        </defs>
+        <path id="mm-line1" fill="none" stroke="rgba(255,85,0,.3)" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"></path>
+        <path id="mm-line2" fill="none" stroke="rgba(0,122,255,.3)" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"></path>
+        <path id="mm-line3" fill="none" stroke="rgba(52,199,89,.3)" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#arr)"></path>
+      </svg>
+      <div class="mm-hub" id="mm-hub" role="button" aria-label="Nexra Tech hub — tap 3 times for Easter egg" tabindex="0">
+        <svg class="mm-ring" aria-hidden="true"><circle id="mm-ring-circle" cx="90" cy="90" r="80"></circle></svg>
+        <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="">
+        <span>PROJECT<br>EVOLUTION</span>
+      </div>
+      <div class="mm-card" id="mm-c1" style="top:10%;left:10%;"></div>
+      <div class="mm-card" id="mm-c2" style="top:10%;right:10%;"></div>
+      <div class="mm-card" id="mm-c3" style="bottom:12%;left:50%;transform:translateX(-50%);"></div>
     </div>
+    <!-- PC camera controls -->
+    <div class="mm-cam-btns" role="toolbar" aria-label="Camera focus controls">
+      <button class="cam-btn active" onclick="mmFocus('global',this)" aria-pressed="true">GLOBAL</button>
+      <button class="cam-btn" onclick="mmFocus('p1',this)" aria-pressed="false">PHASE 01</button>
+      <button class="cam-btn" onclick="mmFocus('p2',this)" aria-pressed="false">PHASE 02</button>
+      <button class="cam-btn" onclick="mmFocus('p3',this)" aria-pressed="false">PHASE 03</button>
+    </div>
+  </div>
+
+  <!-- PC Stats -->
+  <aside id="pc-stats" aria-label="Project statistics">
+    <div class="vault-title">Live Stats</div>
+    <div class="stat-item"><span class="stat-name">Session</span><span class="stat-val" id="pc-timer">00:00</span></div>
+    <div class="stat-item"><span class="stat-name">Completed</span><span class="stat-val" id="pc-done">0 / 0</span></div>
+    <div class="stat-item"><span class="stat-name">Progress</span><span class="stat-val" id="pc-pct">0%</span></div>
+    <div class="stat-item"><span class="stat-name">Phases</span><span class="stat-val" id="pc-phases">0</span></div>
+    <div style="margin-top:14px;padding:12px;background:var(--orange-soft);border-radius:12px;text-align:center;">
+      <div style="font-size:22px;font-weight:800;color:var(--orange);" id="pc-streak">0</div>
+      <div style="font-size:10px;font-weight:800;color:var(--muted);letter-spacing:1px;margin-top:2px;">DAY STREAK</div>
+    </div>
+  </aside>
+
+</main>
+
+<!-- Developer Vault Toggle -->
+<button id="vault-toggle" aria-label="Toggle developer vault" aria-expanded="false">
+  <svg width="18" height="18" fill="none" stroke="white" stroke-width="2" stroke-linecap="round">
+    <rect x="3" y="3" width="12" height="14" rx="2"></rect>
+    <path d="M7 7h4M7 10h4M7 13h2"></path>
+  </svg>
+</button>
+
+<!-- Developer Vault -->
+<aside id="vault" aria-label="Developer vault">
+  <div class="vault-title">Developer Vault</div>
+  <div class="vault-item" onclick="openFile('AI Prompt Template','Act as a Senior App Developer.\nGenerate a scalable architecture for [App Name].\nTech: React Native + Firebase.\nRequirements:\n- Offline-first\n- Real-time sync\n- Role-based auth\nOutput: Full folder structure + key files.')">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 2h6l3 3v9H4V2z"></path></svg>
+    AI Prompt Template
+  </div>
+  <div class="vault-item" onclick="openFile('Firebase Rules','{\n  "rules": {\n    ".read": "auth != null",\n    ".write": "auth != null",\n    "RoadmapData": {\n      ".read": true,\n      ".write": "auth != null"\n    }\n  }\n}')">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6l2 2 4-4M12 5a7 7 0 1 1-9 9"></path></svg>
+    Firebase Rules
+  </div>
+  <div class="vault-item" onclick="openFile('AdMob Config','// AdMob IDs (Test)\nconst AD_CONFIG = {\n  banner: "ca-app-pub-xxx/banner",\n  interstitial: "ca-app-pub-xxx/interstitial",\n  rewarded: "ca-app-pub-xxx/rewarded",\n  native: "ca-app-pub-xxx/native"\n}')">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="7" cy="7" r="5"></circle><path d="M7 4v3l2 2"></path></svg>
+    AdMob Config
+  </div>
+  <div class="social-row">
+    <div class="s-btn" onclick="window.open('https://youtube.com/@NexraTech','_blank')" title="YouTube @NexraTech">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--orange)"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.4 2.8 12 2.8 12 2.8s-4.4 0-6.8.1c-.6.1-1.9.1-3 1.3C1.3 5 1 7 1 7S.7 9.2.7 11.3v2c0 2.1.3 4.3.3 4.3s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.4 21.7 12 21.7 12 21.7s4.4 0 6.8-.1c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.3v-2C23.3 9.2 23 7 23 7zM9.7 15.5V8.4l8.1 3.6-8.1 3.5z"/></svg>
+    </div>
+    <div class="s-btn" onclick="window.open('https://t.me/NexraTech','_blank')" title="Telegram @NexraTech">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#0088cc"><path d="M20.7 3.4L2.1 10.6c-1.2.5-1.2 1.2-.2 1.5l4.6 1.4 10.7-6.7c.5-.3 1 0 .6.4L8.2 16.4v0l-.3 4.9c.4 0 .6-.2.8-.4l1.9-1.8 4 2.9c.7.4 1.2.2 1.4-.7L21.7 4.6c.3-1.2-.4-1.7-1-.4z"/></svg>
+    </div>
+    <div class="s-btn" onclick="window.open('https://wa.me/NexraTech','_blank')" title="WhatsApp @NexraTech">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="#25D366"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.5 0-.2 0-.4-.1-.5-.1-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .2.2 2 3 4.8 4.2.7.3 1.2.4 1.6.5.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.8-1.4C8.3 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+    </div>
+    <div class="s-btn" onclick="window.open('https://github.com/NexraTech','_blank')" title="GitHub @NexraTech">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="var(--obsidian)"><path d="M12 2C6.5 2 2 6.5 2 12c0 4.4 2.9 8.2 6.8 9.5.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.6 0 0 .9-.3 2.8 1 .8-.2 1.7-.3 2.5-.3.8 0 1.7.1 2.5.3 2-.1 2.8-1 2.8-1 .5 1.3.2 2.3.1 2.6.6.7 1 1.6 1 2.7 0 3.9-2.4 4.8-4.6 5 .4.3.7.9.7 1.8v2.7c0 .3.2.6.7.5C19.1 20.2 22 16.4 22 12 22 6.5 17.5 2 12 2z"/></svg>
+    </div>
+  </div>
 </aside>
 
+<!-- Social Sticky Bar -->
+<nav id="social-bar" aria-label="Social media links">
+  <a href="https://youtube.com/@NexraTech" target="_blank" rel="noopener" class="soc-link" aria-label="YouTube @NexraTech">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--orange)"><path d="M23 7s-.3-2-1.2-2.8c-1.1-1.2-2.4-1.2-3-1.3C16.4 2.8 12 2.8 12 2.8s-4.4 0-6.8.1c-.6.1-1.9.1-3 1.3C1.3 5 1 7 1 7S.7 9.2.7 11.3v2c0 2.1.3 4.3.3 4.3s.3 2 1.2 2.8c1.1 1.2 2.6 1.1 3.3 1.2C7.4 21.7 12 21.7 12 21.7s4.4 0 6.8-.1c.6-.1 1.9-.1 3-1.3.9-.8 1.2-2.8 1.2-2.8s.3-2.2.3-4.3v-2C23.3 9.2 23 7 23 7zM9.7 15.5V8.4l8.1 3.6-8.1 3.5z"/></svg>
+    @NexraTech
+  </a>
+  <a href="https://t.me/NexraTech" target="_blank" rel="noopener" class="soc-link" aria-label="Telegram @NexraTech">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#0088cc"><path d="M20.7 3.4L2.1 10.6c-1.2.5-1.2 1.2-.2 1.5l4.6 1.4 10.7-6.7c.5-.3 1 0 .6.4L8.2 16.4l-.3 4.9c.4 0 .6-.2.8-.4l1.9-1.8 4 2.9c.7.4 1.2.2 1.4-.7L21.7 4.6c.3-1.2-.4-1.7-1-.4z"/></svg>
+    Telegram
+  </a>
+  <a href="https://github.com/NexraTech" target="_blank" rel="noopener" class="soc-link" aria-label="GitHub @NexraTech">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--obsidian)"><path d="M12 2C6.5 2 2 6.5 2 12c0 4.4 2.9 8.2 6.8 9.5.5.1.7-.2.7-.5v-1.7c-2.8.6-3.4-1.3-3.4-1.3-.4-1.1-1.1-1.4-1.1-1.4-.9-.6.1-.6.1-.6 1 .1 1.5 1 1.5 1 .9 1.5 2.4 1.1 2.9.8.1-.6.3-1.1.6-1.3-2.2-.2-4.6-1.1-4.6-5 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.6 0 0 .9-.3 2.8 1 .8-.2 1.7-.3 2.5-.3.8 0 1.7.1 2.5.3 2-.1 2.8-1 2.8-1 .5 1.3.2 2.3.1 2.6.6.7 1 1.6 1 2.7 0 3.9-2.4 4.8-4.6 5 .4.3.7.9.7 1.8v2.7c0 .3.2.6.7.5C19.1 20.2 22 16.4 22 12 22 6.5 17.5 2 12 2z"/></svg>
+    GitHub
+  </a>
+  <a href="https://wa.me/NexraTech" target="_blank" rel="noopener" class="soc-link" aria-label="WhatsApp @NexraTech">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#25D366"><path d="M17.5 14.4c-.3-.1-1.7-.8-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.1-.2.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.4-.9-.8-1.4-1.7-1.6-2-.2-.3 0-.5.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.5 0-.2 0-.4-.1-.5-.1-.1-.7-1.7-1-2.3-.3-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.4 0 1.4 1 2.8 1.2 3 .2.2 2 3 4.8 4.2.7.3 1.2.4 1.6.5.7.2 1.3.2 1.8.1.5-.1 1.7-.7 1.9-1.4.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.6-.3zM12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.7 1.4 5.3L2 22l4.8-1.4C8.3 21.5 10.1 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+    WhatsApp
+  </a>
+</nav>
+
+<!-- Admin trigger (hidden) -->
+<button id="admin-trigger" onclick="showAdminPin()" aria-label="Open admin panel">ADMIN</button>
+
+<!-- ═══════════════════════════════════════════
+     ADMIN PANEL
+════════════════════════════════════════════ -->
+<div id="admin-panel" aria-label="Admin panel">
+  <div class="admin-header">
+    <div onclick="closeAdmin()" class="admin-back" role="button" tabindex="0">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M10 4L6 8l4 4"></path></svg>
+      Back to OS
+    </div>
+    <h1>Admin Panel</h1>
+    <p>Nexra Tech OS — CRUD Control Center</p>
+  </div>
+
+  <!-- Add Phase -->
+  <div class="admin-section">
+    <h3>
+      <svg width="16" height="16" fill="none" stroke="var(--orange)" stroke-width="2"><rect x="2" y="2" width="12" height="12" rx="3"></rect><path d="M7 5v4M5 7h4"></path></svg>
+      Add New Phase
+    </h3>
+    <div class="form-group"><label class="form-label">Phase Title</label><input class="form-input" id="new-phase-title" placeholder="e.g. Architectural Logic" autocomplete="off"></div>
+    <div class="form-group"><label class="form-label">Subtitle</label><input class="form-input" id="new-phase-sub" placeholder="e.g. Foundation & AI Synthesis" autocomplete="off"></div>
+    <div class="form-group"><label class="form-label">Accent Color</label>
+      <select class="form-input form-select" id="new-phase-color">
+        <option value="#ff5500">Electric Orange</option>
+        <option value="#007aff">Sky Blue</option>
+        <option value="#34c759">Emerald</option>
+        <option value="#af52de">Violet</option>
+        <option value="#ff2d55">Coral</option>
+        <option value="#ff9500">Amber</option>
+      </select>
+    </div>
+    <button class="btn-save" onclick="addPhase()">
+      <svg width="14" height="14" fill="none" stroke="white" stroke-width="2.5" style="margin-right:6px;vertical-align:-2px;"><path d="M7 2v10M2 7h10"></path></svg>
+      Create Phase
+    </button>
+  </div>
+
+  <!-- Add Task -->
+  <div class="admin-section">
+    <h3>
+      <svg width="16" height="16" fill="none" stroke="var(--orange)" stroke-width="2"><circle cx="8" cy="8" r="6"></circle><path d="M6 8l1.5 1.5L10 6"></path></svg>
+      Add Task / Sub-task
+    </h3>
+    <div class="form-group"><label class="form-label">Select Phase</label>
+      <select class="form-input form-select" id="task-phase-select"><option value="">Loading phases...</option></select>
+    </div>
+    <div class="form-group"><label class="form-label">Task Title</label><input class="form-input" id="new-task-title" placeholder="e.g. Firebase Integration" autocomplete="off"></div>
+    <div class="form-group"><label class="form-label">PRD / Description</label><textarea class="form-input form-textarea" id="new-task-prd" placeholder="Write detailed PRD, requirements, notes..."></textarea></div>
+    <div class="toggle-row">
+      <label>💰 Monetization Lock</label>
+      <label class="toggle"><input type="checkbox" id="new-task-locked"><span class="toggle-slider"></span></label>
+    </div>
+    <button class="btn-save" onclick="addTask()">
+      <svg width="14" height="14" fill="none" stroke="white" stroke-width="2.5" style="margin-right:6px;vertical-align:-2px;"><path d="M7 2v10M2 7h10"></path></svg>
+      Add Task
+    </button>
+  </div>
+
+  <!-- Manage Phases & Tasks -->
+  <div class="admin-section">
+    <h3>
+      <svg width="16" height="16" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M3 6h10M3 10h10M3 14h6"></path></svg>
+      Manage Phases
+    </h3>
+    <div id="admin-phases-list">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <!-- Reset -->
+  <div class="admin-section" style="background:rgba(239,68,68,.04);border-color:rgba(239,68,68,.15);">
+    <h3 style="color:#ef4444;">
+      <svg width="16" height="16" fill="none" stroke="#ef4444" stroke-width="2"><path d="M3 6h10l-1 9H4L3 6zM1 6h14M9 3H7a1 1 0 0 0-1 1v2h4V4a1 1 0 0 0-1-1z"></path></svg>
+      Danger Zone
+    </h3>
+    <p style="font-size:12px;color:var(--muted);font-weight:600;margin-bottom:14px;">Delete all roadmap data and user progress. This cannot be undone.</p>
+    <button class="btn-danger" style="width:100%;padding:12px;" onclick="resetAll()">Reset All Data</button>
+  </div>
+</div>
+
+<!-- ═══ MODALS ═══ -->
+
+<!-- Admin PIN Modal -->
+<div class="modal-bg" id="admin-pin-modal" role="dialog" aria-modal="true" aria-label="Admin PIN entry">
+  <div class="modal-box" style="text-align:center;position:relative;">
+    <div class="modal-close" onclick="closeModal('admin-pin-modal')" role="button" tabindex="0" aria-label="Close">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 2l10 10M12 2L2 12"></path></svg>
+    </div>
+    <div style="width:56px;height:56px;background:var(--obsidian);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+      <svg width="24" height="24" fill="none" stroke="var(--orange)" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 1 1 8 0v4"></path></svg>
+    </div>
+    <h2 style="font-family:'Space Grotesk';font-size:20px;font-weight:700;margin-bottom:6px;">Admin Access</h2>
+    <p style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:4px;">Enter your 4-digit PIN to continue</p>
+    <div class="pin-inputs" role="group" aria-label="PIN input fields">
+      <input class="pin-input" type="password" maxlength="1" id="p0" aria-label="PIN digit 1" inputmode="numeric">
+      <input class="pin-input" type="password" maxlength="1" id="p1" aria-label="PIN digit 2" inputmode="numeric">
+      <input class="pin-input" type="password" maxlength="1" id="p2" aria-label="PIN digit 3" inputmode="numeric">
+      <input class="pin-input" type="password" maxlength="1" id="p3" aria-label="PIN digit 4" inputmode="numeric">
+    </div>
+    <p id="pin-error" style="font-size:12px;color:#ef4444;font-weight:700;margin-bottom:10px;display:none;">Incorrect PIN. Try again.</p>
+    <button class="btn-pin" onclick="checkPin()">Enter Admin Panel</button>
+  </div>
+</div>
+
+<!-- Premium Modal -->
+<div class="modal-bg" id="premium-modal" role="dialog" aria-modal="true" aria-label="Premium content">
+  <div class="modal-box" style="text-align:center;position:relative;">
+    <div class="modal-close" onclick="closeModal('premium-modal')" role="button" tabindex="0" aria-label="Close">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 2l10 10M12 2L2 12"></path></svg>
+    </div>
+    <div class="premium-crown">
+      <svg width="32" height="32" viewBox="0 0 24 24" fill="white"><path d="M12 2l2.4 7.2H22l-6.2 4.5 2.4 7.2L12 17 5.8 20.9l2.4-7.2L2 9.2h7.6z"></path></svg>
+    </div>
+    <h2 class="premium-title" id="premium-title">Premium Content</h2>
+    <p class="premium-sub" id="premium-sub">This PRD & source code is a premium resource by Nexra Tech. Unlock it to access the full blueprint, source code, and implementation guide.</p>
+    <button class="btn-premium" onclick="window.open('https://wa.me/NexraTech','_blank');closeModal('premium-modal')">
+      Unlock via WhatsApp →
+    </button>
+    <p style="font-size:11px;color:var(--muted);font-weight:700;margin-top:12px;">Or DM @NexraTech on Telegram / YouTube</p>
+  </div>
+</div>
+
+<!-- Easter Egg Modal -->
+<div class="modal-bg" id="egg-modal" role="dialog" aria-modal="true" aria-label="Easter egg">
+  <div class="modal-box" style="position:relative;">
+    <div class="modal-close" onclick="closeModal('egg-modal')" role="button" tabindex="0" aria-label="Close">
+      <svg width="14" height="14" fill="none" stroke="white" stroke-width="2.5"><path d="M2 2l10 10M12 2L2 12"></path></svg>
+    </div>
+    <div style="text-align:center;font-size:36px;margin-bottom:8px;" aria-hidden="true">🥚</div>
+    <h2 class="egg-title">You Found It.</h2>
+    <p class="egg-sub">Only real developers tap 3 times. You just unlocked a secret bonus — a free Firebase architecture template, on us.</p>
+    <div class="egg-code" role="region" aria-label="Free source code snippet">
+// Nexra Tech FREE Firebase Architecture
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection,
+  addDoc, onSnapshot, query,
+  orderBy } from 'firebase/firestore';
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// Real-time listener
+const q = query(collection(db,'RoadmapData'),
+  orderBy('createdAt','asc'));
+
+const unsub = onSnapshot(q,(snap) => {
+  snap.docs.map(d => ({ id:d.id,...d.data() }));
+});
+    </div>
+    <a href="https://youtube.com/@NexraTech" target="_blank" rel="noopener">
+      <button class="btn-egg">Watch Full Tutorial @NexraTech →</button>
+    </a>
+  </div>
+</div>
+
+<!-- File Modal -->
+<div class="modal-bg" id="file-modal" role="dialog" aria-modal="true" aria-label="File preview">
+  <div class="modal-box" style="position:relative;">
+    <div class="modal-close" onclick="closeModal('file-modal')" role="button" tabindex="0" aria-label="Close">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 2l10 10M12 2L2 12"></path></svg>
+    </div>
+    <h2 style="font-family:'Space Grotesk';font-size:18px;font-weight:700;" id="file-title">File</h2>
+    <div class="code-block" id="file-content" role="region" aria-label="File contents"></div>
+    <button class="btn-copy" onclick="copyFile()" aria-label="Copy file contents to clipboard">
+      <svg width="14" height="14" fill="none" stroke="white" stroke-width="2" style="margin-right:6px;vertical-align:-2px;"><rect x="8" y="2" width="8" height="11" rx="1.5"></rect><rect x="2" y="5" width="8" height="11" rx="1.5"></rect></svg>
+      Copy to Clipboard
+    </button>
+  </div>
+</div>
+
 <script>
-    /**
-     * NEXRA SLIDER ENGINE v3.0
-     * Handles Dynamic Menu, Auth Sync, and UI Interactions
-     */
-    window.NexraSlider = {
-        db: null,
-        init: function() {
-            const checkDb = setInterval(() => {
-                if(window.db) {
-                    clearInterval(checkDb);
-                    this.db = window.db;
-                    this.syncAuth();
-                    this.loadMenu();
-                    this.syncThemeUI();
-                }
-            }, 100);
-        },
+// ════════════════════════════════════
+// FIREBASE CONFIG
+// ════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyDeNZBtVQ5iX5PjV5Gj4xXgxqB3KaJ4cZw",
+  authDomain: "nexrapk.firebaseapp.com",
+  projectId: "nexrapk",
+  storageBucket: "nexrapk.firebasestorage.app",
+  messagingSenderId: "958761878252",
+  appId: "1:958761878252:web:099246eb11de0e08755bc9",
+  measurementId: "G-FRTWEZ47YZ"
+};
+if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+db.enablePersistence().catch(()=>{});
 
-        // 1. OPEN/CLOSE CONTROLS
-        open: function() {
-            document.getElementById('n-slider').classList.add('active');
-            document.getElementById('n-slider-overlay').classList.add('active');
-            document.body.style.overflow = 'hidden'; // Prevent scroll
-        },
-        close: function() {
-            document.getElementById('n-slider').classList.remove('active');
-            document.getElementById('n-slider-overlay').classList.remove('active');
-            document.body.style.overflow = '';
-        },
+// ════════════════════════════════════
+// CONSTANTS & STATE
+// ════════════════════════════════════
+const ADMIN_PIN = "1234";
+const COLLECTION = "RoadmapData";
+let roadmapData = [];
+let userProgress = {};
+let hubTaps = 0, hubTapTimer = null;
+let sessionStart = Date.now();
+let streakDays = 0;
 
-        // 2. AUTH SYNC (Profile Card)
-        syncAuth: function() {
-            firebase.auth().onAuthStateChanged(user => {
-                const nameEl = document.getElementById('ns-user-name');
-                const statusEl = document.getElementById('ns-user-status');
-                const dpEl = document.getElementById('ns-user-dp');
+// ════════════════════════════════════
+// BOOT SEQUENCE
+// ════════════════════════════════════
+const bootMsgs = ["INITIALIZING NEXRA OS...","LOADING FIREBASE...","MOUNTING UI LAYER...","RESTORING PROGRESS...","SYSTEM READY."];
+let bootIdx = 0;
+const bootFill = document.getElementById('boot-fill');
+const bootMsg = document.getElementById('boot-msg');
+function runBoot(){
+  if(bootIdx >= bootMsgs.length){
+    document.getElementById('boot').style.opacity = '0';
+    setTimeout(()=>{
+      document.getElementById('boot').style.display = 'none';
+      initApp();
+    }, 600);
+    return;
+  }
+  bootMsg.textContent = bootMsgs[bootIdx];
+  bootFill.style.width = ((bootIdx+1)/bootMsgs.length*100)+'%';
+  bootIdx++;
+  setTimeout(runBoot, bootIdx === bootMsgs.length ? 200 : 320);
+}
+setTimeout(runBoot, 400);
 
-                if(user) {
-                    nameEl.innerText = user.displayName || "Nexra Member";
-                    dpEl.src = user.photoURL || "https://via.placeholder.com/100";
-                    // Check VIP Status from Firestore
-                    this.db.collection('users').doc(user.uid).onSnapshot(doc => {
-                        if(doc.exists && doc.data().tier === 'VIP') {
-                            statusEl.innerText = "Diamond VIP Member";
-                            statusEl.style.color = "#ffd700";
-                        } else {
-                            statusEl.innerText = "Verified Member";
-                        }
-                    });
-                } else {
-                    nameEl.innerText = "Guest Explorer";
-                    statusEl.innerText = "Standard Access";
-                    dpEl.src = "https://via.placeholder.com/100";
-                }
-            });
-        },
+// ════════════════════════════════════
+// CURSOR (desktop)
+// ════════════════════════════════════
+const cur = document.getElementById('cur');
+const curRing = document.getElementById('cur-ring');
+document.addEventListener('mousemove', e=>{
+  if(cur) { cur.style.left=e.clientX+'px'; cur.style.top=e.clientY+'px'; }
+  if(curRing) { curRing.style.left=e.clientX+'px'; curRing.style.top=e.clientY+'px'; }
+});
+document.addEventListener('mousedown',()=>{ if(cur){cur.style.transform='translate(-50%,-50%) scale(1.5)';} });
+document.addEventListener('mouseup',()=>{ if(cur){cur.style.transform='translate(-50%,-50%) scale(1)';} });
 
-        // 3. DYNAMIC MENU LOADER (Firebase)
-        loadMenu: function() {
-            const container = document.getElementById('ns-menu-container');
-            // Listen to 'navigation' collection or a config doc
-            this.db.collection('settings').doc('slider_menu').onSnapshot(doc => {
-                if(!doc.exists) return;
-                const groups = doc.data().groups || [];
-                container.innerHTML = '';
+// ════════════════════════════════════
+// SESSION TIMER
+// ════════════════════════════════════
+function startTimer(){
+  setInterval(()=>{
+    const s = Math.floor((Date.now()-sessionStart)/1000);
+    const h=String(Math.floor(s/3600)).padStart(2,'0');
+    const m=String(Math.floor((s%3600)/60)).padStart(2,'0');
+    const sec=String(s%60).padStart(2,'0');
+    const t = `${h}:${m}:${sec}`;
+    document.getElementById('session-timer').textContent = t;
+    document.getElementById('pc-timer').textContent = `${m}:${sec}`;
+  },1000);
+}
 
-                groups.forEach((group, gIdx) => {
-                    if(!group.visible) return;
-                    
-                    let itemsHTML = '';
-                    group.items.forEach(item => {
-                        if(!item.active) return;
-                        const activeClass = (new URLSearchParams(window.location.search).get('view') === item.route) ? 'active' : '';
-                        itemsHTML += `
-                            <div class="ns-item ${activeClass}" onclick="Nexra.navTo('${item.route}'); NexraSlider.close()" style="animation-delay: ${gIdx * 0.1}s">
-                                ${item.svgIcon}
-                                <span>${item.name}</span>
-                                ${item.badge ? `<span class="ns-badge ${item.badgeClass}">${item.badge}</span>` : ''}
-                            </div>
-                        `;
-                    });
+// ════════════════════════════════════
+// LOCAL STORAGE / COOKIES
+// ════════════════════════════════════
+function saveProgress(){ try{ localStorage.setItem('nx_progress',JSON.stringify(userProgress)); setCookie('nx_progress',JSON.stringify(userProgress),365); }catch(e){} }
+function loadProgress(){
+  try{
+    const ls = localStorage.getItem('nx_progress');
+    if(ls){ userProgress=JSON.parse(ls); return; }
+    const ck = getCookie('nx_progress');
+    if(ck){ userProgress=JSON.parse(ck); }
+  }catch(e){ userProgress={}; }
+}
+function setCookie(n,v,d){
+  const e = new Date(); e.setTime(e.getTime()+(d*24*60*60*1000));
+  document.cookie = `${n}=${encodeURIComponent(v)};expires=${e.toUTCString()};path=/;SameSite=Lax`;
+}
+function getCookie(n){
+  const ca = document.cookie.split(';');
+  for(let c of ca){ c=c.trim(); if(c.startsWith(n+'=')) return decodeURIComponent(c.substring(n.length+1)); }
+  return null;
+}
+function saveStreak(){
+  const today = new Date().toDateString();
+  const last = localStorage.getItem('nx_last_visit');
+  const yesterday = new Date(Date.now()-86400000).toDateString();
+  if(last===yesterday){ streakDays=(parseInt(localStorage.getItem('nx_streak')||'0'))+1; }
+  else if(last!==today){ streakDays=1; }
+  else { streakDays=parseInt(localStorage.getItem('nx_streak')||'1'); }
+  localStorage.setItem('nx_streak',streakDays);
+  localStorage.setItem('nx_last_visit',today);
+  document.getElementById('pc-streak').textContent = streakDays;
+}
 
-                    container.innerHTML += `
-                        <div class="ns-group">
-                            <span class="ns-group-label">${group.label}</span>
-                            ${itemsHTML}
-                        </div>
-                    `;
-                });
-            });
-        },
+// ════════════════════════════════════
+// FIRESTORE — REAL-TIME LISTENER
+// ════════════════════════════════════
+function listenToRoadmap(){
+  db.collection(COLLECTION).orderBy('order','asc').onSnapshot(snap=>{
+    roadmapData = snap.docs.map(d=>({id:d.id,...d.data(),tasks:(d.data().tasks||[])}));
+    renderTimeline();
+    renderMindmap();
+    updateGlobalProgress();
+    updateAdminPhaseList();
+    populatePhaseSelect();
+  }, err=>{
+    // Offline fallback — use cached data
+    loadCachedData();
+  });
+}
+function loadCachedData(){
+  try{
+    const c = localStorage.getItem('nx_cached_data');
+    if(c){ roadmapData=JSON.parse(c); renderTimeline(); renderMindmap(); updateGlobalProgress(); }
+  }catch(e){}
+}
 
-        // 4. THEME & UTILS
-        setTheme: function(theme) {
-            document.documentElement.setAttribute('data-theme', theme);
-            localStorage.setItem('theme', theme);
-            this.syncThemeUI();
-            if(window.Nexra) Nexra.showToast(`${theme.toUpperCase()} Mode Enabled`, 'info');
-        },
+// ════════════════════════════════════
+// RENDER TIMELINE (MOBILE)
+// ════════════════════════════════════
+function renderTimeline(){
+  const tl = document.getElementById('timeline');
+  document.getElementById('timeline-loader').style.display = 'none';
 
-        syncThemeUI: function() {
-            const current = document.documentElement.getAttribute('data-theme') || 'light';
-            document.getElementById('ts-light').classList.toggle('active', current === 'light');
-            document.getElementById('ts-dark').classList.toggle('active', current === 'dark');
-        },
+  // Cache for offline
+  try{ localStorage.setItem('nx_cached_data',JSON.stringify(roadmapData)); }catch(e){}
 
-        search: function(query) {
-            // Global Search Integration logic
-            console.log("Searching for:", query);
-        },
+  if(!roadmapData.length){
+    tl.innerHTML = `<div class="empty-state">
+      <svg width="48" height="48" fill="none" stroke="var(--muted)" stroke-width="1.5"><circle cx="24" cy="24" r="20"></circle><path d="M16 24h16M24 16v16"></path></svg>
+      <p>No roadmap data yet</p>
+      <span>Admin can add phases & tasks</span>
+    </div>`;
+    return;
+  }
 
-        logout: function() {
-            firebase.auth().signOut().then(() => {
-                this.close();
-                Nexra.navTo('home');
-            });
-        }
-    };
+  tl.innerHTML = '';
+  const phaseColors = ['var(--orange)','#007aff','#34c759','#af52de','#ff2d55','#ff9500'];
 
-    // Auto-init
-    NexraSlider.init();
+  roadmapData.forEach((phase,pi)=>{
+    const color = phase.color || phaseColors[pi % phaseColors.length];
+    const tasks = phase.tasks || [];
+    const done = tasks.filter(t=>userProgress[t.id]).length;
+    const pct = tasks.length ? Math.round((done/tasks.length)*100) : 0;
 
-    // Link Nexra global UI trigger to this module
-    window.Nexra = window.Nexra || {};
-    window.Nexra.ui = window.Nexra.ui || {};
-    window.Nexra.ui.toggleSidebar = function() { NexraSlider.open(); };
+    const sec = document.createElement('div');
+    sec.className = 'phase-section';
+    sec.setAttribute('role','listitem');
+    sec.innerHTML = `
+      <div class="phase-header">
+        <div class="phase-num" style="background:${color};" aria-hidden="true">${String(pi+1).padStart(2,'0')}</div>
+        <div class="phase-info" style="flex:1;">
+          <h2>${escHtml(phase.title)}</h2>
+          <p>${escHtml(phase.subtitle||'')}</p>
+          <div class="phase-progress-bar" role="progressbar" aria-valuenow="${pct}" aria-valuemin="0" aria-valuemax="100" aria-label="${phase.title} progress: ${pct}%">
+            <div class="phase-progress-fill" style="background:${color};width:${pct}%"></div>
+          </div>
+        </div>
+        <div style="text-align:center;min-width:40px;">
+          <div style="font-family:'Space Grotesk';font-size:16px;font-weight:700;color:${color};">${pct}%</div>
+          <div style="font-size:9px;font-weight:800;color:var(--muted);">${done}/${tasks.length}</div>
+        </div>
+      </div>`;
+
+    if(!tasks.length){
+      sec.innerHTML += `<div class="empty-state" style="padding:20px;"><p>No tasks yet</p><span>Add tasks via admin panel</span></div>`;
+    } else {
+      tasks.forEach(task=>{
+        sec.appendChild(buildTaskCard(task, color));
+      });
+    }
+    tl.appendChild(sec);
+  });
+
+  // Phase pills in hero
+  const pillsEl = document.getElementById('phase-pills');
+  pillsEl.innerHTML = '';
+  roadmapData.forEach((phase,pi)=>{
+    const color = phase.color || phaseColors[pi%phaseColors.length];
+    const tasks = phase.tasks||[];
+    const done = tasks.filter(t=>userProgress[t.id]).length;
+    const pill = document.createElement('div');
+    pill.className = 'phase-pill';
+    pill.innerHTML = `<div class="phase-dot" style="background:${color};"></div><span style="font-size:11px;">${escHtml(phase.title)}</span><span style="font-size:11px;font-weight:800;color:${color};">${done}/${tasks.length}</span>`;
+    pillsEl.appendChild(pill);
+  });
+}
+
+function buildTaskCard(task, color){
+  const isDone = !!userProgress[task.id];
+  const div = document.createElement('div');
+  div.className = 'task-card' + (isDone ? ' completed' : '');
+  div.setAttribute('data-task-id', task.id);
+  div.setAttribute('role', 'listitem');
+  div.style.setProperty('--theme-color', color);
+
+  div.innerHTML = `
+    <div class="check-wrap">
+      <div class="check-btn" role="checkbox" aria-checked="${isDone}" aria-label="Mark ${escHtml(task.title)} as ${isDone?'incomplete':'complete'}" tabindex="0">
+        <svg width="12" height="12" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M2 6l3 3 5-5"></path></svg>
+      </div>
+    </div>
+    <div class="task-body">
+      <div class="task-title">${escHtml(task.title)}</div>
+      <div class="task-meta">
+        ${task.prd?`<span class="prd-toggle" role="button" tabindex="0" onclick="togglePrd(this)" aria-expanded="false">PRD ▾</span>`:''}
+        ${task.locked?'<span class="task-badge" style="background:rgba(255,85,0,.1);color:var(--orange);">PREMIUM</span>':''}
+      </div>
+      ${task.prd?`<div class="task-prd" aria-label="PRD details">${escHtml(task.prd)}</div>`:''}
+    </div>`;
+
+  if(task.locked){
+    const lockDiv = document.createElement('div');
+    lockDiv.className = 'lock-overlay';
+    lockDiv.setAttribute('role','button');
+    lockDiv.setAttribute('aria-label','Locked premium content');
+    lockDiv.setAttribute('tabindex','0');
+    lockDiv.innerHTML = `<div class="lock-icon-wrap">
+      <svg width="28" height="28" fill="none" stroke="var(--orange)" stroke-width="2"><rect x="6" y="12" width="16" height="11" rx="3"></rect><path d="M9 12V8a5 5 0 0 1 10 0v4"></path></svg>
+      <span>TAP TO UNLOCK</span>
+    </div>`;
+    lockDiv.onclick = (e)=>{ e.stopPropagation(); openPremium(task.title); };
+    lockDiv.onkeydown = (e)=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();openPremium(task.title);} };
+    div.appendChild(lockDiv);
+  } else {
+    div.onclick = (e)=>{ if(!e.target.classList.contains('prd-toggle')) toggleTask(div, task.id, color); };
+    div.onkeydown = (e)=>{ if((e.key==='Enter'||e.key===' ')&&!e.target.classList.contains('prd-toggle')){e.preventDefault();toggleTask(div,task.id,color);} };
+    div.setAttribute('tabindex','0');
+  }
+
+  // Ripple on click
+  div.addEventListener('pointerdown', createRipple);
+  return div;
+}
+
+// ════════════════════════════════════
+// TASK INTERACTION
+// ════════════════════════════════════
+function toggleTask(el, id, color){
+  el.classList.toggle('completed');
+  const isNowDone = el.classList.contains('completed');
+  userProgress[id] = isNowDone;
+  const cb = el.querySelector('.check-btn');
+  if(cb){ cb.setAttribute('aria-checked', isNowDone); }
+  saveProgress();
+  updateGlobalProgress();
+  showToast(isNowDone ? '✅ Task complete!' : '↩ Task undone');
+  // Sync mindmap
+  renderMindmap();
+}
+
+function togglePrd(btn){
+  const prd = btn.closest('.task-body').querySelector('.task-prd');
+  if(!prd) return;
+  const show = prd.classList.toggle('show');
+  btn.textContent = show ? 'PRD ▴' : 'PRD ▾';
+  btn.setAttribute('aria-expanded', show);
+}
+
+function createRipple(e){
+  const el = e.currentTarget;
+  const r = document.createElement('span');
+  r.className = 'ripple';
+  const rect = el.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height)*2;
+  r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
+  el.appendChild(r);
+  setTimeout(()=>r.remove(), 700);
+}
+
+// ════════════════════════════════════
+// GLOBAL PROGRESS
+// ════════════════════════════════════
+function updateGlobalProgress(){
+  let total=0, done=0;
+  roadmapData.forEach(p=>(p.tasks||[]).forEach(t=>{ total++; if(userProgress[t.id]) done++; }));
+  const pct = total ? Math.round((done/total)*100) : 0;
+  const circ = 2*Math.PI*60;
+  const offset = circ - (pct/100*circ);
+  const ring = document.getElementById('hero-ring');
+  const mmRing = document.getElementById('mm-ring-circle');
+  if(ring){ ring.style.strokeDashoffset = offset; ring.setAttribute('stroke-dasharray',circ); }
+  if(mmRing){ const mc=2*Math.PI*80; mmRing.style.strokeDashoffset=mc-(pct/100*mc); mmRing.setAttribute('stroke-dasharray',mc); }
+  document.getElementById('hero-pct').textContent = pct+'%';
+  document.getElementById('hero-pct').setAttribute('aria-label', pct+' percent complete');
+  document.getElementById('pc-pct').textContent = pct+'%';
+  document.getElementById('pc-done').textContent = `${done} / ${total}`;
+  document.getElementById('pc-phases').textContent = roadmapData.length;
+
+  if(pct===100 && done>0){
+    confetti({particleCount:250,spread:120,origin:{y:.5},colors:['#ff5500','#ffd700','#0f172a','#ffffff']});
+    confetti({particleCount:100,angle:60,spread:80,origin:{x:0},colors:['#ff5500','#ffd700']});
+    confetti({particleCount:100,angle:120,spread:80,origin:{x:1},colors:['#ff5500','#ffd700']});
+    showToast('🏆 100% COMPLETE — MISSION ACCOMPLISHED!');
+  }
+}
+
+// ════════════════════════════════════
+// MIND MAP (PC)
+// ════════════════════════════════════
+function renderMindmap(){
+  const phaseColors = ['var(--orange)','#007aff','#34c759','#af52de','#ff2d55','#ff9500'];
+  ['mm-c1','mm-c2','mm-c3'].forEach((id,i)=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    const phase = roadmapData[i];
+    if(!phase){ el.innerHTML=''; return; }
+    const color = phase.color || phaseColors[i%phaseColors.length];
+    const tasks = phase.tasks||[];
+    const done = tasks.filter(t=>userProgress[t.id]).length;
+    el.innerHTML = `
+      <div class="card-head" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;padding:0 4px;">
+        <div style="width:38px;height:38px;border-radius:12px;background:${color};display:flex;align-items:center;justify-content:center;color:white;font-family:'Space Grotesk';font-size:14px;font-weight:700;">${String(i+1).padStart(2,'0')}</div>
+        <div><div style="font-size:13px;font-weight:800;color:var(--obsidian);line-height:1.2;">${escHtml(phase.title)}</div><div style="font-size:10px;color:var(--muted);font-weight:600;">${done}/${tasks.length} done</div></div>
+      </div>`;
+    tasks.slice(0,3).forEach(task=>{
+      const tc = buildTaskCard(task, color);
+      el.appendChild(tc);
+    });
+    if(tasks.length>3){
+      const more = document.createElement('div');
+      more.style.cssText='text-align:center;font-size:11px;font-weight:800;color:var(--muted);padding:8px;';
+      more.textContent = `+${tasks.length-3} more tasks`;
+      el.appendChild(more);
+    }
+  });
+  setTimeout(drawMmLines,100);
+}
+
+function drawMmLines(){
+  const hub = document.getElementById('mm-hub');
+  if(!hub) return;
+  const hr = hub.getBoundingClientRect();
+  const cx = hr.left+hr.width/2, cy = hr.top+hr.height/2;
+  ['mm-c1','mm-c2','mm-c3'].forEach((id,i)=>{
+    const c = document.getElementById(id);
+    const line = document.getElementById('mm-line'+(i+1));
+    if(!c||!line||!c.innerHTML) return;
+    const cr = c.getBoundingClientRect();
+    const tx = cr.left+cr.width/2, ty = cr.top+cr.height/2;
+    line.setAttribute('d',`M ${cx} ${cy} Q ${cx} ${ty} ${tx} ${ty}`);
+  });
+}
+window.addEventListener('resize',drawMmLines);
+
+function mmFocus(t, btn){
+  document.querySelectorAll('.cam-btn').forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+  btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
+  const z = document.getElementById('mindmap-zoom');
+  const transforms = { global:'scale(1) translate(0,0)', p1:'scale(1.7) translate(18%,16%)', p2:'scale(1.7) translate(-18%,16%)', p3:'scale(1.7) translate(0,-22%)' };
+  z.style.transform = transforms[t]||'scale(1)';
+}
+
+// ════════════════════════════════════
+// EASTER EGG (Hub 3-tap)
+// ════════════════════════════════════
+function setupHubTap(){
+  const hub = document.getElementById('mm-hub');
+  if(!hub) return;
+  hub.addEventListener('click',()=>{
+    hubTaps++;
+    if(hubTapTimer) clearTimeout(hubTapTimer);
+    if(hubTaps>=3){
+      hubTaps=0;
+      openModal('egg-modal');
+      confetti({particleCount:80,spread:60,origin:{y:.5},colors:['#ff5500','#ffd700']});
+    } else {
+      hubTapTimer = setTimeout(()=>hubTaps=0, 1500);
+    }
+  });
+  hub.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){e.preventDefault();hub.click();} });
+}
+
+// ════════════════════════════════════
+// VAULT TOGGLE
+// ════════════════════════════════════
+document.getElementById('vault-toggle').addEventListener('click',()=>{
+  const vault=document.getElementById('vault'), btn=document.getElementById('vault-toggle');
+  const open = vault.classList.toggle('open');
+  btn.classList.toggle('open');
+  btn.setAttribute('aria-expanded', open);
+});
+
+// ════════════════════════════════════
+// MODALS
+// ════════════════════════════════════
+function openModal(id){ document.getElementById(id).classList.add('show'); }
+function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+document.querySelectorAll('.modal-bg').forEach(m=>{
+  m.addEventListener('click',e=>{ if(e.target===m) m.classList.remove('show'); });
+  m.addEventListener('keydown',e=>{ if(e.key==='Escape') m.classList.remove('show'); });
+});
+
+function openPremium(title){
+  document.getElementById('premium-title').textContent = title+' — Premium';
+  document.getElementById('premium-sub').textContent = `"${title}" is a premium resource by Nexra Tech. Unlock it to access the full PRD, source code, and implementation blueprint.`;
+  openModal('premium-modal');
+}
+
+function openFile(title,content){
+  document.getElementById('file-title').textContent = title;
+  document.getElementById('file-content').textContent = content;
+  openModal('file-modal');
+}
+function copyFile(){
+  navigator.clipboard.writeText(document.getElementById('file-content').textContent).then(()=>showToast('📋 Copied to clipboard!')).catch(()=>showToast('Copy failed'));
+  closeModal('file-modal');
+}
+
+// ════════════════════════════════════
+// TOAST
+// ════════════════════════════════════
+function showToast(msg){
+  const t = document.createElement('div');
+  t.className = 'toast'; t.textContent = msg;
+  t.setAttribute('role','status');
+  document.getElementById('toasts').appendChild(t);
+  setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(110%)'; t.style.transition='.3s'; setTimeout(()=>t.remove(),300); }, 2800);
+}
+
+// ════════════════════════════════════
+// ADMIN PIN
+// ════════════════════════════════════
+function showAdminPin(){ openModal('admin-pin-modal'); document.getElementById('p0').focus(); }
+
+// PIN input navigation
+['p0','p1','p2','p3'].forEach((id,i)=>{
+  const el = document.getElementById(id);
+  el.addEventListener('input',e=>{
+    el.classList.toggle('filled', el.value.length>0);
+    if(el.value.length===1&&i<3) document.getElementById('p'+(i+1)).focus();
+    if(i===3&&el.value.length===1) checkPin();
+  });
+  el.addEventListener('keydown',e=>{ if(e.key==='Backspace'&&!el.value&&i>0){ document.getElementById('p'+(i-1)).focus(); } });
+});
+
+function checkPin(){
+  const pin = ['p0','p1','p2','p3'].map(id=>document.getElementById(id).value).join('');
+  if(pin===ADMIN_PIN){
+    closeModal('admin-pin-modal');
+    ['p0','p1','p2','p3'].forEach(id=>{ document.getElementById(id).value=''; document.getElementById(id).classList.remove('filled'); });
+    document.getElementById('pin-error').style.display='none';
+    document.getElementById('public-view').style.display='none';
+    document.getElementById('admin-panel').classList.add('show');
+    showToast('🔓 Welcome, Admin!');
+    updateAdminPhaseList();
+    populatePhaseSelect();
+  } else {
+    document.getElementById('pin-error').style.display='block';
+    ['p0','p1','p2','p3'].forEach(id=>{ document.getElementById(id).value=''; document.getElementById(id).classList.remove('filled'); });
+    document.getElementById('p0').focus();
+    document.getElementById('p0').closest('.modal-box').style.animation='none';
+    setTimeout(()=>document.getElementById('p0').closest('.modal-box').style.animation='',10);
+  }
+}
+
+function closeAdmin(){
+  document.getElementById('admin-panel').classList.remove('show');
+  document.getElementById('public-view').style.display='block';
+}
+
+// ════════════════════════════════════
+// ADMIN CRUD — PHASES
+// ════════════════════════════════════
+async function addPhase(){
+  const title = document.getElementById('new-phase-title').value.trim();
+  const subtitle = document.getElementById('new-phase-sub').value.trim();
+  const color = document.getElementById('new-phase-color').value;
+  if(!title){ showToast('⚠️ Phase title is required'); return; }
+  try{
+    await db.collection(COLLECTION).add({
+      title, subtitle, color,
+      order: Date.now(),
+      tasks: [],
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    document.getElementById('new-phase-title').value='';
+    document.getElementById('new-phase-sub').value='';
+    showToast('✅ Phase created!');
+  }catch(e){ showToast('❌ Error: '+e.message); }
+}
+
+async function deletePhase(id){
+  if(!confirm('Delete this phase and all its tasks?')) return;
+  try{
+    await db.collection(COLLECTION).doc(id).delete();
+    showToast('🗑 Phase deleted');
+  }catch(e){ showToast('❌ Error: '+e.message); }
+}
+
+// ════════════════════════════════════
+// ADMIN CRUD — TASKS
+// ════════════════════════════════════
+async function addTask(){
+  const phaseId = document.getElementById('task-phase-select').value;
+  const title = document.getElementById('new-task-title').value.trim();
+  const prd = document.getElementById('new-task-prd').value.trim();
+  const locked = document.getElementById('new-task-locked').checked;
+  if(!phaseId||!title){ showToast('⚠️ Select a phase and enter a title'); return; }
+
+  const phase = roadmapData.find(p=>p.id===phaseId);
+  if(!phase){ showToast('⚠️ Phase not found'); return; }
+  const tasks = [...(phase.tasks||[]), { id:'t_'+Date.now(), title, prd, locked }];
+  try{
+    await db.collection(COLLECTION).doc(phaseId).update({ tasks });
+    document.getElementById('new-task-title').value='';
+    document.getElementById('new-task-prd').value='';
+    document.getElementById('new-task-locked').checked=false;
+    showToast('✅ Task added!');
+  }catch(e){ showToast('❌ Error: '+e.message); }
+}
+
+async function deleteTask(phaseId, taskId){
+  const phase = roadmapData.find(p=>p.id===phaseId);
+  if(!phase) return;
+  const tasks = (phase.tasks||[]).filter(t=>t.id!==taskId);
+  try{
+    await db.collection(COLLECTION).doc(phaseId).update({ tasks });
+    showToast('🗑 Task deleted');
+  }catch(e){ showToast('❌ Error: '+e.message); }
+}
+
+async function toggleTaskLock(phaseId, taskId){
+  const phase = roadmapData.find(p=>p.id===phaseId);
+  if(!phase) return;
+  const tasks = (phase.tasks||[]).map(t=>t.id===taskId?{...t,locked:!t.locked}:t);
+  try{
+    await db.collection(COLLECTION).doc(phaseId).update({ tasks });
+    showToast('🔒 Lock updated');
+  }catch(e){ showToast('❌ Error: '+e.message); }
+}
+
+function updateAdminPhaseList(){
+  const el = document.getElementById('admin-phases-list');
+  if(!el) return;
+  if(!roadmapData.length){ el.innerHTML='<div class="empty-state"><p>No phases yet</p><span>Add phases above</span></div>'; return; }
+  el.innerHTML = '';
+  roadmapData.forEach(phase=>{
+    const sec = document.createElement('div');
+    sec.style.cssText='background:white;border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:12px;';
+    sec.innerHTML = `
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+        <div>
+          <div style="font-size:14px;font-weight:800;color:var(--obsidian);">${escHtml(phase.title)}</div>
+          <div style="font-size:11px;color:var(--muted);font-weight:600;">${escHtml(phase.subtitle||'')} · ${(phase.tasks||[]).length} tasks</div>
+        </div>
+        <button class="btn-danger" onclick="deletePhase('${phase.id}')">Delete Phase</button>
+      </div>`;
+    (phase.tasks||[]).forEach(task=>{
+      const row = document.createElement('div');
+      row.className = 'admin-task-row';
+      row.innerHTML = `
+        <div class="admin-task-title">${escHtml(task.title)}${task.locked?' 🔒':''}</div>
+        <button class="btn-danger" style="font-size:10px;padding:5px 10px;" onclick="toggleTaskLock('${phase.id}','${task.id}')">${task.locked?'Unlock':'Lock'}</button>
+        <button class="btn-danger" style="font-size:10px;padding:5px 10px;" onclick="deleteTask('${phase.id}','${task.id}')">Del</button>`;
+      sec.appendChild(row);
+    });
+    el.appendChild(sec);
+  });
+}
+
+function populatePhaseSelect(){
+  const sel = document.getElementById('task-phase-select');
+  if(!sel) return;
+  sel.innerHTML = roadmapData.length ? '<option value="">Select phase...</option>' : '<option value="">No phases yet</option>';
+  roadmapData.forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.textContent=p.title; sel.appendChild(o); });
+}
+
+// ════════════════════════════════════
+// RESET ALL
+// ════════════════════════════════════
+async function resetAll(){
+  if(!confirm('Delete ALL data? This cannot be undone.')) return;
+  try{
+    const snap = await db.collection(COLLECTION).get();
+    const batch = db.batch();
+    snap.docs.forEach(d=>batch.delete(d.ref));
+    await batch.commit();
+    localStorage.clear();
+    userProgress={};
+    roadmapData=[];
+    renderTimeline();
+    renderMindmap();
+    updateGlobalProgress();
+    updateAdminPhaseList();
+    populatePhaseSelect();
+    showToast('🗑 All data cleared');
+  }catch(e){ showToast('❌ Error: '+e.message); }
+}
+
+// ════════════════════════════════════
+// SEED DATA (first-time)
+// ════════════════════════════════════
+async function seedIfEmpty(){
+  const snap = await db.collection(COLLECTION).limit(1).get();
+  if(!snap.empty) return;
+  const phases = [
+    { title:'Architectural Logic', subtitle:'Foundation & AI Synthesis', color:'#ff5500', order:1, tasks:[
+      { id:'t1', title:'Master PRD Creation', prd:'Define the full product requirements document. Cover user stories, technical specs, API contracts, and success metrics. Use AI Studio to auto-generate boilerplate.', locked:false },
+      { id:'t2', title:'Logic Mapping Flow', prd:'Create a detailed flowchart mapping every user journey and system interaction. Tools: FigJam, Miro, or Excalidraw.', locked:false },
+      { id:'t3', title:'AI Studio Prompting', prd:'Engineer your master AI prompts for code generation. This premium PRD includes 50+ tested prompts.', locked:true }
+    ]},
+    { title:'The Digital Brain', subtitle:'Backend & Infrastructure', color:'#007aff', order:2, tasks:[
+      { id:'t4', title:'Firebase Integration', prd:'Set up Firestore with offline persistence, security rules, and real-time listeners. Auto-create collections on first write.', locked:false },
+      { id:'t5', title:'Authentication Suite', prd:'Implement Google Sign-In, Apple Sign-In, and anonymous auth. Include PIN-based admin route.', locked:false },
+      { id:'t6', title:'API Synthesis', prd:'Connect all third-party APIs: AdMob, Google AI, Push Notifications. Full integration guide included.', locked:true }
+    ]},
+    { title:'Revenue & Launch', subtitle:'Monetization & Production', color:'#34c759', order:3, tasks:[
+      { id:'t7', title:'AdMob Deployment', prd:'Integrate banner, interstitial, and rewarded ads. Optimize fill rates and CPMs for Pakistani market.', locked:false },
+      { id:'t8', title:'Internal Beta Testing', prd:'Run internal beta on 10 devices. Test offline mode, Firebase sync, and all UI micro-interactions.', locked:false },
+      { id:'t9', title:'Production APK Build', prd:'Build release APK with ProGuard, sign with keystore, and submit to Play Store. Full pipeline guide.', locked:false }
+    ]}
+  ];
+  const batch = db.batch();
+  phases.forEach(p=>{ const ref=db.collection(COLLECTION).doc(); batch.set(ref,{...p,createdAt:firebase.firestore.FieldValue.serverTimestamp()}); });
+  await batch.commit();
+}
+
+// ════════════════════════════════════
+// URL ROUTING
+// ════════════════════════════════════
+function checkRoute(){
+  if(window.location.hash==='#admin'||window.location.pathname.endsWith('/admin')){ showAdminPin(); }
+}
+
+// ════════════════════════════════════
+// UTILITY
+// ════════════════════════════════════
+function escHtml(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ════════════════════════════════════
+// APP INIT
+// ════════════════════════════════════
+async function initApp(){
+  loadProgress();
+  saveStreak();
+  startTimer();
+  await seedIfEmpty();
+  listenToRoadmap();
+  setupHubTap();
+  checkRoute();
+  setTimeout(drawMmLines, 800);
+
+  // Keyboard shortcut: press A+D+M to open admin
+  const seq = []; let seqTimer;
+  document.addEventListener('keydown', e=>{
+    seq.push(e.key.toLowerCase());
+    if(seqTimer) clearTimeout(seqTimer);
+    seqTimer = setTimeout(()=>seq.length=0, 1500);
+    if(seq.slice(-3).join('')==='adm'){ showAdminPin(); seq.length=0; }
+  });
+}
 </script>
+</body>
+</html>
