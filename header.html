@@ -1,504 +1,1561 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ur" dir="ltr">
 <head>
-    <!-- 1. META & SEO CORE -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Global Header | Nexra Tech PK</title>
-    
-    <!-- Open Graph & SEO -->
-    <meta name="description" content="Nexra Tech PK Global Navigation System.">
-    <meta name="robots" content="noindex, nofollow"> <!-- Header file doesn't need indexing alone -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexra Tech PK — Header Engine</title>
+<meta name="description" content="Nexra Tech PK — Pakistan's Premier Digital Marketplace">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-    <!-- 2. PREMIUM TYPOGRAPHY & ICONS -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
-    
-    <!-- 3. FIREBASE SDKS (v9 Compat) -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+<style>
+/* ============================================================
+   NEXRA TECH PK — GLOBAL DESIGN SYSTEM + HEADER ENGINE
+   Version: 2.0 | Author: Nexra Dev Team
+   Single File: HTML + CSS + JS — No External Dependencies
+   ============================================================ */
 
-    <!-- 4. GLOBAL CONFIGURATION CONNECTION -->
-    <script src="firebaseconfig.js"></script>
+/* ── 1. DESIGN TOKENS ── */
+:root {
+  /* Light Mode */
+  --bg-base:       #f7f8fc;
+  --bg-surface:    #ffffff;
+  --bg-elevated:   #eef1f8;
 
-    <!-- 5. HEADER SPECIFIC CSS (ISLAND UI) -->
-    <style>
-        /* CSS Variables (Fallback if global.html is loading) */
-        :root {
-            --bg-surface: #ffffff;
-            --bg-elevated: #f1f5f9;
-            --brand-main: #FF4A17; 
-            --brand-glow: rgba(255, 74, 23, 0.2);
-            --text-100: #0f172a;
-            --text-200: #475569;
-            --text-300: #94a3b8;
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(0, 0, 0, 0.06);
-            --shadow-premium: 0 15px 35px -5px rgba(0,0,0,0.08);
-            --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-            --danger: #ef4444;
-        }
+  --text-100: #0d1117;
+  --text-200: #4a5568;
+  --text-300: #94a3b8;
 
-        [data-theme="dark"] {
-            --bg-surface: #0c0c12;
-            --bg-elevated: #16161e;
-            --glass-bg: rgba(12, 12, 18, 0.85);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --text-100: #ffffff;
-            --text-200: #a1a1aa;
-            --text-300: #52525b;
-            --shadow-premium: 0 15px 40px rgba(0,0,0,0.6);
-        }
+  --brand:         #FF4A17;
+  --brand-glow:    rgba(255,74,23,0.22);
+  --brand-dim:     rgba(255,74,23,0.09);
+  --brand-rgb:     255,74,23;
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  --success: #10b981;
+  --danger:  #ef4444;
+  --warning: #f59e0b;
+  --info:    #3b82f6;
 
-        /* ==========================================================================
-           FLOATING ISLAND HEADER WRAPPER
-           ========================================================================== */
-        .header-wrap {
-            position: fixed;
-            top: 15px; 
-            left: 0;
-            width: 100%;
-            z-index: 9999;
-            padding: 0 3%;
-            pointer-events: none; /* Let clicks pass through empty space */
-            animation: slideDown 0.6s var(--transition);
-        }
+  --glass-bg:      rgba(255,255,255,0.82);
+  --glass-border:  rgba(0,0,0,0.07);
+  --slider-bg:     #ffffff;
 
-        .island-nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            background: var(--glass-bg);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid var(--glass-border);
-            border-radius: 50px;
-            padding: 8px 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: var(--shadow-premium);
-            pointer-events: auto; /* Re-enable clicks */
-            transition: var(--transition);
-            position: relative;
-        }
+  --shadow-soft:   0 8px 32px -8px rgba(0,0,0,0.08);
+  --shadow-float:  0 24px 48px -12px rgba(0,0,0,0.14);
+  --shadow-brand:  0 8px 28px var(--brand-glow);
 
-        /* 1. DYNAMIC LOGO SECTION */
-        .di-logo-sec {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            cursor: pointer;
-            padding: 4px 14px 4px 4px;
-            border-radius: 40px;
-            transition: 0.3s ease;
-        }
-        .di-logo-sec:hover { background: var(--bg-elevated); }
-        .di-logo-sec:active { transform: scale(0.95); }
+  --radius-sm:  10px;
+  --radius-md:  20px;
+  --radius-lg:  32px;
+  --radius-pill: 100px;
 
-        .di-logo-icon {
-            width: 40px; height: 40px;
-            background: #ffffff;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            border: 1px solid var(--glass-border);
-            box-shadow: 0 4px 15px var(--brand-glow);
-            overflow: hidden;
-            flex-shrink: 0;
-        }
-        .di-logo-icon img { width: 100%; height: 100%; object-fit: contain; padding: 4px; transition: 0.3s; }
-        
-        .di-title-img { height: 15px; filter: brightness(0); opacity: 0.9; transition: 0.3s; }
-        [data-theme="dark"] .di-title-img { filter: invert(1); }
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur: 0.38s;
+}
 
-        /* 2. DYNAMIC DESKTOP NAVIGATION (CENTER) */
-        .desktop-links {
-            display: none;
-            align-items: center;
-            gap: 5px;
-            background: var(--bg-elevated);
-            padding: 6px;
-            border-radius: 50px;
-            border: 1px solid var(--glass-border);
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-        }
+[data-theme="dark"] {
+  --bg-base:       #080810;
+  --bg-surface:    #0e0e1a;
+  --bg-elevated:   #161625;
 
-        .d-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-200);
-            cursor: pointer;
-            padding: 10px 20px;
-            border-radius: 40px;
-            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            position: relative;
-            z-index: 1;
-        }
-        .d-nav-item svg { width: 14px; height: 14px; opacity: 0.7; transition: 0.3s; }
-        
-        .d-nav-item:hover { color: var(--brand-main); background: var(--bg-surface); }
-        .d-nav-item:hover svg { opacity: 1; transform: scale(1.1); }
-        
-        .d-nav-item.active { 
-            color: #ffffff; 
-            background: var(--brand-main); 
-            box-shadow: 0 5px 15px var(--brand-glow); 
-        }
-        .d-nav-item.active svg { opacity: 1; }
+  --text-100: #f0f0ff;
+  --text-200: #8888aa;
+  --text-300: #44445a;
 
-        /* Skeleton for Nav */
-        .nav-skeleton { width: 80px; height: 35px; border-radius: 40px; background: var(--glass-border); animation: pulse 1.5s infinite; }
+  --glass-bg:      rgba(14,14,26,0.88);
+  --glass-border:  rgba(255,255,255,0.07);
+  --slider-bg:     #0e0e1a;
 
-        /* 3. ACTION BUTTONS (RIGHT) */
-        .di-actions { display: flex; align-items: center; gap: 8px; }
+  --shadow-soft:   0 8px 32px rgba(0,0,0,0.55);
+  --shadow-float:  0 24px 56px rgba(0,0,0,0.75);
+}
 
-        .di-btn {
-            width: 44px; height: 44px;
-            border-radius: 50%;
-            background: var(--bg-surface);
-            border: 1px solid var(--glass-border);
-            color: var(--text-100);
-            display: flex; align-items: center; justify-content: center;
-            cursor: pointer;
-            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-        }
-        .di-btn svg { width: 20px; height: 20px; transition: 0.3s; }
-        
-        .di-btn:hover { 
-            background: var(--brand-main); 
-            color: #ffffff; 
-            border-color: var(--brand-main); 
-            transform: translateY(-2px); 
-            box-shadow: 0 5px 15px var(--brand-glow); 
-        }
+/* ── 2. RESET & BASE ── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg-base);
+  color: var(--text-100);
+  -webkit-font-smoothing: antialiased;
+  transition: background var(--dur) var(--ease), color var(--dur) var(--ease);
+  min-height: 100vh;
+}
+a { text-decoration:none; color:inherit; cursor:pointer; }
+button, input { font-family:inherit; outline:none; border:none; background:none; cursor:pointer; }
 
-        /* Profile Avatar inside Button */
-        .auth-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: none; }
+/* ── 3. DEMO PAGE STYLES (Remove when embedding) ── */
+.demo-page {
+  padding: 140px 5% 80px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.demo-hero {
+  text-align: center;
+  padding: 60px 30px;
+  background: var(--bg-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+.demo-hero h1 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  background: linear-gradient(135deg, var(--brand) 0%, #ff8a00 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 16px;
+}
+.demo-hero p { color: var(--text-200); font-size: 1rem; line-height: 1.7; max-width: 500px; margin: 0 auto 28px; }
+.demo-tag {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--brand-dim);
+  color: var(--brand);
+  border: 1px solid var(--brand-glow);
+  padding: 6px 16px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 24px;
+}
+.demo-grid { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); margin-top: 32px; }
+.demo-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 28px 24px;
+  box-shadow: var(--shadow-soft);
+  transition: transform var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+}
+.demo-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-float); }
+.demo-card-icon {
+  width: 48px; height: 48px;
+  background: var(--brand-dim);
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--brand);
+  margin-bottom: 16px;
+}
+.demo-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+.demo-card p { color: var(--text-200); font-size: 13px; line-height: 1.6; }
 
-        /* Badges (Notif & Cart) */
-        .action-badge {
-            position: absolute;
-            top: -2px; right: -2px;
-            background: var(--danger);
-            color: #ffffff;
-            font-size: 9px; font-weight: 800;
-            width: 18px; height: 18px;
-            border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            border: 2px solid var(--bg-surface);
-            box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
-            opacity: 0; transform: scale(0); transition: 0.3s;
-        }
-        .action-badge.show { opacity: 1; transform: scale(1); }
-        .cart-badge { background: var(--brand-main); box-shadow: 0 4px 10px var(--brand-glow); }
+/* ============================================================
+   FLOATING ISLAND HEADER
+   ============================================================ */
+.nxr-header-wrap {
+  position: fixed;
+  top: 14px;
+  left: 0; right: 0;
+  z-index: 9999;
+  padding: 0 16px;
+  pointer-events: none;
+  animation: nxr-slide-down 0.55s var(--ease) both;
+}
 
-        /* 4. THEME COLOR PALETTE (LONG PRESS) */
-        .theme-palette {
-            position: absolute; top: 70px; right: 20px;
-            background: var(--bg-surface);
-            border: 1px solid var(--glass-border);
-            padding: 15px; border-radius: 20px;
-            display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-            box-shadow: var(--shadow-premium);
-            opacity: 0; visibility: hidden; transform: translateY(10px);
-            transition: var(--transition);
-            z-index: 100;
-        }
-        .theme-palette.active { opacity: 1; visibility: visible; transform: translateY(0); }
-        
-        .color-dot {
-            width: 28px; height: 28px; border-radius: 50%; cursor: pointer;
-            border: 2px solid transparent; transition: 0.2s;
-        }
-        .color-dot:hover { transform: scale(1.15); border-color: var(--text-100); }
+@keyframes nxr-slide-down {
+  from { transform: translateY(-60px); opacity: 0; }
+  to   { transform: translateY(0); opacity: 1; }
+}
 
-        /* RESPONSIVE LOGIC */
-        @media(min-width: 992px) {
-            .desktop-links { display: flex; }
-            .mobile-menu-btn { display: none !important; }
-        }
-        @media(max-width: 991px) {
-            .hide-mobile { display: none !important; }
-        }
+.nxr-island {
+  max-width: 1380px;
+  margin: 0 auto;
+  background: var(--glass-bg);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-pill);
+  padding: 7px 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  box-shadow: var(--shadow-soft);
+  pointer-events: auto;
+  transition: background var(--dur) var(--ease), border-color var(--dur) var(--ease), box-shadow var(--dur) var(--ease);
+  position: relative;
+}
 
-        /* Keyframes */
-        @keyframes slideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-        @keyframes pulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.8; } }
-    </style>
+/* ── LOGO SECTION ── */
+.nxr-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 5px 14px 5px 5px;
+  border-radius: var(--radius-pill);
+  transition: background var(--dur) var(--ease);
+  cursor: pointer;
+  flex-shrink: 0;
+  user-select: none;
+}
+.nxr-logo:hover { background: var(--bg-elevated); }
+.nxr-logo:active { transform: scale(0.96); }
+
+.nxr-logo-ring {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1.5px solid var(--glass-border);
+  box-shadow: 0 4px 16px var(--brand-glow);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: box-shadow var(--dur) var(--ease);
+}
+.nxr-logo:hover .nxr-logo-ring { box-shadow: 0 6px 22px var(--brand-glow); }
+.nxr-logo-ring img {
+  width: 100%; height: 100%;
+  object-fit: contain;
+  padding: 6px;
+}
+
+/* Logo text title image — visible on all breakpoints */
+.nxr-logo-title {
+  height: 14px;
+  object-fit: contain;
+  filter: brightness(0);
+  opacity: 0.85;
+  transition: filter var(--dur) var(--ease), opacity var(--dur) var(--ease);
+  flex-shrink: 0;
+}
+[data-theme="dark"] .nxr-logo-title { filter: invert(1); opacity: 0.9; }
+
+/* ── DESKTOP CENTER NAV ── */
+.nxr-nav-center {
+  display: none;
+  align-items: center;
+  gap: 3px;
+  background: var(--bg-elevated);
+  padding: 5px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border);
+  position: absolute;
+  left: 50%; transform: translateX(-50%);
+}
+
+.nxr-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--text-200);
+  cursor: pointer;
+  padding: 9px 18px;
+  border-radius: var(--radius-pill);
+  transition: all 0.25s var(--ease);
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  white-space: nowrap;
+}
+.nxr-nav-item svg { width: 13px; height: 13px; opacity: 0.65; transition: all 0.25s; flex-shrink: 0; }
+.nxr-nav-item:hover { color: var(--brand); background: var(--bg-surface); }
+.nxr-nav-item:hover svg { opacity: 1; transform: scale(1.15); }
+.nxr-nav-item.active {
+  color: #fff;
+  background: var(--brand);
+  box-shadow: var(--shadow-brand);
+}
+.nxr-nav-item.active svg { opacity: 1; }
+
+/* ── ACTION BUTTONS RIGHT ── */
+.nxr-actions { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+
+.nxr-btn {
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  background: var(--bg-surface);
+  border: 1px solid var(--glass-border);
+  color: var(--text-100);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  transition: all 0.25s var(--ease);
+  position: relative;
+  flex-shrink: 0;
+}
+.nxr-btn svg { width: 18px; height: 18px; transition: transform 0.25s; }
+.nxr-btn:hover {
+  background: var(--brand);
+  color: #fff;
+  border-color: var(--brand);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-brand);
+}
+.nxr-btn:hover svg { transform: scale(1.1); }
+.nxr-btn:active { transform: scale(0.93); }
+
+/* Profile Avatar */
+.nxr-avatar-img {
+  width: 100%; height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: none;
+}
+
+/* Notification / Cart Badge */
+.nxr-badge {
+  position: absolute;
+  top: -3px; right: -3px;
+  min-width: 18px; height: 18px;
+  background: var(--danger);
+  color: #fff;
+  font-size: 9px; font-weight: 800;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--bg-base);
+  opacity: 0; transform: scale(0);
+  transition: all 0.2s var(--ease);
+  padding: 0 3px;
+  pointer-events: none;
+}
+.nxr-badge.visible { opacity: 1; transform: scale(1); }
+.nxr-badge.brand { background: var(--brand); }
+
+/* ── THEME PALETTE POPUP (Long Press) ── */
+.nxr-palette-wrap { position: relative; }
+.nxr-palette {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: var(--bg-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  box-shadow: var(--shadow-float);
+  opacity: 0; visibility: hidden;
+  transform: translateY(8px) scale(0.96);
+  transition: all 0.22s var(--ease);
+  z-index: 200;
+  min-width: 160px;
+}
+.nxr-palette.open { opacity: 1; visibility: visible; transform: translateY(0) scale(1); }
+
+.nxr-palette-label {
+  grid-column: 1 / -1;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-300);
+  margin-bottom: 4px;
+}
+
+.nxr-dot {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2.5px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+}
+.nxr-dot:hover { transform: scale(1.18); }
+.nxr-dot.selected::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border: 2px solid currentColor;
+  border-radius: 50%;
+  opacity: 0.5;
+}
+
+/* ── RESPONSIVE BREAKPOINTS ── */
+@media (min-width: 992px) {
+  .nxr-nav-center { display: flex; }
+  .nxr-mobile-only { display: none !important; }
+}
+@media (max-width: 991px) {
+  .nxr-desktop-only { display: none !important; }
+  .nxr-logo-title { height: 13px; }
+}
+@media (max-width: 480px) {
+  .nxr-header-wrap { padding: 0 10px; top: 10px; }
+  .nxr-island { padding: 6px 8px; }
+  .nxr-btn { width: 38px; height: 38px; }
+  .nxr-logo-ring { width: 36px; height: 36px; }
+}
+
+
+/* ============================================================
+   SLIDER / SIDEBAR
+   ============================================================ */
+.nxr-slider-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.32s var(--ease);
+}
+.nxr-slider-overlay.open { opacity: 1; visibility: visible; }
+
+.nxr-slider {
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: min(340px, 88vw);
+  background: var(--slider-bg);
+  border-left: 1px solid var(--glass-border);
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(100%);
+  transition: transform 0.38s var(--ease);
+  overflow: hidden;
+}
+.nxr-slider.open { transform: translateX(0); }
+
+/* Slider Header */
+.nxr-sl-head {
+  padding: 24px 20px 16px;
+  border-bottom: 1px solid var(--glass-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.nxr-sl-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nxr-sl-logo {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: #fff;
+  border: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 4px 12px var(--brand-glow);
+}
+.nxr-sl-logo img { width: 100%; height: 100%; object-fit: contain; padding: 5px; }
+.nxr-sl-brand-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+}
+.nxr-sl-brand-name span { color: var(--brand); }
+
+.nxr-sl-close {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--glass-border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer;
+  color: var(--text-200);
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.nxr-sl-close:hover { background: var(--brand); color: #fff; border-color: var(--brand); }
+
+/* Profile Card in Slider */
+.nxr-sl-profile {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 16px 20px;
+  cursor: pointer;
+  border-bottom: 1px solid var(--glass-border);
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+.nxr-sl-profile:hover { background: var(--bg-elevated); }
+.nxr-sl-avatar {
+  width: 46px; height: 46px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--glass-border);
+  background: var(--bg-elevated);
+  flex-shrink: 0;
+}
+.nxr-sl-user-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+.nxr-sl-user-tag { font-size: 11px; color: var(--brand); font-weight: 700; letter-spacing: 0.5px; }
+
+/* Slider Body Scroll */
+.nxr-sl-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 0;
+}
+.nxr-sl-body::-webkit-scrollbar { width: 0; }
+
+/* Slider Section */
+.nxr-sl-section { margin-bottom: 4px; }
+.nxr-sl-section-label {
+  font-size: 9.5px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--text-300);
+  padding: 8px 22px 4px;
+}
+
+.nxr-sl-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 12px 22px;
+  cursor: pointer;
+  border-radius: 0;
+  transition: all 0.2s;
+  color: var(--text-200);
+  font-size: 13.5px;
+  font-weight: 600;
+  position: relative;
+}
+.nxr-sl-item:hover { background: var(--bg-elevated); color: var(--text-100); }
+.nxr-sl-item.active { color: var(--brand); background: var(--brand-dim); }
+.nxr-sl-item.active::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 20%; bottom: 20%;
+  width: 3px;
+  background: var(--brand);
+  border-radius: 0 4px 4px 0;
+}
+.nxr-sl-item-icon {
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.nxr-sl-item:hover .nxr-sl-item-icon { background: var(--brand-dim); color: var(--brand); }
+.nxr-sl-item.active .nxr-sl-item-icon { background: var(--brand-dim); color: var(--brand); }
+.nxr-sl-item svg { width: 16px; height: 16px; }
+.nxr-sl-item-arrow {
+  margin-left: auto;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  color: var(--text-300);
+}
+.nxr-sl-item:hover .nxr-sl-item-arrow { opacity: 1; transform: translateX(3px); }
+
+/* Slider badge for NEW / COUNT */
+.nxr-sl-badge {
+  margin-left: auto;
+  background: var(--brand);
+  color: #fff;
+  font-size: 9px; font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.5px;
+}
+.nxr-sl-badge.green { background: var(--success); }
+.nxr-sl-badge.orange { background: var(--warning); }
+
+/* Slider Divider */
+.nxr-sl-divider {
+  height: 1px;
+  background: var(--glass-border);
+  margin: 8px 20px;
+}
+
+/* Slider Footer */
+.nxr-sl-footer {
+  padding: 16px 20px 24px;
+  border-top: 1px solid var(--glass-border);
+  flex-shrink: 0;
+}
+
+/* Theme Switcher in Slider */
+.nxr-sl-theme-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  background: var(--bg-elevated);
+  padding: 6px;
+  border-radius: var(--radius-pill);
+  border: 1px solid var(--glass-border);
+}
+.nxr-theme-pill {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: var(--radius-pill);
+  cursor: pointer;
+  font-size: 11px; font-weight: 700;
+  color: var(--text-200);
+  transition: all 0.22s;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.nxr-theme-pill svg { width: 13px; height: 13px; }
+.nxr-theme-pill.active { background: var(--brand); color: #fff; box-shadow: var(--shadow-brand); }
+
+/* Color Dots Row in Slider */
+.nxr-sl-color-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-300);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+}
+.nxr-sl-colors {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+.nxr-sl-dot {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+  flex-shrink: 0;
+}
+.nxr-sl-dot:hover { transform: scale(1.18); }
+.nxr-sl-dot.active {
+  border-color: var(--text-100);
+  box-shadow: 0 0 0 2px var(--bg-surface), 0 0 0 4px currentColor;
+}
+
+/* Logout Btn */
+.nxr-logout-btn {
+  width: 100%;
+  display: flex; align-items: center; justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border-radius: var(--radius-pill);
+  background: var(--bg-elevated);
+  border: 1px solid var(--glass-border);
+  color: var(--text-200);
+  font-size: 12px; font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.22s;
+}
+.nxr-logout-btn:hover { background: rgba(239,68,68,0.1); color: var(--danger); border-color: rgba(239,68,68,0.3); }
+.nxr-logout-btn svg { width: 14px; height: 14px; }
+
+
+/* ============================================================
+   TOAST NOTIFICATION SYSTEM
+   ============================================================ */
+.nxr-toast-stack {
+  position: fixed;
+  bottom: 24px; right: 20px;
+  z-index: 20000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.nxr-toast {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 18px;
+  background: var(--bg-surface);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-float);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-100);
+  min-width: 260px;
+  max-width: 360px;
+  pointer-events: auto;
+  animation: nxr-toast-in 0.38s var(--ease) both;
+  position: relative;
+  overflow: hidden;
+}
+.nxr-toast::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 4px;
+  background: var(--toast-color, var(--brand));
+}
+.nxr-toast-icon { font-size: 18px; flex-shrink: 0; }
+.nxr-toast.out { animation: nxr-toast-out 0.3s var(--ease) forwards; }
+
+@keyframes nxr-toast-in {
+  from { transform: translateX(110%); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+@keyframes nxr-toast-out {
+  to { transform: translateX(110%); opacity: 0; }
+}
+
+
+/* ============================================================
+   SCROLL PROGRESS BAR
+   ============================================================ */
+.nxr-progress {
+  position: fixed;
+  top: 0; left: 0;
+  height: 2.5px;
+  background: var(--brand);
+  z-index: 10002;
+  width: 0%;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 8px var(--brand-glow);
+}
+
+
+/* ============================================================
+   WATERMARK (for title image fallback)
+   ============================================================ */
+.nxr-wm-text {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--text-100);
+  white-space: nowrap;
+}
+.nxr-wm-text span { color: var(--brand); }
+
+</style>
 </head>
 <body>
 
-    <div class="header-wrap">
-        <header class="island-nav">
-            
-            <!-- 1. DYNAMIC BRAND LOGO (Firebase Synced) -->
-            <div class="di-logo-sec" id="h-logo-trigger" onclick="NexraHeader.handleLogoClick()">
-                <div class="di-logo-icon">
-                    <img id="h-logo-img" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo">
-                </div>
-                <img id="h-title-img" class="di-title-img" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech">
-            </div>
-            
-            <!-- 2. DYNAMIC NAVIGATION (Firebase Synced) -->
-            <nav class="desktop-links" id="h-dynamic-nav">
-                <!-- Skeletons for Loading State -->
-                <div class="nav-skeleton"></div>
-                <div class="nav-skeleton"></div>
-                <div class="nav-skeleton"></div>
-            </nav>
+<!-- ── SCROLL PROGRESS BAR ── -->
+<div class="nxr-progress" id="nxr-progress"></div>
 
-            <!-- 3. ACTIONS & MODULE TRIGGERS -->
-            <div class="di-actions">
-                
-                <!-- A. Theme Controller (Click: B&W, Hold: Color Palette) -->
-                <div style="position: relative;">
-                    <button class="di-btn hide-mobile" id="h-theme-btn" aria-label="Theme Controller">
-                        <svg class="theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                    </button>
-                    <!-- Long Press Palette -->
-                    <div class="theme-palette" id="h-theme-palette">
-                        <div class="color-dot" style="background: #FF4A17;" onclick="NexraHeader.setCustomColor('#FF4A17')"></div>
-                        <div class="color-dot" style="background: #10b981;" onclick="NexraHeader.setCustomColor('#10b981')"></div>
-                        <div class="color-dot" style="background: #3b82f6;" onclick="NexraHeader.setCustomColor('#3b82f6')"></div>
-                        <div class="color-dot" style="background: #a855f7;" onclick="NexraHeader.setCustomColor('#a855f7')"></div>
-                        <div class="color-dot" style="background: #ec4899;" onclick="NexraHeader.setCustomColor('#ec4899')"></div>
-                        <div class="color-dot" style="background: #f59e0b;" onclick="NexraHeader.setCustomColor('#f59e0b')"></div>
-                    </div>
-                </div>
+<!-- ============================================================
+     FLOATING ISLAND HEADER
+     ============================================================ -->
+<div class="nxr-header-wrap">
+  <header class="nxr-island" id="nxr-island">
 
-                <!-- B. Notification Center -->
-                <button class="di-btn hide-mobile" onclick="Nexra.navTo('notifications')" aria-label="Notifications">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                    <span class="action-badge" id="h-notif-badge">0</span>
-                </button>
+    <!-- 1. LOGO (always visible) -->
+    <div class="nxr-logo" onclick="NXR.logoClick()" title="Nexra Tech PK">
+      <div class="nxr-logo-ring">
+        <!--
+          LOGO ICON URL → replace src below with your icon image URL
+          Example: src="https://yourcdn.com/nexra-icon.png"
+        -->
+        <img
+          id="nxr-logo-icon"
+          src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png"
+          alt="Nexra"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';"
+        >
+        <!-- SVG fallback if icon fails -->
+        <svg style="display:none; width:22px; height:22px; color:var(--brand);" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      </div>
 
-                <!-- C. Global Cart / Wallet -->
-                <button class="di-btn" onclick="Nexra.ui.toggleCart()" aria-label="Cart">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                    <span class="action-badge cart-badge" id="h-cart-badge">0</span>
-                </button>
-
-                <!-- D. Profile / Auth Auth System -->
-                <button class="di-btn hide-mobile" id="h-profile-btn" onclick="Nexra.navTo('profile')" aria-label="User Profile">
-                    <svg id="h-profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                    <img id="h-profile-avatar" class="auth-avatar" src="" alt="User">
-                </button>
-
-                <!-- E. Slider Trigger (Mobile/Tablet & Global Sidebar) -->
-                <button class="di-btn mobile-menu-btn" onclick="Nexra.ui.toggleSidebar()" aria-label="Open Sidebar">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
-                </button>
-
-            </div>
-        </header>
+      <!--
+        LOGO TITLE IMAGE → replace src below with your wordmark/title image URL
+        Example: src="https://yourcdn.com/nexra-wordmark.png"
+        This shows on ALL screen sizes.
+      -->
+      <img
+        id="nxr-logo-title"
+        class="nxr-logo-title"
+        src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg"
+        alt="Nexra Tech PK"
+        onerror="this.style.display='none'; document.getElementById('nxr-logo-text').style.display='block';"
+      >
+      <!-- Text fallback watermark -->
+      <span id="nxr-logo-text" class="nxr-wm-text" style="display:none;">
+        Nexra<span>.</span>pk
+      </span>
     </div>
 
-    <!-- ==========================================================================
-         HEADER ENGINE LOGIC (INTEGRATED WITH NEXRA GLOBAL)
-         ========================================================================== -->
-    <script>
-        window.NexraHeader = {
-            db: null,
-            init: function() {
-                console.log("⚡ Header Engine Activated");
-                // Wait for Firebase to initialize from global.js
-                const checkDb = setInterval(() => {
-                    if(window.firebase && firebase.firestore) {
-                        clearInterval(checkDb);
-                        this.db = firebase.firestore();
-                        this.syncBranding();
-                        this.syncNavigation();
-                        this.syncNotifications();
-                        this.initThemeController();
-                        this.monitorAuth();
-                    }
-                }, 100);
-            },
+    <!-- 2. DESKTOP CENTER NAVIGATION -->
+    <nav class="nxr-nav-center nxr-desktop-only" id="nxr-nav-center">
+      <div class="nxr-nav-item active" data-route="home" onclick="NXR.navigate('home')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        Home
+      </div>
+      <div class="nxr-nav-item" data-route="shop" onclick="NXR.navigate('shop')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        Marketplace
+      </div>
+      <div class="nxr-nav-item" data-route="freebies" onclick="NXR.navigate('freebies')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Freebies
+      </div>
+      <div class="nxr-nav-item" data-route="blog" onclick="NXR.navigate('blog')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        Blog
+      </div>
+    </nav>
 
-            // 1. SMART LOGO ACTION (Refresh or Home)
-            handleLogoClick: function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const currentView = urlParams.get('view') || 'home';
-                
-                if (currentView === 'home') {
-                    // Already on Home -> Smart Refresh / Top
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
-                    if(window.Nexra && typeof window.Nexra.navTo === 'function') window.Nexra.navTo('home');
-                } else {
-                    // Navigate to Home
-                    if(window.Nexra) window.Nexra.navTo('home');
-                    else window.location.href = 'index.html?view=home';
-                }
-            },
+    <!-- 3. ACTION BUTTONS RIGHT -->
+    <div class="nxr-actions">
 
-            // 2. FIREBASE REAL-TIME BRANDING
-            syncBranding: function() {
-                this.db.collection('settings').doc('appearance').onSnapshot(doc => {
-                    if(doc.exists) {
-                        const data = doc.data();
-                        if(data.logoUrl) document.getElementById('h-logo-img').src = data.logoUrl;
-                        if(data.titleImgUrl) document.getElementById('h-title-img').src = data.titleImgUrl;
-                        if(data.accentColor && !localStorage.getItem('custom-accent')) {
-                            document.documentElement.style.setProperty('--brand-main', data.accentColor);
-                        }
-                    }
-                });
-            },
+      <!-- A: Theme Toggle (Click = dark/light, Hold 2s = color palette) -->
+      <div class="nxr-palette-wrap nxr-desktop-only">
+        <button class="nxr-btn" id="nxr-theme-btn" title="Theme (Hold for colors)">
+          <!-- Moon icon shown in light mode, Sun in dark mode — swapped by JS -->
+          <svg id="nxr-theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <!-- Long-press color palette -->
+        <div class="nxr-palette" id="nxr-palette">
+          <div class="nxr-palette-label">Accent Color</div>
+          <div class="nxr-dot" style="background:#FF4A17;" data-color="#FF4A17" onclick="NXR.setAccent('#FF4A17')" title="Orange Red"></div>
+          <div class="nxr-dot" style="background:#10b981;" data-color="#10b981" onclick="NXR.setAccent('#10b981')" title="Emerald"></div>
+          <div class="nxr-dot" style="background:#3b82f6;" data-color="#3b82f6" onclick="NXR.setAccent('#3b82f6')" title="Blue"></div>
+          <div class="nxr-dot" style="background:#a855f7;" data-color="#a855f7" onclick="NXR.setAccent('#a855f7')" title="Purple"></div>
+          <div class="nxr-dot" style="background:#ec4899;" data-color="#ec4899" onclick="NXR.setAccent('#ec4899')" title="Pink"></div>
+          <div class="nxr-dot" style="background:#f59e0b;" data-color="#f59e0b" onclick="NXR.setAccent('#f59e0b')" title="Amber"></div>
+          <div class="nxr-dot" style="background:#ef4444;" data-color="#ef4444" onclick="NXR.setAccent('#ef4444')" title="Red"></div>
+          <div class="nxr-dot" style="background:#14b8a6;" data-color="#14b8a6" onclick="NXR.setAccent('#14b8a6')" title="Teal"></div>
+        </div>
+      </div>
 
-            // 3. DYNAMIC NAVIGATION (ADMIN CONTROLLED)
-            syncNavigation: function() {
-                this.db.collection('settings').doc('homepage').onSnapshot(doc => {
-                    const navContainer = document.getElementById('h-dynamic-nav');
-                    if(doc.exists) {
-                        const data = doc.data();
-                        // SVG Icons Dictionary
-                        const icons = {
-                            home: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>`,
-                            shop: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>`,
-                            freebies: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>`,
-                            blog: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>`
-                        };
+      <!-- B: Notifications (desktop only) -->
+      <button class="nxr-btn nxr-desktop-only" id="nxr-notif-btn" onclick="NXR.navigate('notifications')" title="Notifications">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="nxr-badge" id="nxr-notif-badge">0</span>
+      </button>
 
-                        navContainer.innerHTML = `
-                            <div class="d-nav-item" data-view="home" onclick="Nexra.navTo('home')">${icons.home} ${data.navHome || 'Home'}</div>
-                            <div class="d-nav-item" data-view="shop" onclick="Nexra.navTo('shop')">${icons.shop} ${data.navShop || 'Market'}</div>
-                            <div class="d-nav-item" data-view="freebies" onclick="Nexra.navTo('freebies')">${icons.freebies} ${data.navFreebies || 'Vault'}</div>
-                            <div class="d-nav-item" data-view="blog" onclick="Nexra.navTo('blog')">${icons.blog} ${data.navBlog || 'Insights'}</div>
-                        `;
-                        this.updateActiveTab();
-                    }
-                });
-            },
+      <!-- C: Cart (always visible) -->
+      <button class="nxr-btn" id="nxr-cart-btn" onclick="NXR.navigate('checkout')" title="Cart">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        <span class="nxr-badge brand" id="nxr-cart-badge">0</span>
+      </button>
 
-            // 4. THEME CONTROLLER (Click & Long-Press)
-            initThemeController: function() {
-                const btn = document.getElementById('h-theme-btn');
-                const palette = document.getElementById('h-theme-palette');
-                const icon = btn.querySelector('.theme-icon');
-                let pressTimer;
+      <!-- D: Profile (desktop only) -->
+      <button class="nxr-btn nxr-desktop-only" id="nxr-profile-btn" onclick="NXR.navigate('profile')" title="Profile">
+        <svg id="nxr-profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <img id="nxr-profile-avatar" class="nxr-avatar-img" src="" alt="User">
+      </button>
 
-                // Sync Icon
-                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                icon.innerHTML = isDark ? `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>` 
-                                        : `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
+      <!-- E: Dark Mode toggle (mobile only — visible on mobile) -->
+      <button class="nxr-btn nxr-mobile-only" id="nxr-theme-btn-mobile" onclick="NXR.toggleTheme()" title="Dark / Light">
+        <svg id="nxr-theme-icon-mobile" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+        </svg>
+      </button>
 
-                // Long Press Logic
-                const startPress = () => {
-                    pressTimer = setTimeout(() => {
-                        palette.classList.add('active');
-                        window.isPaletteOpen = true;
-                    }, 600); // 0.6s hold
-                };
-                const endPress = () => {
-                    clearTimeout(pressTimer);
-                    if(!window.isPaletteOpen) this.toggleBWTheme(icon);
-                    setTimeout(() => window.isPaletteOpen = false, 200);
-                };
+      <!-- F: Slider toggle (always visible — hamburger) -->
+      <button class="nxr-btn" id="nxr-slider-btn" onclick="NXR.slider.toggle()" title="Menu" aria-label="Open Menu">
+        <svg id="nxr-hamburger" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <line x1="3" y1="6"  x2="21" y2="6"/>
+          <line x1="3" y1="12" x2="21" y2="12"/>
+          <line x1="3" y1="18" x2="21" y2="18"/>
+        </svg>
+      </button>
 
-                btn.addEventListener('mousedown', startPress);
-                btn.addEventListener('touchstart', startPress, {passive: true});
-                btn.addEventListener('mouseup', endPress);
-                btn.addEventListener('touchend', endPress);
+    </div>
+  </header>
+</div>
 
-                // Close palette on outside click
-                document.addEventListener('click', (e) => {
-                    if(!btn.contains(e.target) && !palette.contains(e.target)) {
-                        palette.classList.remove('active');
-                    }
-                });
 
-                // Apply saved custom color
-                const savedColor = localStorage.getItem('custom-accent');
-                if(savedColor) this.setCustomColor(savedColor, true);
-            },
+<!-- ============================================================
+     SLIDER / SIDEBAR (Right Side Drawer)
+     ============================================================ -->
+<div class="nxr-slider-overlay" id="nxr-overlay" onclick="NXR.slider.close()"></div>
+<aside class="nxr-slider" id="nxr-slider" role="navigation" aria-label="Sidebar Navigation">
 
-            toggleBWTheme: function(icon) {
-                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                const target = isDark ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', target);
-                localStorage.setItem('theme', target);
-                
-                // Switch Icon
-                icon.innerHTML = target === 'dark' ? `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>` 
-                                                   : `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
-                
-                if(window.Nexra) Nexra.showToast(`Switched to ${target.toUpperCase()} Mode`, 'success');
-            },
+  <!-- Slider Header -->
+  <div class="nxr-sl-head">
+    <div class="nxr-sl-brand">
+      <div class="nxr-sl-logo">
+        <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra" onerror="this.style.display='none';">
+      </div>
+      <div class="nxr-sl-brand-name">Nexra<span>.</span>pk</div>
+    </div>
+    <button class="nxr-sl-close" onclick="NXR.slider.close()" aria-label="Close Menu">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
 
-            setCustomColor: function(color, quiet = false) {
-                document.documentElement.style.setProperty('--brand-main', color);
-                localStorage.setItem('custom-accent', color);
-                document.getElementById('h-theme-palette').classList.remove('active');
-                if(!quiet && window.Nexra) Nexra.showToast("Custom Theme Applied", "info");
-            },
+  <!-- Profile Row -->
+  <div class="nxr-sl-profile" onclick="NXR.navigate('profile'); NXR.slider.close();">
+    <img class="nxr-sl-avatar" id="nxr-sl-avatar" src="https://api.dicebear.com/7.x/initials/svg?seed=Guest&backgroundColor=FF4A17&fontFamily=Arial&fontSize=40&fontWeight=700&textColor=ffffff" alt="User">
+    <div>
+      <div class="nxr-sl-user-name" id="nxr-sl-uname">Guest Explorer</div>
+      <div class="nxr-sl-user-tag" id="nxr-sl-utag">⚡ Standard Access</div>
+    </div>
+    <svg style="margin-left:auto; color:var(--text-300); flex-shrink:0;" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+  </div>
 
-            // 5. NOTIFICATION CENTER SYNC
-            syncNotifications: function() {
-                // Mocking Unread Notification logic. Real implementation connects to users/{uid}/notifications
-                const badge = document.getElementById('h-notif-badge');
-                firebase.auth().onAuthStateChanged(user => {
-                    if(user) {
-                        this.db.collection('notifications').limit(5).onSnapshot(snap => {
-                            const count = snap.size; // Replace with unread filter
-                            if(count > 0) {
-                                badge.innerText = count;
-                                badge.classList.add('show');
-                            } else {
-                                badge.classList.remove('show');
-                            }
-                        });
-                    }
-                });
-            },
+  <!-- Scrollable Body -->
+  <div class="nxr-sl-body">
 
-            // 6. PROFILE AUTH SYNC
-            monitorAuth: function() {
-                const icon = document.getElementById('h-profile-icon');
-                const avatar = document.getElementById('h-profile-avatar');
+    <!-- Main Navigation -->
+    <div class="nxr-sl-section">
+      <div class="nxr-sl-section-label">Main</div>
 
-                firebase.auth().onAuthStateChanged(user => {
-                    if (user && user.photoURL) {
-                        icon.style.display = 'none';
-                        avatar.src = user.photoURL;
-                        avatar.style.display = 'block';
-                    } else {
-                        icon.style.display = 'block';
-                        avatar.style.display = 'none';
-                    }
-                });
-            },
+      <div class="nxr-sl-item active" data-route="home" onclick="NXR.navigate('home'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </div>
+        Home
+        <svg class="nxr-sl-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
 
-            // 7. ACTIVE TAB SYNC
-            updateActiveTab: function() {
-                const urlParams = new URLSearchParams(window.location.search);
-                const currentView = urlParams.get('view') || 'home';
-                
-                document.querySelectorAll('.d-nav-item').forEach(item => {
-                    if(item.dataset.view === currentView) {
-                        item.classList.add('active');
-                    } else {
-                        item.classList.remove('active');
-                    }
-                });
-            }
-        };
+      <div class="nxr-sl-item" data-route="shop" onclick="NXR.navigate('shop'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+        </div>
+        Marketplace
+        <span class="nxr-sl-badge">New</span>
+      </div>
 
-        // Initialize Header Engine
-        window.addEventListener('DOMContentLoaded', () => NexraHeader.init());
+      <div class="nxr-sl-item" data-route="freebies" onclick="NXR.navigate('freebies'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        </div>
+        Freebies Vault
+        <span class="nxr-sl-badge green">Free</span>
+      </div>
 
-        // Listen for SPA Route Changes to update Active Tab
-        window.addEventListener('popstate', () => NexraHeader.updateActiveTab());
+      <div class="nxr-sl-item" data-route="blog" onclick="NXR.navigate('blog'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+        </div>
+        Blog & Insights
+        <svg class="nxr-sl-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
 
-    </script>
+    <div class="nxr-sl-divider"></div>
+
+    <!-- User Hub -->
+    <div class="nxr-sl-section">
+      <div class="nxr-sl-section-label">My Account</div>
+
+      <div class="nxr-sl-item" data-route="profile" onclick="NXR.navigate('profile'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        </div>
+        Profile Dashboard
+        <svg class="nxr-sl-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="nxr-sl-item" data-route="vault" onclick="NXR.navigate('user-vault'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        My Vault
+        <svg class="nxr-sl-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="nxr-sl-item" data-route="wallet" onclick="NXR.navigate('user-wallet'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+        </div>
+        Wallet & Coins
+        <span class="nxr-sl-badge orange">0 NXC</span>
+      </div>
+
+      <div class="nxr-sl-item" data-route="orders" onclick="NXR.navigate('order-tracking'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        </div>
+        My Orders
+        <svg class="nxr-sl-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="nxr-sl-item" data-route="wishlist" onclick="NXR.navigate('user-wishlist'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        Wishlist
+        <svg class="nxr-sl-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+    <div class="nxr-sl-divider"></div>
+
+    <!-- More -->
+    <div class="nxr-sl-section">
+      <div class="nxr-sl-section-label">More</div>
+
+      <div class="nxr-sl-item" data-route="vip" onclick="NXR.navigate('vip-tiers'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        VIP Membership
+        <span class="nxr-sl-badge" style="background:linear-gradient(135deg,#f59e0b,#d97706);">PRO</span>
+      </div>
+
+      <div class="nxr-sl-item" data-route="reseller" onclick="NXR.navigate('reseller-landing'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        </div>
+        Reseller Program
+        <svg class="nxr-sl-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="nxr-sl-item" data-route="support" onclick="NXR.navigate('support-hub'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </div>
+        Support Hub
+        <svg class="nxr-sl-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+
+      <div class="nxr-sl-item" data-route="about" onclick="NXR.navigate('about'); NXR.slider.close();">
+        <div class="nxr-sl-item-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        About Nexra
+        <svg class="nxr-sl-item-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+      </div>
+    </div>
+
+  </div><!-- /nxr-sl-body -->
+
+  <!-- Slider Footer: Theme + Colors + Logout -->
+  <div class="nxr-sl-footer">
+
+    <!-- Light / Dark Switcher -->
+    <div class="nxr-sl-theme-row">
+      <div class="nxr-theme-pill active" id="nxr-sl-light" onclick="NXR.setTheme('light')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        Light
+      </div>
+      <div class="nxr-theme-pill" id="nxr-sl-dark" onclick="NXR.setTheme('dark')">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        Dark
+      </div>
+    </div>
+
+    <!-- Accent Color Dots -->
+    <div class="nxr-sl-color-label">Accent Color</div>
+    <div class="nxr-sl-colors">
+      <div class="nxr-sl-dot" style="background:#FF4A17;" data-color="#FF4A17" onclick="NXR.setAccent('#FF4A17')" title="Nexra Orange"></div>
+      <div class="nxr-sl-dot" style="background:#10b981;" data-color="#10b981" onclick="NXR.setAccent('#10b981')" title="Emerald"></div>
+      <div class="nxr-sl-dot" style="background:#3b82f6;" data-color="#3b82f6" onclick="NXR.setAccent('#3b82f6')" title="Blue"></div>
+      <div class="nxr-sl-dot" style="background:#a855f7;" data-color="#a855f7" onclick="NXR.setAccent('#a855f7')" title="Purple"></div>
+      <div class="nxr-sl-dot" style="background:#ec4899;" data-color="#ec4899" onclick="NXR.setAccent('#ec4899')" title="Pink"></div>
+      <div class="nxr-sl-dot" style="background:#f59e0b;" data-color="#f59e0b" onclick="NXR.setAccent('#f59e0b')" title="Amber"></div>
+      <div class="nxr-sl-dot" style="background:#ef4444;" data-color="#ef4444" onclick="NXR.setAccent('#ef4444')" title="Red"></div>
+      <div class="nxr-sl-dot" style="background:#14b8a6;" data-color="#14b8a6" onclick="NXR.setAccent('#14b8a6')" title="Teal"></div>
+      <div class="nxr-sl-dot" style="background:#6366f1;" data-color="#6366f1" onclick="NXR.setAccent('#6366f1')" title="Indigo"></div>
+    </div>
+
+    <!-- Logout -->
+    <button class="nxr-logout-btn" onclick="NXR.logout()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+      Logout
+    </button>
+  </div>
+</aside>
+
+
+<!-- ── TOAST CONTAINER ── -->
+<div class="nxr-toast-stack" id="nxr-toast-stack"></div>
+
+
+<!-- ============================================================
+     DEMO PAGE CONTENT (Remove when embedding in your project)
+     ============================================================ -->
+<div class="demo-page">
+  <div class="demo-hero">
+    <div class="demo-tag">
+      <svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Nexra Tech PK — Header Engine v2.0
+    </div>
+    <h1>Global Header<br>System</h1>
+    <p>All-in-one floating island header with theme engine, slider drawer, toast notifications, accent colors, and responsive layout. Single HTML file — no external dependencies.</p>
+  </div>
+
+  <div class="demo-grid">
+    <div class="demo-card">
+      <div class="demo-card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+      </div>
+      <h3>Dark / Light Mode</h3>
+      <p>Click the moon icon (desktop) or top-right toggle (mobile). Preference saved in localStorage — persists across all pages.</p>
+    </div>
+    <div class="demo-card">
+      <div class="demo-card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg>
+      </div>
+      <h3>Custom Accent Colors</h3>
+      <p>Hold the moon button for 2 seconds to open the color picker. Or open the sidebar and pick from 9 colors. Saved globally via localStorage.</p>
+    </div>
+    <div class="demo-card">
+      <div class="demo-card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </div>
+      <h3>Sidebar Slider</h3>
+      <p>Tap the hamburger icon anywhere to open the full right-side drawer with navigation, profile, theme, and color controls.</p>
+    </div>
+    <div class="demo-card">
+      <div class="demo-card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/></svg>
+      </div>
+      <h3>Toast System</h3>
+      <p>Action-driven toast notifications for every user interaction. Stack-aware, auto-dismiss after 3.5s, with success/error/warning states.</p>
+    </div>
+    <div class="demo-card">
+      <div class="demo-card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/></svg>
+      </div>
+      <h3>Cart & Badges</h3>
+      <p>Cart badge with count management. Notification badge with unread counter. Both sync with your localStorage state system.</p>
+    </div>
+    <div class="demo-card">
+      <div class="demo-card-icon">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <h3>Auth-Ready Profile</h3>
+      <p>Profile button swaps icon for user photo on login. Connect window.NXR.setUser() to your auth system — Firebase or any other.</p>
+    </div>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     NEXRA GLOBAL ENGINE — CORE JS
+     Single NXR object controls everything
+     ============================================================ -->
+<script>
+'use strict';
+
+window.NXR = (function() {
+
+  /* ── STATE ── */
+  const state = {
+    theme:       localStorage.getItem('nxr-theme')  || 'light',
+    accent:      localStorage.getItem('nxr-accent') || '#FF4A17',
+    currentRoute: 'home',
+    cartCount:   parseInt(localStorage.getItem('nxr-cart') || '0'),
+    notifCount:  parseInt(localStorage.getItem('nxr-notif') || '0'),
+    sliderOpen:  false,
+    paletteOpen: false,
+    user:        null,
+  };
+
+  /* ── INTERNAL HELPERS ── */
+  function $(id) { return document.getElementById(id); }
+  function qs(sel, ctx) { return (ctx || document).querySelector(sel); }
+  function qsa(sel, ctx) { return (ctx || document).querySelectorAll(sel); }
+
+  /* ── APPLY THEME ── */
+  function applyTheme(t) {
+    state.theme = t;
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('nxr-theme', t);
+
+    /* Update header theme icon */
+    _updateThemeIcons(t);
+
+    /* Update slider pills */
+    $('nxr-sl-light').classList.toggle('active', t === 'light');
+    $('nxr-sl-dark').classList.toggle('active', t === 'dark');
+  }
+
+  function _updateThemeIcons(t) {
+    const moonPath  = `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>`;
+    const sunLines  = `<circle cx="12" cy="12" r="5"/>
+      <line x1="12" y1="1" x2="12" y2="3"/>
+      <line x1="12" y1="21" x2="12" y2="23"/>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+      <line x1="1" y1="12" x2="3" y2="12"/>
+      <line x1="21" y1="12" x2="23" y2="12"/>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>`;
+
+    /* In dark mode: show sun icon. In light mode: show moon icon. */
+    const inner = t === 'dark' ? sunLines : moonPath;
+    if ($('nxr-theme-icon'))        $('nxr-theme-icon').innerHTML = inner;
+    if ($('nxr-theme-icon-mobile')) $('nxr-theme-icon-mobile').innerHTML = inner;
+  }
+
+  /* ── APPLY ACCENT COLOR ── */
+  function applyAccent(color) {
+    state.accent = color;
+    document.documentElement.style.setProperty('--brand', color);
+
+    /* Derive glow + dim from hex */
+    const glow = hexToRgba(color, 0.22);
+    const dim  = hexToRgba(color, 0.09);
+    document.documentElement.style.setProperty('--brand-glow', glow);
+    document.documentElement.style.setProperty('--brand-dim',  dim);
+
+    localStorage.setItem('nxr-accent', color);
+
+    /* Mark active dot in header palette */
+    qsa('.nxr-dot').forEach(d => {
+      d.classList.toggle('selected', d.dataset.color === color);
+      d.style.color = d.dataset.color === color ? color : 'transparent';
+    });
+
+    /* Mark active dot in slider */
+    qsa('.nxr-sl-dot').forEach(d => {
+      d.classList.toggle('active', d.dataset.color === color);
+    });
+  }
+
+  function hexToRgba(hex, alpha) {
+    const r = parseInt(hex.slice(1,3), 16);
+    const g = parseInt(hex.slice(3,5), 16);
+    const b = parseInt(hex.slice(5,7), 16);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+
+  /* ── SLIDER ── */
+  const slider = {
+    open() {
+      state.sliderOpen = true;
+      $('nxr-slider').classList.add('open');
+      $('nxr-overlay').classList.add('open');
+      document.body.style.overflow = 'hidden';
+    },
+    close() {
+      state.sliderOpen = false;
+      $('nxr-slider').classList.remove('open');
+      $('nxr-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    },
+    toggle() {
+      state.sliderOpen ? this.close() : this.open();
+    }
+  };
+
+  /* ── NAVIGATE ── */
+  function navigate(route) {
+    state.currentRoute = route;
+
+    /* Update desktop nav active state */
+    qsa('.nxr-nav-item').forEach(el => {
+      el.classList.toggle('active', el.dataset.route === route);
+    });
+
+    /* Update slider item active state */
+    qsa('.nxr-sl-item').forEach(el => {
+      el.classList.toggle('active', el.dataset.route === route);
+    });
+
+    /* If this project uses ?view= routing */
+    if (window.history && window.history.pushState) {
+      const url = new URL(window.location.href);
+      url.searchParams.set('view', route);
+      window.history.pushState({ route }, '', url.toString());
+    }
+
+    /* Hook: override this function or add listener in your pages */
+    if (typeof window.NXR_onNavigate === 'function') {
+      window.NXR_onNavigate(route);
+    }
+
+    /* For SPA: show/hide .view-module[data-view] elements */
+    qsa('.view-module').forEach(el => {
+      el.classList.toggle('active', el.dataset.view === route);
+    });
+  }
+
+  /* ── LOGO CLICK ── */
+  function logoClick() {
+    if (state.currentRoute === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      navigate('home');
+    }
+  }
+
+  /* ── TOGGLE THEME (click) ── */
+  function toggleTheme() {
+    applyTheme(state.theme === 'dark' ? 'light' : 'dark');
+    toast(state.theme === 'dark' ? '🌙 Dark Mode' : '☀️ Light Mode', 'info');
+  }
+
+  /* ── SET THEME ── */
+  function setTheme(t) {
+    applyTheme(t);
+    toast(t === 'dark' ? '🌙 Dark Mode On' : '☀️ Light Mode On', 'info');
+  }
+
+  /* ── SET ACCENT ── */
+  function setAccent(color) {
+    applyAccent(color);
+    closePalette();
+    toast('🎨 Accent color applied!', 'success');
+  }
+
+  /* ── PALETTE LONG-PRESS LOGIC ── */
+  let holdTimer = null;
+  let holdFired = false;
+
+  function initPalette() {
+    const btn = $('nxr-theme-btn');
+    if (!btn) return;
+
+    btn.addEventListener('mousedown', startHold);
+    btn.addEventListener('touchstart', startHold, { passive: true });
+    btn.addEventListener('mouseup', endHold);
+    btn.addEventListener('mouseleave', cancelHold);
+    btn.addEventListener('touchend', endHold);
+    btn.addEventListener('touchcancel', cancelHold);
+
+    document.addEventListener('click', (e) => {
+      const palette = $('nxr-palette');
+      if (!btn.contains(e.target) && palette && !palette.contains(e.target)) {
+        closePalette();
+      }
+    });
+  }
+
+  function startHold(e) {
+    holdFired = false;
+    holdTimer = setTimeout(() => {
+      holdFired = true;
+      openPalette();
+    }, 700); /* 0.7s = reliable long press */
+  }
+
+  function endHold(e) {
+    clearTimeout(holdTimer);
+    if (!holdFired) {
+      /* Short click → toggle theme */
+      toggleTheme();
+    }
+    setTimeout(() => { holdFired = false; }, 100);
+  }
+
+  function cancelHold() {
+    clearTimeout(holdTimer);
+    holdFired = false;
+  }
+
+  function openPalette() {
+    state.paletteOpen = true;
+    $('nxr-palette').classList.add('open');
+  }
+
+  function closePalette() {
+    state.paletteOpen = false;
+    if ($('nxr-palette')) $('nxr-palette').classList.remove('open');
+  }
+
+  /* ── BADGE MANAGEMENT ── */
+  function setBadge(type, count) {
+    const badgeEl = type === 'cart'  ? $('nxr-cart-badge')
+                  : type === 'notif' ? $('nxr-notif-badge')
+                  : null;
+    if (!badgeEl) return;
+
+    if (count > 0) {
+      badgeEl.textContent = count > 99 ? '99+' : count;
+      badgeEl.classList.add('visible');
+    } else {
+      badgeEl.classList.remove('visible');
+    }
+
+    if (type === 'cart') {
+      state.cartCount = count;
+      localStorage.setItem('nxr-cart', count);
+    } else {
+      state.notifCount = count;
+      localStorage.setItem('nxr-notif', count);
+    }
+  }
+
+  function addToCart() {
+    setBadge('cart', state.cartCount + 1);
+    toast('🛍️ Added to cart!', 'success');
+  }
+
+  /* ── USER AUTH (connect to your auth system) ── */
+  function setUser(user) {
+    state.user = user;
+    if (user) {
+      /* Header avatar */
+      const icon   = $('nxr-profile-icon');
+      const avatar = $('nxr-profile-avatar');
+      if (user.photoURL && icon && avatar) {
+        icon.style.display = 'none';
+        avatar.src = user.photoURL;
+        avatar.style.display = 'block';
+      }
+
+      /* Slider avatar + name */
+      if ($('nxr-sl-avatar') && user.photoURL) {
+        $('nxr-sl-avatar').src = user.photoURL;
+      }
+      if ($('nxr-sl-uname') && user.displayName) {
+        $('nxr-sl-uname').textContent = user.displayName;
+      }
+      if ($('nxr-sl-utag') && user.plan) {
+        $('nxr-sl-utag').textContent = '⚡ ' + user.plan;
+      }
+    }
+  }
+
+  function logout() {
+    slider.close();
+    toast('👋 Logged out. See you soon!', 'info');
+    /* Hook: window.NXR_onLogout() */
+    if (typeof window.NXR_onLogout === 'function') window.NXR_onLogout();
+    setTimeout(() => { window.location.href = 'user/auth-gate.html'; }, 800);
+  }
+
+  /* ── TOAST SYSTEM ── */
+  const TOAST_COLORS = {
+    success: '#10b981',
+    error:   '#ef4444',
+    warning: '#f59e0b',
+    info:    'var(--brand)',
+  };
+  const TOAST_ICONS = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+
+  function toast(message, type = 'info', duration = 3500) {
+    const stack   = $('nxr-toast-stack');
+    const el      = document.createElement('div');
+    el.className  = 'nxr-toast';
+    el.style.setProperty('--toast-color', TOAST_COLORS[type] || TOAST_COLORS.info);
+    el.innerHTML  = `<span class="nxr-toast-icon">${TOAST_ICONS[type] || 'ℹ️'}</span><span>${message}</span>`;
+    stack.appendChild(el);
+
+    /* Max 4 toasts */
+    while (stack.children.length > 4) {
+      stack.removeChild(stack.firstChild);
+    }
+
+    setTimeout(() => {
+      el.classList.add('out');
+      el.addEventListener('animationend', () => el.remove(), { once: true });
+    }, duration);
+  }
+
+  /* ── SCROLL PROGRESS BAR ── */
+  function initProgress() {
+    const bar = $('nxr-progress');
+    if (!bar) return;
+    window.addEventListener('scroll', () => {
+      const total = document.body.scrollHeight - window.innerHeight;
+      const pct   = total > 0 ? (window.scrollY / total) * 100 : 0;
+      bar.style.width = pct.toFixed(1) + '%';
+    }, { passive: true });
+  }
+
+  /* ── KEYBOARD NAVIGATION ── */
+  function initKeyboard() {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (state.sliderOpen)  slider.close();
+        if (state.paletteOpen) closePalette();
+      }
+    });
+  }
+
+  /* ── SYNC ACTIVE ROUTE FROM URL ── */
+  function syncRouteFromUrl() {
+    const params = new URLSearchParams(window.location.search);
+    const route  = params.get('view') || 'home';
+    state.currentRoute = route;
+
+    qsa('.nxr-nav-item').forEach(el => {
+      el.classList.toggle('active', el.dataset.route === route);
+    });
+    qsa('.nxr-sl-item').forEach(el => {
+      el.classList.toggle('active', el.dataset.route === route);
+    });
+  }
+
+  /* ── INITIALISE EVERYTHING ── */
+  function init() {
+    /* Apply saved theme + accent on load */
+    applyTheme(state.theme);
+    applyAccent(state.accent);
+
+    /* Restore badge counts */
+    setBadge('cart',  state.cartCount);
+    setBadge('notif', state.notifCount);
+
+    /* Wire long-press palette */
+    initPalette();
+
+    /* Progress bar */
+    initProgress();
+
+    /* Keyboard */
+    initKeyboard();
+
+    /* Route sync */
+    syncRouteFromUrl();
+
+    /* Popstate for back/forward */
+    window.addEventListener('popstate', syncRouteFromUrl);
+
+    console.log('%c⚡ NXR Header Engine Ready', 'color:#FF4A17; font-weight:800; font-size:13px;');
+  }
+
+  /* ── PUBLIC API ── */
+  return {
+    /* Lifecycle */
+    init,
+
+    /* Theme */
+    toggleTheme,
+    setTheme,
+    setAccent,
+
+    /* Navigation */
+    navigate,
+    logoClick,
+
+    /* Slider */
+    slider,
+
+    /* Badges */
+    setBadge,
+    addToCart,
+
+    /* Auth */
+    setUser,
+    logout,
+
+    /* Toast */
+    toast,
+
+    /* State access */
+    getState: () => ({ ...state }),
+  };
+
+})();
+
+/* ── BOOT ── */
+document.addEventListener('DOMContentLoaded', NXR.init);
+
+/* ── INTEGRATION GUIDE (how other pages hook into this)
+ *
+ *  1. Include this file in every page via <script src="header.html"> 
+ *     OR copy the <script> content into a header.js and load it everywhere.
+ *
+ *  2. Listen for route changes:
+ *     window.NXR_onNavigate = function(route) {
+ *       // show/hide sections, fetch data, etc.
+ *     };
+ *
+ *  3. Login / Auth:
+ *     NXR.setUser({ displayName: 'Ali', photoURL: '...', plan: 'VIP Pro' });
+ *
+ *  4. Add to cart:
+ *     NXR.addToCart();            // increments badge
+ *     NXR.setBadge('cart', 3);    // set specific number
+ *
+ *  5. Show a toast:
+ *     NXR.toast('Order placed!', 'success');
+ *     NXR.toast('Something failed', 'error');
+ *
+ *  6. Navigate programmatically:
+ *     NXR.navigate('shop');
+ *
+ *  7. Theme (other pages on load):
+ *     Theme is auto-applied from localStorage — no extra code needed.
+ * ──────────────────────────────────────────────────────────────── */
+</script>
+
 </body>
 </html>
