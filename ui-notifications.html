@@ -1,210 +1,278 @@
- <!-- ==========================================================================
-     NEXRA UI ENGINE - OVERLAYS, NOTIFICATIONS & DRAWERS
-     Handles: Sidebar, Cart, Toasts, and Global Modals
-     ========================================================================== -->
-
+<!-- --- START OF FILE ui-notifications.html --- -->
 <style>
-    /* 1. OVERLAY BACKDROP */
-    .nx-overlay {
-        position: fixed; inset: 0;
-        z-index: 9998; background: rgba(0, 0, 0, 0.3);
-        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-        opacity: 0; visibility: hidden; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .nx-overlay.active { opacity: 1; visibility: visible; }
+    /* ==========================================================================
+       NEXRA UI ENGINE - DRAWERS, CART & OVERLAYS
+       ========================================================================== */
 
-    /* 2. PREMIUM DRAWERS (SIDEBAR & CART) */
-    .nx-drawer {
-        position: fixed; top: 0; right: -400px; 
-        width: 380px; max-width: 85%; height: 100%;
+    /* ── 1. GLOBAL OVERLAY ── */
+    .nxr-overlay {
+        position: fixed; inset: 0;
+        z-index: 9998; background: rgba(0, 0, 0, 0.4);
+        backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        opacity: 0; visibility: hidden; 
+        transition: all 0.5s var(--ease);
+    }
+    .nxr-overlay.active { opacity: 1; visibility: visible; }
+
+    /* ── 2. PREMIUM DRAWERS (Common) ── */
+    .nxr-drawer {
+        position: fixed; top: 0; right: -420px; 
+        width: 400px; max-width: 90%; height: 100%;
         background: var(--bg-surface); z-index: 9999;
-        box-shadow: -15px 0 40px rgba(0,0,0,0.1);
-        transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        box-shadow: -15px 0 50px rgba(0,0,0,0.15);
+        transition: transform 0.6s var(--ease);
         display: flex; flex-direction: column;
         border-left: 1px solid var(--glass-border);
     }
-    .nx-drawer.active { right: 0; }
+    .nxr-drawer.active { transform: translateX(-420px); }
+    /* Mobile adjust */
+    @media (max-width: 480px) { .nxr-drawer.active { transform: translateX(-100%); right: -100%; width: 100%; } }
 
-    .drawer-header {
-        padding: 25px; border-bottom: 1px solid var(--glass-border);
+    .nxr-dr-head {
+        padding: 24px; border-bottom: 1px solid var(--glass-border);
         display: flex; justify-content: space-between; align-items: center;
+        background: var(--bg-elevated);
     }
-    .drawer-body { flex: 1; overflow-y: auto; padding: 25px; }
-    .drawer-footer { padding: 25px; border-top: 1px solid var(--glass-border); }
+    .nxr-dr-body { flex: 1; overflow-y: auto; padding: 20px; scrollbar-width: none; }
+    .nxr-dr-body::-webkit-scrollbar { width: 0; }
+    .nxr-dr-foot { padding: 24px; border-top: 1px solid var(--glass-border); background: var(--bg-surface); }
 
-    /* 3. SIDEBAR SPECIFIC STYLES */
-    .menu-group { margin-bottom: 30px; }
-    .menu-label { 
+    /* ── 3. SIDEBAR CONTENT STYLES ── */
+    .nxr-menu-group { margin-bottom: 25px; }
+    .nxr-menu-label { 
         font-size: 10px; font-weight: 800; color: var(--text-300);
-        text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block;
+        text-transform: uppercase; letter-spacing: 2px; margin-bottom: 12px; display: block;
+        padding-left: 10px;
     }
-    .menu-link {
-        display: flex; align-items: center; gap: 15px;
-        padding: 16px; border-radius: var(--radius-sm);
+    .nxr-menu-link {
+        display: flex; align-items: center; gap: 14px;
+        padding: 14px 16px; border-radius: var(--radius-md);
         color: var(--text-100); font-weight: 600; font-size: 14px;
-        transition: 0.3s; cursor: pointer; margin-bottom: 5px;
+        transition: 0.3s var(--ease); cursor: pointer; margin-bottom: 4px;
     }
-    .menu-link i { font-size: 18px; color: var(--text-300); width: 25px; text-align: center; }
-    .menu-link:hover { background: var(--bg-elevated); color: var(--brand-main); }
-    .menu-link:hover i { color: var(--brand-main); }
+    .nxr-menu-link i { font-size: 17px; color: var(--text-300); width: 24px; text-align: center; }
+    .nxr-menu-link:hover { background: var(--bg-elevated); color: var(--brand); transform: translateX(5px); }
+    .nxr-menu-link:hover i { color: var(--brand); }
 
-    /* 4. CART SPECIFIC STYLES */
-    .cart-item {
+    /* ── 4. CART ITEM STYLES ── */
+    .nxr-cart-item {
         display: flex; align-items: center; gap: 15px;
         padding: 15px; background: var(--bg-base);
-        border-radius: 16px; border: 1px solid var(--glass-border);
-        margin-bottom: 12px; animation: slideIn 0.4s;
+        border-radius: var(--radius-md); border: 1px solid var(--glass-border);
+        margin-bottom: 12px; animation: nxr-item-in 0.4s var(--ease);
+        position: relative;
     }
-    .cart-item img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; }
-    .cart-item-info { flex: 1; }
-    .cart-item-title { font-size: 13px; font-weight: 700; color: var(--text-100); margin-bottom: 4px; }
-    .cart-item-price { font-size: 12px; color: var(--brand-main); font-weight: 800; }
-    .cart-remove { color: var(--danger); font-size: 14px; cursor: pointer; padding: 5px; }
+    .nxr-cart-item img { width: 55px; height: 55px; border-radius: 12px; object-fit: cover; background: #eee; }
+    .nxr-cart-info { flex: 1; min-width: 0; }
+    .nxr-cart-title { font-size: 13.5px; font-weight: 700; color: var(--text-100); margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .nxr-cart-price { font-size: 12px; color: var(--brand); font-weight: 800; }
+    .nxr-cart-del { 
+        width: 32px; height: 32px; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        color: var(--danger); background: rgba(239, 68, 68, 0.08); 
+        cursor: pointer; transition: 0.2s;
+    }
+    .nxr-cart-del:hover { background: var(--danger); color: #fff; transform: scale(1.1); }
 
-    /* 5. BUTTONS */
-    .btn-close-drawer {
-        width: 35px; height: 35px; border-radius: 50%;
-        background: var(--bg-elevated); border: 1px solid var(--glass-border);
+    .nxr-empty-cart {
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        height: 100%; color: var(--text-300); text-align: center;
+    }
+    .nxr-empty-cart i { font-size: 50px; margin-bottom: 15px; opacity: 0.15; }
+
+    /* ── 5. ACTION BUTTONS ── */
+    .nxr-dr-close {
+        width: 36px; height: 36px; border-radius: 50%;
+        background: var(--bg-base); border: 1px solid var(--glass-border);
         display: flex; align-items: center; justify-content: center; cursor: pointer;
+        transition: 0.2s;
     }
+    .nxr-dr-close:hover { background: var(--brand); color: #fff; }
 
-    @keyframes slideIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+    .nxr-checkout-btn {
+        width: 100%; height: 56px; border-radius: var(--radius-pill);
+        background: var(--brand); color: #fff; font-weight: 800;
+        font-size: 14px; letter-spacing: 1px; display: flex;
+        align-items: center; justify-content: center; gap: 10px;
+        box-shadow: var(--shadow-brand); transition: 0.3s;
+    }
+    .nxr-checkout-btn:hover { transform: translateY(-3px); filter: brightness(1.1); }
+
+    @keyframes nxr-item-in { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
 </style>
 
-<!-- 1. OVERLAY MASK -->
-<div id="nx-global-overlay" class="nx-overlay" onclick="Nexra.ui.closeAllDrawers()"></div>
+<!-- ── 1. GLOBAL OVERLAY MASK ── -->
+<div id="nxr-global-overlay" class="nxr-overlay"></div>
 
-<!-- 2. SIDEBAR DRAWER -->
-<div id="nx-sidebar-drawer" class="nx-drawer">
-    <div class="drawer-header">
+<!-- ── 2. SIDEBAR DRAWER ── -->
+<div id="nxr-sidebar-drawer" class="nxr-drawer">
+    <div class="nxr-dr-head">
         <div class="badge"><i class="fa-solid fa-compass"></i> NAVIGATION</div>
-        <div class="btn-close-drawer" onclick="Nexra.ui.toggleSidebar()"><i class="fa-solid fa-xmark"></i></div>
+        <div class="nxr-dr-close" id="nxr-sidebar-close"><i class="fa-solid fa-xmark"></i></div>
     </div>
-    <div class="drawer-body">
-        <div class="menu-group">
-            <span class="menu-label">Platform Features</span>
-            <div class="menu-link" onclick="Nexra.navTo('reseller'); Nexra.ui.closeAllDrawers()"><i class="fa-solid fa-users-gear"></i> Agency Portal</div>
-            <div class="menu-link" onclick="Nexra.navTo('vip'); Nexra.ui.closeAllDrawers()"><i class="fa-solid fa-crown"></i> VIP Membership</div>
-            <div class="menu-link" onclick="Nexra.navTo('bundle'); Nexra.ui.closeAllDrawers()"><i class="fa-solid fa-cubes"></i> Bundle Builder</div>
-            <div class="menu-link" onclick="Nexra.navTo('giveaway'); Nexra.ui.closeAllDrawers()"><i class="fa-solid fa-gift"></i> Live Giveaway</div>
+    <div class="nxr-dr-body">
+        <div class="nxr-menu-group">
+            <span class="nxr-menu-label">Premium Services</span>
+            <div class="nxr-menu-link" data-route="reseller"><i class="fa-solid fa-users-gear"></i> Agency Reseller</div>
+            <div class="nxr-menu-link" data-route="vip"><i class="fa-solid fa-crown"></i> VIP Diamond Hub</div>
+            <div class="nxr-menu-link" data-route="bundle"><i class="fa-solid fa-cubes"></i> Custom Bundles</div>
+            <div class="nxr-menu-link" data-route="giveaway"><i class="fa-solid fa-gift"></i> Mega Giveaways</div>
         </div>
-        <div class="menu-group">
-            <span class="menu-label">Support & Info</span>
-            <div class="menu-link" onclick="Nexra.navTo('about'); Nexra.ui.closeAllDrawers()"><i class="fa-solid fa-circle-info"></i> About Nexra</div>
-            <div class="menu-link" onclick="Nexra.navTo('support'); Nexra.ui.closeAllDrawers()"><i class="fa-solid fa-headset"></i> Help Center</div>
-            <div class="menu-link" onclick="Nexra.navTo('policies'); Nexra.ui.closeAllDrawers()"><i class="fa-solid fa-shield-halved"></i> Legal Docs</div>
+        <div class="nxr-menu-group">
+            <span class="nxr-menu-label">Support & Help</span>
+            <div class="nxr-menu-link" data-route="about"><i class="fa-solid fa-circle-info"></i> About Nexra</div>
+            <div class="nxr-menu-link" data-route="support"><i class="fa-solid fa-headset"></i> Support Tickets</div>
+            <div class="nxr-menu-link" data-route="policies"><i class="fa-solid fa-shield-halved"></i> Legal Policies</div>
         </div>
     </div>
 </div>
 
-<!-- 3. CART DRAWER -->
-<div id="nx-cart-drawer" class="nx-drawer">
-    <div class="drawer-header">
-        <h3 class="tech-font" style="font-size: 18px;"><i class="fa-solid fa-bag-shopping text-brand"></i> YOUR CART</h3>
-        <div class="btn-close-drawer" onclick="Nexra.ui.toggleCart()"><i class="fa-solid fa-xmark"></i></div>
+<!-- ── 3. CART DRAWER ── -->
+<div id="nxr-cart-drawer" class="nxr-drawer">
+    <div class="nxr-dr-head">
+        <h3 class="tech-font" style="font-size: 16px; font-weight:800;"><i class="fa-solid fa-bag-shopping text-brand"></i> YOUR SHOPPING BAG</h3>
+        <div class="nxr-dr-close" id="nxr-cart-close"><i class="fa-solid fa-xmark"></i></div>
     </div>
-    <div id="cart-items-list" class="drawer-body">
-        <!-- Dynamically filled by JS -->
-        <div class="flex-center" style="height:100%; flex-direction:column; color:var(--text-300);">
-            <i class="fa-solid fa-basket-shopping" style="font-size:40px; margin-bottom:15px; opacity:0.2;"></i>
-            <p style="font-size:13px; font-weight:600;">Your cart is empty</p>
-        </div>
+    <div id="nxr-cart-items-list" class="nxr-dr-body">
+        <!-- JS: Dynamic Content -->
     </div>
-    <div class="drawer-footer">
-        <div class="flex-between" style="margin-bottom: 20px; font-weight: 800; font-family: 'Space Grotesk';">
+    <div class="nxr-dr-foot">
+        <div class="flex-between" style="margin-bottom: 20px; font-weight: 800; font-family: 'Space Grotesk'; font-size: 18px;">
             <span>SUBTOTAL</span>
-            <span id="cart-subtotal" class="text-brand">Rs 0</span>
+            <span id="nxr-cart-subtotal" class="text-brand">Rs 0</span>
         </div>
-        <button class="btn-modal-action" onclick="Nexra.ui.closeAllDrawers(); Nexra.navTo('checkout')" style="background:var(--text-100); color:var(--bg-base); height:60px;">CHECKOUT NOW</button>
+        <button class="nxr-checkout-btn" id="nxr-go-checkout">
+            <i class="fa-solid fa-lock"></i> SECURE CHECKOUT
+        </button>
     </div>
 </div>
 
 <script>
     /**
-     * UI NOTIFICATIONS & DRAWER ENGINE
-     * Extends the Nexra object with drawer logic
+     * NXR UI ENGINE LOGIC
+     * Integrates with Global NXR State
      */
     (function() {
-        // UI State
-        Nexra.cart = JSON.parse(localStorage.getItem('nx-cart')) || [];
-
-        Nexra.ui.toggleSidebar = function() {
-            const sidebar = document.getElementById('nx-sidebar-drawer');
-            const overlay = document.getElementById('nx-global-overlay');
-            const isActive = sidebar.classList.toggle('active');
-            overlay.classList.toggle('active', isActive);
-            if(isActive) document.getElementById('nx-cart-drawer').classList.remove('active');
+        const DOM = {
+            sidebar: document.getElementById('nxr-sidebar-drawer'),
+            cart: document.getElementById('nxr-cart-drawer'),
+            overlay: document.getElementById('nxr-global-overlay'),
+            cartList: document.getElementById('nxr-cart-items-list'),
+            subtotal: document.getElementById('nxr-cart-subtotal')
         };
 
-        Nexra.ui.toggleCart = function() {
-            const cart = document.getElementById('nx-cart-drawer');
-            const overlay = document.getElementById('nx-global-overlay');
-            const isActive = cart.classList.toggle('active');
-            overlay.classList.toggle('active', isActive);
-            if(isActive) {
-                document.getElementById('nx-sidebar-drawer').classList.remove('active');
-                this.renderCart();
+        // --- 1. DRAWER CONTROLS ---
+        window.NXR.ui = {
+            toggleSidebar: function(open = true) {
+                if(open) {
+                    this.closeAll();
+                    DOM.sidebar.classList.add('active');
+                    DOM.overlay.classList.add('active');
+                } else {
+                    DOM.sidebar.classList.remove('active');
+                    DOM.overlay.classList.remove('active');
+                }
+            },
+
+            toggleCart: function(open = true) {
+                if(open) {
+                    this.closeAll();
+                    this.renderCart();
+                    DOM.cart.classList.add('active');
+                    DOM.overlay.classList.add('active');
+                } else {
+                    DOM.cart.classList.remove('active');
+                    DOM.overlay.classList.remove('active');
+                }
+            },
+
+            closeAll: function() {
+                DOM.sidebar.classList.remove('active');
+                DOM.cart.classList.remove('active');
+                DOM.overlay.classList.remove('active');
             }
         };
 
-        Nexra.ui.closeAllDrawers = function() {
-            document.getElementById('nx-sidebar-drawer').classList.remove('active');
-            document.getElementById('nx-cart-drawer').classList.remove('active');
-            document.getElementById('nx-global-overlay').classList.remove('active');
-        };
-
-        // Cart Logic
-        Nexra.ui.addToCart = function(product) {
-            this.cart.push(product);
-            localStorage.setItem('nx-cart', JSON.stringify(this.cart));
-            this.toast(`${product.title} added to cart`, 'fa-solid fa-cart-arrow-down');
-            this.updateBadges();
-        };
-
-        Nexra.ui.removeFromCart = function(index) {
-            this.cart.splice(index, 1);
-            localStorage.setItem('nx-cart', JSON.stringify(this.cart));
-            this.renderCart();
-            this.updateBadges();
-        };
-
-        Nexra.ui.renderCart = function() {
-            const list = document.getElementById('cart-items-list');
-            const subtotalEl = document.getElementById('cart-subtotal');
-            list.innerHTML = '';
+        // --- 2. CART ENGINE ---
+        window.NXR.ui.renderCart = function() {
+            const cartData = JSON.parse(localStorage.getItem('nxr-cart-items')) || [];
+            DOM.cartList.innerHTML = '';
             
-            if(this.cart.length === 0) {
-                list.innerHTML = `<div class="flex-center" style="height:100%; flex-direction:column; color:var(--text-300);"><i class="fa-solid fa-basket-shopping" style="font-size:40px; margin-bottom:15px; opacity:0.2;"></i><p style="font-size:13px; font-weight:600;">Your cart is empty</p></div>`;
-                subtotalEl.innerText = 'Rs 0';
+            if(cartData.length === 0) {
+                DOM.cartList.innerHTML = `
+                    <div class="nxr-empty-cart">
+                        <i class="fa-solid fa-basket-shopping"></i>
+                        <p style="font-weight:700; font-size:14px;">Your cart is empty</p>
+                        <p style="font-size:12px; margin-top:5px;">Explore the market to add items</p>
+                    </div>`;
+                DOM.subtotal.innerText = 'Rs 0';
                 return;
             }
 
             let subtotal = 0;
-            this.cart.forEach((item, index) => {
-                subtotal += Number(item.price);
-                list.innerHTML += `
-                    <div class="cart-item">
-                        <img src="${item.image}" onerror="Nexra.utils.handleImgError(this)">
-                        <div class="cart-item-info">
-                            <div class="cart-item-title">${item.title}</div>
-                            <div class="cart-item-price">${Nexra.utils.formatPrice(item.price)}</div>
+            cartData.forEach((item, index) => {
+                const price = parseInt(item.price) || 0;
+                subtotal += price;
+                DOM.cartList.innerHTML += `
+                    <div class="nxr-cart-item">
+                        <img src="${item.img || ''}" onerror="this.src='https://via.placeholder.com/60'">
+                        <div class="nxr-cart-info">
+                            <div class="nxr-cart-title">${item.title}</div>
+                            <div class="nxr-cart-price">Rs ${price.toLocaleString()}</div>
                         </div>
-                        <div class="cart-remove" onclick="Nexra.ui.removeFromCart(${index})"><i class="fa-solid fa-trash-can"></i></div>
-                    </div>
-                `;
+                        <div class="nxr-cart-del" onclick="NXR.ui.removeCartItem(${index})">
+                            <i class="fa-solid fa-trash-can"></i>
+                        </div>
+                    </div>`;
             });
-            subtotalEl.innerText = Nexra.utils.formatPrice(subtotal);
+            DOM.subtotal.innerText = 'Rs ' + subtotal.toLocaleString();
         };
 
-        Nexra.ui.updateBadges = function() {
-            // Updates badge in header.html if loaded
-            if(window.NexraHeader) {
-                NexraHeader.updateCartBadge(this.cart.length);
-            }
+        window.NXR.ui.addCartItem = function(product) {
+            const cartData = JSON.parse(localStorage.getItem('nxr-cart-items')) || [];
+            cartData.push(product);
+            localStorage.setItem('nxr-cart-items', JSON.stringify(cartData));
+            window.NXR.setBadge('cart', cartData.length);
+            window.NXR.toast(`${product.title} added to cart`, 'success');
         };
 
-        // Sync badges on load
-        setTimeout(() => Nexra.ui.updateBadges(), 1000);
+        window.NXR.ui.removeCartItem = function(index) {
+            const cartData = JSON.parse(localStorage.getItem('nxr-cart-items')) || [];
+            cartData.splice(index, 1);
+            localStorage.setItem('nxr-cart-items', JSON.stringify(cartData));
+            window.NXR.setBadge('cart', cartData.length);
+            this.renderCart();
+            window.NXR.toast('Item removed', 'warning');
+        };
 
+        // --- 3. EVENT BINDING ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Overlay Click
+            DOM.overlay.addEventListener('click', () => window.NXR.ui.closeAll());
+
+            // Header/Dock Cart Icons Integration
+            document.querySelectorAll('[data-route="cart"]').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    window.NXR.ui.toggleCart(true);
+                });
+            });
+
+            // Sidebar Menu Logic
+            document.getElementById('nxr-slider-btn').addEventListener('click', () => {
+                window.NXR.ui.toggleSidebar(true);
+            });
+
+            document.getElementById('nxr-sidebar-close').addEventListener('click', () => window.NXR.ui.toggleSidebar(false));
+            document.getElementById('nxr-cart-close').addEventListener('click', () => window.NXR.ui.toggleCart(false));
+
+            // Checkout Button
+            document.getElementById('nxr-go-checkout').addEventListener('click', () => {
+                window.NXR.ui.closeAll();
+                window.NXR.navigate('checkout');
+            });
+        });
+        
     })();
 </script>
+<!-- --- END OF FILE ui-notifications.html --- -->
