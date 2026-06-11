@@ -3,192 +3,212 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nexra OS | Developer Roadmap Hub</title>
+    <title>Nexra OS | The Universal Dev Hub</title>
     
     <!-- Frameworks -->
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&family=Fira+Code:wght@400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         :root {
-            --bg: #f5f4ef;
-            --orange: #ff5500;
-            --obsidian: #0f172a;
-            --glass: rgba(255, 255, 255, 0.8);
-            --border: rgba(0, 0, 0, 0.05);
-            --transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+            --bg: #fbfaf5; /* Warm White */
+            --sidebar-bg: #ffffff;
+            --accent: #ff5500; /* Nexra Orange */
+            --obsidian: #1e1e1e; /* Graphite */
+            --muted: #94a3b8;
+            --border: rgba(0, 0, 0, 0.04);
+            --shadow: 0 10px 30px -10px rgba(0,0,0,0.05);
+            --transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; cursor: crosshair; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background: var(--bg); color: var(--obsidian); height: 100vh; overflow: hidden; }
 
-        /* --- WATERMARKS --- */
-        .v-watermark { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 15vw; font-weight: 900; opacity: 0.02; z-index: 0; pointer-events: none; white-space: nowrap; }
-        .v-badge { position: fixed; bottom: 20px; right: 20px; font-size: 10px; font-weight: 800; color: #cbd5e1; z-index: 10; }
+        /* --- UI UTILITIES --- */
+        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.8); }
+        .flex-center { display: flex; align-items: center; justify-content: center; }
 
-        /* --- BOOT & LOADER --- */
-        #boot-screen { position: fixed; inset: 0; background: var(--obsidian); z-index: 9999; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.8s ease; }
-        .loader-pulse { width: 80px; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.7; } 100% { transform: scale(1); opacity: 1; } }
+        /* --- APP LAYOUT --- */
+        .app-shell { display: grid; grid-template-columns: 280px 1fr 300px; height: 100vh; position: relative; }
 
-        /* --- LAYOUT SHELL --- */
-        .app-shell { display: grid; grid-template-columns: 300px 1fr 320px; height: 100vh; position: relative; z-index: 10; }
-
-        /* --- LEFT SIDE: PROJECT HISTORY --- */
-        .history-panel { background: white; border-right: 1px solid var(--border); padding: 25px; display: flex; flex-direction: column; gap: 20px; overflow-y: auto; }
-        .panel-title { font-family: 'Space Grotesk'; font-size: 12px; letter-spacing: 2px; color: #94a3b8; text-transform: uppercase; font-weight: 800; }
-        .project-card { background: var(--bg); padding: 15px; border-radius: 18px; border: 1px solid transparent; cursor: pointer; transition: 0.3s; }
-        .project-card:hover, .project-card.active { border-color: var(--orange); background: white; box-shadow: 0 10px 20px rgba(0,0,0,0.03); }
-        .project-card h4 { font-size: 14px; font-weight: 800; margin-bottom: 5px; }
-        .project-card p { font-size: 10px; color: #64748b; font-weight: 600; }
-
-        /* --- CENTER: CINEMATIC ROADMAP --- */
-        .main-workspace { position: relative; background: var(--bg); display: flex; align-items: center; justify-content: center; perspective: 2000px; overflow: hidden; }
-        .zoom-layer { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; transition: var(--transition); transform-origin: center; }
+        /* --- LEFT SIDEBAR: YT & HISTORY --- */
+        .left-sidebar { background: var(--sidebar-bg); border-right: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 20px; z-index: 100; overflow-y: auto; }
         
-        #svg-canvas { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
-        .line-path { fill: none; stroke-width: 2; stroke-dasharray: 6; animation: flow 20s linear infinite; opacity: 0.3; }
+        .yt-preview-card { background: #f8f9fa; border-radius: 20px; padding: 15px; border: 1px solid var(--border); text-align: center; }
+        .yt-logo { width: 60px; height: 60px; border-radius: 50%; border: 3px solid var(--accent); margin-bottom: 10px; }
+        .yt-info h4 { font-size: 14px; font-weight: 800; }
+        .yt-info p { font-size: 11px; color: var(--muted); font-weight: 600; margin-bottom: 10px; }
+        
+        .social-icons { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 10px 0; }
+        .soc-btn { width: 32px; height: 32px; border-radius: 8px; background: white; border: 1px solid var(--border); font-size: 14px; transition: 0.3s; }
+        .soc-btn:hover { color: var(--accent); transform: translateY(-3px); }
+
+        .nexus-history { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+        .history-card { padding: 12px 15px; border-radius: 12px; background: var(--bg); border: 1.5px solid transparent; cursor: pointer; transition: 0.3s; }
+        .history-card:hover, .history-card.active { border-color: var(--accent); background: white; box-shadow: var(--shadow); }
+        .history-card h5 { font-size: 13px; font-weight: 700; margin-bottom: 3px; }
+        .history-card span { font-size: 10px; color: var(--muted); text-transform: uppercase; font-weight: 800; }
+
+        /* --- CENTER: ROADMAP HUB --- */
+        .workspace-canvas { position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; background-image: radial-gradient(#d1d1d1 0.5px, transparent 0.5px); background-size: 20px 20px; }
+        .zoom-world { position: relative; width: 100%; height: 100%; transform-origin: center; transition: var(--transition); display: flex; align-items: center; justify-content: center; }
+        
+        #connection-lines { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+        .path-anim { fill: none; stroke-width: 2; stroke-dasharray: 5; animation: flow 20s linear infinite; opacity: 0.2; }
         @keyframes flow { to { stroke-dashoffset: -500; } }
 
-        .hub-core { width: 160px; height: 160px; background: var(--obsidian); border-radius: 50%; border: 5px solid white; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.2); z-index: 10; }
-        .hub-core img { width: 45px; margin-bottom: 8px; }
-        .hub-core span { font-size: 9px; letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
+        .core-hub { width: 150px; height: 160px; background: var(--obsidian); border-radius: 50%; border: 5px solid white; display: flex; flex-direction: column; align-items: center; justify-content: center; color: white; text-align: center; box-shadow: 0 20px 50px rgba(0,0,0,0.15); z-index: 10; cursor: pointer; transition: 0.3s; }
+        .core-hub:hover { transform: scale(1.05); }
+        .core-hub img { width: 40px; margin-bottom: 8px; }
+        .core-hub span { font-size: 8px; letter-spacing: 2px; font-weight: 800; }
 
-        .phase-card { position: absolute; width: 260px; background: var(--glass); backdrop-filter: blur(15px); padding: 20px; border-radius: 24px; border: 1px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.05); z-index: 5; transition: 0.3s; }
-        .phase-card:hover { transform: scale(1.03); background: white; }
-        .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-        .badge { width: 35px; height: 35px; border-radius: 10px; color: white; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 14px; }
+        .phase-node { position: absolute; width: 240px; border-radius: 24px; padding: 20px; z-index: 5; transition: 0.4s var(--transition); }
+        .phase-node h3 { font-size: 12px; font-weight: 800; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); }
         
-        .task-item { display: flex; align-items: center; gap: 10px; padding: 8px; border-radius: 10px; cursor: pointer; transition: 0.2s; margin-bottom: 4px; }
-        .task-item:hover { background: rgba(0,0,0,0.03); }
-        .check { width: 20px; height: 20px; border: 2px solid #ddd; border-radius: 6px; display: flex; align-items: center; justify-content: center; background: white; }
-        .task-item.done .check { background: var(--c); border-color: var(--c); color: white; }
-        .task-item.done .check::after { content: '✓'; font-size: 10px; font-weight: 900; }
-        .task-item.done span { text-decoration: line-through; color: #94a3b8; }
-        .task-item span { font-size: 12px; font-weight: 700; color: #334155; }
+        .task-unit { display: flex; align-items: center; gap: 10px; padding: 10px; border-radius: 12px; background: white; margin-bottom: 8px; border: 1px solid rgba(0,0,0,0.02); cursor: pointer; transition: 0.2s; }
+        .task-unit:hover { transform: translateX(5px); border-color: var(--accent); }
+        .check-ui { width: 18px; height: 18px; border: 2px solid #ddd; border-radius: 6px; flex-shrink: 0; }
+        .task-unit.done .check-ui { background: var(--accent); border-color: var(--accent); position: relative; }
+        .task-unit.done .check-ui::after { content: '✓'; color: white; font-size: 10px; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: 900; }
+        .task-unit.done span { text-decoration: line-through; color: var(--muted); }
+        .task-unit span { font-size: 12px; font-weight: 700; color: var(--obsidian); }
 
-        /* Roadmap Positions */
-        .p1 { top: 12%; left: 12%; }
-        .p2 { top: 12%; right: 12%; }
-        .p3 { bottom: 12%; left: 50%; transform: translateX(-50%); }
+        /* Node Positions */
+        .node-p1 { top: 10%; left: 10%; }
+        .node-p2 { top: 10%; right: 10%; }
+        .node-p3 { bottom: 10%; left: 50%; transform: translateX(-50%); }
 
-        /* --- RIGHT SIDE: PRD VAULT --- */
-        .prd-vault { background: white; border-left: 1px solid var(--border); padding: 25px; display: flex; flex-direction: column; gap: 20px; }
-        .prd-content-box { background: #f8fafc; border: 1px solid var(--border); border-radius: 15px; padding: 20px; flex: 1; font-family: 'Fira Code', monospace; font-size: 11px; line-height: 1.6; overflow-y: auto; color: #475569; white-space: pre-wrap; position: relative; }
-        .copy-btn { position: sticky; top: 0; float: right; background: var(--obsidian); color: white; border: none; padding: 8px 15px; border-radius: 10px; font-size: 10px; font-weight: 800; cursor: pointer; transition: 0.3s; z-index: 5; }
-        .copy-btn:hover { background: var(--orange); }
+        /* --- RIGHT SIDEBAR: SCRIPT VAULT --- */
+        .right-sidebar { background: var(--sidebar-bg); border-left: 1px solid var(--border); padding: 20px; display: flex; flex-direction: column; gap: 15px; z-index: 100; }
+        .script-box { background: #fcfcfc; border: 1px solid var(--border); border-radius: 15px; padding: 20px; flex: 1; font-family: 'Fira Code', monospace; font-size: 11px; line-height: 1.6; overflow-y: auto; color: #444; white-space: pre-wrap; position: relative; }
+        .copy-all-btn { position: sticky; top: -10px; float: right; background: var(--accent); color: white; border: none; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; cursor: pointer; z-index: 10; }
 
-        .social-links { display: flex; justify-content: center; gap: 20px; padding-top: 15px; border-top: 1px solid var(--border); font-size: 20px; color: #cbd5e1; }
-        .social-links i:hover { color: var(--orange); transform: scale(1.2); transition: 0.3s; }
+        /* --- BOTTOM FIXED DOCK --- */
+        .file-dock { position: fixed; bottom: 25px; right: 25px; display: flex; gap: 10px; z-index: 200; }
+        .dock-icon { width: 45px; height: 45px; border-radius: 12px; background: white; border: 1px solid var(--border); box-shadow: var(--shadow); transition: 0.3s; cursor: pointer; }
+        .dock-icon:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .dock-icon i { font-size: 18px; color: var(--obsidian); }
 
-        /* --- CONTROLS --- */
-        .director-bar { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: var(--obsidian); padding: 8px 25px; border-radius: 50px; display: flex; gap: 10px; z-index: 100; box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-        .cam-btn { background: transparent; border: none; color: #64748b; font-size: 11px; font-weight: 800; padding: 10px 18px; border-radius: 20px; transition: 0.3s; }
-        .cam-btn.active { color: white; background: #334155; }
-        .cam-btn:hover:not(.active) { color: var(--orange); }
+        /* --- CAMERA CONTROL BAR --- */
+        .director-bar { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); background: var(--obsidian); padding: 8px; border-radius: 50px; display: flex; gap: 5px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); z-index: 200; }
+        .cam-btn { background: transparent; border: none; color: #777; font-size: 10px; font-weight: 800; padding: 10px 18px; border-radius: 20px; cursor: pointer; transition: 0.3s; }
+        .cam-btn.active { color: white; background: #444; }
+        .cam-btn:hover { color: var(--accent); }
 
-        /* --- HEADER --- */
-        .top-nav { position: fixed; top: 0; left: 0; right: 0; height: 70px; display: flex; align-items: center; justify-content: space-between; padding: 0 30px; z-index: 100; pointer-events: none; }
-        .nav-brand { background: white; padding: 10px 20px; border-radius: 15px; display: flex; align-items: center; gap: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); pointer-events: auto; }
-        .nav-brand img { height: 32px; }
-        .nav-brand h2 { font-size: 16px; font-weight: 800; }
+        /* --- POPUP DRAWERS --- */
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.2); backdrop-filter: blur(10px); z-index: 1000; display: none; align-items: center; justify-content: center; }
+        .modal-box { width: 500px; max-width: 90%; background: white; border-radius: 25px; padding: 30px; box-shadow: var(--shadow); position: relative; }
+        .modal-box h2 { font-family: 'Space Grotesk'; font-size: 20px; margin-bottom: 15px; }
+        .modal-content { background: #f8fafc; padding: 15px; border-radius: 12px; font-family: monospace; font-size: 12px; max-height: 300px; overflow-y: auto; }
 
+        /* --- RESPONSIVE --- */
         @media (max-width: 1024px) {
-            .app-shell { grid-template-columns: 1fr; overflow-y: auto; height: auto; }
-            .history-panel, .prd-vault { display: none; }
-            .main-workspace { height: 100vh; }
-            .director-bar { bottom: 10px; scale: 0.9; }
+            .app-shell { grid-template-columns: 1fr; }
+            .left-sidebar, .right-sidebar { display: none; }
+            .director-bar { bottom: 10px; scale: 0.8; }
+            .file-dock { bottom: 80px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Boot Sequence -->
-    <div id="boot-screen">
-        <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" class="loader-pulse">
-        <p style="color: white; margin-top: 20px; font-weight: 800; letter-spacing: 3px; font-size: 10px;">INITIALIZING NEXRA TECH OS</p>
-    </div>
-
-    <div class="v-watermark">NEXRA TECH</div>
-    <div class="v-badge">v3.0 One Man Army</div>
-
-    <!-- Top Navigation -->
-    <header class="top-nav">
-        <div class="nav-brand">
-            <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
-            <h2>Nexra OS <span style="color: var(--orange);">Hub</span></h2>
-        </div>
-        <div class="nav-brand" style="gap: 15px;">
-            <i class="fa-solid fa-bolt" style="color: var(--orange);"></i>
-            <span id="global-progress" style="font-weight: 800;">0% SYNCED</span>
-        </div>
-    </header>
-
     <div class="app-shell">
         
-        <!-- Left: Project History -->
-        <aside class="history-panel">
-            <h5 class="panel-title">Project History</h5>
-            <div id="project-list-container">
-                <!-- Projects from Firebase will load here -->
-                <div class="project-card active">
-                    <h4>Nexra Billing App</h4>
-                    <p>Modified: 2 mins ago</p>
+        <!-- LEFT PANEL -->
+        <aside class="left-sidebar">
+            <div class="yt-preview-card">
+                <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" class="yt-logo">
+                <div class="yt-info">
+                    <h4>Nexra Tech</h4>
+                    <p>Building the Future Alone.</p>
                 </div>
+                <div class="social-icons">
+                    <button class="soc-btn"><i class="fa-brands fa-youtube"></i></button>
+                    <button class="soc-btn"><i class="fa-brands fa-github"></i></button>
+                    <button class="soc-btn"><i class="fa-brands fa-telegram"></i></button>
+                    <button class="soc-btn"><i class="fa-brands fa-whatsapp"></i></button>
+                </div>
+                <a href="https://nexratech.vercel.app" style="font-size: 10px; color: var(--accent); text-decoration: none; font-weight: 800;">nexratech.vercel.app</a>
+            </div>
+
+            <div class="nexus-history">
+                <p class="panel-title" style="font-size: 10px; font-weight: 800; color: #aaa; letter-spacing: 1px; margin-bottom: 10px;">PROJECT HISTORY</p>
+                <div id="project-list">
+                    <!-- Loaded from Firebase -->
+                </div>
+            </div>
+
+            <div class="glass" style="padding: 15px; border-radius: 15px; margin-top: auto;">
+                <p style="font-size: 11px; font-weight: 700; line-height: 1.4;">Get premium PRDs, templates and AI resources on our website.</p>
             </div>
         </aside>
 
-        <!-- Center: Roadmap Visualization -->
-        <main class="main-workspace">
-            <div class="zoom-layer" id="zoom-world">
+        <!-- MAIN ROADMAP CANVAS -->
+        <main class="workspace-canvas">
+            <div class="zoom-world" id="viewport">
                 
-                <svg id="svg-canvas">
-                    <path id="l1" class="line-path" stroke="var(--orange)"></path>
-                    <path id="l2" class="line-path" stroke="#007aff"></path>
-                    <path id="l3" class="line-path" stroke="#34c759"></path>
+                <svg id="connection-lines">
+                    <path id="l1" class="path-anim" stroke="var(--accent)"></path>
+                    <path id="l2" class="path-anim" stroke="#007aff"></path>
+                    <path id="l3" class="path-anim" stroke="#34c759"></path>
                 </svg>
 
-                <div class="hub-core" id="core-hub">
+                <div class="core-hub" id="hub">
                     <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
-                    <span>PROJECT<br>SYNC</span>
+                    <span>NEXRA<br>SYNC</span>
                 </div>
 
-                <!-- Phase Cards (Data will be injected here) -->
-                <div id="phases-container"></div>
+                <div id="phases-container">
+                    <!-- Phases & Tasks Injected Here -->
+                </div>
 
             </div>
         </main>
 
-        <!-- Right: PRD Vault -->
-        <aside class="prd-vault">
-            <h5 class="panel-title">Full PRD Vault</h5>
-            <div class="prd-content-box">
-                <button class="copy-btn" onclick="copyPRD()">COPY ALL</button>
-                <div id="prd-text-display">Select a project to view its full PRD script...</div>
+        <!-- RIGHT SCRIPT PANEL -->
+        <aside class="right-sidebar">
+            <p class="panel-title" style="font-size: 10px; font-weight: 800; color: #aaa; letter-spacing: 1px;">MASTER SCRIPT VAULT</p>
+            <div class="script-box">
+                <button class="copy-all-btn" onclick="copyFullPRD()">COPY ALL</button>
+                <div id="full-script-text">Select a project to load its blueprint...</div>
             </div>
-            <div class="social-links">
-                <a href="https://youtube.com/@NexraTech"><i class="fa-brands fa-youtube"></i></a>
-                <a href="#"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="#"><i class="fa-brands fa-telegram"></i></a>
-                <a href="#"><i class="fa-brands fa-github"></i></a>
+            <div class="glass" style="padding: 12px; border-radius: 12px; font-size: 10px; text-align: center; color: var(--muted); font-weight: 700;">
+                CONNECTED TO FIRESTORE v9.0
             </div>
         </aside>
 
     </div>
 
-    <!-- Director Tools -->
+    <!-- FLOATING FILE DOCK -->
+    <div class="file-dock">
+        <div class="dock-icon flex-center" title="Firebase Config" onclick="openModal('firebase')"><i class="fa-solid fa-fire"></i></div>
+        <div class="dock-icon flex-center" title="AdMob IDs" onclick="openModal('admob')"><i class="fa-solid fa-rectangle-ad"></i></div>
+        <div class="dock-icon flex-center" title="Google AI Studio" onclick="window.open('https://aistudio.google.com/')"><i class="fa-solid fa-brain"></i></div>
+        <div class="dock-icon flex-center" title="API Vault" onclick="openModal('api')"><i class="fa-solid fa-key"></i></div>
+    </div>
+
+    <!-- DIRECTOR BAR -->
     <div class="director-bar">
-        <button class="cam-btn active" onclick="cam('global', this)">GLOBAL VIEW</button>
-        <button class="cam-btn" onclick="cam('p1', this)">PHASE 01</button>
-        <button class="cam-btn" onclick="cam('p2', this)">PHASE 02</button>
-        <button class="cam-btn" onclick="cam('p3', this)">PHASE 03</button>
+        <button class="cam-btn active" onclick="camera('global', this)">GLOBAL VIEW</button>
+        <button class="cam-btn" onclick="camera('p1', this)">PHASE 01</button>
+        <button class="cam-btn" onclick="camera('p2', this)">PHASE 02</button>
+        <button class="cam-btn" onclick="camera('p3', this)">PHASE 03</button>
+    </div>
+
+    <!-- MODAL SYSTEM -->
+    <div class="modal-overlay" id="modal-overlay" onclick="closeModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <h2 id="modal-title">Config</h2>
+            <div class="modal-content" id="modal-body"></div>
+            <button class="copy-all-btn" style="margin-top: 15px; position: static; width: 100%; padding: 12px;" onclick="copyModalContent()">COPY TO CLIPBOARD</button>
+        </div>
     </div>
 
     <script>
-        // === FIREBASE CONFIGURATION ===
+        // === FIREBASE INITIALIZATION ===
         const firebaseConfig = {
             apiKey: "AIzaSyDeNZBtVQ5iX5PjV5Gj4xXgxqB3KaJ4cZw",
             authDomain: "nexrapk.firebaseapp.com",
@@ -200,141 +220,137 @@
         firebase.initializeApp(firebaseConfig);
         const db = firebase.firestore();
 
-        let currentProjectData = null;
-        let userProgress = JSON.parse(localStorage.getItem('nexra_progress') || '{}');
+        let currentProject = null;
+        let progress = JSON.parse(localStorage.getItem('nx_progress') || '{}');
 
-        // === BOOT SEQUENCE ===
-        window.onload = () => {
-            setTimeout(() => {
-                document.getElementById('boot-screen').style.opacity = '0';
-                setTimeout(() => document.getElementById('boot-screen').style.display = 'none', 800);
-                loadProjectHistory();
-            }, 1500);
-        };
-
-        // === LOAD HISTORY FROM FIREBASE ===
-        function loadProjectHistory() {
+        // === FETCH PROJECTS (HISTORY) ===
+        function loadProjects() {
             db.collection("RoadmapData").orderBy("order", "asc").onSnapshot(snap => {
-                const list = document.getElementById('project-list-container');
+                const list = document.getElementById('project-list');
                 list.innerHTML = "";
-                snap.docs.forEach((doc, index) => {
+                snap.docs.forEach((doc, i) => {
                     const data = doc.data();
                     const card = document.createElement('div');
-                    card.className = `project-card ${index === 0 ? 'active' : ''}`;
-                    card.innerHTML = `<h4>${data.title}</h4><p>Roadmap ID: ${doc.id.substring(0,8)}</p>`;
-                    card.onclick = () => selectProject(doc.id, data, card);
+                    card.className = `history-card ${currentProject?.id === doc.id ? 'active' : ''}`;
+                    card.innerHTML = `<h5>${data.title}</h5><span>Protocol: ${doc.id.substring(0,6)}</span>`;
+                    card.onclick = () => selectProject(doc.id, data);
                     list.appendChild(card);
-                    if(index === 0) selectProject(doc.id, data, card); // Load first project by default
+                    if(!currentProject && i === 0) selectProject(doc.id, data);
                 });
             });
         }
 
-        // === SELECT PROJECT & LOAD ROADMAP ===
-        function selectProject(id, data, cardEl) {
-            document.querySelectorAll('.project-card').forEach(c => c.classList.remove('active'));
-            cardEl.classList.add('active');
-            currentProjectData = data;
+        // === SELECT PROJECT ===
+        function selectProject(id, data) {
+            currentProject = { id, ...data };
+            document.querySelectorAll('.history-card').forEach(c => c.classList.remove('active'));
+            
+            // Build Full PRD Script
+            let fullPRD = `[PRD]: ${data.title.toUpperCase()}\n\n`;
+            data.tasks.forEach((t, i) => fullPRD += `STEP ${i+1}: ${t.title}\nDETAILS: ${t.prd || 'Core component'}\n\n`);
+            document.getElementById('full-script-text').innerText = fullPRD;
 
-            // Update PRD Vault
-            let prdFullText = `PROJECT: ${data.title.toUpperCase()}\n-----------------------\n`;
-            data.tasks.forEach(t => {
-                prdFullText += `\n[TASK]: ${t.title}\nDETAILS: ${t.prd || 'No details provided.'}\n`;
-            });
-            document.getElementById('prd-text-display').innerText = prdFullText;
-
-            // Render Roadmap
             renderRoadmap(data);
-            updateProgress();
             setTimeout(drawLines, 500);
         }
 
+        // === RENDER ROADMAP CANVAS ===
         function renderRoadmap(data) {
             const container = document.getElementById('phases-container');
             container.innerHTML = "";
-            const colors = ['#ff5500', '#007aff', '#34c759'];
+            const colors = ['var(--accent)', '#007aff', '#34c759'];
             
-            // For simplicity, we split tasks into 3 logical phases
-            const tasksPerPhase = Math.ceil(data.tasks.length / 3);
+            // Split tasks into 3 phases automatically
+            const tasks = data.tasks || [];
+            const chunk = Math.ceil(tasks.length / 3);
+            
             for(let i=0; i<3; i++) {
-                const phaseTasks = data.tasks.slice(i * tasksPerPhase, (i + 1) * tasksPerPhase);
-                const phaseDiv = document.createElement('div');
-                phaseDiv.className = `phase-card p${i+1}`;
-                phaseDiv.id = `card${i+1}`;
+                const phaseTasks = tasks.slice(i * chunk, (i + 1) * chunk);
+                const node = document.createElement('div');
+                node.className = `phase-node node-p${i+1} glass`;
+                node.id = `node${i+1}`;
                 
                 let taskHTML = "";
-                phaseTasks.forEach(task => {
-                    const isDone = userProgress[task.id] ? 'done' : '';
+                phaseTasks.forEach(t => {
+                    const isDone = progress[t.id] ? 'done' : '';
                     taskHTML += `
-                        <div class="task-item ${isDone}" style="--c: ${colors[i]}" onclick="toggleTask(this, '${task.id}')">
-                            <div class="check"></div>
-                            <span>${task.title}</span>
+                        <div class="task-unit ${isDone}" onclick="toggleTask(this, '${t.id}')">
+                            <div class="check-ui"></div>
+                            <span>${t.title}</span>
                         </div>`;
                 });
 
-                phaseDiv.innerHTML = `
-                    <div class="card-header">
-                        <div class="badge" style="background: ${colors[i]}">0${i+1}</div>
-                        <h3 style="font-size: 13px; font-weight: 800;">Phase 0${i+1}<br><span style="font-size: 9px; color: #94a3b8;">Sync Protocol</span></h3>
-                    </div>
-                    ${taskHTML}
-                `;
-                container.appendChild(phaseDiv);
+                node.innerHTML = `<h3>Phase 0${i+1}</h3> ${taskHTML}`;
+                container.appendChild(node);
             }
         }
 
-        // === CINEMATIC CAMERA ===
-        function cam(view, btn) {
+        // === CINEMATIC CAMERA SYSTEM ===
+        function camera(view, btn) {
             document.querySelectorAll('.cam-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            const world = document.getElementById('zoom-world');
+            const viewport = document.getElementById('viewport');
             
-            const transforms = {
+            const poses = {
                 'global': 'scale(1) translate(0, 0)',
-                'p1': 'scale(1.8) translate(25%, 18%)',
-                'p2': 'scale(1.8) translate(-25%, 18%)',
+                'p1': 'scale(1.8) translate(25%, 15%)',
+                'p2': 'scale(1.8) translate(-25%, 15%)',
                 'p3': 'scale(1.8) translate(0, -25%)'
             };
-            world.style.transform = transforms[view];
+            viewport.style.transform = poses[view];
         }
 
-        // === TASK LOGIC ===
-        function toggleTask(el, id) {
-            el.classList.toggle('done');
-            userProgress[id] = el.classList.contains('done');
-            localStorage.setItem('nexra_progress', JSON.stringify(userProgress));
-            updateProgress();
-        }
-
-        function updateProgress() {
-            const total = currentProjectData ? currentProjectData.tasks.length : 0;
-            const done = Object.values(userProgress).filter(v => v === true).length;
-            const perc = total > 0 ? Math.round((done / total) * 100) : 0;
-            document.getElementById('global-progress').innerText = perc + '% SYNCED';
-            if(perc === 100) confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, colors: ['#ff5500', '#000'] });
-        }
-
-        // === SVG DRAWING ===
+        // === SVG LINES ===
         function drawLines() {
-            const hub = document.getElementById('core-hub').getBoundingClientRect();
+            const hub = document.getElementById('hub').getBoundingClientRect();
             const cx = hub.left + hub.width / 2;
             const cy = hub.top + hub.height / 2;
 
             for(let i=1; i<=3; i++) {
-                const card = document.getElementById('card'+i);
-                if(!card) continue;
-                const rect = card.getBoundingClientRect();
-                const tx = rect.left + rect.width / 2;
-                const ty = rect.top + rect.height / 2;
+                const node = document.getElementById('node'+i);
+                if(!node) continue;
+                const nr = node.getBoundingClientRect();
+                const tx = nr.left + nr.width / 2;
+                const ty = nr.top + nr.height / 2;
                 document.getElementById('l'+i).setAttribute('d', `M ${cx} ${cy} Q ${cx} ${ty} ${tx} ${ty}`);
             }
         }
 
-        function copyPRD() {
-            const text = document.getElementById('prd-text-display').innerText;
-            navigator.clipboard.writeText(text);
-            alert("📋 Entire PRD Script copied to Nexra Vault!");
+        // === LOGIC FUNCTIONS ===
+        function toggleTask(el, id) {
+            el.classList.toggle('done');
+            progress[id] = el.classList.contains('done');
+            localStorage.setItem('nx_progress', JSON.stringify(progress));
+            
+            // 100% Celebration check
+            const total = currentProject.tasks.length;
+            const doneCount = Object.values(progress).filter(v => v).length;
+            if(doneCount === total) confetti({ particleCount: 150, colors: ['#ff5500', '#000'] });
         }
 
+        function openModal(type) {
+            const overlay = document.getElementById('modal-overlay');
+            const title = document.getElementById('modal-title');
+            const body = document.getElementById('modal-body');
+            overlay.style.display = "flex";
+
+            if(type === 'firebase') {
+                title.innerText = "Firebase Config";
+                body.innerText = `const firebaseConfig = {\n apiKey: "AIzaSy...7Zw",\n projectId: "nexrapk",\n appId: "1:95...bc9"\n};`;
+            } else if(type === 'admob') {
+                title.innerText = "AdMob Test IDs";
+                body.innerText = `Banner: ca-app-pub-3940256099942544/6300978111\nInterstitial: ca-app-pub-3940256099942544/1033173712\nRewarded: ca-app-pub-3940256099942544/5224354917`;
+            } else if(type === 'api') {
+                title.innerText = "API Vault";
+                body.innerText = `GEMINI_API_KEY: AIzaSy...-Nexra\nWHATSAPP_LINK: https://wa.me/NexraTech`;
+            }
+        }
+
+        function closeModal() { document.getElementById('modal-overlay').style.display = "none"; }
+        function copyModalContent() { navigator.clipboard.writeText(document.getElementById('modal-body').innerText); alert("📋 Copied!"); }
+        function copyFullPRD() { navigator.clipboard.writeText(document.getElementById('full-script-text').innerText); alert("🚀 Full PRD Vault Copied!"); }
+
+        window.onload = loadProjects;
         window.onresize = drawLines;
     </script>
 </body>
