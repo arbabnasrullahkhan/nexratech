@@ -1,376 +1,328 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>Nexra Tech — Secret Admin Panel</title>
-<link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Nexra OS | Control Center</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
 
-<!-- Firebase Core & Firestore -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<!-- Fonts -->
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Firebase & Frameworks -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 
-<style>
-:root{
-  --bg:#f5f4ef;
-  --glass:rgba(255,255,255,0.72);
-  --obsidian:#0f172a;
-  --orange:#ff5500;
-  --orange-soft:rgba(255,85,0,0.12);
-  --muted:#94a3b8;
-  --border:rgba(0,0,0,0.06);
-  --shadow:0 8px 32px rgba(0,0,0,0.08);
-  --ease:cubic-bezier(0.34,1.56,0.64,1);
-  --r:20px;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--obsidian);min-height:100vh;}
-button,input,textarea,select{font-family:inherit;}
+    <style>
+        :root {
+            --bg: #f5f4ef;
+            --orange: #ff5500;
+            --obsidian: #0f172a;
+            --glass: rgba(255, 255, 255, 0.8);
+            --border: rgba(0, 0, 0, 0.05);
+            --shadow: 0 10px 40px rgba(0,0,0,0.04);
+            --transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+        }
 
-/* ── PIN LOGIN SCREEN ── */
-#pin-screen{position:fixed;inset:0;background:var(--obsidian);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;}
-.pin-box{background:white;padding:40px;border-radius:24px;text-align:center;box-shadow:var(--shadow);max-width:400px;width:90%;}
-.pin-icon{width:64px;height:64px;background:var(--obsidian);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 20px;}
-.pin-inputs{display:flex;gap:12px;justify-content:center;margin:24px 0;}
-.pin-input{width:56px;height:64px;border:2px solid var(--border);border-radius:14px;text-align:center;font-size:28px;font-weight:800;color:var(--obsidian);background:var(--bg);transition:.3s;outline:none;}
-.pin-input:focus{border-color:var(--orange);box-shadow:0 0 0 4px var(--orange-soft);}
-.pin-input.filled{border-color:var(--obsidian);}
-.btn-pin{background:var(--orange);color:white;border:none;border-radius:14px;padding:16px;width:100%;font-size:15px;font-weight:800;cursor:pointer;transition:.3s;}
-.btn-pin:hover{filter:brightness(1.1);}
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Plus Jakarta Sans', sans-serif; }
+        body { background: var(--bg); color: var(--obsidian); min-height: 100vh; overflow-x: hidden; }
 
-/* ── ADMIN DASHBOARD ── */
-#admin-dashboard{display:none;max-width:800px;margin:0 auto;padding:40px 20px 100px;}
-.header{text-align:center;margin-bottom:40px;}
-.header img{height:30px;margin-bottom:12px;}
-.header h1{font-family:'Space Grotesk';font-size:32px;font-weight:800;}
-.header p{font-size:14px;color:var(--muted);font-weight:600;}
+        /* --- PIN LOGIN --- */
+        #pin-overlay {
+            position: fixed; inset: 0; background: var(--obsidian); z-index: 10000;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: transform 0.8s var(--transition);
+        }
+        .pin-card { background: white; padding: 40px; border-radius: 30px; text-align: center; width: 90%; max-width: 400px; box-shadow: 0 30px 60px rgba(0,0,0,0.3); }
+        .pin-inputs { display: flex; gap: 10px; justify-content: center; margin: 30px 0; }
+        .pin-field { width: 50px; height: 65px; border: 2px solid #eee; border-radius: 15px; text-align: center; font-size: 28px; font-weight: 800; background: #fafafa; transition: 0.3s; }
+        .pin-field:focus { border-color: var(--orange); background: white; box-shadow: 0 0 15px rgba(255,85,0,0.1); outline: none; }
+        .btn-unlock { background: var(--orange); color: white; border: none; padding: 16px 40px; border-radius: 15px; font-weight: 800; cursor: pointer; width: 100%; transition: 0.3s; }
 
-.card{background:var(--glass);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.9);border-radius:var(--r);padding:24px;margin-bottom:24px;box-shadow:var(--shadow);}
-.card h3{font-size:16px;font-weight:800;margin-bottom:20px;display:flex;align-items:center;gap:10px;border-bottom:1px solid var(--border);padding-bottom:12px;}
+        /* --- DASHBOARD LAYOUT --- */
+        .admin-shell { max-width: 900px; margin: 0 auto; padding: 40px 20px 100px; }
+        .header { text-align: center; margin-bottom: 50px; }
+        .header img { height: 40px; margin-bottom: 15px; }
+        .header h1 { font-family: 'Space Grotesk'; font-size: 32px; font-weight: 800; letter-spacing: -1px; }
 
-.form-group{margin-bottom:16px;}
-.form-label{font-size:11px;font-weight:800;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;display:block;}
-.form-input{width:100%;padding:14px;border:2px solid var(--border);border-radius:12px;font-size:14px;font-weight:600;outline:none;transition:.3s;}
-.form-input:focus{border-color:var(--orange);}
-.form-textarea{resize:vertical;min-height:100px;}
+        .card { background: var(--glass); backdrop-filter: blur(20px); border-radius: 25px; border: 1px solid white; padding: 30px; margin-bottom: 25px; box-shadow: var(--shadow); }
+        .card-title { display: flex; align-items: center; gap: 12px; margin-bottom: 25px; font-size: 16px; font-weight: 800; border-bottom: 1px solid var(--border); padding-bottom: 15px; }
 
-.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;background:white;border:1px solid var(--border);border-radius:12px;padding:14px;}
-.toggle{position:relative;width:50px;height:28px;}
-.toggle input{opacity:0;width:0;height:0;}
-.toggle-slider{position:absolute;inset:0;background:#cbd5e1;border-radius:99px;transition:.3s;cursor:pointer;}
-.toggle-slider::before{content:'';position:absolute;width:22px;height:22px;border-radius:50%;background:white;top:3px;left:3px;transition:.3s;box-shadow:0 2px 4px rgba(0,0,0,.2);}
-.toggle input:checked + .toggle-slider{background:var(--orange);}
-.toggle input:checked + .toggle-slider::before{transform:translateX(22px);}
+        /* --- FORM ELEMENTS --- */
+        .form-group { margin-bottom: 20px; }
+        .label { font-size: 11px; font-weight: 800; color: #94a3b8; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; display: block; }
+        .input { width: 100%; padding: 14px 18px; border: 2px solid #eee; border-radius: 14px; font-size: 14px; font-weight: 600; transition: 0.3s; background: white; outline: none; }
+        .input:focus { border-color: var(--orange); }
+        .textarea { min-height: 120px; resize: vertical; }
 
-.btn-save{background:var(--obsidian);color:white;border:none;border-radius:12px;padding:16px;width:100%;font-size:14px;font-weight:800;cursor:pointer;transition:.3s;margin-top:10px;}
-.btn-save:hover{background:var(--orange);}
-.btn-danger{background:rgba(239,68,68,.1);color:#ef4444;border:none;border-radius:8px;padding:8px 12px;font-size:12px;font-weight:800;cursor:pointer;transition:.2s;}
-.btn-danger:hover{background:#ef4444;color:white;}
+        .toggle-row { display: flex; align-items: center; justify-content: space-between; background: white; padding: 15px 20px; border-radius: 14px; border: 2px solid #eee; }
+        .toggle-switch { position: relative; width: 50px; height: 26px; }
+        .toggle-switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; inset: 0; background: #e2e8f0; border-radius: 34px; transition: 0.4s; }
+        .slider:before { position: absolute; content: ""; height: 18px; width: 18px; left: 4px; bottom: 4px; background: white; border-radius: 50%; transition: 0.4s; }
+        input:checked + .slider { background: var(--orange); }
+        input:checked + .slider:before { transform: translateX(24px); }
 
-/* Phase List Styles */
-.phase-item{background:white;border:1px solid var(--border);border-radius:16px;padding:20px;margin-bottom:16px;}
-.phase-item-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
-.phase-title{font-size:16px;font-weight:800;}
-.task-row{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg);border-radius:10px;margin-bottom:8px;border:1px solid var(--border);}
-.task-title{font-size:13px;font-weight:700;}
+        .btn-save { background: var(--obsidian); color: white; border: none; padding: 16px; border-radius: 14px; width: 100%; font-weight: 800; cursor: pointer; transition: 0.3s; margin-top: 10px; }
+        .btn-save:hover { background: var(--orange); transform: translateY(-2px); }
 
-/* Floating Back Button */
-.back-btn{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--obsidian);color:white;padding:12px 24px;border-radius:99px;font-size:12px;font-weight:800;text-decoration:none;box-shadow:var(--shadow);transition:.3s;z-index:100;}
-.back-btn:hover{background:var(--orange);}
+        /* --- LIVE LIST --- */
+        .phase-item { background: white; border: 1px solid #eee; border-radius: 18px; padding: 20px; margin-bottom: 15px; }
+        .task-row { display: flex; align-items: center; justify-content: space-between; padding: 10px; background: #fafafa; border-radius: 10px; margin-top: 8px; border: 1px solid #f0f0f0; }
+        .btn-del { background: #fee2e2; color: #ef4444; border: none; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; cursor: pointer; }
+        .btn-del:hover { background: #ef4444; color: white; }
 
-/* TOAST */
-#toasts{position:fixed;top:20px;right:20px;z-index:500;display:flex;flex-direction:column;gap:10px;}
-.toast{background:white;border-left:4px solid var(--orange);padding:12px 20px;border-radius:10px;font-size:13px;font-weight:800;box-shadow:var(--shadow);animation:slideIn .4s forwards;}
-@keyframes slideIn{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}
-</style>
+        /* --- TOAST --- */
+        #os-toast { position: fixed; top: 30px; right: 30px; z-index: 11000; background: white; border-left: 4px solid var(--orange); padding: 15px 25px; border-radius: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.1); font-weight: 700; transform: translateX(150%); transition: transform 0.5s var(--transition); }
+
+        .image-preview { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; margin-top: 10px; display: none; border: 2px solid var(--orange); }
+    </style>
 </head>
 <body>
 
-<!-- Toasts -->
-<div id="toasts"></div>
+    <!-- Toast Notification -->
+    <div id="os-toast">System Message</div>
 
-<!-- 1. PIN LOGIN SCREEN -->
-<div id="pin-screen">
-  <div class="pin-box">
-    <div class="pin-icon">
-      <svg width="28" height="28" fill="none" stroke="var(--orange)" stroke-width="2"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 1 1 8 0v4"></path></svg>
-    </div>
-    <h2 style="font-family:'Space Grotesk';font-size:24px;font-weight:800;margin-bottom:8px;">Admin Login</h2>
-    <p style="font-size:13px;color:var(--muted);font-weight:600;margin-bottom:20px;">Enter your 4-digit master PIN</p>
-    
-    <div class="pin-inputs">
-      <input class="pin-input" type="password" maxlength="1" id="p0" inputmode="numeric">
-      <input class="pin-input" type="password" maxlength="1" id="p1" inputmode="numeric">
-      <input class="pin-input" type="password" maxlength="1" id="p2" inputmode="numeric">
-      <input class="pin-input" type="password" maxlength="1" id="p3" inputmode="numeric">
-    </div>
-    <p id="pin-error" style="color:#ef4444;font-size:12px;font-weight:700;display:none;margin-bottom:16px;">Invalid PIN. Try again.</p>
-    
-    <button class="btn-pin" onclick="checkPin()">Unlock OS</button>
-  </div>
-</div>
-
-<!-- 2. ADMIN DASHBOARD -->
-<div id="admin-dashboard">
-  <div class="header">
-    <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo">
-    <h1>Data Control Center</h1>
-    <p>Live sync with Nexra OS Public Interface</p>
-  </div>
-
-  <!-- Add Phase -->
-  <div class="card">
-    <h3>
-      <svg width="18" height="18" fill="none" stroke="var(--orange)" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M12 8v8M8 12h8"></path></svg>
-      Create New Phase
-    </h3>
-    <div class="form-group">
-      <label class="form-label">Phase Title</label>
-      <input type="text" class="form-input" id="ph-title" placeholder="e.g. Architectural Logic">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Phase Subtitle</label>
-      <input type="text" class="form-input" id="ph-sub" placeholder="e.g. Foundation & Setup">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Theme Color</label>
-      <select class="form-input" id="ph-color">
-        <option value="#ff5500">Electric Orange (Default)</option>
-        <option value="#007aff">Sky Blue</option>
-        <option value="#34c759">Emerald Green</option>
-        <option value="#af52de">Deep Violet</option>
-      </select>
-    </div>
-    <button class="btn-save" onclick="addPhase()">Create Phase</button>
-  </div>
-
-  <!-- Add Task -->
-  <div class="card">
-    <h3>
-      <svg width="18" height="18" fill="none" stroke="var(--orange)" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8M8 12h8"></path></svg>
-      Add Task & PRD
-    </h3>
-    <div class="form-group">
-      <label class="form-label">Select Parent Phase</label>
-      <select class="form-input" id="task-phase-select">
-        <option value="">Loading...</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Task Name</label>
-      <input type="text" class="form-input" id="task-title" placeholder="e.g. Firebase Integration">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Task PRD / Code Snippet (Optional)</label>
-      <textarea class="form-input form-textarea" id="task-prd" placeholder="Write full documentation or paste code here..."></textarea>
-    </div>
-    <div class="toggle-row">
-      <div>
-        <div style="font-size:14px;font-weight:800;">🔒 Monetization Lock</div>
-        <div style="font-size:11px;color:var(--muted);font-weight:600;">Hide PRD behind premium wall</div>
-      </div>
-      <label class="toggle"><input type="checkbox" id="task-locked"><span class="toggle-slider"></span></label>
-    </div>
-    <button class="btn-save" onclick="addTask()">Add Task to Phase</button>
-  </div>
-
-  <!-- Manage Existing Data -->
-  <div class="card">
-    <h3>
-      <svg width="18" height="18" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16"></path></svg>
-      Manage Live Roadmap
-    </h3>
-    <div id="live-roadmap-list">
-      <p style="text-align:center;color:var(--muted);font-size:14px;font-weight:600;padding:20px;">Fetching Live Data...</p>
-    </div>
-  </div>
-
-  <!-- Danger Zone -->
-  <div class="card" style="background:rgba(239,68,68,.05);border-color:rgba(239,68,68,.2);">
-    <h3 style="color:#ef4444;border-color:rgba(239,68,68,.2);">
-      <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
-      Danger Zone
-    </h3>
-    <button class="btn-save" style="background:#ef4444;" onclick="hardReset()">Delete Entire Roadmap Data</button>
-  </div>
-
-</div>
-
-<!-- Back to Public -->
-<a href="index.html" class="back-btn">← Back to Public OS</a>
-
-<script>
-// ════ FIREBASE CONFIG ════
-const firebaseConfig = {
-  apiKey: "AIzaSyDeNZBtVQ5iX5PjV5Gj4xXgxqB3KaJ4cZw",
-  authDomain: "nexrapk.firebaseapp.com",
-  projectId: "nexrapk",
-  storageBucket: "nexrapk.firebasestorage.app",
-  messagingSenderId: "958761878252",
-  appId: "1:958761878252:web:099246eb11de0e08755bc9"
-};
-if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-
-// ════ STATE ════
-const ADMIN_PIN = "1234"; // 👈 Change your PIN here
-const COLLECTION = "RoadmapData";
-let roadmapData = [];
-
-// ════ PIN LOGIN LOGIC ════
-['p0','p1','p2','p3'].forEach((id,i)=>{
-  const el = document.getElementById(id);
-  el.addEventListener('input',()=>{
-    el.classList.toggle('filled', el.value.length>0);
-    if(el.value.length===1 && i<3) document.getElementById('p'+(i+1)).focus();
-    if(i===3 && el.value.length===1) checkPin();
-  });
-  el.addEventListener('keydown',e=>{ if(e.key==='Backspace' && !el.value && i>0) document.getElementById('p'+(i-1)).focus(); });
-});
-
-function checkPin(){
-  const pin = ['p0','p1','p2','p3'].map(id=>document.getElementById(id).value).join('');
-  if(pin === ADMIN_PIN){
-    document.getElementById('pin-screen').style.display = 'none';
-    document.getElementById('admin-dashboard').style.display = 'block';
-    showToast('🔓 Access Granted');
-    fetchData(); // Load Data
-  } else {
-    document.getElementById('pin-error').style.display = 'block';
-    ['p0','p1','p2','p3'].forEach(id=>{ document.getElementById(id).value=''; document.getElementById(id).classList.remove('filled'); });
-    document.getElementById('p0').focus();
-  }
-}
-
-// ════ TOAST NOTIFICATION ════
-function showToast(msg){
-  const t=document.createElement('div'); t.className='toast'; t.textContent=msg;
-  document.getElementById('toasts').appendChild(t);
-  setTimeout(()=>{ t.style.opacity='0'; t.style.transition='.3s'; setTimeout(()=>t.remove(),300); }, 3000);
-}
-
-// ════ FETCH DATA FROM FIRESTORE ════
-function fetchData(){
-  db.collection(COLLECTION).orderBy('order','asc').onSnapshot(snap=>{
-    roadmapData = snap.docs.map(d=>({ id:d.id, ...d.data(), tasks:d.data().tasks||[] }));
-    renderSelects();
-    renderLists();
-  });
-}
-
-// ════ CRUD: ADD PHASE ════
-async function addPhase(){
-  const title = document.getElementById('ph-title').value.trim();
-  const subtitle = document.getElementById('ph-sub').value.trim();
-  const color = document.getElementById('ph-color').value;
-  if(!title){ showToast('⚠️ Phase title required'); return; }
-  
-  try {
-    await db.collection(COLLECTION).add({
-      title, subtitle, color,
-      order: Date.now(),
-      tasks: [],
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-    document.getElementById('ph-title').value = '';
-    document.getElementById('ph-sub').value = '';
-    showToast('✅ Phase Created Successfully');
-  } catch(e) { showToast('❌ Error: ' + e.message); }
-}
-
-// ════ CRUD: ADD TASK ════
-async function addTask(){
-  const phaseId = document.getElementById('task-phase-select').value;
-  const title = document.getElementById('task-title').value.trim();
-  const prd = document.getElementById('task-prd').value.trim();
-  const locked = document.getElementById('task-locked').checked;
-  
-  if(!phaseId || !title){ showToast('⚠️ Select Phase & Add Title'); return; }
-  
-  const phase = roadmapData.find(p=>p.id===phaseId);
-  if(!phase) return;
-
-  const tasks = [...(phase.tasks||[]), { id:'t_'+Date.now(), title, prd, locked }];
-  
-  try {
-    await db.collection(COLLECTION).doc(phaseId).update({ tasks });
-    document.getElementById('task-title').value = '';
-    document.getElementById('task-prd').value = '';
-    document.getElementById('task-locked').checked = false;
-    showToast('✅ Task Added');
-  } catch(e) { showToast('❌ Error: ' + e.message); }
-}
-
-// ════ CRUD: DELETE PHASE ════
-async function deletePhase(id){
-  if(!confirm('Delete this entire phase and all its tasks?')) return;
-  try {
-    await db.collection(COLLECTION).doc(id).delete();
-    showToast('🗑️ Phase Deleted');
-  } catch(e) { showToast('❌ Error: ' + e.message); }
-}
-
-// ════ CRUD: DELETE TASK ════
-async function deleteTask(phaseId, taskId){
-  if(!confirm('Delete this task?')) return;
-  const phase = roadmapData.find(p=>p.id===phaseId);
-  const tasks = phase.tasks.filter(t=>t.id!==taskId);
-  try {
-    await db.collection(COLLECTION).doc(phaseId).update({ tasks });
-    showToast('🗑️ Task Deleted');
-  } catch(e) { showToast('❌ Error: ' + e.message); }
-}
-
-// ════ RENDER ADMIN UI ════
-function renderSelects(){
-  const sel = document.getElementById('task-phase-select');
-  sel.innerHTML = roadmapData.length ? '<option value="">Select a Phase...</option>' : '<option value="">Create a phase first</option>';
-  roadmapData.forEach(p=>{ const o=document.createElement('option'); o.value=p.id; o.textContent=p.title; sel.appendChild(o); });
-}
-
-function renderLists(){
-  const el = document.getElementById('live-roadmap-list');
-  if(!roadmapData.length){ el.innerHTML='<p style="text-align:center;color:var(--muted);font-size:14px;font-weight:600;padding:20px;">Database is empty.</p>'; return; }
-  
-  el.innerHTML = '';
-  roadmapData.forEach(p=>{
-    const sec = document.createElement('div');
-    sec.className = 'phase-item';
-    sec.innerHTML = `
-      <div class="phase-item-header">
-        <div>
-          <div class="phase-title" style="color:${p.color}">${p.title}</div>
-          <div style="font-size:12px;color:var(--muted);font-weight:600;">${p.tasks.length} Tasks attached</div>
+    <!-- PIN Overlay -->
+    <div id="pin-overlay">
+        <div class="pin-card">
+            <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" height="50" style="margin-bottom: 20px;">
+            <h2 style="font-family:'Space Grotesk'; font-weight:800;">Admin Protocol</h2>
+            <p style="color:#94a3b8; font-size:13px; margin-top:5px;">Enter master PIN to access Nexus</p>
+            <div class="pin-inputs">
+                <input type="password" maxlength="1" class="pin-field" id="p1">
+                <input type="password" maxlength="1" class="pin-field" id="p2">
+                <input type="password" maxlength="1" class="pin-field" id="p3">
+                <input type="password" maxlength="1" class="pin-field" id="p4">
+            </div>
+            <button class="btn-unlock" onclick="verifyPin()">Initialize Control</button>
+            <p id="pin-error" style="color: #ef4444; font-size:12px; font-weight:700; margin-top:15px; display:none;">Access Denied. Incorrect PIN.</p>
         </div>
-        <button class="btn-danger" onclick="deletePhase('${p.id}')">Delete Phase</button>
-      </div>`;
-    
-    p.tasks.forEach(t=>{
-      sec.innerHTML += `
-        <div class="task-row">
-          <div class="task-title">${t.title} ${t.locked?'<span style="color:var(--orange);">🔒 Premium</span>':''}</div>
-          <button class="btn-danger" onclick="deleteTask('${p.id}', '${t.id}')">Del</button>
-        </div>`;
-    });
-    el.appendChild(sec);
-  });
-}
+    </div>
 
-// ════ DANGER ZONE ════
-async function hardReset(){
-  const code = prompt('Type "DELETE" to wipe the entire database:');
-  if(code !== 'DELETE') return;
-  
-  try {
-    const snap = await db.collection(COLLECTION).get();
-    const batch = db.batch();
-    snap.docs.forEach(d=>batch.delete(d.ref));
-    await batch.commit();
-    showToast('🧨 DATABASE WIPED CLEAN');
-  } catch(e) { showToast('❌ Error: '+e.message); }
-}
-</script>
+    <!-- Main Dashboard -->
+    <div class="admin-shell">
+        <header class="header">
+            <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
+            <h1>OS Control Center</h1>
+            <p style="color:#94a3b8; font-weight:600;">Managing: Nexra Tech Official Roadmap</p>
+        </header>
+
+        <!-- Phase Manager -->
+        <div class="card">
+            <div class="card-title">
+                <svg width="20" height="20" fill="none" stroke="var(--orange)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M12 4v16m8-8H4"></path></svg>
+                Deploy New Phase
+            </div>
+            <div class="form-group">
+                <span class="label">Phase Title</span>
+                <input type="text" class="input" id="ph-name" placeholder="e.g., Architectural Logic">
+            </div>
+            <div class="form-group">
+                <span class="label">Accent Color</span>
+                <select class="input" id="ph-color">
+                    <option value="#ff5500">Electric Orange</option>
+                    <option value="#007aff">iOS Blue</option>
+                    <option value="#34c759">Android Green</option>
+                    <option value="#af52de">Premium Violet</option>
+                </select>
+            </div>
+            <button class="btn-save" onclick="createPhase()">Sync to Firebase</button>
+        </div>
+
+        <!-- Task & PRD Manager -->
+        <div class="card">
+            <div class="card-title">
+                <svg width="20" height="20" fill="none" stroke="var(--orange)" stroke-width="2.5" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 8v8m-4-4h8"></path></svg>
+                Inject Task & PRD
+            </div>
+            <div class="form-group">
+                <span class="label">Target Phase</span>
+                <select class="input" id="task-ph-select">
+                    <option value="">Select Phase...</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <span class="label">Task Heading</span>
+                <input type="text" class="input" id="task-title" placeholder="e.g., Firebase Authentication">
+            </div>
+            <div class="form-group">
+                <span class="label">Full PRD Document (Markdown/Text)</span>
+                <textarea class="input textarea" id="task-prd" placeholder="Write full documentation here..."></textarea>
+            </div>
+            <div class="form-group">
+                <div class="toggle-row">
+                    <div>
+                        <div style="font-size:14px; font-weight:800;">💰 License Wall</div>
+                        <div style="font-size:11px; color:#94a3b8; font-weight:600;">Lock this task for Premium users</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="task-locked">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            <button class="btn-save" onclick="injectTask()">Update Roadmap</button>
+        </div>
+
+        <!-- Live Content View -->
+        <div class="card">
+            <div class="card-title">
+                <svg width="20" height="20" fill="none" stroke="var(--orange)" stroke-width="2.5" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h7"></path></svg>
+                Live Ecosystem Data
+            </div>
+            <div id="live-list">
+                <p style="text-align:center; color:#94a3b8; font-size:13px; font-weight:600; padding:20px;">Establishing Real-time Link...</p>
+            </div>
+        </div>
+
+        <!-- Cleanup -->
+        <div class="card" style="border-color: #fee2e2;">
+            <div class="card-title" style="color:#ef4444; border-color:#fee2e2;">Danger Protocol</div>
+            <button class="btn-save" style="background:#ef4444;" onclick="hardReset()">Purge Entire Database</button>
+        </div>
+    </div>
+
+    <script>
+        // === FIREBASE CONFIG ===
+        const firebaseConfig = {
+            apiKey: "AIzaSyDeNZBtVQ5iX5PjV5Gj4xXgxqB3KaJ4cZw",
+            authDomain: "nexrapk.firebaseapp.com",
+            projectId: "nexrapk",
+            storageBucket: "nexrapk.firebasestorage.app",
+            messagingSenderId: "958761878252",
+            appId: "1:958761878252:web:099246eb11de0e08755bc9"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        const MASTER_PIN = "1234";
+        const COLLECTION = "RoadmapData";
+        let localData = [];
+
+        // === PIN LOGIC ===
+        const inputs = [document.getElementById('p1'), document.getElementById('p2'), document.getElementById('p3'), document.getElementById('p4')];
+        inputs.forEach((input, i) => {
+            input.addEventListener('input', () => { if(input.value.length === 1 && i < 3) inputs[i+1].focus(); });
+            input.addEventListener('keydown', (e) => { if(e.key === 'Backspace' && !input.value && i > 0) inputs[i-1].focus(); });
+        });
+
+        function verifyPin() {
+            const code = inputs.map(i => i.value).join('');
+            if(code === MASTER_PIN) {
+                document.getElementById('pin-overlay').style.transform = "translateY(-100%)";
+                notify("🔓 System Access Granted");
+                loadData();
+            } else {
+                document.getElementById('pin-error').style.display = "block";
+                inputs.forEach(i => i.value = "");
+                inputs[0].focus();
+            }
+        }
+
+        // === DATA ENGINE ===
+        function loadData() {
+            db.collection(COLLECTION).orderBy("order", "asc").onSnapshot(snap => {
+                localData = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+                renderUI();
+            });
+        }
+
+        function renderUI() {
+            const select = document.getElementById('task-ph-select');
+            const list = document.getElementById('live-list');
+            
+            // Render Dropdown
+            select.innerHTML = '<option value="">Select Phase...</option>';
+            localData.forEach(ph => {
+                const opt = document.createElement('option');
+                opt.value = ph.id; opt.textContent = ph.title;
+                select.appendChild(opt);
+            });
+
+            // Render List
+            if(localData.length === 0) { list.innerHTML = "<p style='text-align:center; color:#94a3b8;'>No data found.</p>"; return; }
+            list.innerHTML = "";
+            localData.forEach(ph => {
+                const phDiv = document.createElement('div');
+                phDiv.className = "phase-item";
+                phDiv.innerHTML = `
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+                        <h4 style="color:${ph.color}; font-weight:800;">${ph.title}</h4>
+                        <button class="btn-del" onclick="deletePhase('${ph.id}')">Del Phase</button>
+                    </div>
+                `;
+                ph.tasks?.forEach(t => {
+                    phDiv.innerHTML += `
+                        <div class="task-row">
+                            <span style="font-size:13px; font-weight:700;">${t.title} ${t.locked ? '🔒' : ''}</span>
+                            <button class="btn-del" style="background:#f1f5f9; color:#64748b;" onclick="deleteTask('${ph.id}', '${t.id}')">Remove</button>
+                        </div>
+                    `;
+                });
+                list.appendChild(phDiv);
+            });
+        }
+
+        // === CRUD OPS ===
+        async function createPhase() {
+            const title = document.getElementById('ph-name').value;
+            const color = document.getElementById('ph-color').value;
+            if(!title) return alert("Title is mandatory");
+            
+            await db.collection(COLLECTION).add({
+                title, color, order: Date.now(), tasks: []
+            });
+            document.getElementById('ph-name').value = "";
+            notify("✅ Phase Deployed Successfully");
+        }
+
+        async function injectTask() {
+            const phId = document.getElementById('task-ph-select').value;
+            const title = document.getElementById('task-title').value;
+            const prd = document.getElementById('task-prd').value;
+            const locked = document.getElementById('task-locked').checked;
+
+            if(!phId || !title) return alert("Select Phase & Title");
+
+            const phase = localData.find(p => p.id === phId);
+            const updatedTasks = [...(phase.tasks || []), { id: "t_" + Date.now(), title, prd, locked }];
+
+            await db.collection(COLLECTION).doc(phId).update({ tasks: updatedTasks });
+            
+            document.getElementById('task-title').value = "";
+            document.getElementById('task-prd').value = "";
+            document.getElementById('task-locked').checked = false;
+            notify("🚀 Task Injected into Roadmap");
+        }
+
+        async function deletePhase(id) {
+            if(!confirm("Purge this phase and all sub-tasks?")) return;
+            await db.collection(COLLECTION).doc(id).delete();
+            notify("🗑️ Phase Purged");
+        }
+
+        async function deleteTask(phId, taskId) {
+            const phase = localData.find(p => p.id === phId);
+            const filtered = phase.tasks.filter(t => t.id !== taskId);
+            await db.collection(COLLECTION).doc(phId).update({ tasks: filtered });
+            notify("🗑️ Task Removed");
+        }
+
+        async function hardReset() {
+            const code = prompt("Type 'PURGE' to delete everything:");
+            if(code !== 'PURGE') return;
+            const snap = await db.collection(COLLECTION).get();
+            snap.docs.forEach(doc => doc.ref.delete());
+            notify("🧨 CORE PURGE COMPLETE");
+        }
+
+        function notify(msg) {
+            const t = document.getElementById('os-toast');
+            t.textContent = msg;
+            t.style.transform = "translateX(0)";
+            setTimeout(() => t.style.transform = "translateX(150%)", 3000);
+        }
+    </script>
 </body>
 </html>
