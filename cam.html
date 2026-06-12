@@ -3,52 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nexra Screen Recorder | Studio Quality. Zero Latency.</title>
+    <title>Nexra Screen Recorder | Premium Studio</title>
     <meta name="description" content="A premium, privacy-centric browser-based screen recording suite with 4K support, real-time audio mixing, and invisible watermarking.">
     <link rel="icon" type="image/png" href="https://uploads.onecompiler.io/42yatf6fu/1781258941988/25088C4A-230C-4E61-8E84-C40FD3A6033C-removebg-preview.png">
-    <meta name="theme-color" content="#000000">
-
-    <!-- 
-    ===========================================================================
-    PRODUCT REQUIREMENTS DOCUMENT (PRD) - NEXRA SCREEN RECORDER
-    ===========================================================================
-    Product Vision: A premium SaaS interface inspired by VisionOS and OBS. No server-side video processing. 
-    Design System: Pure Black (#000000), Slate (#0F0F11), Nexra Orange (#FF5A00). Liquid glass overlays.
-    Features Built-in:
-    1. Local-First Processing (WebRTC, MediaRecorder).
-    2. OBS-Style Capture (Screen, Tab, Window, PiP Webcam with shapes/blur/mirror).
-    3. Advanced Audio (System + Mic mixing, visual meter, noise reduction).
-    4. Smart Tools (7s Countdown, Auto-stop, Shortcuts).
-    5. In-Recording Annotations (Pen, Arrow, Highlighter, Blur sensitive info).
-    6. Watermark Engine: Invisible during recording -> Burned into MP4 via Canvas during Export.
-    7. PWA Ready: Offline capable via Service Workers.
-    8. Firebase Auth & Sync: Guest access allowed; auth forced ONLY on export. Syncs settings to Firestore.
-    
-    Firestore Security Rules Required:
-    rules_version = '2';
-    service cloud.firestore {
-      match /databases/{database}/documents {
-        match /users/{userId} {
-          allow read, write: if request.auth != null && request.auth.uid == userId;
-        }
-      }
-    }
-    ===========================================================================
-    -->
+    <meta name="theme-color" content="#F5F5F7">
 
     <style>
-        /* --- DESIGN SYSTEM & CSS VARIABLES --- */
+        /* --- PREMIUM OFF-WHITE DESIGN SYSTEM --- */
         :root {
-            --black: #000000;
-            --slate: #0F0F11;
-            --slate-light: #1A1A1E;
+            --bg-main: #FAFAFC;
+            --bg-alt: #F0F0F5;
+            --surface: rgba(255, 255, 255, 0.7);
+            --surface-solid: #FFFFFF;
+            --text-main: #1D1D1F;
+            --text-muted: #86868B;
             --orange: #FF5A00;
-            --orange-glow: rgba(255, 90, 0, 0.4);
-            --white: #FFFFFF;
-            --text-muted: #888888;
-            --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --font-main: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            --orange-glow: rgba(255, 90, 0, 0.15);
+            --orange-hover: #E04E00;
+            --border: rgba(0, 0, 0, 0.06);
+            --border-hover: rgba(0, 0, 0, 0.12);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+            --font-main: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             --z-header: 1000;
             --z-modal: 2000;
             --z-pip: 500;
@@ -57,40 +32,41 @@
 
         /* --- RESETS & BASE --- */
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--black); color: var(--white); overflow-x: hidden; scroll-behavior: smooth; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        body { background-color: var(--bg-main); color: var(--text-main); overflow-x: hidden; scroll-behavior: smooth; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
 
-        /* --- GLASSMORPHISM UTILITIES --- */
+        /* --- GLASSMORPHISM & SURFACES --- */
         .liquid-glass {
-            background: rgba(15, 15, 17, 0.6);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border-bottom: 1px solid var(--glass-border);
+            background: rgba(250, 250, 252, 0.75);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-bottom: 1px solid var(--border);
         }
         .frosted-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid var(--glass-border);
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            background: var(--surface);
+            backdrop-filter: blur(20px) saturate(150%);
+            -webkit-backdrop-filter: blur(20px) saturate(150%);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
         .frosted-panel:hover {
-            border-color: rgba(255, 90, 0, 0.3);
-            box-shadow: 0 8px 32px rgba(255, 90, 0, 0.1);
+            border-color: var(--border-hover);
+            box-shadow: 0 12px 48px rgba(0, 0, 0, 0.08);
         }
 
         /* --- TYPOGRAPHY & BUTTONS --- */
-        h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; }
+        h1, h2, h3 { font-weight: 700; letter-spacing: -0.01em; color: var(--text-main); }
         .text-gradient {
-            background: linear-gradient(135deg, var(--white) 0%, var(--text-muted) 100%);
+            background: linear-gradient(135deg, var(--orange) 0%, #FFA066 100%);
             -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
         .text-orange { color: var(--orange); }
+        .text-muted { color: var(--text-muted); }
         
         .btn {
             display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -98,82 +74,87 @@
             transition: all 0.2s ease; border: none; outline: none; font-size: 14px;
         }
         .btn-primary {
-            background: var(--orange); color: var(--white);
+            background: var(--orange); color: #fff;
             box-shadow: 0 4px 15px var(--orange-glow);
         }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(255, 90, 0, 0.6); }
+        .btn-primary:hover { transform: translateY(-2px); background: var(--orange-hover); box-shadow: 0 6px 20px rgba(255, 90, 0, 0.3); }
         .btn-primary:active { transform: translateY(0); }
-        .btn-glass { background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--white); }
-        .btn-glass:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.2); }
+        .btn-glass { background: var(--surface-solid); border: 1px solid var(--border); color: var(--text-main); box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+        .btn-glass:hover { background: var(--bg-alt); border-color: var(--border-hover); }
         
         .icon-btn {
-            background: transparent; border: 1px solid transparent; color: var(--white);
-            padding: 10px; border-radius: 50%; cursor: pointer; transition: all 0.2s; display: flex;
+            background: var(--surface-solid); border: 1px solid var(--border); color: var(--text-main);
+            padding: 12px; border-radius: 50%; cursor: pointer; transition: all 0.2s; display: flex;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
         }
-        .icon-btn:hover { background: var(--glass-bg); border-color: var(--glass-border); color: var(--orange); }
-        .icon-btn.active { color: var(--orange); background: rgba(255, 90, 0, 0.1); border-color: var(--orange); }
+        .icon-btn:hover { background: var(--bg-alt); color: var(--orange); border-color: var(--orange-glow); }
+        .icon-btn.active { color: #fff; background: var(--orange); border-color: var(--orange); box-shadow: 0 4px 12px var(--orange-glow); }
 
         /* --- HEADER --- */
         header { position: sticky; top: 0; width: 100%; z-index: var(--z-header); display: flex; justify-content: space-between; align-items: center; padding: 16px 5%; }
-        .logo { display: flex; align-items: center; gap: 12px; font-size: 20px; font-weight: 700; cursor: pointer; }
-        .logo img { width: 32px; height: 32px; object-fit: contain; }
+        .logo { display: flex; align-items: center; gap: 12px; font-size: 22px; font-weight: 700; cursor: pointer; color: var(--text-main); }
+        .logo img { width: 36px; height: 36px; object-fit: contain; }
         
         /* --- LAYOUTS --- */
-        .view-section { display: none; min-height: calc(100vh - 70px); width: 100%; padding: 40px 5%; animation: fadeIn 0.4s ease forwards; }
+        .view-section { display: none; min-height: calc(100vh - 80px); width: 100%; padding: 40px 5%; animation: fadeIn 0.4s ease forwards; }
         .view-section.active { display: block; }
         
         /* Landing */
-        #landing-page { text-align: center; padding-top: 100px; }
-        #landing-page h1 { font-size: clamp(40px, 6vw, 72px); margin-bottom: 20px; line-height: 1.1; }
+        #landing-page { text-align: center; padding-top: 80px; }
+        #landing-page h1 { font-size: clamp(40px, 6vw, 72px); margin-bottom: 24px; line-height: 1.1; }
         #landing-page p { font-size: 20px; color: var(--text-muted); max-width: 600px; margin: 0 auto 40px; }
         
         /* Dashboard */
-        .dashboard-grid { display: grid; grid-template-columns: 300px 1fr; gap: 30px; height: calc(100vh - 150px); }
-        .sidebar { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
-        .menu-item { padding: 12px 16px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; color: var(--text-muted); transition: 0.2s; }
-        .menu-item:hover, .menu-item.active { background: var(--glass-bg); color: var(--white); border-left: 3px solid var(--orange); }
+        .dashboard-grid { display: grid; grid-template-columns: 280px 1fr; gap: 30px; height: calc(100vh - 150px); }
+        .sidebar { padding: 24px; display: flex; flex-direction: column; gap: 12px; }
+        .menu-item { padding: 14px 16px; border-radius: 12px; cursor: pointer; display: flex; align-items: center; gap: 12px; color: var(--text-muted); font-weight: 500; transition: 0.2s; }
+        .menu-item:hover { background: var(--bg-alt); color: var(--text-main); }
+        .menu-item.active { background: var(--surface-solid); color: var(--orange); box-shadow: 0 2px 10px rgba(0,0,0,0.03); border: 1px solid var(--border); }
         
         /* Studio */
-        .studio-container { display: flex; flex-direction: column; gap: 20px; height: calc(100vh - 120px); }
-        .preview-wrapper { flex: 1; position: relative; background: var(--slate); border-radius: 16px; overflow: hidden; border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; }
-        #screen-preview { width: 100%; height: 100%; object-fit: contain; }
+        .studio-container { display: flex; flex-direction: column; gap: 20px; height: calc(100vh - 130px); }
+        .preview-wrapper { flex: 1; position: relative; background: #EAEAEA; border-radius: 20px; overflow: hidden; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; background-image: radial-gradient(circle at center, #F5F5F7 0%, #EAEAEA 100%); }
+        #screen-preview { width: 100%; height: 100%; object-fit: contain; background: #000; }
         #annotation-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
         .controls-bar { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
         
         /* PiP Camera */
         .pip-container {
-            position: absolute; bottom: 30px; right: 30px; width: 200px; height: 200px; 
-            z-index: var(--z-pip); cursor: grab; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.8);
-            transition: border-radius 0.3s ease; border: 2px solid rgba(255,255,255,0.1);
+            position: absolute; bottom: 30px; right: 30px; width: 220px; height: 220px; 
+            z-index: var(--z-pip); cursor: grab; overflow: hidden; box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            transition: border-radius 0.3s ease; border: 4px solid var(--surface-solid); background: #000;
         }
         .pip-container:active { cursor: grabbing; }
         .pip-container.shape-circle { border-radius: 50%; }
-        .pip-container.shape-square { border-radius: 8px; }
-        .pip-container.shape-rect { width: 260px; height: 160px; border-radius: 12px; }
-        .pip-container video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); /* default mirror */ }
-        .pip-container.blur-bg { filter: drop-shadow(0 0 10px var(--orange)); }
+        .pip-container.shape-square { border-radius: 16px; }
+        .pip-container.shape-rect { width: 280px; height: 180px; border-radius: 16px; }
+        .pip-container video { width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1); }
         
         /* Audio Meter */
-        .audio-meter { display: flex; gap: 4px; align-items: center; height: 20px; }
-        .meter-bar { width: 4px; height: 4px; background: var(--glass-border); border-radius: 2px; transition: height 0.1s, background 0.1s; }
+        .audio-meter { display: flex; gap: 4px; align-items: center; height: 24px; padding: 0 10px; background: var(--bg-alt); border-radius: 12px; }
+        .meter-bar { width: 4px; height: 6px; background: #ccc; border-radius: 2px; transition: height 0.1s, background 0.1s; }
         
         /* Countdown Overlay */
-        #countdown-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; }
-        #countdown-number { font-size: 150px; font-weight: 800; color: var(--orange); animation: pulseScale 1s infinite; }
+        #countdown-overlay { position: fixed; inset: 0; background: rgba(250,250,252,0.85); backdrop-filter: blur(12px); z-index: 9999; display: none; align-items: center; justify-content: center; flex-direction: column; }
+        #countdown-number { font-size: 160px; font-weight: 800; color: var(--orange); animation: pulseScale 1s infinite; text-shadow: 0 10px 30px var(--orange-glow); }
 
         /* Modals */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: var(--z-modal); display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
+        .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.3); backdrop-filter: blur(8px); z-index: var(--z-modal); display: none; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s; }
         .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content { width: 100%; max-width: 400px; padding: 32px; position: relative; transform: translateY(20px); transition: transform 0.3s; }
+        .modal-content { width: 100%; max-width: 420px; padding: 32px; background: var(--surface-solid); position: relative; transform: translateY(20px); transition: transform 0.3s; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
         .modal-overlay.active .modal-content { transform: translateY(0); }
         .form-group { margin-bottom: 20px; display: flex; flex-direction: column; gap: 8px; }
-        .form-group label { font-size: 13px; color: var(--text-muted); }
-        .form-control { width: 100%; padding: 14px; background: var(--slate-light); border: 1px solid var(--glass-border); border-radius: 10px; color: var(--white); outline: none; transition: 0.2s; }
-        .form-control:focus { border-color: var(--orange); box-shadow: 0 0 0 2px var(--orange-glow); }
+        .form-group label { font-size: 14px; font-weight: 600; color: var(--text-main); }
+        .form-control { width: 100%; padding: 14px 16px; background: var(--bg-main); border: 1px solid var(--border); border-radius: 12px; color: var(--text-main); outline: none; transition: 0.2s; font-size: 15px; }
+        .form-control:focus { border-color: var(--orange); box-shadow: 0 0 0 3px var(--orange-glow); background: var(--surface-solid); }
         
         /* Toast */
         #toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: var(--z-toast); display: flex; flex-direction: column; gap: 10px; }
-        .toast { padding: 12px 24px; background: rgba(255, 90, 0, 0.9); backdrop-filter: blur(10px); color: white; border-radius: 30px; font-size: 14px; font-weight: 500; animation: slideUpToast 0.4s ease forwards; }
+        .toast { padding: 14px 28px; background: var(--text-main); color: #fff; border-radius: 30px; font-size: 14px; font-weight: 500; box-shadow: 0 10px 30px rgba(0,0,0,0.15); animation: slideUpToast 0.4s ease forwards; }
+
+        /* Export Progress */
+        .progress-bar-bg { width: 100%; height: 10px; background: var(--bg-alt); border-radius: 5px; overflow: hidden; margin-top: 12px; box-shadow: inset 0 1px 3px rgba(0,0,0,0.05); }
+        .progress-bar-fill { height: 100%; width: 0%; background: var(--orange); box-shadow: 0 0 10px var(--orange-glow); transition: width 0.2s linear; }
 
         /* Utilities */
         .hidden { display: none !important; }
@@ -183,32 +164,31 @@
 
         /* Animations */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes pulseScale { 0% { transform: scale(0.8); opacity: 0.5; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(0.8); opacity: 0.5; } }
+        @keyframes pulseScale { 0% { transform: scale(0.8); opacity: 0; } 50% { transform: scale(1.1); opacity: 1; } 100% { transform: scale(0.8); opacity: 0; } }
         @keyframes slideUpToast { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        /* Export Progress */
-        .progress-bar-bg { width: 100%; height: 8px; background: var(--slate-light); border-radius: 4px; overflow: hidden; margin-top: 10px; }
-        .progress-bar-fill { height: 100%; width: 0%; background: var(--orange); box-shadow: 0 0 10px var(--orange); transition: width 0.2s linear; }
 
-        /* Responsive */
+        /* History List styling */
+        .history-card { padding: 16px; background: var(--surface-solid); border: 1px solid var(--border); border-radius: 12px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; transition: 0.2s; }
+        .history-card:hover { border-color: var(--orange); box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+
         @media (max-width: 768px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
+            .dashboard-grid { grid-template-columns: 1fr; height: auto; }
             .sidebar { flex-direction: row; overflow-x: auto; padding: 16px; }
             .controls-bar { flex-wrap: wrap; justify-content: center; }
-            .pip-container { width: 120px; height: 120px; }
+            .pip-container { width: 140px; height: 140px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- LIQUID GLASS HEADER -->
+    <!-- HEADER -->
     <header class="liquid-glass">
         <div class="logo" onclick="app.navigate('landing')">
             <img src="https://uploads.onecompiler.io/42yatf6fu/1781258941988/25088C4A-230C-4E61-8E84-C40FD3A6033C-removebg-preview.png" alt="Nexra Logo">
             Nexra
         </div>
         <nav class="flex gap-4">
-            <button class="btn btn-glass" id="btn-header-dashboard" onclick="app.navigate('dashboard')">Dashboard</button>
+            <button class="btn btn-glass" onclick="app.navigate('dashboard')">Dashboard</button>
             <button class="btn btn-primary" id="btn-header-auth" onclick="ui.showModal('auth-modal')">Sign In</button>
         </nav>
     </header>
@@ -216,26 +196,29 @@
     <!-- LANDING PAGE -->
     <main id="landing-page" class="view-section active">
         <h1>Studio Quality.<br><span class="text-gradient">Zero Latency.</span></h1>
-        <p>The ultimate browser-based screen recording suite. Pure local processing, invisible watermarks, 4K capabilities, and absolute privacy.</p>
+        <p>The ultimate premium browser-based screen recording suite. Pure local processing, invisible watermarks, 4K capabilities, and absolute privacy.</p>
         <div class="flex gap-4" style="justify-content: center; margin-top: 20px;">
-            <button class="btn btn-primary" style="padding: 16px 40px; font-size: 18px;" onclick="app.navigate('studio')">
+            <button class="btn btn-primary" style="padding: 18px 48px; font-size: 18px;" onclick="app.navigate('studio')">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3" fill="currentColor"/></svg>
                 Launch Studio
             </button>
         </div>
-        <!-- Feature Highlights -->
+        
         <div class="flex gap-4" style="justify-content: center; margin-top: 80px; flex-wrap: wrap;">
-            <div class="frosted-panel" style="padding: 24px; width: 250px;">
-                <h3 class="text-orange" style="margin-bottom: 10px;">Zero Servers</h3>
-                <p style="font-size: 14px; color: var(--text-muted);">All video processing happens on your local GPU. Absolute privacy.</p>
+            <div class="frosted-panel" style="padding: 32px; width: 280px; text-align: left;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" style="margin-bottom: 16px;"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <h3 style="margin-bottom: 8px;">Zero Servers</h3>
+                <p class="text-muted" style="font-size: 15px; line-height: 1.5;">All video processing happens on your local GPU. Absolute privacy guaranteed.</p>
             </div>
-            <div class="frosted-panel" style="padding: 24px; width: 250px;">
-                <h3 class="text-orange" style="margin-bottom: 10px;">Canvas Burn Engine</h3>
-                <p style="font-size: 14px; color: var(--text-muted);">Invisible watermark during recording, securely burned on export.</p>
+            <div class="frosted-panel" style="padding: 32px; width: 280px; text-align: left;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" style="margin-bottom: 16px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+                <h3 style="margin-bottom: 8px;">Canvas Burn Engine</h3>
+                <p class="text-muted" style="font-size: 15px; line-height: 1.5;">Invisible watermark during live recording, securely burned directly on export.</p>
             </div>
-            <div class="frosted-panel" style="padding: 24px; width: 250px;">
-                <h3 class="text-orange" style="margin-bottom: 10px;">OBS-Grade Tools</h3>
-                <p style="font-size: 14px; color: var(--text-muted);">PiP Camera, Audio Mixing, and Live Annotations in the browser.</p>
+            <div class="frosted-panel" style="padding: 32px; width: 280px; text-align: left;">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" style="margin-bottom: 16px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                <h3 style="margin-bottom: 8px;">OBS-Grade Tools</h3>
+                <p class="text-muted" style="font-size: 15px; line-height: 1.5;">PiP Camera, Audio Mixing, and Live Annotations natively inside the browser.</p>
             </div>
         </div>
     </main>
@@ -245,35 +228,36 @@
         <div class="dashboard-grid">
             <aside class="frosted-panel sidebar">
                 <div class="menu-item active" onclick="ui.switchDashTab('home')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Home
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Workspace
                 </div>
                 <div class="menu-item" onclick="ui.switchDashTab('history')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Local History
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Cloud History
                 </div>
                 <div class="menu-item" onclick="ui.switchDashTab('settings')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Settings
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Preferences
                 </div>
             </aside>
-            <div class="frosted-panel" style="padding: 32px; overflow-y: auto;">
+            <div class="frosted-panel" style="padding: 40px; overflow-y: auto;">
                 <div id="dash-home">
                     <h2>Welcome to Nexra Workspace</h2>
-                    <p style="color: var(--text-muted); margin-top: 10px;">Select your recording parameters and jump into the studio.</p>
-                    <div class="flex gap-4" style="margin-top: 30px;">
-                        <button class="btn btn-primary" onclick="app.navigate('studio')">New Recording</button>
+                    <p class="text-muted" style="margin-top: 8px;">Select your recording parameters and jump into the studio.</p>
+                    <div style="margin-top: 30px;">
+                        <button class="btn btn-primary" style="padding: 16px 32px; font-size: 16px;" onclick="app.navigate('studio')">New Recording</button>
                     </div>
                 </div>
                 <div id="dash-history" class="hidden">
-                    <h2>Local Recording History</h2>
-                    <p style="color: var(--text-muted); margin-top: 10px;">Past recordings are stored temporarily in your browser's memory.</p>
-                    <ul id="history-list" style="margin-top: 20px; list-style: none;">
-                        <!-- Injected via JS -->
-                    </ul>
+                    <h2>Recording History</h2>
+                    <p class="text-muted" style="margin-top: 8px;">Your past recordings metadata synced securely.</p>
+                    <div id="history-list" style="margin-top: 24px;">
+                        <p class="text-muted" style="font-size: 14px;">Log in to sync your recording history.</p>
+                    </div>
                 </div>
                 <div id="dash-settings" class="hidden">
                     <h2>Recording Preferences</h2>
-                    <div class="form-group" style="margin-top: 20px;">
+                    <p class="text-muted" style="margin-top: 8px; margin-bottom: 24px;">These settings will sync to your account automatically.</p>
+                    <div class="form-group">
                         <label>Video Quality</label>
-                        <select id="set-quality" class="form-control">
+                        <select id="set-quality" class="form-control" onchange="app.saveSettings()">
                             <option value="1080">1080p Full HD</option>
                             <option value="2160">4K Ultra HD</option>
                             <option value="720">720p Standard</option>
@@ -281,14 +265,14 @@
                     </div>
                     <div class="form-group">
                         <label>Frame Rate (FPS)</label>
-                        <select id="set-fps" class="form-control">
+                        <select id="set-fps" class="form-control" onchange="app.saveSettings()">
                             <option value="60">60 FPS (Gaming/Smooth)</option>
                             <option value="30">30 FPS (Standard)</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Countdown Timer</label>
-                        <select id="set-countdown" class="form-control">
+                        <select id="set-countdown" class="form-control" onchange="app.saveSettings()">
                             <option value="7">7 Seconds (Nexra Default)</option>
                             <option value="3">3 Seconds</option>
                             <option value="0">None</option>
@@ -299,22 +283,19 @@
         </div>
     </main>
 
-    <!-- STUDIO PAGE (OBS STYLE) -->
+    <!-- STUDIO PAGE -->
     <main id="studio-page" class="view-section">
         <div class="studio-container">
             <div class="preview-wrapper frosted-panel">
-                <!-- Main Screen Video -->
                 <video id="screen-preview" autoplay muted playsinline></video>
-                <!-- Annotation Layer -->
                 <canvas id="annotation-canvas"></canvas>
                 
-                <!-- PiP Webcam -->
                 <div id="pip-cam-container" class="pip-container shape-circle hidden">
                     <video id="webcam-preview" autoplay muted playsinline></video>
                 </div>
                 
-                <!-- Center Watermark Overlay (Visible only for preview aesthetic, hidden on actual record stream) -->
-                <img id="overlay-watermark" src="https://uploads.onecompiler.io/42yatf6fu/1781259030437/12945C3A-733B-45AB-9722-044C592AC5C7-removebg-preview.png" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.05; pointer-events: none; width: 300px; display: none;">
+                <!-- Center Watermark (Invisible on record, used for preview context) -->
+                <img id="overlay-watermark" src="https://uploads.onecompiler.io/42yatf6fu/1781259030437/12945C3A-733B-45AB-9722-044C592AC5C7-removebg-preview.png" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.03; pointer-events: none; width: 300px; display: none;">
             </div>
 
             <div class="controls-bar frosted-panel">
@@ -322,40 +303,36 @@
                     <button class="btn btn-primary" id="btn-start-record">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="12" r="10"/></svg> Start Recording
                     </button>
-                    <button class="btn btn-glass hidden" id="btn-stop-record" style="color: #ff3333; border-color: #ff3333;">
+                    <button class="btn btn-glass hidden" id="btn-stop-record" style="color: #E04E00; border-color: #E04E00;">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg> Stop Recording
                     </button>
-                    <span id="record-timer" style="font-family: monospace; font-size: 18px; display: none;">00:00</span>
+                    <span id="record-timer" style="font-family: monospace; font-size: 18px; font-weight: 600; display: none; color: var(--orange);">00:00</span>
                 </div>
                 
                 <div class="flex gap-2">
-                    <!-- Source Toggles -->
                     <button class="icon-btn" id="btn-toggle-screen" title="Screen Source" onclick="recorder.toggleScreen()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
                     </button>
                     <button class="icon-btn" id="btn-toggle-cam" title="Toggle Webcam PiP" onclick="recorder.toggleCamera()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
                     </button>
                     <button class="icon-btn" id="btn-toggle-mic" title="Toggle Microphone" onclick="recorder.toggleMic()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
                     </button>
-                    <!-- Audio Meter -->
                     <div class="audio-meter" id="mic-meter">
                         <div class="meter-bar"></div><div class="meter-bar"></div><div class="meter-bar"></div><div class="meter-bar"></div><div class="meter-bar"></div>
                     </div>
                 </div>
 
                 <div class="flex gap-2">
-                    <!-- Annotation Tools -->
-                    <button class="icon-btn" id="btn-tool-pen" title="Draw" onclick="tools.setTool('pen')">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
+                    <button class="icon-btn" id="btn-tool-pen" title="Draw Annotation" onclick="tools.setTool('pen')">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/><path d="M2 2l7.586 7.586"/><circle cx="11" cy="11" r="2"/></svg>
                     </button>
-                    <button class="icon-btn" id="btn-tool-clear" title="Clear Annotations" onclick="tools.clearCanvas()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+                    <button class="icon-btn" id="btn-tool-clear" title="Clear Canvas" onclick="tools.clearCanvas()">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
                     </button>
-                    <!-- PiP Controls -->
                     <button class="icon-btn" title="Change PiP Shape" onclick="recorder.cyclePiPShape()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg>
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/></svg>
                     </button>
                 </div>
             </div>
@@ -364,30 +341,31 @@
 
     <!-- PREVIEW & EXPORT STUDIO -->
     <main id="preview-page" class="view-section">
-        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
-            <h2>Review & Export</h2>
-            <p style="color: var(--text-muted); margin-bottom: 20px;">The watermark will be securely burned into your final file during export.</p>
+        <div style="max-width: 900px; margin: 0 auto;">
+            <div style="text-align: center; margin-bottom: 30px;">
+                <h2>Review & Export</h2>
+                <p class="text-muted">The Nexra watermark will be securely burned into your final file.</p>
+            </div>
             
-            <div class="frosted-panel" style="padding: 10px; margin-bottom: 20px;">
-                <video id="final-preview-video" controls style="width: 100%; border-radius: 8px; background: #000;"></video>
+            <div class="frosted-panel" style="padding: 12px; margin-bottom: 24px;">
+                <video id="final-preview-video" controls style="width: 100%; border-radius: 12px; background: #000; box-shadow: 0 4px 20px rgba(0,0,0,0.1);"></video>
             </div>
 
-            <!-- Export Section -->
-            <div class="frosted-panel" style="padding: 24px; text-align: left;" id="export-box">
+            <div class="frosted-panel" style="padding: 32px;" id="export-box">
                 <div class="flex" style="justify-content: space-between; align-items: center;">
                     <div>
                         <h3 class="text-orange">Ready for Export</h3>
-                        <p style="font-size: 14px; color: var(--text-muted);">High-Quality MP4 • Hardware Accelerated</p>
+                        <p class="text-muted" style="font-size: 14px; margin-top: 4px;">High-Quality WebM/MP4 • Hardware Accelerated</p>
                     </div>
-                    <button class="btn btn-primary" id="btn-export-download" onclick="engine.initiateExport()">
+                    <button class="btn btn-primary" id="btn-export-download" onclick="engine.initiateExport()" style="padding: 14px 28px; font-size: 16px;">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
                         Burn & Download
                     </button>
                 </div>
-                <div id="export-progress-container" class="hidden" style="margin-top: 20px;">
-                    <div class="flex" style="justify-content: space-between; font-size: 13px;">
-                        <span>Rendering Engine Active...</span>
-                        <span id="export-percent">0%</span>
+                <div id="export-progress-container" class="hidden" style="margin-top: 24px;">
+                    <div class="flex" style="justify-content: space-between; font-size: 14px; font-weight: 500;">
+                        <span>Canvas Burn Engine Active...</span>
+                        <span id="export-percent" class="text-orange">0%</span>
                     </div>
                     <div class="progress-bar-bg">
                         <div class="progress-bar-fill" id="export-progress-bar"></div>
@@ -402,17 +380,16 @@
         <div id="countdown-number">7</div>
     </div>
 
-    <!-- MODALS -->
-    <!-- Auth Modal -->
+    <!-- AUTH MODAL -->
     <div class="modal-overlay" id="auth-modal">
-        <div class="modal-content frosted-panel">
-            <button class="icon-btn" style="position: absolute; top: 16px; right: 16px;" onclick="ui.hideModal('auth-modal')">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        <div class="modal-content">
+            <button class="icon-btn" style="position: absolute; top: 16px; right: 16px; border:none; box-shadow:none; background:transparent;" onclick="ui.hideModal('auth-modal')">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
             </button>
             <h2 style="margin-bottom: 8px;">Sign In to Export</h2>
-            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 24px;">Authentication is required to trigger the Nexra Canvas Engine and download your file.</p>
+            <p class="text-muted" style="font-size: 14px; margin-bottom: 24px;">Authentication is required to trigger the Nexra Canvas Engine and sync your files.</p>
             
-            <div id="auth-error" style="color: #ff3333; font-size: 13px; margin-bottom: 10px; display: none;"></div>
+            <div id="auth-error" style="color: #E04E00; font-size: 13px; margin-bottom: 12px; display: none;"></div>
 
             <div class="form-group">
                 <input type="email" id="auth-email" class="form-control" placeholder="Email Address">
@@ -421,17 +398,17 @@
                 <input type="password" id="auth-pass" class="form-control" placeholder="Password">
             </div>
             
-            <button class="btn btn-primary" style="width: 100%; margin-bottom: 16px;" onclick="authManager.signInEmail()">Continue with Email</button>
+            <button class="btn btn-primary" style="width: 100%; margin-bottom: 16px; padding: 14px;" onclick="authManager.signInEmail()">Continue with Email</button>
             
-            <div style="text-align: center; margin: 16px 0; font-size: 12px; color: var(--text-muted);">OR</div>
+            <div style="text-align: center; margin: 16px 0; font-size: 13px; color: var(--text-muted);">OR</div>
             
-            <button class="btn btn-glass" style="width: 100%;" onclick="authManager.signInGoogle()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81z"/></svg>
+            <button class="btn btn-glass" style="width: 100%; padding: 14px; justify-content: center;" onclick="authManager.signInGoogle()">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81z"/></svg>
                 Sign in with Google
             </button>
             
-            <div style="margin-top: 20px; font-size: 12px; text-align: center; color: var(--text-muted); cursor: pointer;" onclick="authManager.toggleMode()">
-                <span id="auth-toggle-text">Need an account? Register</span>
+            <div style="margin-top: 24px; font-size: 14px; text-align: center; color: var(--text-main); font-weight: 500; cursor: pointer;" onclick="authManager.toggleMode()">
+                <span id="auth-toggle-text">Need an account? <span class="text-orange">Register</span></span>
             </div>
         </div>
     </div>
@@ -439,7 +416,7 @@
     <!-- TOAST CONTAINER -->
     <div id="toast-container"></div>
 
-    <!-- HIDDEN ELEMENTS FOR WATERMARK BURN ENGINE -->
+    <!-- HIDDEN BURN ENGINE ASSETS -->
     <div style="display:none;">
         <video id="burn-video" playsinline muted></video>
         <canvas id="burn-canvas"></canvas>
@@ -451,18 +428,11 @@
     <!-- APPLICATION LOGIC (Vanilla JS + Firebase) -->
     <!-- ========================================== -->
     <script type="module">
-        // ---------------------------------------------------------
-        // 1. FIREBASE INTEGRATION & ARCHITECTURE
-        // Standard ES Module dynamic import to prevent file-not-found crash.
-        // Falls back to "Local Guest Mode" if config is missing.
-        // ---------------------------------------------------------
         let fbApp, fbAuth, fbDb;
         let authModule, firestoreModule;
         
         const initFirebase = async () => {
             try {
-                // Assuming firebase-config.js exports standard init modules.
-                // For a single file robustness, we'll import SDKs from CDN, and config locally.
                 const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js');
                 authModule = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
                 firestoreModule = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
@@ -471,60 +441,42 @@
                     const configModule = await import('./firebase-config.js');
                     fbApp = configModule.app || initializeApp(configModule.default || configModule.firebaseConfig);
                 } catch(e) {
-                    console.warn("firebaseconfig.js not found. Running in Offline/Local Mode.");
-                    // Dummy mock to allow UI to function normally without crashing
-                    window.isLocalMode = true;
-                    return;
+                    console.warn("Local Mode Active. Firebase config not found.");
+                    window.isLocalMode = true; return;
                 }
 
                 fbAuth = authModule.getAuth(fbApp);
                 fbDb = firestoreModule.getFirestore(fbApp);
                 
-                authModule.onAuthStateChanged(fbAuth, (user) => {
+                authModule.onAuthStateChanged(fbAuth, async (user) => {
                     appState.user = user;
+                    const btn = document.getElementById('btn-header-auth');
                     if(user) {
-                        ui.toast(`Welcome back, ${user.email.split('@')[0]}`);
-                        document.getElementById('btn-header-auth').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg> Sign Out';
-                        document.getElementById('btn-header-auth').onclick = () => authModule.signOut(fbAuth);
+                        ui.toast(`Signed in as ${user.email}`);
+                        btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></svg> Sign Out';
+                        btn.onclick = () => authModule.signOut(fbAuth);
                         ui.hideModal('auth-modal');
-                        // Auto-resume download if pending
-                        if(appState.pendingExport) {
-                            engine.initiateExport();
-                        }
+                        
+                        await app.loadSettings();
+                        await app.loadHistory();
+
+                        if(appState.pendingExport) engine.initiateExport();
                     } else {
-                        document.getElementById('btn-header-auth').innerHTML = 'Sign In';
-                        document.getElementById('btn-header-auth').onclick = () => ui.showModal('auth-modal');
+                        btn.innerHTML = 'Sign In';
+                        btn.onclick = () => ui.showModal('auth-modal');
+                        document.getElementById('history-list').innerHTML = '<p class="text-muted">Log in to sync your history.</p>';
                     }
                 });
-            } catch (err) {
-                console.error("Firebase Init Error:", err);
-                window.isLocalMode = true;
-            }
+            } catch (err) { console.error("Init Error", err); window.isLocalMode = true; }
         };
 
-        // ---------------------------------------------------------
-        // 2. STATE MANAGEMENT
-        // ---------------------------------------------------------
-        window.appState = {
-            user: null,
-            isRecording: false,
-            recordingBlob: null,
-            pendingExport: false,
-            settings: { fps: 60, quality: 1080, countdown: 7 },
-            pipShape: 'circle' // circle, square, rect
-        };
+        window.appState = { user: null, isRecording: false, recordingBlob: null, pendingExport: false, pipShape: 'circle' };
 
-        // ---------------------------------------------------------
-        // 3. UI & ROUTING UTILITIES
-        // ---------------------------------------------------------
         window.ui = {
             toast: (msg) => {
                 const container = document.getElementById('toast-container');
-                const t = document.createElement('div');
-                t.className = 'toast';
-                t.innerText = msg;
-                container.appendChild(t);
-                setTimeout(() => { t.style.opacity = '0'; setTimeout(()=>t.remove(), 300); }, 3000);
+                const t = document.createElement('div'); t.className = 'toast'; t.innerText = msg;
+                container.appendChild(t); setTimeout(() => { t.style.opacity = '0'; setTimeout(()=>t.remove(), 400); }, 3000);
             },
             showModal: (id) => document.getElementById(id).classList.add('active'),
             hideModal: (id) => document.getElementById(id).classList.remove('active'),
@@ -542,440 +494,264 @@
             navigate: (page) => {
                 document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
                 document.getElementById(`${page}-page`).classList.add('active');
-                if(page === 'studio') {
-                    if(!recorder.screenStream) ui.toast("Select a source to begin.");
-                }
+                if(page === 'studio') setTimeout(()=>window.dispatchEvent(new Event('resize')), 500); // fix canvas size
+            },
+            saveSettings: async () => {
+                if(!appState.user || window.isLocalMode) return;
+                const set = {
+                    quality: document.getElementById('set-quality').value,
+                    fps: document.getElementById('set-fps').value,
+                    countdown: document.getElementById('set-countdown').value
+                };
+                try {
+                    const docRef = firestoreModule.doc(fbDb, "users", appState.user.uid, "settings", "preferences");
+                    await firestoreModule.setDoc(docRef, set, { merge: true });
+                    ui.toast("Settings synced to cloud.");
+                } catch(e) { console.error("Sync error", e); }
+            },
+            loadSettings: async () => {
+                if(!appState.user || window.isLocalMode) return;
+                try {
+                    const docSnap = await firestoreModule.getDoc(firestoreModule.doc(fbDb, "users", appState.user.uid, "settings", "preferences"));
+                    if(docSnap.exists()) {
+                        const data = docSnap.data();
+                        if(data.quality) document.getElementById('set-quality').value = data.quality;
+                        if(data.fps) document.getElementById('set-fps').value = data.fps;
+                        if(data.countdown) document.getElementById('set-countdown').value = data.countdown;
+                    }
+                } catch(e){}
+            },
+            saveHistory: async (filename, size) => {
+                if(!appState.user || window.isLocalMode) return;
+                try {
+                    const id = Date.now().toString();
+                    await firestoreModule.setDoc(firestoreModule.doc(fbDb, "users", appState.user.uid, "recents", id), {
+                        filename: filename,
+                        date: new Date().toLocaleDateString(),
+                        size: (size / (1024*1024)).toFixed(2) + " MB"
+                    });
+                    app.loadHistory();
+                } catch(e){}
+            },
+            loadHistory: async () => {
+                if(!appState.user || window.isLocalMode) return;
+                try {
+                    const q = firestoreModule.query(firestoreModule.collection(fbDb, "users", appState.user.uid, "recents"));
+                    const querySnapshot = await firestoreModule.getDocs(q);
+                    const hl = document.getElementById('history-list');
+                    if(querySnapshot.empty) { hl.innerHTML = '<p class="text-muted">No recent recordings.</p>'; return; }
+                    hl.innerHTML = '';
+                    querySnapshot.forEach(doc => {
+                        const d = doc.data();
+                        hl.innerHTML += `<div class="history-card">
+                            <div><strong style="color:var(--text-main);">${d.filename}</strong><br><small class="text-muted">${d.date}</small></div>
+                            <span style="font-size:13px; font-weight:600; color:var(--orange);">${d.size}</span>
+                        </div>`;
+                    });
+                } catch(e){}
             }
         };
 
-        // ---------------------------------------------------------
-        // 4. MEDIA & RECORDING ENGINE (OBS STYLE)
-        // ---------------------------------------------------------
-        let mediaRecorder;
-        let recordedChunks = [];
-        let recordStartTime;
-        let timerInterval;
+        let mediaRecorder; let recordedChunks = []; let recordStartTime; let timerInterval;
 
         window.recorder = {
-            screenStream: null,
-            camStream: null,
-            micStream: null,
-            audioCtx: null,
-            dest: null,
-            mixedStream: new MediaStream(),
-
+            screenStream: null, camStream: null, micStream: null, audioCtx: null, dest: null, mixedStream: new MediaStream(),
             toggleScreen: async () => {
+                if(recorder.screenStream) {
+                    recorder.screenStream.getTracks().forEach(t => t.stop()); recorder.screenStream = null;
+                    document.getElementById('screen-preview').srcObject = null;
+                    document.getElementById('btn-toggle-screen').classList.remove('active'); return;
+                }
                 try {
-                    if(recorder.screenStream) {
-                        recorder.screenStream.getTracks().forEach(t => t.stop());
-                        recorder.screenStream = null;
-                        document.getElementById('screen-preview').srcObject = null;
-                        document.getElementById('btn-toggle-screen').classList.remove('active');
-                        return;
-                    }
                     const fps = parseInt(document.getElementById('set-fps').value) || 60;
-                    recorder.screenStream = await navigator.mediaDevices.getDisplayMedia({
-                        video: { frameRate: { ideal: fps } },
-                        audio: { echoCancellation: true, noiseSuppression: true }
-                    });
+                    recorder.screenStream = await navigator.mediaDevices.getDisplayMedia({ video: { frameRate: { ideal: fps } }, audio: true });
                     document.getElementById('screen-preview').srcObject = recorder.screenStream;
                     document.getElementById('btn-toggle-screen').classList.add('active');
-                    
-                    // Re-mix audio if screen has audio
                     recorder.setupAudioMixing();
-                } catch(e) { console.error(e); ui.toast("Screen capture cancelled."); }
+                } catch(e) { ui.toast("Screen capture cancelled."); }
             },
-
             toggleCamera: async () => {
                 const pip = document.getElementById('pip-cam-container');
                 if(recorder.camStream) {
-                    recorder.camStream.getTracks().forEach(t => t.stop());
-                    recorder.camStream = null;
-                    pip.classList.add('hidden');
-                    document.getElementById('btn-toggle-cam').classList.remove('active');
-                    return;
+                    recorder.camStream.getTracks().forEach(t => t.stop()); recorder.camStream = null;
+                    pip.classList.add('hidden'); document.getElementById('btn-toggle-cam').classList.remove('active'); return;
                 }
                 try {
                     recorder.camStream = await navigator.mediaDevices.getUserMedia({ video: true });
                     document.getElementById('webcam-preview').srcObject = recorder.camStream;
-                    pip.classList.remove('hidden');
-                    document.getElementById('btn-toggle-cam').classList.add('active');
-                } catch(e) { ui.toast("Camera access denied."); }
+                    pip.classList.remove('hidden'); document.getElementById('btn-toggle-cam').classList.add('active');
+                } catch(e) { ui.toast("Camera denied."); }
             },
-
             toggleMic: async () => {
                 if(recorder.micStream) {
-                    recorder.micStream.getTracks().forEach(t => t.stop());
-                    recorder.micStream = null;
-                    document.getElementById('btn-toggle-mic').classList.remove('active');
-                    return;
+                    recorder.micStream.getTracks().forEach(t => t.stop()); recorder.micStream = null;
+                    document.getElementById('btn-toggle-mic').classList.remove('active'); return;
                 }
                 try {
-                    recorder.micStream = await navigator.mediaDevices.getUserMedia({ 
-                        audio: { echoCancellation: true, noiseSuppression: true } 
-                    });
+                    recorder.micStream = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true } });
                     document.getElementById('btn-toggle-mic').classList.add('active');
-                    recorder.setupAudioMixing();
-                    recorder.setupAudioMeter();
-                } catch(e) { ui.toast("Mic access denied."); }
+                    recorder.setupAudioMixing(); recorder.setupAudioMeter();
+                } catch(e) { ui.toast("Mic denied."); }
             },
-
             cyclePiPShape: () => {
                 const pip = document.getElementById('pip-cam-container');
                 pip.classList.remove(`shape-${appState.pipShape}`);
                 const shapes = ['circle', 'square', 'rect'];
-                let idx = shapes.indexOf(appState.pipShape);
-                appState.pipShape = shapes[(idx + 1) % shapes.length];
+                appState.pipShape = shapes[(shapes.indexOf(appState.pipShape) + 1) % shapes.length];
                 pip.classList.add(`shape-${appState.pipShape}`);
             },
-
             setupAudioMixing: () => {
                 if(!recorder.audioCtx) recorder.audioCtx = new AudioContext();
                 if(recorder.dest) recorder.dest.disconnect();
                 recorder.dest = recorder.audioCtx.createMediaStreamDestination();
-                
                 if(recorder.screenStream && recorder.screenStream.getAudioTracks().length > 0) {
-                    const screenSource = recorder.audioCtx.createMediaStreamSource(new MediaStream([recorder.screenStream.getAudioTracks()[0]]));
-                    screenSource.connect(recorder.dest);
+                    recorder.audioCtx.createMediaStreamSource(new MediaStream([recorder.screenStream.getAudioTracks()[0]])).connect(recorder.dest);
                 }
                 if(recorder.micStream && recorder.micStream.getAudioTracks().length > 0) {
-                    const micSource = recorder.audioCtx.createMediaStreamSource(recorder.micStream);
-                    micSource.connect(recorder.dest);
+                    recorder.audioCtx.createMediaStreamSource(recorder.micStream).connect(recorder.dest);
                 }
-                
                 recorder.mixedStream = new MediaStream();
                 if(recorder.screenStream) recorder.screenStream.getVideoTracks().forEach(t => recorder.mixedStream.addTrack(t));
                 recorder.dest.stream.getAudioTracks().forEach(t => recorder.mixedStream.addTrack(t));
             },
-
             setupAudioMeter: () => {
                 const analyser = recorder.audioCtx.createAnalyser();
-                const source = recorder.audioCtx.createMediaStreamSource(recorder.micStream);
-                source.connect(analyser);
-                analyser.fftSize = 32;
-                const dataArray = new Uint8Array(analyser.frequencyBinCount);
+                recorder.audioCtx.createMediaStreamSource(recorder.micStream).connect(analyser);
+                analyser.fftSize = 32; const dataArray = new Uint8Array(analyser.frequencyBinCount);
                 const bars = document.querySelectorAll('.meter-bar');
-                
                 const updateMeter = () => {
-                    if(!recorder.micStream) return;
-                    requestAnimationFrame(updateMeter);
+                    if(!recorder.micStream) return; requestAnimationFrame(updateMeter);
                     analyser.getByteFrequencyData(dataArray);
-                    let sum = dataArray.reduce((a,b)=>a+b, 0);
-                    let avg = sum / dataArray.length;
-                    let activeBars = Math.floor(avg / 25);
+                    let activeBars = Math.floor((dataArray.reduce((a,b)=>a+b,0)/dataArray.length)/25);
                     bars.forEach((bar, i) => {
-                        bar.style.height = i < activeBars ? '12px' : '4px';
-                        bar.style.background = i < activeBars ? 'var(--orange)' : 'var(--glass-border)';
+                        bar.style.height = i < activeBars ? '14px' : '6px';
+                        bar.style.background = i < activeBars ? 'var(--orange)' : '#ccc';
                     });
-                };
-                updateMeter();
+                }; updateMeter();
             },
-
             startRecordingSequence: async () => {
-                if(!recorder.screenStream) { ui.toast("Please select a screen source first."); return; }
-                const countdownVal = parseInt(document.getElementById('set-countdown').value);
-                if(countdownVal > 0) {
-                    const overlay = document.getElementById('countdown-overlay');
-                    const num = document.getElementById('countdown-number');
-                    overlay.style.display = 'flex';
-                    let count = countdownVal;
-                    num.innerText = count;
-                    const cInt = setInterval(() => {
-                        count--;
-                        if(count === 0) {
-                            clearInterval(cInt);
-                            overlay.style.display = 'none';
-                            recorder.startActualRecording();
-                        } else { num.innerText = count; }
-                    }, 1000);
-                } else {
-                    recorder.startActualRecording();
-                }
+                if(!recorder.screenStream) return ui.toast("Select a screen source first.");
+                const c = parseInt(document.getElementById('set-countdown').value);
+                if(c > 0) {
+                    const ov = document.getElementById('countdown-overlay'); const num = document.getElementById('countdown-number');
+                    ov.style.display = 'flex'; let count = c; num.innerText = count;
+                    const cInt = setInterval(() => { count--; if(count === 0) { clearInterval(cInt); ov.style.display = 'none'; recorder.startActualRecording(); } else num.innerText = count; }, 1000);
+                } else recorder.startActualRecording();
             },
-
             startActualRecording: () => {
                 recordedChunks = [];
-                // We record the mixed raw stream. Watermark is added later.
-                try {
-                    const options = { mimeType: 'video/webm; codecs=vp9' };
-                    mediaRecorder = new MediaRecorder(recorder.mixedStream, options);
-                } catch(e) {
-                    mediaRecorder = new MediaRecorder(recorder.mixedStream); // Fallback
-                }
-                
+                try { mediaRecorder = new MediaRecorder(recorder.mixedStream, { mimeType: 'video/webm; codecs=vp9' }); } 
+                catch(e) { mediaRecorder = new MediaRecorder(recorder.mixedStream); }
                 mediaRecorder.ondataavailable = e => { if(e.data.size > 0) recordedChunks.push(e.data); };
                 mediaRecorder.onstop = recorder.processRecording;
-                mediaRecorder.start(1000);
-                
-                appState.isRecording = true;
-                document.getElementById('btn-start-record').classList.add('hidden');
-                document.getElementById('btn-stop-record').classList.remove('hidden');
-                
-                // Timer
-                recordStartTime = Date.now();
-                document.getElementById('record-timer').style.display = 'block';
+                mediaRecorder.start(1000); appState.isRecording = true;
+                document.getElementById('btn-start-record').classList.add('hidden'); document.getElementById('btn-stop-record').classList.remove('hidden');
+                recordStartTime = Date.now(); document.getElementById('record-timer').style.display = 'block';
                 timerInterval = setInterval(() => {
-                    let diff = Math.floor((Date.now() - recordStartTime) / 1000);
-                    let m = String(Math.floor(diff / 60)).padStart(2, '0');
-                    let s = String(diff % 60).padStart(2, '0');
-                    document.getElementById('record-timer').innerText = `${m}:${s}`;
+                    let d = Math.floor((Date.now() - recordStartTime)/1000);
+                    document.getElementById('record-timer').innerText = `${String(Math.floor(d/60)).padStart(2,'0')}:${String(d%60).padStart(2,'0')}`;
                 }, 1000);
                 ui.toast("Recording Started...");
             },
-
             stopRecording: () => {
-                if(mediaRecorder && mediaRecorder.state !== 'inactive') {
-                    mediaRecorder.stop();
-                }
-                appState.isRecording = false;
-                clearInterval(timerInterval);
-                document.getElementById('btn-start-record').classList.remove('hidden');
-                document.getElementById('btn-stop-record').classList.add('hidden');
+                if(mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+                appState.isRecording = false; clearInterval(timerInterval);
+                document.getElementById('btn-start-record').classList.remove('hidden'); document.getElementById('btn-stop-record').classList.add('hidden');
                 document.getElementById('record-timer').style.display = 'none';
             },
-
             processRecording: () => {
-                const blob = new Blob(recordedChunks, { type: 'video/webm' });
-                appState.recordingBlob = blob;
-                
-                // Set to preview
-                const url = URL.createObjectURL(blob);
-                document.getElementById('final-preview-video').src = url;
-                
-                // Clean up streams to save memory
+                const blob = new Blob(recordedChunks, { type: 'video/webm' }); appState.recordingBlob = blob;
+                document.getElementById('final-preview-video').src = URL.createObjectURL(blob);
                 if(recorder.screenStream) recorder.screenStream.getTracks().forEach(t=>t.stop());
                 if(recorder.micStream) recorder.micStream.getTracks().forEach(t=>t.stop());
-                recorder.screenStream = null;
-                document.getElementById('btn-toggle-screen').classList.remove('active');
-                
-                ui.toast("Recording Captured Locally!");
-                app.navigate('preview');
+                recorder.screenStream = null; document.getElementById('btn-toggle-screen').classList.remove('active');
+                ui.toast("Recording Captured Locally!"); app.navigate('preview');
             }
         };
 
-        // Event Listeners for Recording
         document.getElementById('btn-start-record').addEventListener('click', recorder.startRecordingSequence);
         document.getElementById('btn-stop-record').addEventListener('click', recorder.stopRecording);
 
-        // PiP Dragging Logic
+        // PiP Dragging
         const pip = document.getElementById('pip-cam-container');
-        let isDragging = false, startX, startY, initialX, initialY;
-        pip.addEventListener('mousedown', e => {
-            isDragging = true; startX = e.clientX; startY = e.clientY;
-            initialX = pip.offsetLeft; initialY = pip.offsetTop;
-            pip.style.transition = 'none';
-        });
-        window.addEventListener('mousemove', e => {
-            if(!isDragging) return;
-            const dx = e.clientX - startX; const dy = e.clientY - startY;
-            pip.style.left = `${initialX + dx}px`;
-            pip.style.top = `${initialY + dy}px`;
-            pip.style.bottom = 'auto'; pip.style.right = 'auto';
-        });
+        let isDragging = false, sX, sY, iX, iY;
+        pip.addEventListener('mousedown', e => { isDragging = true; sX = e.clientX; sY = e.clientY; iX = pip.offsetLeft; iY = pip.offsetTop; pip.style.transition = 'none'; });
+        window.addEventListener('mousemove', e => { if(isDragging) { pip.style.left = `${iX + e.clientX - sX}px`; pip.style.top = `${iY + e.clientY - sY}px`; pip.style.bottom = 'auto'; pip.style.right = 'auto'; }});
         window.addEventListener('mouseup', () => { isDragging = false; pip.style.transition = 'border-radius 0.3s ease'; });
 
-
-        // ---------------------------------------------------------
-        // 5. ANNOTATION TOOLS (Overlay Canvas)
-        // ---------------------------------------------------------
-        const canvas = document.getElementById('annotation-canvas');
-        const ctx = canvas.getContext('2d');
-        let isDrawing = false;
-        
-        const resizeCanvas = () => {
-            const rect = document.querySelector('.preview-wrapper').getBoundingClientRect();
-            canvas.width = rect.width; canvas.height = rect.height;
-        };
+        // Annotations
+        const canvas = document.getElementById('annotation-canvas'); const ctx = canvas.getContext('2d'); let isDrawing = false;
+        const resizeCanvas = () => { const r = document.querySelector('.preview-wrapper').getBoundingClientRect(); canvas.width = r.width; canvas.height = r.height; };
         window.addEventListener('resize', resizeCanvas);
-        setTimeout(resizeCanvas, 1000);
-
-        window.tools = {
-            active: null,
-            setTool: (t) => {
-                tools.active = tools.active === t ? null : t;
-                document.getElementById('btn-tool-pen').classList.toggle('active', tools.active === 'pen');
-                canvas.style.pointerEvents = tools.active ? 'auto' : 'none';
-            },
-            clearCanvas: () => ctx.clearRect(0, 0, canvas.width, canvas.height)
-        };
-
-        canvas.addEventListener('mousedown', e => {
-            if(!tools.active) return;
-            isDrawing = true;
-            ctx.beginPath();
-            ctx.moveTo(e.offsetX, e.offsetY);
-        });
-        canvas.addEventListener('mousemove', e => {
-            if(!isDrawing || !tools.active) return;
-            ctx.lineWidth = 4;
-            ctx.lineCap = 'round';
-            ctx.strokeStyle = '#FF5A00';
-            ctx.lineTo(e.offsetX, e.offsetY);
-            ctx.stroke();
-        });
+        window.tools = { active: null, setTool: (t) => { tools.active = tools.active === t ? null : t; document.getElementById('btn-tool-pen').classList.toggle('active', tools.active === 'pen'); canvas.style.pointerEvents = tools.active ? 'auto' : 'none'; }, clearCanvas: () => ctx.clearRect(0, 0, canvas.width, canvas.height) };
+        canvas.addEventListener('mousedown', e => { if(!tools.active) return; isDrawing = true; ctx.beginPath(); ctx.moveTo(e.offsetX, e.offsetY); });
+        canvas.addEventListener('mousemove', e => { if(!isDrawing) return; ctx.lineWidth = 4; ctx.lineCap = 'round'; ctx.strokeStyle = '#FF5A00'; ctx.lineTo(e.offsetX, e.offsetY); ctx.stroke(); });
         canvas.addEventListener('mouseup', () => isDrawing = false);
 
-        // ---------------------------------------------------------
-        // 6. THE BURN ENGINE (Canvas + MediaRecorder for Export)
-        // ---------------------------------------------------------
+        // Burn Engine
         window.engine = {
             initiateExport: async () => {
-                // Auth Gateway
-                if(!appState.user && !window.isLocalMode) {
-                    appState.pendingExport = true;
-                    ui.showModal('auth-modal');
-                    return;
-                }
+                if(!appState.user && !window.isLocalMode) { appState.pendingExport = true; ui.showModal('auth-modal'); return; }
+                if(!appState.recordingBlob) return ui.toast("No recording found.");
+                document.getElementById('btn-export-download').classList.add('hidden'); document.getElementById('export-progress-container').classList.remove('hidden');
                 
-                if(!appState.recordingBlob) { ui.toast("No recording found."); return; }
-
-                document.getElementById('btn-export-download').classList.add('hidden');
-                document.getElementById('export-progress-container').classList.remove('hidden');
-                const pBar = document.getElementById('export-progress-bar');
-                const pText = document.getElementById('export-percent');
-
-                // Setup Burn Engine
-                const burnVideo = document.getElementById('burn-video');
-                const burnCanvas = document.getElementById('burn-canvas');
-                const bCtx = burnCanvas.getContext('2d');
-                const logo = document.getElementById('asset-logo');
-                const wMark = document.getElementById('asset-watermark');
-
+                const burnVideo = document.getElementById('burn-video'); const burnCanvas = document.getElementById('burn-canvas'); const bCtx = burnCanvas.getContext('2d');
+                const logo = document.getElementById('asset-logo'); const wMark = document.getElementById('asset-watermark');
                 burnVideo.src = URL.createObjectURL(appState.recordingBlob);
                 await new Promise(r => burnVideo.onloadedmetadata = r);
-                
-                burnCanvas.width = burnVideo.videoWidth;
-                burnCanvas.height = burnVideo.videoHeight;
-
+                burnCanvas.width = burnVideo.videoWidth; burnCanvas.height = burnVideo.videoHeight;
                 const burnStream = burnCanvas.captureStream(60);
                 
-                // Extract Audio from Original Blob via dummy audio context or stream copy
-                // To keep it simple in browser: we play the video unmuted, and capture stream if supported
-                const originalVideoStream = burnVideo.captureStream ? burnVideo.captureStream() : burnVideo.mozCaptureStream();
-                if(originalVideoStream && originalVideoStream.getAudioTracks().length > 0) {
-                    burnStream.addTrack(originalVideoStream.getAudioTracks()[0]);
-                }
-
+                const origStream = burnVideo.captureStream ? burnVideo.captureStream() : burnVideo.mozCaptureStream();
+                if(origStream && origStream.getAudioTracks().length > 0) burnStream.addTrack(origStream.getAudioTracks()[0]);
+                
                 const burnRecorder = new MediaRecorder(burnStream, { mimeType: 'video/webm; codecs=vp9' });
-                const burnChunks = [];
-                burnRecorder.ondataavailable = e => burnChunks.push(e.data);
+                const burnChunks = []; burnRecorder.ondataavailable = e => burnChunks.push(e.data);
                 
                 burnRecorder.onstop = () => {
-                    const finalBlob = new Blob(burnChunks, { type: 'video/webm' }); // WebM acts as MP4 in modern browsers via wrapper
-                    const url = URL.createObjectURL(finalBlob);
-                    const a = document.createElement('a');
-                    a.style.display = 'none';
-                    a.href = url;
-                    a.download = `Nexra_Export_${Date.now()}.webm`;
-                    document.body.appendChild(a);
-                    a.click();
-                    window.URL.revokeObjectURL(url);
-                    
-                    document.getElementById('export-progress-container').classList.add('hidden');
-                    document.getElementById('btn-export-download').classList.remove('hidden');
-                    ui.toast("Export Complete! File downloaded.");
-                    appState.pendingExport = false;
+                    const finalBlob = new Blob(burnChunks, { type: 'video/webm' });
+                    const filename = `Nexra_Export_${Date.now()}.webm`;
+                    const a = document.createElement('a'); a.href = URL.createObjectURL(finalBlob); a.download = filename;
+                    document.body.appendChild(a); a.click(); a.remove();
+                    document.getElementById('export-progress-container').classList.add('hidden'); document.getElementById('btn-export-download').classList.remove('hidden');
+                    ui.toast("Export Complete! File downloaded."); appState.pendingExport = false;
+                    app.saveHistory(filename, finalBlob.size);
                 };
-
-                // The Render Loop
-                burnVideo.play();
-                burnRecorder.start();
-
+                burnVideo.play(); burnRecorder.start();
                 const drawFrame = () => {
-                    if(burnVideo.paused || burnVideo.ended) {
-                        burnRecorder.stop();
-                        return;
-                    }
-                    
-                    // Draw raw video
+                    if(burnVideo.paused || burnVideo.ended) { burnRecorder.stop(); return; }
                     bCtx.drawImage(burnVideo, 0, 0, burnCanvas.width, burnCanvas.height);
-                    
-                    // Burn Watermarks
-                    // 1. Center Low-Opacity Mark
-                    bCtx.globalAlpha = 0.15;
-                    const mw = burnCanvas.width * 0.3;
-                    const mh = mw * (wMark.height / wMark.width);
+                    bCtx.globalAlpha = 0.15; const mw = burnCanvas.width * 0.3; const mh = mw * (wMark.height / wMark.width);
                     bCtx.drawImage(wMark, (burnCanvas.width - mw)/2, (burnCanvas.height - mh)/2, mw, mh);
-                    
-                    // 2. Corner Logo
-                    bCtx.globalAlpha = 1.0;
-                    bCtx.drawImage(logo, burnCanvas.width - 150, 30, 120, 120 * (logo.height/logo.width));
-
-                    // Progress Update UI
+                    bCtx.globalAlpha = 1.0; bCtx.drawImage(logo, burnCanvas.width - 150, 30, 120, 120 * (logo.height/logo.width));
                     let pct = Math.min(100, Math.floor((burnVideo.currentTime / burnVideo.duration) * 100));
-                    pBar.style.width = `${pct}%`;
-                    pText.innerText = `${pct}%`;
-
+                    document.getElementById('export-progress-bar').style.width = `${pct}%`; document.getElementById('export-percent').innerText = `${pct}%`;
                     requestAnimationFrame(drawFrame);
-                };
-                drawFrame();
+                }; drawFrame();
             }
         };
 
-        // ---------------------------------------------------------
-        // 7. AUTH & FIREBASE SYNC LOGIC
-        // ---------------------------------------------------------
+        // Auth Logic
         let isRegisterMode = false;
         window.authManager = {
-            toggleMode: () => {
-                isRegisterMode = !isRegisterMode;
-                document.getElementById('auth-toggle-text').innerText = isRegisterMode ? "Already have an account? Sign In" : "Need an account? Register";
-            },
+            toggleMode: () => { isRegisterMode = !isRegisterMode; document.getElementById('auth-toggle-text').innerHTML = isRegisterMode ? `Already have an account? <span class="text-orange">Sign In</span>` : `Need an account? <span class="text-orange">Register</span>`; },
             signInEmail: async () => {
-                if(window.isLocalMode) { ui.toast("Local Mode Active. Export Unlocked."); ui.hideModal('auth-modal'); engine.initiateExport(); return; }
-                const e = document.getElementById('auth-email').value;
-                const p = document.getElementById('auth-pass').value;
-                try {
-                    if(isRegisterMode) {
-                        await authModule.createUserWithEmailAndPassword(fbAuth, e, p);
-                    } else {
-                        await authModule.signInWithEmailAndPassword(fbAuth, e, p);
-                    }
-                } catch(err) {
-                    document.getElementById('auth-error').innerText = err.message;
-                    document.getElementById('auth-error').style.display = 'block';
-                }
+                if(window.isLocalMode) { ui.hideModal('auth-modal'); engine.initiateExport(); return; }
+                const e = document.getElementById('auth-email').value; const p = document.getElementById('auth-pass').value;
+                try { isRegisterMode ? await authModule.createUserWithEmailAndPassword(fbAuth, e, p) : await authModule.signInWithEmailAndPassword(fbAuth, e, p); }
+                catch(err) { const ae = document.getElementById('auth-error'); ae.innerText = err.message; ae.style.display = 'block'; }
             },
             signInGoogle: async () => {
-                if(window.isLocalMode) { ui.toast("Local Mode Active. Export Unlocked."); ui.hideModal('auth-modal'); engine.initiateExport(); return; }
-                try {
-                    const provider = new authModule.GoogleAuthProvider();
-                    await authModule.signInWithPopup(fbAuth, provider);
-                } catch(err) {
-                    document.getElementById('auth-error').innerText = err.message;
-                    document.getElementById('auth-error').style.display = 'block';
-                }
+                if(window.isLocalMode) { ui.hideModal('auth-modal'); engine.initiateExport(); return; }
+                try { await authModule.signInWithPopup(fbAuth, new authModule.GoogleAuthProvider()); }
+                catch(err) { document.getElementById('auth-error').innerText = err.message; document.getElementById('auth-error').style.display = 'block'; }
             }
         };
 
-        // Initialize Everything
         window.onload = async () => {
             await initFirebase();
-            
-            // Register Inline Service Worker for PWA Offline Mode
-            const swCode = `
-                const CACHE_NAME = 'nexra-v1';
-                self.addEventListener('install', e => {
-                    e.waitUntil(caches.open(CACHE_NAME).then(c => c.addAll(['/'])));
-                });
-                self.addEventListener('fetch', e => {
-                    e.respondWith(caches.match(e.request).then(res => res || fetch(e.request)));
-                });
-            `;
-            const blob = new Blob([swCode], {type: 'application/javascript'});
-            if('serviceWorker' in navigator) {
-                navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(console.error);
-            }
+            if('serviceWorker' in navigator) navigator.serviceWorker.register(URL.createObjectURL(new Blob([`self.addEventListener('install', e => e.waitUntil(caches.open('nexra-v1').then(c => c.addAll(['/'])))); self.addEventListener('fetch', e => e.respondWith(caches.match(e.request).then(r => r || fetch(e.request))));`], {type: 'application/javascript'}))).catch(console.error);
         };
-
-        // Keyboard Shortcuts
-        window.addEventListener('keydown', e => {
-            if(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'r') {
-                e.preventDefault();
-                !appState.isRecording ? document.getElementById('btn-start-record').click() : document.getElementById('btn-stop-record').click();
-            }
-        });
-
     </script>
 </body>
 </html>
