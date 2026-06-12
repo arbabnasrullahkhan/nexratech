@@ -1,779 +1,2450 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nexra Studio Pro | Powerful Screen Recorder</title>
-    <meta name="description" content="A powerful, privacy-centric browser-based screen recording suite. Features OBS-style tools, 4K export, and seamless cloud syncing.">
-    <link rel="icon" type="image/png" href="https://uploads.onecompiler.io/42yatf6fu/1781258941988/25088C4A-230C-4E61-8E84-C40FD3A6033C-removebg-preview.png">
-    
-    <!-- 
-    ===========================================================================
-    NEXRA STUDIO PRO - SYSTEM ARCHITECTURE
-    ===========================================================================
-    - Design: Premium Off-White, Neumorphic shadows, Glassmorphism, Linear gradients.
-    - Cloud: Firebase (firebaseconfig.js) -> Syncs History & Settings.
-    - Monetization: Google AdMob Engine built-in (Banner, Interstitial, Rewarded).
-    - Core Tech: WebRTC, Canvas API (Burn-in), AudioContext (Mixing).
-    ===========================================================================
-    -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Nexra Studio Pro — Professional browser-based screen recorder. Zero uploads, zero latency. OBS-grade recording in your browser.">
+<meta name="keywords" content="screen recorder, browser recording, webrtc recorder, nexra, screen capture">
+<meta name="theme-color" content="#FF5A00">
+<meta property="og:title" content="Nexra Studio Pro">
+<meta property="og:description" content="Studio-quality screen recording. No installs. No subscriptions.">
+<title>Nexra Studio Pro — Browser Screen Recorder</title>
+<link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiTmV4cmEgU3R1ZGlvIFBybyIsInNob3J0X25hbWUiOiJOZXhyYSIsImRlc2NyaXB0aW9uIjoiUHJvZmVzc2lvbmFsIHNjcmVlbiByZWNvcmRlciBpbiB5b3VyIGJyb3dzZXIiLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiI0Y0RjVGNyIsInRoZW1lX2NvbG9yIjoiI0ZGNUEwMCIsImljb25zIjpbeyJzcmMiOiJodHRwczovL3VwbG9hZHMub25lY29tcGlsZXIuaW8vNDJ5YXRmNmZ1LzE3ODEyNTg5NDE5ODgvMjUwODhDNEEtMjMwQy00RTYxLThFODQtQzQwRkQzQTYwMzNDLXJlbW92ZWJnLXByZXZpZXcucG5nIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL3BuZyJ9XX0=">
+<style>
+:root {
+  --bg: #F4F5F7;
+  --bg-card: #FFFFFF;
+  --bg-input: #F0F1F3;
+  --border: rgba(0,0,0,0.07);
+  --border-strong: rgba(0,0,0,0.12);
+  --text-primary: #0A0A0B;
+  --text-secondary: #5A5C6A;
+  --text-muted: #9A9CA8;
+  --orange: #FF5A00;
+  --orange-light: #FF8C20;
+  --orange-glow: rgba(255,90,0,0.15);
+  --orange-gradient: linear-gradient(135deg, #FF5A00 0%, #FF8C20 100%);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
+  --shadow-md: 0 4px 12px rgba(0,0,0,0.07), 0 2px 6px rgba(0,0,0,0.04);
+  --shadow-lg: 0 10px 30px rgba(0,0,0,0.1), 0 4px 12px rgba(0,0,0,0.06);
+  --shadow-xl: 0 20px 50px rgba(0,0,0,0.12), 0 8px 20px rgba(0,0,0,0.08);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-xl: 24px;
+  --glass-bg: rgba(255,255,255,0.72);
+  --glass-border: rgba(255,255,255,0.9);
+  --transition: all 0.22s cubic-bezier(0.4,0,0.2,1);
+  --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', 'Segoe UI', sans-serif;
+}
 
-    <style>
-        /* --- PREMIUM PRO DESIGN SYSTEM --- */
-        :root {
-            --bg-main: #F4F5F7;
-            --bg-panel: #FFFFFF;
-            --bg-sidebar: #FAFAFC;
-            --text-main: #0F172A;
-            --text-muted: #64748B;
-            --orange-gradient: linear-gradient(135deg, #FF5A00 0%, #FF8C20 100%);
-            --orange: #FF5A00;
-            --orange-glow: rgba(255, 90, 0, 0.25);
-            --border: #E2E8F0;
-            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
-            --shadow-lg: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.02);
-            --glass-bg: rgba(255, 255, 255, 0.85);
-            --font-main: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-        /* --- RESETS --- */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: var(--font-main); -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-main); color: var(--text-main); overflow-x: hidden; }
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #CBD5E1; border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--orange); }
+html { scroll-behavior: smooth; font-size: 16px; }
 
-        /* --- UTILITIES & GLASSMORPHISM --- */
-        .glass-panel {
-            background: var(--glass-bg);
-            backdrop-filter: blur(24px) saturate(180%);
-            -webkit-backdrop-filter: blur(24px) saturate(180%);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            box-shadow: var(--shadow-md);
-            transition: all 0.3s ease;
-        }
-        .glass-panel:hover { box-shadow: var(--shadow-lg); border-color: rgba(255,90,0,0.2); }
-        
-        /* --- TYPOGRAPHY & BUTTONS --- */
-        h1, h2, h3 { font-weight: 700; letter-spacing: -0.02em; }
-        .text-gradient { background: var(--orange-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
-        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 24px; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1); border: none; font-size: 14px; }
-        .btn-primary { background: var(--orange-gradient); color: #fff; box-shadow: 0 4px 15px var(--orange-glow); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(255, 90, 0, 0.4); }
-        .btn-primary:active { transform: translateY(0); }
-        .btn-secondary { background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-main); box-shadow: var(--shadow-sm); }
-        .btn-secondary:hover { background: var(--bg-sidebar); border-color: #CBD5E1; }
-        
-        .icon-btn { background: var(--bg-panel); border: 1px solid var(--border); color: var(--text-muted); padding: 10px; border-radius: 12px; cursor: pointer; transition: 0.2s; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: center; }
-        .icon-btn:hover { color: var(--orange); border-color: var(--orange-glow); transform: translateY(-2px); }
-        .icon-btn.active { color: #fff; background: var(--orange-gradient); border-color: transparent; box-shadow: 0 4px 12px var(--orange-glow); transform: scale(1.05); }
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
 
-        /* --- HEADER & NAVIGATION --- */
-        header { position: sticky; top: 0; width: 100%; z-index: 1000; display: flex; justify-content: space-between; align-items: center; padding: 16px 4%; background: rgba(244,245,247,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
-        .logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 800; cursor: pointer; color: var(--text-main); }
-        .logo img { width: 34px; height: 34px; object-fit: contain; }
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,90,0,0.3); border-radius: 99px; }
+::-webkit-scrollbar-thumb:hover { background: var(--orange); }
 
-        /* --- LAYOUTS --- */
-        .view-section { display: none; min-height: calc(100vh - 75px); width: 100%; padding: 30px 4%; animation: fadeIn 0.4s ease; }
-        .view-section.active { display: block; }
+/* ── VIEWS ── */
+.view { display: none; min-height: 100vh; }
+.view.active { display: block; }
 
-        /* Dashboard */
-        .dashboard-grid { display: grid; grid-template-columns: 260px 1fr; gap: 24px; height: calc(100vh - 140px); }
-        .sidebar { background: var(--bg-sidebar); border: 1px solid var(--border); border-radius: 16px; padding: 20px 12px; display: flex; flex-direction: column; gap: 8px; }
-        .menu-item { padding: 12px 16px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; gap: 12px; color: var(--text-muted); font-weight: 600; transition: 0.2s; }
-        .menu-item:hover { background: var(--bg-main); color: var(--text-main); }
-        .menu-item.active { background: var(--bg-panel); color: var(--orange); box-shadow: var(--shadow-sm); border: 1px solid var(--border); }
+/* ── HEADER ── */
+#app-header {
+  position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+  z-index: 1000;
+  width: calc(100% - 40px); max-width: 1200px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(1.6);
+  -webkit-backdrop-filter: blur(24px) saturate(1.6);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg), 0 0 0 0.5px rgba(255,90,0,0.06);
+  padding: 0 20px;
+  display: flex; align-items: center; gap: 12px;
+  height: 58px;
+  transition: var(--transition);
+}
+#app-header.scrolled {
+  background: rgba(255,255,255,0.85);
+  box-shadow: var(--shadow-xl);
+}
+.header-logo { display:flex; align-items:center; gap:9px; cursor:pointer; text-decoration:none; flex-shrink:0; }
+.header-logo img { width:32px; height:32px; object-fit:contain; border-radius:8px; }
+.header-logo span { font-size:15px; font-weight:700; letter-spacing:-0.3px; color:var(--text-primary); }
+.header-logo span em { font-style:normal; color:var(--orange); }
+.header-nav { display:flex; align-items:center; gap:4px; margin-left:auto; }
+.nav-btn {
+  padding:7px 14px; border-radius:var(--radius-sm);
+  font-size:13.5px; font-weight:500; color:var(--text-secondary);
+  background:transparent; border:none; cursor:pointer;
+  transition:var(--transition);
+}
+.nav-btn:hover { background:var(--bg-input); color:var(--text-primary); }
+.nav-btn.active { color:var(--orange); background:var(--orange-glow); }
+.header-actions { display:flex; align-items:center; gap:8px; margin-left:8px; }
+.btn-primary {
+  padding:8px 18px; border-radius:var(--radius-sm);
+  background:var(--orange-gradient); color:#fff;
+  font-size:13.5px; font-weight:600; border:none; cursor:pointer;
+  box-shadow:0 2px 8px rgba(255,90,0,0.3);
+  transition:var(--transition); white-space:nowrap;
+}
+.btn-primary:hover { transform:translateY(-1px); box-shadow:0 4px 14px rgba(255,90,0,0.4); }
+.btn-primary:active { transform:translateY(0); }
+.btn-ghost {
+  padding:8px 14px; border-radius:var(--radius-sm);
+  background:transparent; color:var(--text-secondary);
+  font-size:13.5px; font-weight:500; border:1px solid var(--border-strong); cursor:pointer;
+  transition:var(--transition);
+}
+.btn-ghost:hover { background:var(--bg-input); color:var(--text-primary); }
+.user-avatar {
+  width:32px; height:32px; border-radius:50%;
+  background:var(--orange-gradient); color:#fff;
+  font-size:12px; font-weight:700;
+  display:flex; align-items:center; justify-content:center;
+  cursor:pointer; flex-shrink:0;
+  box-shadow:0 2px 8px rgba(255,90,0,0.25);
+}
 
-        /* Form Controls */
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--text-muted); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
-        .form-control { width: 100%; padding: 14px 16px; background: var(--bg-sidebar); border: 1px solid var(--border); border-radius: 10px; color: var(--text-main); font-size: 15px; outline: none; transition: 0.2s; box-shadow: inset 0 1px 2px rgba(0,0,0,0.02); }
-        .form-control:focus { border-color: var(--orange); box-shadow: 0 0 0 3px var(--orange-glow); background: var(--bg-panel); }
+/* ── LANDING ── */
+#view-landing { background:var(--bg); }
+.landing-hero {
+  min-height:100vh; display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:120px 24px 80px;
+  position:relative; overflow:hidden;
+}
+.hero-badge {
+  display:inline-flex; align-items:center; gap:6px;
+  padding:6px 14px; border-radius:99px;
+  background:var(--orange-glow); border:1px solid rgba(255,90,0,0.2);
+  color:var(--orange); font-size:12px; font-weight:600;
+  letter-spacing:0.3px; margin-bottom:24px;
+}
+.hero-badge svg { width:12px; height:12px; }
+.hero-title {
+  font-size:clamp(38px,7vw,78px); font-weight:800;
+  letter-spacing:-2.5px; line-height:1.06;
+  text-align:center; max-width:820px;
+  color:var(--text-primary);
+}
+.hero-title .accent { background:var(--orange-gradient); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+.hero-sub {
+  font-size:clamp(16px,2.5vw,19px); color:var(--text-secondary);
+  text-align:center; max-width:560px;
+  line-height:1.6; margin:20px 0 36px;
+}
+.hero-ctas { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; }
+.hero-trust {
+  margin-top:48px; display:flex; align-items:center; gap:16px;
+  font-size:13px; color:var(--text-muted);
+}
+.hero-trust span { display:flex; align-items:center; gap:5px; }
 
-        /* --- STUDIO EDITING BAY (OBS STYLE) --- */
-        .studio-container { display: flex; flex-direction: column; gap: 16px; height: calc(100vh - 120px); }
-        .preview-wrapper { flex: 1; position: relative; background: #0F172A; border-radius: 16px; overflow: hidden; border: 1px solid var(--border); box-shadow: inset 0 0 40px rgba(0,0,0,0.5); display: flex; justify-content: center; align-items: center; }
-        #screen-preview { width: 100%; height: 100%; object-fit: contain; }
-        #annotation-canvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 10; }
-        
-        .pip-container { position: absolute; bottom: 20px; right: 20px; width: 200px; height: 200px; z-index: 50; cursor: grab; background: #000; border: 3px solid var(--bg-panel); box-shadow: 0 10px 30px rgba(0,0,0,0.4); overflow: hidden; transition: border-radius 0.3s; }
-        .pip-container.shape-circle { border-radius: 50%; }
-        .pip-container.shape-square { border-radius: 12px; }
-        .pip-container video { width: 100%; height: 100%; object-fit: cover; }
-        .pip-container.mirror video { transform: scaleX(-1); }
+/* bg orbs */
+.hero-orb {
+  position:absolute; border-radius:50%; pointer-events:none; z-index:0;
+  filter:blur(80px); opacity:0.35;
+}
+.hero-orb-1 { width:500px; height:500px; background:#FF5A0022; top:-100px; right:-100px; }
+.hero-orb-2 { width:400px; height:400px; background:#FF8C2015; bottom:0; left:-80px; }
 
-        /* Pro Controls Toolbar */
-        .controls-toolbar { padding: 16px 24px; display: flex; justify-content: space-between; align-items: center; gap: 20px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 16px; box-shadow: var(--shadow-md); flex-wrap: wrap; }
-        
-        /* Audio Mixing Panel */
-        .audio-mixer { display: flex; align-items: center; gap: 12px; padding: 8px 16px; background: var(--bg-sidebar); border-radius: 12px; border: 1px solid var(--border); }
-        .audio-mixer input[type=range] { width: 80px; accent-color: var(--orange); }
-        
-        /* Tool Selector */
-        .tool-selector { display: flex; gap: 8px; padding: 6px; background: var(--bg-sidebar); border-radius: 14px; border: 1px solid var(--border); }
-        .tool-selector input[type=color] { width: 32px; height: 32px; padding: 0; border: none; border-radius: 8px; cursor: pointer; background: transparent; }
+/* feature strip */
+.features-section { padding:80px 24px; max-width:1200px; margin:0 auto; }
+.section-label { font-size:12px; font-weight:700; letter-spacing:1.5px; color:var(--orange); text-transform:uppercase; margin-bottom:12px; }
+.section-title { font-size:clamp(28px,4vw,44px); font-weight:800; letter-spacing:-1px; margin-bottom:16px; }
+.section-sub { font-size:16px; color:var(--text-secondary); max-width:500px; line-height:1.6; margin-bottom:48px; }
+.features-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(290px,1fr)); gap:20px; }
+.feature-card {
+  background:var(--bg-card); border-radius:var(--radius-lg);
+  padding:28px; border:1px solid var(--border);
+  box-shadow:var(--shadow-sm); transition:var(--transition);
+  position:relative; overflow:hidden;
+}
+.feature-card::before {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,90,0,0.03) 0%,transparent 60%);
+  opacity:0; transition:var(--transition);
+}
+.feature-card:hover { transform:translateY(-3px); box-shadow:var(--shadow-md); }
+.feature-card:hover::before { opacity:1; }
+.feature-icon {
+  width:42px; height:42px; border-radius:var(--radius-sm);
+  background:var(--orange-glow); display:flex; align-items:center; justify-content:center;
+  margin-bottom:16px; color:var(--orange);
+}
+.feature-icon svg { width:20px; height:20px; }
+.feature-card h3 { font-size:16px; font-weight:700; margin-bottom:7px; }
+.feature-card p { font-size:14px; color:var(--text-secondary); line-height:1.55; }
 
-        /* --- ADMOB CONTAINERS --- */
-        .ad-banner-container { width: 100%; max-width: 728px; height: 90px; margin: 20px auto; background: var(--bg-sidebar); border: 1px dashed #CBD5E1; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--text-muted); font-size: 12px; position: relative; overflow: hidden; }
-        .ad-badge { position: absolute; top: 4px; left: 4px; background: #F1F5F9; padding: 2px 6px; border-radius: 4px; font-size: 10px; }
+/* how it works */
+.how-section { padding:80px 24px; background:var(--bg-card); }
+.how-inner { max-width:1000px; margin:0 auto; }
+.steps-row { display:flex; gap:0; flex-wrap:wrap; }
+.step-item { flex:1; min-width:180px; display:flex; flex-direction:column; align-items:center; text-align:center; padding:0 20px; position:relative; }
+.step-item:not(:last-child)::after {
+  content:''; position:absolute; right:-1px; top:20px;
+  width:2px; height:36px; background:var(--border-strong);
+  display:none;
+}
+.step-num { width:40px; height:40px; border-radius:50%; background:var(--orange-gradient); color:#fff; font-weight:800; font-size:16px; display:flex; align-items:center; justify-content:center; margin-bottom:14px; box-shadow:0 4px 12px rgba(255,90,0,0.3); }
+.step-item h4 { font-size:15px; font-weight:700; margin-bottom:6px; }
+.step-item p { font-size:13px; color:var(--text-secondary); line-height:1.5; }
 
-        /* --- MODALS --- */
-        .modal-overlay { position: fixed; inset: 0; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(10px); z-index: 2000; display: none; align-items: center; justify-content: center; opacity: 0; transition: 0.3s; }
-        .modal-overlay.active { display: flex; opacity: 1; }
-        .modal-content { width: 100%; max-width: 440px; padding: 32px; background: var(--bg-panel); border-radius: 24px; box-shadow: var(--shadow-lg); transform: translateY(20px); transition: 0.3s; position: relative; }
-        .modal-overlay.active .modal-content { transform: translateY(0); }
+/* CTA banner */
+.cta-section { padding:80px 24px; max-width:800px; margin:0 auto; text-align:center; }
+.cta-card {
+  background:var(--text-primary); border-radius:var(--radius-xl);
+  padding:60px 40px; position:relative; overflow:hidden;
+}
+.cta-card h2 { color:#fff; font-size:clamp(26px,4vw,40px); font-weight:800; letter-spacing:-1px; margin-bottom:14px; }
+.cta-card p { color:rgba(255,255,255,0.6); font-size:16px; margin-bottom:32px; }
+.cta-card::before { content:''; position:absolute; width:300px; height:300px; border-radius:50%; background:rgba(255,90,0,0.15); top:-80px; right:-60px; filter:blur(60px); }
 
-        /* --- TOAST & PROGRESS --- */
-        #toast-container { position: fixed; top: 20px; right: 20px; z-index: 3000; display: flex; flex-direction: column; gap: 10px; }
-        .toast { padding: 16px 24px; background: var(--text-main); color: #fff; border-radius: 12px; font-weight: 500; font-size: 14px; box-shadow: var(--shadow-lg); display: flex; align-items: center; gap: 12px; animation: slideInRight 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards; }
-        
-        .progress-bar { width: 100%; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; margin-top: 10px; }
-        .progress-fill { height: 100%; width: 0%; background: var(--orange-gradient); transition: 0.2s linear; }
+/* footer */
+.landing-footer { padding:32px 24px; text-align:center; color:var(--text-muted); font-size:13px; border-top:1px solid var(--border); }
 
-        /* Animations */
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes slideInRight { from { opacity: 0; transform: translateX(50px); } to { opacity: 1; transform: translateX(0); } }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+/* ── DASHBOARD ── */
+#view-dashboard { padding-top:82px; }
+.dashboard-layout { display:flex; min-height:calc(100vh - 82px); max-width:1200px; margin:0 auto; gap:24px; padding:24px; }
+.sidebar {
+  width:220px; flex-shrink:0;
+  background:var(--bg-card); border-radius:var(--radius-lg);
+  border:1px solid var(--border); box-shadow:var(--shadow-sm);
+  padding:20px 12px; align-self:start; position:sticky; top:90px;
+}
+.sidebar-section { margin-bottom:24px; }
+.sidebar-label { font-size:10.5px; font-weight:700; letter-spacing:1.2px; color:var(--text-muted); text-transform:uppercase; padding:0 8px 8px; }
+.sidebar-item {
+  display:flex; align-items:center; gap:9px;
+  padding:9px 10px; border-radius:var(--radius-sm);
+  font-size:13.5px; font-weight:500; color:var(--text-secondary);
+  cursor:pointer; transition:var(--transition); border:none; background:transparent; width:100%;
+}
+.sidebar-item svg { width:16px; height:16px; flex-shrink:0; }
+.sidebar-item:hover { background:var(--bg-input); color:var(--text-primary); }
+.sidebar-item.active { background:var(--orange-glow); color:var(--orange); font-weight:600; }
+.dashboard-main { flex:1; min-width:0; }
+.dash-section-title { font-size:18px; font-weight:800; letter-spacing:-0.4px; margin-bottom:4px; }
+.dash-section-sub { font-size:13px; color:var(--text-secondary); margin-bottom:20px; }
 
-        @media (max-width: 768px) {
-            .dashboard-grid { grid-template-columns: 1fr; }
-            .sidebar { flex-direction: row; overflow-x: auto; padding: 12px; }
-            .controls-toolbar { justify-content: center; }
-            .audio-mixer { display: none; /* Hide complex audio on mobile */ }
-        }
-    </style>
+/* quick record card */
+.quick-record-card {
+  background:var(--text-primary); border-radius:var(--radius-lg);
+  padding:28px 28px; margin-bottom:24px;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:20px; position:relative; overflow:hidden;
+}
+.quick-record-card::before { content:''; position:absolute; width:250px; height:250px; border-radius:50%; background:rgba(255,90,0,0.12); top:-80px; right:-40px; filter:blur(50px); }
+.qr-text h3 { color:#fff; font-size:18px; font-weight:700; margin-bottom:4px; }
+.qr-text p { color:rgba(255,255,255,0.55); font-size:13px; }
+
+/* settings grid */
+.settings-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; margin-bottom:24px; }
+.settings-card { background:var(--bg-card); border-radius:var(--radius-lg); padding:20px; border:1px solid var(--border); box-shadow:var(--shadow-sm); }
+.settings-card h4 { font-size:13px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:14px; }
+.setting-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:10px; }
+.setting-row:last-child { margin-bottom:0; }
+.setting-row label { font-size:13.5px; font-weight:500; color:var(--text-primary); }
+.setting-select, .setting-input {
+  padding:6px 10px; border-radius:var(--radius-sm);
+  border:1px solid var(--border-strong); background:var(--bg-input);
+  font-size:13px; font-family:var(--font); color:var(--text-primary);
+  cursor:pointer; outline:none; transition:var(--transition);
+}
+.setting-select:focus, .setting-input:focus { border-color:var(--orange); box-shadow:0 0 0 3px var(--orange-glow); }
+.toggle-switch { position:relative; width:38px; height:22px; cursor:pointer; }
+.toggle-switch input { opacity:0; width:0; height:0; }
+.toggle-track {
+  position:absolute; inset:0; border-radius:99px;
+  background:var(--bg-input); border:1px solid var(--border-strong);
+  transition:var(--transition);
+}
+.toggle-thumb {
+  position:absolute; top:3px; left:3px; width:14px; height:14px;
+  border-radius:50%; background:#fff; box-shadow:var(--shadow-sm);
+  transition:var(--transition);
+}
+.toggle-switch input:checked ~ .toggle-track { background:var(--orange); border-color:var(--orange); }
+.toggle-switch input:checked ~ .toggle-thumb { transform:translateX(16px); }
+
+/* history */
+.history-list { display:flex; flex-direction:column; gap:10px; }
+.history-item {
+  background:var(--bg-card); border-radius:var(--radius-md);
+  padding:14px 16px; border:1px solid var(--border);
+  display:flex; align-items:center; gap:12px; box-shadow:var(--shadow-sm);
+  transition:var(--transition);
+}
+.history-item:hover { border-color:rgba(255,90,0,0.2); box-shadow:var(--shadow-md); }
+.history-icon { width:36px; height:36px; border-radius:var(--radius-sm); background:var(--orange-glow); display:flex; align-items:center; justify-content:center; flex-shrink:0; color:var(--orange); }
+.history-icon svg { width:18px; height:18px; }
+.history-info { flex:1; min-width:0; }
+.history-info .name { font-size:14px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.history-info .meta { font-size:12px; color:var(--text-muted); margin-top:2px; }
+.history-actions { display:flex; gap:6px; }
+.icon-btn { width:30px; height:30px; border-radius:var(--radius-sm); background:var(--bg-input); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text-secondary); transition:var(--transition); }
+.icon-btn:hover { background:var(--orange-glow); color:var(--orange); }
+.icon-btn svg { width:14px; height:14px; }
+
+/* ad banner */
+.ad-banner {
+  background:var(--bg-input); border:1px dashed var(--border-strong);
+  border-radius:var(--radius-md); padding:16px; text-align:center;
+  font-size:12px; color:var(--text-muted); margin-bottom:20px;
+  min-height:90px; display:flex; flex-direction:column;
+  align-items:center; justify-content:center; gap:4px;
+}
+.ad-banner .ad-label { font-size:10px; letter-spacing:1px; text-transform:uppercase; font-weight:600; }
+.ad-banner .ad-content { font-size:13px; color:var(--text-secondary); font-weight:500; }
+
+/* ── STUDIO ── */
+#view-studio { padding-top:82px; }
+.studio-layout { display:flex; height:calc(100vh - 82px); max-width:1400px; margin:0 auto; padding:16px; gap:16px; }
+
+/* preview area */
+.preview-area { flex:1; min-width:0; display:flex; flex-direction:column; gap:12px; }
+.preview-container {
+  flex:1; background:#111; border-radius:var(--radius-lg);
+  position:relative; overflow:hidden; border:1px solid rgba(255,255,255,0.08);
+  box-shadow:var(--shadow-xl);
+  display:flex; align-items:center; justify-content:center;
+  min-height:300px;
+}
+.preview-container video, .preview-container canvas { position:absolute; inset:0; width:100%; height:100%; object-fit:contain; }
+#annotation-canvas { z-index:10; cursor:crosshair; pointer-events:none; }
+#annotation-canvas.drawing { pointer-events:auto; }
+#pip-webcam {
+  position:absolute; z-index:20; width:160px; height:160px;
+  border-radius:50%; overflow:hidden;
+  border:3px solid rgba(255,255,255,0.3);
+  box-shadow:0 4px 20px rgba(0,0,0,0.4);
+  cursor:grab; bottom:16px; right:16px; display:none;
+  transition:border-radius 0.3s ease;
+}
+#pip-webcam video { width:100%; height:100%; object-fit:cover; }
+#pip-webcam.square { border-radius:var(--radius-md); }
+#pip-webcam.rounded { border-radius:var(--radius-lg); }
+#pip-resize-handle { position:absolute; bottom:4px; right:4px; width:14px; height:14px; cursor:se-resize; z-index:21; }
+#pip-resize-handle::before { content:''; display:block; width:14px; height:14px; background:rgba(255,255,255,0.5); border-radius:2px; clip-path:polygon(100% 0,100% 100%,0 100%); }
+.preview-placeholder { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; color:rgba(255,255,255,0.4); z-index:1; }
+.preview-placeholder svg { width:48px; height:48px; opacity:0.5; }
+.preview-placeholder p { font-size:15px; }
+.preview-placeholder .preview-hint { font-size:12px; opacity:0.7; }
+
+/* countdown overlay */
+#countdown-overlay {
+  position:absolute; inset:0; background:rgba(0,0,0,0.75);
+  display:flex; align-items:center; justify-content:center;
+  z-index:100; display:none; border-radius:var(--radius-lg);
+}
+.countdown-number {
+  font-size:120px; font-weight:900; color:#fff;
+  text-shadow:0 0 60px var(--orange), 0 0 120px rgba(255,90,0,0.5);
+  animation:countPulse 1s ease infinite;
+}
+@keyframes countPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+
+/* toolbar */
+.studio-toolbar {
+  background:var(--bg-card); border-radius:var(--radius-lg);
+  border:1px solid var(--border); box-shadow:var(--shadow-sm);
+  padding:10px 16px; display:flex; align-items:center; gap:8px; flex-wrap:wrap;
+}
+.toolbar-group { display:flex; align-items:center; gap:6px; }
+.toolbar-divider { width:1px; height:24px; background:var(--border-strong); margin:0 4px; }
+.tool-btn {
+  width:36px; height:36px; border-radius:var(--radius-sm);
+  background:var(--bg-input); border:1px solid transparent; cursor:pointer;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text-secondary); transition:var(--transition); flex-shrink:0;
+}
+.tool-btn:hover { background:var(--orange-glow); color:var(--orange); border-color:rgba(255,90,0,0.2); }
+.tool-btn.active { background:var(--orange-glow); color:var(--orange); border-color:rgba(255,90,0,0.3); box-shadow:0 0 0 2px var(--orange-glow); }
+.tool-btn svg { width:16px; height:16px; }
+.color-picker-wrap { position:relative; }
+#annotation-color { width:30px; height:30px; border-radius:50%; padding:0; border:2px solid var(--border-strong); cursor:pointer; }
+.record-btn {
+  display:flex; align-items:center; gap:8px; padding:9px 18px;
+  border-radius:var(--radius-sm); font-size:13.5px; font-weight:700;
+  border:none; cursor:pointer; transition:var(--transition);
+}
+.record-btn.start { background:linear-gradient(135deg,#FF3B30,#FF5A00); color:#fff; box-shadow:0 3px 10px rgba(255,59,48,0.35); }
+.record-btn.stop { background:linear-gradient(135deg,#34C759,#30D158); color:#fff; box-shadow:0 3px 10px rgba(52,199,89,0.3); }
+.record-btn:hover { transform:translateY(-1px); filter:brightness(1.05); }
+.rec-dot { width:8px; height:8px; border-radius:50%; background:currentColor; animation:blink 1s ease infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+.record-time { font-size:14px; font-weight:700; color:var(--text-primary); font-variant-numeric:tabular-nums; min-width:52px; text-align:center; }
+
+/* right panel */
+.studio-panel {
+  width:280px; flex-shrink:0; display:flex; flex-direction:column; gap:12px;
+  overflow-y:auto; max-height:calc(100vh - 112px);
+}
+.panel-card { background:var(--bg-card); border-radius:var(--radius-lg); padding:16px; border:1px solid var(--border); box-shadow:var(--shadow-sm); }
+.panel-title { font-size:12px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px; margin-bottom:12px; }
+.panel-row { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+.panel-row:last-child { margin-bottom:0; }
+.panel-label { font-size:13px; color:var(--text-secondary); }
+.panel-value { font-size:13px; font-weight:600; color:var(--text-primary); }
+.source-btn {
+  width:100%; padding:9px; border-radius:var(--radius-sm);
+  background:var(--bg-input); border:1px solid var(--border);
+  font-size:13px; font-weight:500; color:var(--text-secondary); cursor:pointer;
+  display:flex; align-items:center; gap:7px; transition:var(--transition); margin-bottom:6px;
+}
+.source-btn:last-child { margin-bottom:0; }
+.source-btn:hover, .source-btn.active { background:var(--orange-glow); color:var(--orange); border-color:rgba(255,90,0,0.25); }
+.source-btn svg { width:15px; height:15px; flex-shrink:0; }
+.range-row { display:flex; flex-direction:column; gap:5px; margin-bottom:10px; }
+.range-row label { font-size:12.5px; font-weight:600; color:var(--text-secondary); display:flex; justify-content:space-between; }
+.range-row label span { font-weight:700; color:var(--orange); }
+input[type="range"] { width:100%; height:4px; border-radius:99px; appearance:none; background:var(--bg-input); cursor:pointer; outline:none; }
+input[type="range"]::-webkit-slider-thumb { width:14px; height:14px; border-radius:50%; background:var(--orange); appearance:none; box-shadow:0 1px 4px rgba(255,90,0,0.4); }
+input[type="range"]::-webkit-slider-runnable-track { height:4px; border-radius:99px; background:linear-gradient(to right,var(--orange) var(--pct,0%),var(--bg-input) var(--pct,0%)); }
+
+/* audio meter */
+#audio-meter { display:flex; align-items:flex-end; gap:2px; height:32px; }
+.meter-bar { width:5px; border-radius:2px; background:var(--bg-input); transition:height 0.1s ease; min-height:3px; }
+.meter-bar.active { background:linear-gradient(to top,#34C759,var(--orange)); }
+
+/* shape btns */
+.shape-btns { display:flex; gap:6px; }
+.shape-btn { flex:1; padding:7px 0; border-radius:var(--radius-sm); background:var(--bg-input); border:1px solid var(--border); font-size:12px; font-weight:600; color:var(--text-secondary); cursor:pointer; text-align:center; transition:var(--transition); }
+.shape-btn.active { background:var(--orange-glow); color:var(--orange); border-color:rgba(255,90,0,0.3); }
+.shape-btn:hover { border-color:rgba(255,90,0,0.2); }
+
+/* status bar */
+.status-bar { display:flex; align-items:center; gap:10px; font-size:12px; color:var(--text-muted); }
+.status-dot { width:7px; height:7px; border-radius:50%; background:var(--text-muted); }
+.status-dot.recording { background:#FF3B30; animation:blink 1s ease infinite; }
+.status-dot.live { background:#34C759; }
+
+/* ── EXPORT ── */
+#view-export { padding-top:82px; }
+.export-layout { max-width:900px; margin:0 auto; padding:24px; }
+.export-card { background:var(--bg-card); border-radius:var(--radius-xl); padding:32px; border:1px solid var(--border); box-shadow:var(--shadow-md); margin-bottom:20px; }
+.export-card h2 { font-size:22px; font-weight:800; letter-spacing:-0.5px; margin-bottom:6px; }
+.export-card p { font-size:14px; color:var(--text-secondary); margin-bottom:24px; }
+.preview-video-wrap { background:#111; border-radius:var(--radius-lg); overflow:hidden; position:relative; aspect-ratio:16/9; margin-bottom:20px; }
+#export-video { width:100%; height:100%; object-fit:contain; }
+.video-controls { display:flex; align-items:center; gap:10px; padding:12px 14px; background:rgba(0,0,0,0.04); border-radius:var(--radius-md); }
+.video-controls input[type="range"] { flex:1; }
+.video-controls button { background:none; border:none; cursor:pointer; color:var(--text-secondary); padding:4px; display:flex; align-items:center; transition:var(--transition); }
+.video-controls button:hover { color:var(--orange); }
+.video-controls button svg { width:18px; height:18px; }
+.export-options { display:grid; grid-template-columns:repeat(auto-fill,minmax(180px,1fr)); gap:12px; margin-bottom:20px; }
+.export-opt {
+  padding:14px; border-radius:var(--radius-md); border:2px solid var(--border);
+  cursor:pointer; transition:var(--transition); text-align:center; background:transparent;
+}
+.export-opt:hover { border-color:rgba(255,90,0,0.3); }
+.export-opt.selected { border-color:var(--orange); background:var(--orange-glow); }
+.export-opt .opt-fmt { font-size:16px; font-weight:800; color:var(--text-primary); }
+.export-opt .opt-desc { font-size:12px; color:var(--text-muted); margin-top:3px; }
+.render-progress { margin-top:16px; display:none; }
+.render-progress .prog-label { font-size:13px; font-weight:600; color:var(--text-secondary); margin-bottom:8px; display:flex; justify-content:space-between; }
+.prog-bar-wrap { height:6px; background:var(--bg-input); border-radius:99px; overflow:hidden; }
+.prog-bar { height:100%; background:var(--orange-gradient); border-radius:99px; width:0%; transition:width 0.2s ease; }
+
+/* ── MODALS ── */
+.modal-overlay {
+  position:fixed; inset:0; background:rgba(0,0,0,0.45);
+  backdrop-filter:blur(8px); z-index:2000;
+  display:flex; align-items:center; justify-content:center;
+  padding:24px; display:none;
+}
+.modal-overlay.visible { display:flex; }
+.modal-box {
+  background:var(--bg-card); border-radius:var(--radius-xl);
+  padding:36px; max-width:440px; width:100%;
+  box-shadow:var(--shadow-xl); border:1px solid var(--border);
+  animation:modalIn 0.28s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes modalIn { from{transform:scale(0.92) translateY(10px);opacity:0} to{transform:scale(1) translateY(0);opacity:1} }
+.modal-logo { display:flex; justify-content:center; margin-bottom:20px; }
+.modal-logo img { width:52px; height:52px; object-fit:contain; }
+.modal-box h2 { font-size:22px; font-weight:800; letter-spacing:-0.5px; text-align:center; margin-bottom:6px; }
+.modal-box p { font-size:14px; color:var(--text-secondary); text-align:center; margin-bottom:24px; line-height:1.5; }
+.auth-tabs { display:flex; background:var(--bg-input); border-radius:var(--radius-sm); padding:3px; margin-bottom:20px; }
+.auth-tab { flex:1; padding:8px; text-align:center; font-size:13px; font-weight:600; color:var(--text-muted); border-radius:calc(var(--radius-sm) - 2px); cursor:pointer; transition:var(--transition); border:none; background:transparent; }
+.auth-tab.active { background:#fff; color:var(--text-primary); box-shadow:var(--shadow-sm); }
+.form-field { margin-bottom:14px; }
+.form-field label { display:block; font-size:12.5px; font-weight:600; color:var(--text-secondary); margin-bottom:6px; }
+.form-field input {
+  width:100%; padding:11px 14px; border-radius:var(--radius-sm);
+  border:1.5px solid var(--border-strong); background:var(--bg-input);
+  font-size:14px; font-family:var(--font); color:var(--text-primary); outline:none;
+  transition:var(--transition);
+}
+.form-field input:focus { border-color:var(--orange); box-shadow:0 0 0 3px var(--orange-glow); background:#fff; }
+.modal-divider { display:flex; align-items:center; gap:12px; margin:16px 0; }
+.modal-divider hr { flex:1; border:none; border-top:1px solid var(--border); }
+.modal-divider span { font-size:12px; color:var(--text-muted); font-weight:500; }
+.google-btn {
+  width:100%; padding:11px; border-radius:var(--radius-sm);
+  border:1.5px solid var(--border-strong); background:var(--bg-input);
+  display:flex; align-items:center; justify-content:center; gap:10px;
+  font-size:14px; font-weight:600; color:var(--text-primary); cursor:pointer; transition:var(--transition);
+}
+.google-btn:hover { background:#fff; border-color:rgba(255,90,0,0.3); }
+.google-btn svg { width:18px; height:18px; }
+.modal-footer-link { text-align:center; font-size:13px; color:var(--text-muted); margin-top:14px; }
+.modal-footer-link button { background:none; border:none; color:var(--orange); font-weight:600; cursor:pointer; font-size:13px; }
+.modal-close { position:absolute; top:16px; right:16px; width:28px; height:28px; border-radius:50%; background:var(--bg-input); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--text-muted); transition:var(--transition); }
+.modal-close:hover { background:var(--border-strong); color:var(--text-primary); }
+
+/* ad interstitial */
+#ad-interstitial {
+  position:fixed; inset:0; background:rgba(0,0,0,0.9); z-index:3000;
+  display:flex; align-items:center; justify-content:center; display:none;
+}
+.ad-modal { background:var(--bg-card); border-radius:var(--radius-xl); padding:40px; max-width:480px; width:100%; text-align:center; box-shadow:var(--shadow-xl); position:relative; }
+.ad-modal h3 { font-size:14px; font-weight:600; color:var(--text-muted); margin-bottom:20px; text-transform:uppercase; letter-spacing:0.8px; }
+.ad-mock-content { background:#111; border-radius:var(--radius-md); height:200px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; }
+.ad-mock-content p { color:rgba(255,255,255,0.3); font-size:13px; }
+#ad-countdown { font-size:36px; font-weight:900; color:var(--orange); margin:0 auto 10px; width:64px; height:64px; border-radius:50%; background:var(--orange-glow); display:flex; align-items:center; justify-content:center; }
+.ad-skip-btn { padding:10px 24px; border-radius:var(--radius-sm); background:var(--text-primary); color:#fff; font-size:14px; font-weight:600; border:none; cursor:pointer; opacity:0.5; pointer-events:none; transition:var(--transition); }
+.ad-skip-btn.enabled { opacity:1; pointer-events:auto; background:var(--orange-gradient); box-shadow:0 3px 10px rgba(255,90,0,0.3); }
+
+/* rewarded modal */
+#rewarded-modal .modal-box { text-align:center; }
+#rewarded-countdown { font-size:48px; font-weight:900; color:var(--orange); margin:16px 0; }
+
+/* toasts */
+#toast-container { position:fixed; bottom:24px; right:24px; z-index:9999; display:flex; flex-direction:column; gap:10px; align-items:flex-end; }
+.toast {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:var(--radius-md); padding:12px 16px;
+  box-shadow:var(--shadow-lg); display:flex; align-items:center; gap:10px;
+  font-size:13.5px; font-weight:500; color:var(--text-primary);
+  max-width:320px; animation:toastIn 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  border-left:3px solid var(--orange);
+}
+.toast.success { border-left-color:#34C759; }
+.toast.error { border-left-color:#FF3B30; }
+.toast.info { border-left-color:#007AFF; }
+.toast svg { width:16px; height:16px; flex-shrink:0; }
+@keyframes toastIn { from{transform:translateX(20px) scale(0.95);opacity:0} to{transform:translateX(0) scale(1);opacity:1} }
+@keyframes toastOut { from{transform:translateX(0) scale(1);opacity:1} to{transform:translateX(20px) scale(0.95);opacity:0} }
+
+/* focus mode */
+body.focus-mode #app-header { opacity:0; pointer-events:none; }
+body.focus-mode .studio-panel { opacity:0; pointer-events:none; }
+body.focus-mode .studio-toolbar { opacity:0.15; }
+body.focus-mode .studio-toolbar:hover { opacity:1; }
+
+/* tooltip */
+[data-tip] { position:relative; }
+[data-tip]::after {
+  content:attr(data-tip);
+  position:absolute; bottom:calc(100% + 6px); left:50%; transform:translateX(-50%);
+  background:var(--text-primary); color:#fff; font-size:11px; font-weight:500;
+  padding:5px 9px; border-radius:6px; white-space:nowrap; pointer-events:none;
+  opacity:0; transition:opacity 0.15s; z-index:500;
+}
+[data-tip]:hover::after { opacity:1; }
+
+/* chips */
+.chip {
+  display:inline-flex; align-items:center; gap:5px; padding:4px 10px;
+  border-radius:99px; font-size:11.5px; font-weight:600;
+  background:var(--bg-input); color:var(--text-secondary); border:1px solid var(--border);
+}
+.chip.orange { background:var(--orange-glow); color:var(--orange); border-color:rgba(255,90,0,0.2); }
+.chip.green { background:rgba(52,199,89,0.12); color:#34C759; border-color:rgba(52,199,89,0.2); }
+.chip.red { background:rgba(255,59,48,0.1); color:#FF3B30; border-color:rgba(255,59,48,0.2); }
+
+/* responsive */
+@media(max-width:768px) {
+  #app-header { width:calc(100% - 24px); }
+  .dashboard-layout { flex-direction:column; }
+  .sidebar { width:100%; position:static; }
+  .studio-layout { flex-direction:column; height:auto; min-height:calc(100vh - 82px); }
+  .studio-panel { width:100%; max-height:none; flex-direction:row; flex-wrap:wrap; }
+  .panel-card { flex:1; min-width:220px; }
+}
+@media(max-width:480px) {
+  .header-nav { display:none; }
+  .hero-title { font-size:34px; }
+}
+</style>
 </head>
 <body>
 
-    <!-- LIQUID HEADER -->
-    <header>
-        <div class="logo" onclick="app.navigate('landing')">
-            <img src="https://uploads.onecompiler.io/42yatf6fu/1781258941988/25088C4A-230C-4E61-8E84-C40FD3A6033C-removebg-preview.png" alt="Nexra Logo">
-            Nexra Studio
-        </div>
-        <div style="display: flex; gap: 12px;">
-            <button class="btn btn-secondary" onclick="app.navigate('dashboard')">Dashboard</button>
-            <button class="btn btn-primary" id="btn-header-auth" onclick="ui.showModal('auth-modal')">Sign In</button>
-        </div>
-    </header>
+<!-- ██ HEADER ██ -->
+<header id="app-header">
+  <a class="header-logo" onclick="showView('landing')">
+    <img src="https://uploads.onecompiler.io/42yatf6fu/1781258941988/25088C4A-230C-4E61-8E84-C40FD3A6033C-removebg-preview.png" alt="Nexra Logo">
+    <span>Nexra <em>Studio</em></span>
+  </a>
+  <nav class="header-nav">
+    <button class="nav-btn active" onclick="showView('landing')" id="nav-landing">Home</button>
+    <button class="nav-btn" onclick="showView('dashboard')" id="nav-dashboard">Dashboard</button>
+    <button class="nav-btn" onclick="gotoStudio()" id="nav-studio">Studio</button>
+  </nav>
+  <div class="header-actions">
+    <div id="header-auth-area">
+      <button class="btn-ghost" onclick="openAuthModal('login')">Sign In</button>
+      <button class="btn-primary" onclick="openAuthModal('register')">Get Started</button>
+    </div>
+    <div id="header-user-area" style="display:none">
+      <div class="user-avatar" id="user-avatar-btn" onclick="handleSignOut()">N</div>
+    </div>
+  </div>
+</header>
 
-    <!-- LANDING PAGE -->
-    <main id="landing-page" class="view-section active">
-        <div style="text-align: center; max-width: 800px; margin: 40px auto;">
-            <h1 style="font-size: clamp(44px, 6vw, 64px); margin-bottom: 20px;">Record like a Pro.<br><span class="text-gradient">Direct in your browser.</span></h1>
-            <p style="font-size: 18px; color: var(--text-muted); margin-bottom: 40px; line-height: 1.6;">The ultimate screen recording suite featuring OBS-grade audio mixing, advanced Canvas annotations, and completely local rendering.</p>
-            
-            <button class="btn btn-primary" style="padding: 16px 40px; font-size: 18px; border-radius: 50px;" onclick="ads.showInterstitial(() => app.navigate('studio'))">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                Launch Studio Free
-            </button>
+<!-- ██ LANDING ██ -->
+<div class="view active" id="view-landing">
+  <section class="landing-hero">
+    <div class="hero-orb hero-orb-1"></div>
+    <div class="hero-orb hero-orb-2"></div>
+    <div class="hero-badge" style="z-index:1">
+      <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="4"/></svg>
+      No installs. No subscriptions. Just record.
+    </div>
+    <h1 class="hero-title" style="z-index:1">
+      Studio-quality<br><span class="accent">screen recording,</span><br>in your browser.
+    </h1>
+    <p class="hero-sub" style="z-index:1">
+      OBS-grade capture, real-time annotations, webcam overlay, and permanent watermark export — all powered by your browser, zero data leaves your device.
+    </p>
+    <div class="hero-ctas" style="z-index:1">
+      <button class="btn-primary" style="padding:13px 28px;font-size:15px" onclick="gotoStudio()">
+        Launch Studio Free
+      </button>
+      <button class="btn-ghost" style="padding:13px 28px;font-size:15px" onclick="showView('dashboard')">
+        View Dashboard
+      </button>
+    </div>
+    <div class="hero-trust" style="z-index:1">
+      <span><svg width="13" height="13" viewBox="0 0 16 16" fill="#34C759"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm3.2 5.5L7.5 10.2a.75.75 0 01-1.06 0L4.8 8.5a.75.75 0 111.06-1.06l1.11 1.11 3.17-3.17a.75.75 0 111.06 1.06z"/></svg> Zero server uploads</span>
+      <span><svg width="13" height="13" viewBox="0 0 16 16" fill="#34C759"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm3.2 5.5L7.5 10.2a.75.75 0 01-1.06 0L4.8 8.5a.75.75 0 111.06-1.06l1.11 1.11 3.17-3.17a.75.75 0 111.06 1.06z"/></svg> Works offline (PWA)</span>
+      <span><svg width="13" height="13" viewBox="0 0 16 16" fill="#34C759"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm3.2 5.5L7.5 10.2a.75.75 0 01-1.06 0L4.8 8.5a.75.75 0 111.06-1.06l1.11 1.11 3.17-3.17a.75.75 0 111.06 1.06z"/></svg> No account required</span>
+    </div>
+  </section>
+
+  <!-- Ad Banner Landing -->
+  <div style="max-width:900px;margin:0 auto;padding:0 24px 32px">
+    <div class="ad-banner" id="banner-landing">
+      <span class="ad-label">Advertisement</span>
+      <span class="ad-content" id="banner-landing-content">Loading ad...</span>
+    </div>
+  </div>
+
+  <section class="features-section">
+    <p class="section-label">Capabilities</p>
+    <h2 class="section-title">Everything you need to record professionally</h2>
+    <p class="section-sub">A complete recording studio without the complexity. Built on WebRTC and Canvas APIs.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+        </div>
+        <h3>OBS-Grade Capture</h3>
+        <p>Select entire screen, a browser tab, or a specific window with live preview before you record.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 18a8 8 0 10-16 0"/></svg>
+        </div>
+        <h3>Webcam Overlay</h3>
+        <p>Draggable, resizable Picture-in-Picture webcam with circle, square, and rounded shapes plus mirror mode.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+        </div>
+        <h3>Audio Mixing</h3>
+        <p>Mix microphone and system audio with individual volume controls, noise suppression, and echo cancellation.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3>Live Annotations</h3>
+        <p>Draw freehand, add directional arrows, highlight areas, and blur sensitive data — all while recording.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+        </div>
+        <h3>Canvas Burn Engine</h3>
+        <p>Watermarks are invisble during recording and permanently burned frame-by-frame into the final export.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+        </div>
+        <h3>PWA — Works Offline</h3>
+        <p>Install as a desktop app. Record and annotate even without internet. Sync history when back online.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-section">
+    <div class="how-inner">
+      <div style="text-align:center;margin-bottom:40px">
+        <p class="section-label">Workflow</p>
+        <h2 class="section-title">Record in 3 steps</h2>
+      </div>
+      <div class="steps-row">
+        <div class="step-item">
+          <div class="step-num">1</div>
+          <h4>Choose your source</h4>
+          <p>Pick entire screen, a browser tab, or app window. Preview before you commit.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">2</div>
+          <h4>Configure and record</h4>
+          <p>Set quality, add webcam overlay, configure audio, and hit record with a 7-second countdown.</p>
+        </div>
+        <div class="step-item">
+          <div class="step-num">3</div>
+          <h4>Export with branding</h4>
+          <p>Download the final video with a permanently burned Nexra watermark in WebM, MP4, or MKV.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="cta-card">
+      <h2>Start recording right now</h2>
+      <p>No credit card. No download. Open your browser and go.</p>
+      <button class="btn-primary" style="padding:14px 32px;font-size:15px" onclick="gotoStudio()">Open Studio Free</button>
+    </div>
+  </section>
+
+  <footer class="landing-footer">
+    <div style="display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:10px">
+      <img src="https://uploads.onecompiler.io/42yatf6fu/1781258941988/25088C4A-230C-4E61-8E84-C40FD3A6033C-removebg-preview.png" style="width:22px;height:22px;object-fit:contain">
+      <span style="font-weight:700;color:var(--text-primary)">Nexra Studio Pro</span>
+    </div>
+    <p>© 2025 Nexra. All rights reserved. Privacy-first, locally processed, zero-upload.</p>
+  </footer>
+</div>
+
+<!-- ██ DASHBOARD ██ -->
+<div class="view" id="view-dashboard">
+  <div class="dashboard-layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Workspace</div>
+        <button class="sidebar-item active" onclick="dashTab('overview')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H3a1 1 0 01-1-1V3zm0 6a1 1 0 011-1h6a1 1 0 011 1v8a1 1 0 01-1 1H3a1 1 0 01-1-1V9zm10 0a1 1 0 011-1h4a1 1 0 011 1v8a1 1 0 01-1 1h-4a1 1 0 01-1-1V9z"/></svg>
+          Overview
+        </button>
+        <button class="sidebar-item" onclick="dashTab('history')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16A8 8 0 0010 2zm1 9H9V7h2v4zm0 4H9v-2h2v2z"/></svg>
+          Recording History
+        </button>
+        <button class="sidebar-item" onclick="dashTab('preferences')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M5 4a1 1 0 00-2 0v7.268a2 2 0 000 3.464V16a1 1 0 102 0v-1.268a2 2 0 000-3.464V4zM11 4a1 1 0 10-2 0v1.268a2 2 0 000 3.464V16a1 1 0 102 0V8.732a2 2 0 000-3.464V4zM16 3a1 1 0 011 1v7.268a2 2 0 010 3.464V16a1 1 0 11-2 0v-1.268a2 2 0 010-3.464V4a1 1 0 011-1z"/></svg>
+          Preferences
+        </button>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Account</div>
+        <button class="sidebar-item" id="sidebar-signin-btn" onclick="openAuthModal('login')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a4 4 0 100 8 4 4 0 000-8zM5 16a5 5 0 0110 0H5z"/></svg>
+          Sign In / Register
+        </button>
+        <button class="sidebar-item" id="sidebar-signout-btn" style="display:none" onclick="handleSignOut()">
+          <svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 3a1 1 0 011 1v12a1 1 0 11-2 0V4a1 1 0 011-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z"/></svg>
+          Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <main class="dashboard-main">
+      <!-- Overview Tab -->
+      <div id="dash-overview">
+        <div class="quick-record-card">
+          <div class="qr-text">
+            <h3>Ready to record?</h3>
+            <p>Configure your settings, then launch the studio.</p>
+          </div>
+          <button class="btn-primary" style="padding:12px 24px;flex-shrink:0" onclick="gotoStudio()">
+            Open Studio
+          </button>
         </div>
 
-        <!-- ADMOB BANNER PLATEMENT -->
-        <div class="ad-banner-container" id="ad-banner-home">
-            <span class="ad-badge">Ad</span>
-            Loading AdMob Banner (ca-app-pub-3940256099942544/6300978111)...
+        <div class="ad-banner" id="banner-dashboard">
+          <span class="ad-label">Advertisement</span>
+          <span class="ad-content" id="banner-dashboard-content">Loading ad...</span>
         </div>
+
+        <p class="dash-section-title">Quick Settings</p>
+        <p class="dash-section-sub">These sync to the Studio automatically.</p>
+        <div class="settings-grid">
+          <div class="settings-card">
+            <h4>Quality</h4>
+            <div class="setting-row">
+              <label>Resolution</label>
+              <select class="setting-select" id="pref-resolution" onchange="savePref()">
+                <option value="720p">720p HD</option>
+                <option value="1080p" selected>1080p FHD</option>
+                <option value="1440p">1440p QHD</option>
+                <option value="4k">4K UHD</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <label>FPS</label>
+              <select class="setting-select" id="pref-fps" onchange="savePref()">
+                <option value="15">15 FPS</option>
+                <option value="30" selected>30 FPS</option>
+                <option value="60">60 FPS</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <label>Format</label>
+              <select class="setting-select" id="pref-format" onchange="savePref()">
+                <option value="webm">WebM</option>
+                <option value="mp4">MP4 (wrapped)</option>
+                <option value="mkv">MKV</option>
+              </select>
+            </div>
+          </div>
+          <div class="settings-card">
+            <h4>Audio</h4>
+            <div class="setting-row">
+              <label>Noise Suppression</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="pref-noise" checked onchange="savePref()">
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+              </label>
+            </div>
+            <div class="setting-row">
+              <label>Echo Cancellation</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="pref-echo" checked onchange="savePref()">
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+              </label>
+            </div>
+            <div class="setting-row">
+              <label>System Audio</label>
+              <label class="toggle-switch">
+                <input type="checkbox" id="pref-sysaudio" onchange="savePref()">
+                <span class="toggle-track"></span>
+                <span class="toggle-thumb"></span>
+              </label>
+            </div>
+          </div>
+          <div class="settings-card">
+            <h4>Recording</h4>
+            <div class="setting-row">
+              <label>Countdown (s)</label>
+              <select class="setting-select" id="pref-countdown" onchange="savePref()">
+                <option value="0">None</option>
+                <option value="3">3s</option>
+                <option value="5" selected>5s</option>
+                <option value="7">7s</option>
+                <option value="10">10s</option>
+              </select>
+            </div>
+            <div class="setting-row">
+              <label>Auto-stop (min)</label>
+              <select class="setting-select" id="pref-autostop" onchange="savePref()">
+                <option value="0">Off</option>
+                <option value="5">5 min</option>
+                <option value="10">10 min</option>
+                <option value="30">30 min</option>
+                <option value="60">60 min</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Keyboard shortcuts -->
+        <p class="dash-section-title" style="margin-top:8px">Keyboard Shortcuts</p>
+        <div class="settings-card" style="max-width:440px">
+          <div class="setting-row"><label>Start Recording</label><span class="chip">Ctrl+Shift+R</span></div>
+          <div class="setting-row"><label>Stop Recording</label><span class="chip">Ctrl+Shift+S</span></div>
+          <div class="setting-row"><label>Toggle Draw Mode</label><span class="chip">Alt+D</span></div>
+          <div class="setting-row"><label>Screenshot</label><span class="chip">Alt+S</span></div>
+          <div class="setting-row"><label>Mute Mic</label><span class="chip">Alt+M</span></div>
+          <div class="setting-row"><label>Focus Mode</label><span class="chip">Alt+F</span></div>
+        </div>
+      </div>
+
+      <!-- History Tab -->
+      <div id="dash-history" style="display:none">
+        <p class="dash-section-title">Recording History</p>
+        <p class="dash-section-sub" id="history-note">Local recordings appear here. Sign in to sync to cloud.</p>
+        <div class="history-list" id="history-list">
+          <div style="padding:40px;text-align:center;color:var(--text-muted);font-size:14px">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:block;margin:0 auto 12px;opacity:0.4"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            No recordings yet. Launch the studio to get started.
+          </div>
+        </div>
+      </div>
+
+      <!-- Preferences Tab -->
+      <div id="dash-preferences" style="display:none">
+        <p class="dash-section-title">App Preferences</p>
+        <p class="dash-section-sub">Theme and advanced configuration.</p>
+        <div class="settings-card" style="max-width:440px">
+          <h4>Interface</h4>
+          <div class="setting-row">
+            <label>Focus Mode by default</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="pref-focusdefault">
+              <span class="toggle-track"></span>
+              <span class="toggle-thumb"></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <label>Show watermark preview</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="pref-wmpreview">
+              <span class="toggle-track"></span>
+              <span class="toggle-thumb"></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <label>Auto-open Export Bay</label>
+            <label class="toggle-switch">
+              <input type="checkbox" id="pref-autoexport" checked>
+              <span class="toggle-track"></span>
+              <span class="toggle-thumb"></span>
+            </label>
+          </div>
+        </div>
+      </div>
+
     </main>
+  </div>
+</div>
 
-    <!-- DASHBOARD -->
-    <main id="dashboard-page" class="view-section">
-        <div class="dashboard-grid">
-            <aside class="sidebar">
-                <div class="menu-item active" onclick="ui.switchDashTab('home')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg> Workspace
-                </div>
-                <div class="menu-item" onclick="ui.switchDashTab('history')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg> Cloud Vault
-                </div>
-                <div class="menu-item" onclick="ui.switchDashTab('settings')">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg> Preferences
-                </div>
-            </aside>
-            <div class="glass-panel" style="padding: 32px; overflow-y: auto;">
-                <div id="dash-home">
-                    <h2 style="font-size: 28px;">Your Workspace</h2>
-                    <p class="text-muted" style="margin-top: 5px;">Configure your next session.</p>
-                    
-                    <div style="margin-top: 30px; display: flex; gap: 16px;">
-                        <button class="btn btn-primary" onclick="app.navigate('studio')">Open Studio Editor</button>
-                    </div>
+<!-- ██ STUDIO ██ -->
+<div class="view" id="view-studio">
+  <div class="studio-layout">
 
-                    <!-- Dashboard AdMob Banner -->
-                    <div class="ad-banner-container" style="margin-top: 40px; height: 250px;">
-                        <span class="ad-badge">Ad</span>
-                        MREC AdMob Placement
-                    </div>
-                </div>
-
-                <div id="dash-history" class="hidden">
-                    <h2>Cloud Vault</h2>
-                    <p class="text-muted">Your exported recordings synced across devices.</p>
-                    <div id="history-list" style="margin-top: 20px; display: flex; flex-direction: column; gap: 12px;">
-                        <p class="text-muted">Sign in to view history.</p>
-                    </div>
-                </div>
-
-                <div id="dash-settings" class="hidden">
-                    <h2>Recording Engine Preferences</h2>
-                    <div style="max-width: 400px; margin-top: 20px;">
-                        <div class="form-group">
-                            <label>Export Resolution</label>
-                            <select id="set-quality" class="form-control" onchange="app.saveSettings()">
-                                <option value="1080">1080p Full HD (Standard)</option>
-                                <option value="2160">4K Ultra HD (Pro / Watch Ad)</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Frame Rate</label>
-                            <select id="set-fps" class="form-control" onchange="app.saveSettings()">
-                                <option value="60">60 FPS (Smooth)</option>
-                                <option value="30">30 FPS (Standard)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <!-- Preview + Toolbar -->
+    <div class="preview-area">
+      <div class="preview-container" id="preview-container">
+        <video id="preview-video" autoplay muted playsinline style="display:none"></video>
+        <canvas id="annotation-canvas"></canvas>
+        <div id="pip-webcam">
+          <video id="pip-video" autoplay muted playsinline></video>
+          <div id="pip-resize-handle"></div>
         </div>
-    </main>
-
-    <!-- PRO STUDIO PAGE -->
-    <main id="studio-page" class="view-section">
-        <div class="studio-container">
-            <!-- Main Preview Area -->
-            <div class="preview-wrapper">
-                <video id="screen-preview" autoplay muted playsinline></video>
-                <canvas id="annotation-canvas"></canvas>
-                
-                <!-- Advanced PiP -->
-                <div id="pip-cam-container" class="pip-container shape-circle hidden mirror">
-                    <video id="webcam-preview" autoplay muted playsinline></video>
-                </div>
-            </div>
-
-            <!-- Toolbars -->
-            <div class="controls-toolbar">
-                <div style="display: flex; gap: 16px; align-items: center;">
-                    <button class="btn btn-primary" id="btn-start-record" style="border-radius: 50px;">
-                        <div style="width: 10px; height: 10px; background: white; border-radius: 50%; animation: pulse 1s infinite;"></div> REC
-                    </button>
-                    <button class="btn btn-secondary hidden" id="btn-stop-record" style="color: red; border-color: red;">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="6" width="12" height="12" rx="2"/></svg> STOP
-                    </button>
-                    <span id="record-timer" style="font-family: monospace; font-size: 20px; font-weight: 700; color: var(--orange); display: none;">00:00:00</span>
-                </div>
-
-                <!-- Input Sources -->
-                <div style="display: flex; gap: 8px;">
-                    <button class="icon-btn" id="btn-toggle-screen" title="Share Screen" onclick="recorder.toggleScreen()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-                    </button>
-                    <button class="icon-btn" id="btn-toggle-cam" title="Webcam" onclick="recorder.toggleCamera()">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
-                    </button>
-                    
-                    <!-- Advanced Audio Mixer -->
-                    <div class="audio-mixer">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8"/></svg>
-                        <input type="range" id="mic-vol" min="0" max="2" step="0.1" value="1" title="Mic Volume" oninput="recorder.updateVolumes()">
-                        <div style="width:1px; height:16px; background:var(--border);"></div>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color:var(--text-muted);"><rect x="2" y="2" width="20" height="20" rx="2" ry="2"/><circle cx="12" cy="12" r="4"/><line x1="12" y1="6" x2="12" y2="6.01"/></svg>
-                        <input type="range" id="sys-vol" min="0" max="2" step="0.1" value="1" title="System Volume" oninput="recorder.updateVolumes()">
-                    </div>
-                </div>
-
-                <!-- Pro Annotation Tools -->
-                <div class="tool-selector">
-                    <button class="icon-btn" style="padding: 6px;" title="Pen Tool" id="tool-pen" onclick="tools.set('pen')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
-                    </button>
-                    <button class="icon-btn" style="padding: 6px;" title="Arrow Tool" id="tool-arrow" onclick="tools.set('arrow')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-                    </button>
-                    <button class="icon-btn" style="padding: 6px;" title="Highlighter" id="tool-highlight" onclick="tools.set('highlight')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><line x1="4" y1="12" x2="20" y2="12"/></svg>
-                    </button>
-                    <input type="color" id="tool-color" value="#FF5A00">
-                    <div style="width:1px; background:var(--border); margin: 0 4px;"></div>
-                    <button class="icon-btn" style="padding: 6px;" title="Clear Canvas" onclick="tools.clear()">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
-                    </button>
-                    <button class="icon-btn" style="padding: 6px;" title="Flip Camera" onclick="document.getElementById('pip-cam-container').classList.toggle('mirror')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12H3M12 21l-9-9 9-9"/></svg>
-                    </button>
-                </div>
-            </div>
+        <div id="countdown-overlay">
+          <div class="countdown-number" id="countdown-num">5</div>
         </div>
-    </main>
-
-    <!-- EXPORT BAY -->
-    <main id="preview-page" class="view-section">
-        <div style="max-width: 900px; margin: 0 auto;">
-            <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px;">
-                <div>
-                    <h2>Export & Render</h2>
-                    <p class="text-muted">Review your recording and burn the final assets.</p>
-                </div>
-            </div>
-            
-            <div class="glass-panel" style="padding: 10px; background: #000;">
-                <video id="final-preview-video" controls style="width: 100%; border-radius: 10px;"></video>
-            </div>
-
-            <div class="glass-panel" style="padding: 30px; margin-top: 24px; display: flex; justify-content: space-between; align-items: center;">
-                <div>
-                    <h3 id="export-res-label">Render Quality: 1080p HD</h3>
-                    <p class="text-muted" style="font-size: 13px;">File will be wrapped in MP4 format natively.</p>
-                </div>
-                <button class="btn btn-primary" id="btn-export" onclick="engine.verifyAndExport()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
-                    Start Render Engine
-                </button>
-            </div>
-
-            <div id="export-progress" class="hidden glass-panel" style="padding: 20px; margin-top: 20px;">
-                <div style="display: flex; justify-content: space-between; font-weight: 600; font-size: 14px;">
-                    <span>Burning Watermark & Encoding...</span>
-                    <span id="export-pct" class="text-orange">0%</span>
-                </div>
-                <div class="progress-bar"><div class="progress-fill" id="export-bar"></div></div>
-            </div>
-            
-            <!-- AdMob Rewarded Interstitial Banner Place -->
-            <div class="ad-banner-container" style="margin-top: 20px;">
-                <span class="ad-badge">Ad</span>
-                Sponsored Ad Slot
-            </div>
+        <div class="preview-placeholder" id="preview-placeholder">
+          <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="4" y="8" width="40" height="28" rx="3"/>
+            <path d="M16 36l-4 4h24l-4-4"/>
+            <circle cx="24" cy="22" r="6"/>
+          </svg>
+          <p>Select a capture source to begin</p>
+          <p class="preview-hint">Use the source buttons in the panel →</p>
         </div>
-    </main>
+      </div>
 
-    <!-- MODALS -->
-    <!-- AdMob Rewarded Verification Modal -->
-    <div class="modal-overlay" id="ad-reward-modal">
-        <div class="modal-content" style="text-align: center;">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2" style="margin-bottom: 20px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-            <h2 style="margin-bottom: 10px;">Unlock 4K Export</h2>
-            <p class="text-muted" style="font-size: 15px; margin-bottom: 24px;">Watch a short sponsored ad to unlock premium 4K rendering for this video.</p>
-            
-            <!-- Simulated Ad Frame -->
-            <div style="width: 100%; height: 200px; background: #000; border-radius: 12px; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; color: white; position: relative;">
-                <span style="position:absolute; top:10px; left:10px; font-size:10px; background:rgba(255,255,255,0.2); padding:2px 6px; border-radius:4px;">Google AdMob (5224354917)</span>
-                <span id="ad-timer">Ad playing... 5s</span>
-            </div>
-
-            <button class="btn btn-secondary" style="width: 100%;" id="btn-skip-ad" disabled>Reward Loading...</button>
+      <!-- Toolbar -->
+      <div class="studio-toolbar">
+        <div class="toolbar-group">
+          <span class="record-time" id="rec-timer">00:00</span>
+          <button class="record-btn start" id="btn-record" onclick="startRecording()" data-tip="Start Recording (Ctrl+Shift+R)">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="6"/></svg>
+            Record
+          </button>
+          <button class="record-btn stop" id="btn-stop" onclick="stopRecording()" style="display:none" data-tip="Stop (Ctrl+Shift+S)">
+            <div class="rec-dot"></div>
+            Stop
+          </button>
         </div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-group">
+          <button class="tool-btn" id="tool-pen" onclick="setTool('pen')" data-tip="Pen (Alt+D)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </button>
+          <button class="tool-btn" id="tool-arrow" onclick="setTool('arrow')" data-tip="Arrow Tool">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </button>
+          <button class="tool-btn" id="tool-highlight" onclick="setTool('highlight')" data-tip="Highlighter">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/><path d="M15 5l4 4"/></svg>
+          </button>
+          <button class="tool-btn" id="tool-blur" onclick="setTool('blur')" data-tip="Blur Sensitive Data">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          </button>
+          <div class="color-picker-wrap" data-tip="Color">
+            <input type="color" id="annotation-color" value="#FF5A00" onchange="updateDrawColor()">
+          </div>
+          <button class="tool-btn" onclick="clearAnnotations()" data-tip="Clear All">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6"/><path d="M10 11v6M14 11v6"/></svg>
+          </button>
+          <button class="tool-btn" id="tool-none" onclick="setTool('none')" data-tip="Pointer (no tool)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3l14 9-7 1-3 6z"/></svg>
+          </button>
+        </div>
+        <div class="toolbar-divider"></div>
+        <div class="toolbar-group">
+          <button class="tool-btn" onclick="takeScreenshot()" data-tip="Screenshot (Alt+S)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+          </button>
+          <button class="tool-btn" id="mic-mute-btn" onclick="toggleMicMute()" data-tip="Mute Mic (Alt+M)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" id="mic-icon"><path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v4M8 23h8"/></svg>
+          </button>
+          <button class="tool-btn" onclick="toggleFocusMode()" data-tip="Focus Mode (Alt+F)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 3H5a2 2 0 00-2 2v3M21 8V5a2 2 0 00-2-2h-3M3 16v3a2 2 0 002 2h3M16 21h3a2 2 0 002-2v-3"/></svg>
+          </button>
+          <button class="tool-btn" onclick="showView('export')" data-tip="Export Bay">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          </button>
+        </div>
+        <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
+          <div class="status-bar">
+            <div class="status-dot" id="status-dot"></div>
+            <span id="status-text" style="font-size:12px">Ready</span>
+          </div>
+          <div id="audio-meter">
+            <div class="meter-bar" id="mb0"></div>
+            <div class="meter-bar" id="mb1"></div>
+            <div class="meter-bar" id="mb2"></div>
+            <div class="meter-bar" id="mb3"></div>
+            <div class="meter-bar" id="mb4"></div>
+            <div class="meter-bar" id="mb5"></div>
+            <div class="meter-bar" id="mb6"></div>
+            <div class="meter-bar" id="mb7"></div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <!-- Auth Modal -->
-    <div class="modal-overlay" id="auth-modal">
-        <div class="modal-content">
-            <button class="icon-btn" style="position: absolute; top: 16px; right: 16px; border:none; box-shadow:none; background:transparent;" onclick="ui.hideModal('auth-modal')">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-            </button>
-            <h2 style="margin-bottom: 24px;">Authenticate</h2>
-            
-            <div id="auth-error" style="color: red; font-size: 13px; margin-bottom: 12px; display: none;"></div>
+    <!-- Panel -->
+    <div class="studio-panel">
+      <!-- Capture Source -->
+      <div class="panel-card">
+        <div class="panel-title">Capture Source</div>
+        <button class="source-btn" id="src-screen" onclick="selectSource('screen')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><rect x="2" y="3" width="16" height="11" rx="1"/><path d="M6 17h8M10 14v3"/></svg>
+          Entire Screen
+          <span class="chip" style="margin-left:auto;font-size:10px">Recommended</span>
+        </button>
+        <button class="source-btn" id="src-tab" onclick="selectSource('tab')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><rect x="2" y="5" width="16" height="12" rx="1"/><path d="M2 8h16"/></svg>
+          Browser Tab
+        </button>
+        <button class="source-btn" id="src-window" onclick="selectSource('window')">
+          <svg viewBox="0 0 20 20" fill="currentColor"><rect x="2" y="2" width="16" height="16" rx="2"/><path d="M2 7h16"/></svg>
+          App Window
+        </button>
+      </div>
 
-            <div class="form-group">
-                <input type="email" id="auth-email" class="form-control" placeholder="Email Address">
-            </div>
-            <div class="form-group">
-                <input type="password" id="auth-pass" class="form-control" placeholder="Password">
-            </div>
-            
-            <button class="btn btn-primary" style="width: 100%; margin-bottom: 16px;" onclick="authManager.signInEmail()">Continue with Email</button>
-            
-            <div style="text-align: center; margin: 16px 0; font-size: 13px; color: var(--text-muted);">OR</div>
-            
-            <button class="btn btn-secondary" style="width: 100%; justify-content: center;" onclick="authManager.signInGoogle()">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21.35 11.1h-9.17v2.73h6.51c-.33 3.81-3.5 5.44-6.5 5.44C8.36 19.27 5 16.25 5 12c0-4.1 3.2-7.27 7.2-7.27 3.09 0 4.9 1.97 4.9 1.97L19 4.72S16.56 2 12.1 2C6.42 2 2.03 6.8 2.03 12c0 5.05 4.13 10 10.22 10 5.35 0 9.25-3.67 9.25-9.09 0-1.15-.15-1.81-.15-1.81z"/></svg>
-                Google Sign In
-            </button>
-            
-            <div style="margin-top: 24px; font-size: 14px; text-align: center; cursor: pointer;" onclick="authManager.toggleMode()">
-                <span id="auth-toggle-text">Need an account? <span class="text-orange">Register</span></span>
-            </div>
+      <!-- Webcam -->
+      <div class="panel-card">
+        <div class="panel-title">Webcam Overlay</div>
+        <div class="panel-row">
+          <span class="panel-label">Enable Camera</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="cam-toggle" onchange="toggleWebcam()">
+            <span class="toggle-track"></span>
+            <span class="toggle-thumb"></span>
+          </label>
         </div>
+        <div class="panel-row">
+          <span class="panel-label">Mirror Mode</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="cam-mirror" onchange="toggleMirror()">
+            <span class="toggle-track"></span>
+            <span class="toggle-thumb"></span>
+          </label>
+        </div>
+        <div class="panel-row">
+          <span class="panel-label">Background Blur</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="cam-blur" onchange="toggleCamBlur()">
+            <span class="toggle-track"></span>
+            <span class="toggle-thumb"></span>
+          </label>
+        </div>
+        <div class="range-row">
+          <label>Opacity <span id="cam-opacity-val">100%</span></label>
+          <input type="range" id="cam-opacity" min="20" max="100" value="100" oninput="updateCamOpacity(this)">
+        </div>
+        <div class="range-row">
+          <label>Size <span id="cam-size-val">160px</span></label>
+          <input type="range" id="cam-size" min="80" max="300" value="160" oninput="updateCamSize(this)">
+        </div>
+        <div style="margin-top:10px">
+          <div class="panel-label" style="margin-bottom:6px">Shape</div>
+          <div class="shape-btns">
+            <button class="shape-btn active" onclick="setPipShape('circle')" id="shape-circle">Circle</button>
+            <button class="shape-btn" onclick="setPipShape('square')" id="shape-square">Square</button>
+            <button class="shape-btn" onclick="setPipShape('rounded')" id="shape-rounded">Rounded</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Audio -->
+      <div class="panel-card">
+        <div class="panel-title">Audio</div>
+        <div class="range-row">
+          <label>Microphone <span id="mic-vol-val">80%</span></label>
+          <input type="range" id="mic-vol" min="0" max="100" value="80" oninput="updateMicVol(this)">
+        </div>
+        <div class="range-row">
+          <label>System Audio <span id="sys-vol-val">70%</span></label>
+          <input type="range" id="sys-vol" min="0" max="100" value="70" oninput="updateSysVol(this)">
+        </div>
+        <div class="panel-row" style="margin-top:4px">
+          <span class="panel-label">Noise Suppression</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="noise-sup" checked>
+            <span class="toggle-track"></span>
+            <span class="toggle-thumb"></span>
+          </label>
+        </div>
+        <div class="panel-row">
+          <span class="panel-label">Echo Cancellation</span>
+          <label class="toggle-switch">
+            <input type="checkbox" id="echo-cancel" checked>
+            <span class="toggle-track"></span>
+            <span class="toggle-thumb"></span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Quality -->
+      <div class="panel-card">
+        <div class="panel-title">Quality</div>
+        <div class="panel-row">
+          <span class="panel-label">Resolution</span>
+          <select class="setting-select" id="studio-res" style="font-size:12px">
+            <option value="720p">720p</option>
+            <option value="1080p" selected>1080p</option>
+            <option value="1440p">1440p</option>
+            <option value="4k">4K</option>
+          </select>
+        </div>
+        <div class="panel-row">
+          <span class="panel-label">FPS</span>
+          <select class="setting-select" id="studio-fps" style="font-size:12px">
+            <option value="15">15 FPS</option>
+            <option value="30" selected>30 FPS</option>
+            <option value="60">60 FPS</option>
+          </select>
+        </div>
+        <div class="range-row" style="margin-top:6px">
+          <label>Bitrate <span id="bitrate-val">6 Mbps</span></label>
+          <input type="range" id="bitrate" min="1" max="20" value="6" oninput="this.parentElement.querySelector('span').textContent=this.value+' Mbps'">
+        </div>
+      </div>
+
     </div>
+  </div>
+</div>
 
-    <!-- UTILS -->
-    <div id="toast-container"></div>
-    <div style="display:none;">
-        <video id="burn-video" playsinline muted></video>
-        <canvas id="burn-canvas"></canvas>
-        <img id="asset-logo" src="https://uploads.onecompiler.io/42yatf6fu/1781258941988/25088C4A-230C-4E61-8E84-C40FD3A6033C-removebg-preview.png" crossorigin="anonymous">
-        <img id="asset-watermark" src="https://uploads.onecompiler.io/42yatf6fu/1781259030437/12945C3A-733B-45AB-9722-044C592AC5C7-removebg-preview.png" crossorigin="anonymous">
+<!-- ██ EXPORT ██ -->
+<div class="view" id="view-export">
+  <div class="export-layout">
+    <button class="btn-ghost" style="margin-bottom:16px;display:inline-flex;align-items:center;gap:6px" onclick="showView('studio')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 12L6 8l4-4"/></svg>
+      Back to Studio
+    </button>
+
+    <div class="export-card">
+      <h2>Preview &amp; Export</h2>
+      <p>Review your recording, then export with the Nexra watermark permanently burned in.</p>
+
+      <div class="preview-video-wrap">
+        <video id="export-video" controls style="width:100%;height:100%;object-fit:contain;background:#000"></video>
+        <div id="no-recording-msg" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,0.4);font-size:14px;flex-direction:column;gap:10px">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/></svg>
+          No recording yet — go to Studio to record.
+        </div>
+      </div>
+
+      <div class="ad-banner" style="margin-bottom:16px" id="banner-export">
+        <span class="ad-label">Advertisement</span>
+        <span class="ad-content" id="banner-export-content">Loading ad...</span>
+      </div>
+
+      <p style="font-size:14px;font-weight:700;margin-bottom:10px">Export Format</p>
+      <div class="export-options">
+        <div class="export-opt selected" onclick="selectFormat('webm',this)">
+          <div class="opt-fmt">WebM</div>
+          <div class="opt-desc">Native browser, smallest size</div>
+        </div>
+        <div class="export-opt" onclick="selectFormat('mp4',this)">
+          <div class="opt-fmt">MP4</div>
+          <div class="opt-desc">Universal compatibility</div>
+        </div>
+        <div class="export-opt" onclick="selectFormat('mkv',this)">
+          <div class="opt-fmt">MKV</div>
+          <div class="opt-desc">Open container, lossless</div>
+        </div>
+      </div>
+
+      <div class="render-progress" id="render-progress">
+        <div class="prog-label">
+          <span>Burning watermark…</span>
+          <span id="render-pct">0%</span>
+        </div>
+        <div class="prog-bar-wrap"><div class="prog-bar" id="render-bar"></div></div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:20px;flex-wrap:wrap">
+        <button class="btn-primary" style="flex:1;min-width:160px;padding:13px" onclick="triggerExport()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline;vertical-align:-2px;margin-right:7px"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+          Export with Watermark
+        </button>
+        <button class="btn-ghost" style="padding:13px 20px" onclick="triggerExport4K()">Watch Ad for 4K</button>
+      </div>
     </div>
+  </div>
+</div>
 
-    <!-- ========================================== -->
-    <!-- JAVASCRIPT LOGIC ENGINE -->
-    <!-- ========================================== -->
-    <script type="module">
-        // ---------------------------------------------------
-        // 1. GOOGLE ADMOB MONETIZATION ENGINE (WEB SIMULATION)
-        // Strictly uses the provided ca-app-pub IDs.
-        // ---------------------------------------------------
-        window.ads = {
-            units: {
-                banner: 'ca-app-pub-3940256099942544/6300978111',
-                interstitial: 'ca-app-pub-3940256099942544/1033173712',
-                rewarded: 'ca-app-pub-3940256099942544/5224354917',
-                rewardInt: 'ca-app-pub-3940256099942544/5354046379'
-            },
-            showInterstitial: (callback) => {
-                // Simulating AdMob Interstitial Request
-                ui.toast(`Requesting AdMob Interstitial (${ads.units.interstitial})...`);
-                setTimeout(() => { callback(); }, 800); // Simulate instant close for UX
-            },
-            showRewarded: (onComplete) => {
-                ui.showModal('ad-reward-modal');
-                let t = 5;
-                const timerEl = document.getElementById('ad-timer');
-                const btn = document.getElementById('btn-skip-ad');
-                btn.disabled = true; btn.innerText = "Reward Loading...";
-                
-                const int = setInterval(() => {
-                    t--; timerEl.innerText = `Ad playing... ${t}s`;
-                    if(t <= 0) {
-                        clearInterval(int);
-                        timerEl.innerText = "Reward Granted!";
-                        btn.disabled = false;
-                        btn.innerText = "Close & Continue";
-                        btn.onclick = () => { ui.hideModal('ad-reward-modal'); onComplete(); };
-                    }
-                }, 1000);
-            }
-        };
+<!-- ██ AUTH MODAL ██ -->
+<div class="modal-overlay" id="auth-modal">
+  <div class="modal-box" style="position:relative">
+    <button class="modal-close" onclick="closeModal('auth-modal')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4L4 12M4 4l8 8"/></svg>
+    </button>
+    <div class="modal-logo">
+      <img src="https://uploads.onecompiler.io/42yatf6fu/1781258941988/25088C4A-230C-4E61-8E84-C40FD3A6033C-removebg-preview.png" alt="Nexra">
+    </div>
+    <h2>Welcome to Nexra</h2>
+    <p id="auth-modal-desc">Sign in to sync your history and preferences across devices.</p>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</button>
+      <button class="auth-tab" id="tab-register" onclick="switchAuthTab('register')">Create Account</button>
+    </div>
+    <div id="auth-form-login">
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="form-field">
+        <label>Password</label>
+        <input type="password" id="login-password" placeholder="Enter your password" autocomplete="current-password">
+      </div>
+      <button class="btn-primary" style="width:100%;padding:12px" onclick="handleEmailLogin()">Sign In</button>
+      <div class="modal-footer-link">
+        <button onclick="handleForgotPassword()">Forgot password?</button>
+      </div>
+    </div>
+    <div id="auth-form-register" style="display:none">
+      <div class="form-field">
+        <label>Display Name</label>
+        <input type="text" id="reg-name" placeholder="Your name" autocomplete="name">
+      </div>
+      <div class="form-field">
+        <label>Email</label>
+        <input type="email" id="reg-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="form-field">
+        <label>Password</label>
+        <input type="password" id="reg-password" placeholder="Create a password" autocomplete="new-password">
+      </div>
+      <button class="btn-primary" style="width:100%;padding:12px" onclick="handleRegister()">Create Account</button>
+    </div>
+    <div class="modal-divider"><hr><span>or continue with</span><hr></div>
+    <button class="google-btn" onclick="handleGoogleLogin()">
+      <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Continue with Google
+    </button>
+  </div>
+</div>
 
-        // ---------------------------------------------------
-        // 2. FIREBASE CONFIGURATION (firebaseconfig.js)
-        // ---------------------------------------------------
-        let fbApp, fbAuth, fbDb, authModule, firestoreModule;
-        const initFirebase = async () => {
-            try {
-                const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js');
-                authModule = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js');
-                firestoreModule = await import('https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js');
-                
-                let config;
-                try {
-                    const confMod = await import('./firebaseconfig.js');
-                    config = confMod.default || confMod.firebaseConfig;
-                } catch(e) { window.isLocalMode = true; return; }
+<!-- Download Auth Gate -->
+<div class="modal-overlay" id="download-gate-modal">
+  <div class="modal-box" style="position:relative">
+    <button class="modal-close" onclick="closeModal('download-gate-modal')">
+      <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4L4 12M4 4l8 8"/></svg>
+    </button>
+    <div class="modal-logo">
+      <img src="https://uploads.onecompiler.io/42yatf6fu/1781258941988/25088C4A-230C-4E61-8E84-C40FD3A6033C-removebg-preview.png" alt="Nexra">
+    </div>
+    <h2>Sign in to Download</h2>
+    <p>Create a free account to download your recording. Your video is ready — just sign in to export it.</p>
+    <button class="google-btn" onclick="handleGoogleLoginForDownload()" style="margin-bottom:12px">
+      <svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+      Continue with Google
+    </button>
+    <div class="form-field">
+      <label>Email</label>
+      <input type="email" id="gate-email" placeholder="you@example.com">
+    </div>
+    <div class="form-field">
+      <label>Password</label>
+      <input type="password" id="gate-password" placeholder="Password">
+    </div>
+    <button class="btn-primary" style="width:100%;padding:12px" onclick="handleGateLogin()">Sign In & Download</button>
+  </div>
+</div>
 
-                fbApp = initializeApp(config);
-                fbAuth = authModule.getAuth(fbApp);
-                fbDb = firestoreModule.getFirestore(fbApp);
-                
-                authModule.onAuthStateChanged(fbAuth, (user) => {
-                    appState.user = user;
-                    const btn = document.getElementById('btn-header-auth');
-                    if(user) {
-                        ui.toast(`Authenticated as ${user.email}`);
-                        btn.innerHTML = 'Sign Out'; btn.onclick = () => authModule.signOut(fbAuth);
-                        ui.hideModal('auth-modal');
-                        app.loadHistory(); app.loadSettings();
-                    } else {
-                        btn.innerHTML = 'Sign In'; btn.onclick = () => ui.showModal('auth-modal');
-                    }
-                });
-            } catch(e) { window.isLocalMode = true; }
-        };
+<!-- Rewarded Ad Modal -->
+<div class="modal-overlay" id="rewarded-modal">
+  <div class="modal-box" style="text-align:center">
+    <h2 style="margin-bottom:8px">Watch Ad for 4K Export</h2>
+    <p>Watch a short ad to unlock 4K Ultra HD for this export.</p>
+    <div class="ad-mock-content" style="margin:20px 0">
+      <p>📺 Advertisement Playing...</p>
+    </div>
+    <div id="rewarded-countdown" style="font-size:48px;font-weight:900;color:var(--orange);margin:16px 0">5</div>
+    <button class="ad-skip-btn" id="rewarded-close-btn" onclick="closeRewardedAd()">Close &amp; Render in 4K</button>
+  </div>
+</div>
 
-        // ---------------------------------------------------
-        // 3. CORE APP STATE & UI ROUTING
-        // ---------------------------------------------------
-        window.appState = { user: null, recordingBlob: null };
+<!-- Interstitial Ad -->
+<div id="ad-interstitial" style="display:none">
+  <div class="ad-modal">
+    <h3>Advertisement — Loading Studio</h3>
+    <div class="ad-mock-content">
+      <p>📺 Short ad before studio opens...</p>
+    </div>
+    <div id="ad-countdown" style="font-size:36px;font-weight:900;color:var(--orange);width:64px;height:64px;border-radius:50%;background:var(--orange-glow);display:flex;align-items:center;justify-content:center;margin:0 auto 12px">5</div>
+    <button class="ad-skip-btn" id="interstitial-skip-btn" onclick="closeInterstitial()">Continue to Studio</button>
+  </div>
+</div>
 
-        window.ui = {
-            toast: (msg) => {
-                const c = document.getElementById('toast-container');
-                const t = document.createElement('div'); t.className = 'toast'; 
-                t.innerHTML = `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--orange)" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg> ${msg}`;
-                c.appendChild(t); setTimeout(() => { t.style.opacity='0'; setTimeout(()=>t.remove(),300); }, 3000);
-            },
-            showModal: id => document.getElementById(id).classList.add('active'),
-            hideModal: id => document.getElementById(id).classList.remove('active'),
-            switchDashTab: tab => {
-                ['home','history','settings'].forEach(t => document.getElementById(`dash-${t}`).classList.add('hidden'));
-                document.querySelectorAll('.sidebar .menu-item').forEach(el => el.classList.remove('active'));
-                document.getElementById(`dash-${tab}`).classList.remove('hidden');
-                event.currentTarget.classList.add('active');
-            }
-        };
+<!-- Toast container -->
+<div id="toast-container"></div>
 
-        window.app = {
-            navigate: page => {
-                document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-                document.getElementById(`${page}-page`).classList.add('active');
-                if(page === 'studio') setTimeout(()=>window.dispatchEvent(new Event('resize')), 200);
-            },
-            saveSettings: async () => {
-                if(window.isLocalMode || !appState.user) return;
-                const set = { q: document.getElementById('set-quality').value, f: document.getElementById('set-fps').value };
-                try { await firestoreModule.setDoc(firestoreModule.doc(fbDb, "users", appState.user.uid, "settings", "pref"), set); ui.toast("Preferences Synced"); }catch(e){}
-            },
-            loadSettings: async () => {
-                if(window.isLocalMode || !appState.user) return;
-                try {
-                    const doc = await firestoreModule.getDoc(firestoreModule.doc(fbDb, "users", appState.user.uid, "settings", "pref"));
-                    if(doc.exists()) { document.getElementById('set-quality').value = doc.data().q || "1080"; document.getElementById('set-fps').value = doc.data().f || "60"; }
-                }catch(e){}
-            },
-            loadHistory: async () => {
-                if(window.isLocalMode || !appState.user) return;
-                try {
-                    const q = firestoreModule.query(firestoreModule.collection(fbDb, "users", appState.user.uid, "recents"));
-                    const snap = await firestoreModule.getDocs(q);
-                    const list = document.getElementById('history-list');
-                    if(snap.empty) { list.innerHTML = '<p class="text-muted">Vault is empty.</p>'; return; }
-                    list.innerHTML = '';
-                    snap.forEach(d => {
-                        list.innerHTML += `<div style="padding:16px; border:1px solid var(--border); border-radius:12px; background:var(--bg-panel); display:flex; justify-content:space-between;">
-                            <div><strong>${d.data().name}</strong><br><small class="text-muted">${d.data().date}</small></div>
-                            <span style="color:var(--orange); font-weight:600;">${d.data().size} MB</span>
-                        </div>`;
-                    });
-                }catch(e){}
-            }
-        };
+<!-- Hidden canvas for burn engine -->
+<canvas id="burn-canvas" style="display:none"></canvas>
+<video id="burn-video" style="display:none" crossorigin="anonymous"></video>
+<img id="wm-logo" src="https://uploads.onecompiler.io/42yatf6fu/1781258941988/25088C4A-230C-4E61-8E84-C40FD3A6033C-removebg-preview.png" crossorigin="anonymous" style="display:none">
+<img id="wm-center" src="https://uploads.onecompiler.io/42yatf6fu/1781259030437/12945C3A-733B-45AB-9722-044C592AC5C7-removebg-preview.png" crossorigin="anonymous" style="display:none">
 
-        // ---------------------------------------------------
-        // 4. ADVANCED OBS RECORDING ENGINE (With Gain Nodes)
-        // ---------------------------------------------------
-        let mediaRec; let chunks = []; let startTime; let timerInt;
+<script>
+// ════════════════════════════════════════════════════════════
+//  NEXRA STUDIO PRO — Main Application
+//  Version: 2.0.0 | Single-File | Vanilla JS
+// ════════════════════════════════════════════════════════════
 
-        window.recorder = {
-            screenStream: null, camStream: null, micStream: null,
-            audioCtx: null, dest: null, sysGain: null, micGain: null,
-            mixedStream: new MediaStream(),
-            
-            toggleScreen: async () => {
-                if(recorder.screenStream) {
-                    recorder.screenStream.getTracks().forEach(t=>t.stop()); recorder.screenStream=null;
-                    document.getElementById('screen-preview').srcObject=null; document.getElementById('btn-toggle-screen').classList.remove('active'); return;
-                }
-                try {
-                    const fps = parseInt(document.getElementById('set-fps').value) || 60;
-                    recorder.screenStream = await navigator.mediaDevices.getDisplayMedia({ video: {frameRate:fps}, audio:true });
-                    document.getElementById('screen-preview').srcObject = recorder.screenStream;
-                    document.getElementById('btn-toggle-screen').classList.add('active');
-                    recorder.setupMixer();
-                } catch(e) { ui.toast("Screen share cancelled."); }
-            },
-            toggleCamera: async () => {
-                const pip = document.getElementById('pip-cam-container');
-                if(recorder.camStream) {
-                    recorder.camStream.getTracks().forEach(t=>t.stop()); recorder.camStream=null;
-                    pip.classList.add('hidden'); document.getElementById('btn-toggle-cam').classList.remove('active'); return;
-                }
-                try {
-                    recorder.camStream = await navigator.mediaDevices.getUserMedia({video:true});
-                    document.getElementById('webcam-preview').srcObject = recorder.camStream;
-                    pip.classList.remove('hidden'); document.getElementById('btn-toggle-cam').classList.add('active');
-                } catch(e) { ui.toast("Camera blocked."); }
-            },
-            setupMixer: async () => {
-                if(!recorder.micStream) {
-                    try { recorder.micStream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:true, noiseSuppression:true}}); }catch(e){}
-                }
-                if(!recorder.audioCtx) recorder.audioCtx = new AudioContext();
-                if(recorder.dest) recorder.dest.disconnect();
-                recorder.dest = recorder.audioCtx.createMediaStreamDestination();
-                
-                recorder.sysGain = recorder.audioCtx.createGain(); recorder.micGain = recorder.audioCtx.createGain();
-                
-                if(recorder.screenStream && recorder.screenStream.getAudioTracks().length>0) {
-                    recorder.audioCtx.createMediaStreamSource(new MediaStream([recorder.screenStream.getAudioTracks()[0]])).connect(recorder.sysGain).connect(recorder.dest);
-                }
-                if(recorder.micStream) {
-                    recorder.audioCtx.createMediaStreamSource(recorder.micStream).connect(recorder.micGain).connect(recorder.dest);
-                }
-                recorder.updateVolumes();
-                
-                recorder.mixedStream = new MediaStream();
-                if(recorder.screenStream) recorder.screenStream.getVideoTracks().forEach(t=>recorder.mixedStream.addTrack(t));
-                recorder.dest.stream.getAudioTracks().forEach(t=>recorder.mixedStream.addTrack(t));
-            },
-            updateVolumes: () => {
-                if(recorder.sysGain) recorder.sysGain.gain.value = parseFloat(document.getElementById('sys-vol').value);
-                if(recorder.micGain) recorder.micGain.gain.value = parseFloat(document.getElementById('mic-vol').value);
-            },
-            start: () => {
-                if(!recorder.screenStream) return ui.toast("Source required.");
-                chunks=[];
-                try{ mediaRec = new MediaRecorder(recorder.mixedStream, {mimeType:'video/webm; codecs=vp9'}); }
-                catch(e){ mediaRec = new MediaRecorder(recorder.mixedStream); }
-                mediaRec.ondataavailable = e => { if(e.data.size>0) chunks.push(e.data); };
-                mediaRec.onstop = () => {
-                    appState.recordingBlob = new Blob(chunks, {type:'video/webm'});
-                    document.getElementById('final-preview-video').src = URL.createObjectURL(appState.recordingBlob);
-                    
-                    // Stop streams
-                    if(recorder.screenStream) recorder.screenStream.getTracks().forEach(t=>t.stop());
-                    if(recorder.micStream) recorder.micStream.getTracks().forEach(t=>t.stop());
-                    recorder.screenStream = null; document.getElementById('btn-toggle-screen').classList.remove('active');
-                    
-                    document.getElementById('export-res-label').innerText = `Render Quality: ${document.getElementById('set-quality').value}p`;
-                    ui.toast("Recording processed."); app.navigate('preview');
-                };
-                mediaRec.start(1000);
-                document.getElementById('btn-start-record').classList.add('hidden');
-                document.getElementById('btn-stop-record').classList.remove('hidden');
-                document.getElementById('record-timer').style.display='block';
-                startTime = Date.now();
-                timerInt = setInterval(()=>{
-                    let d = Math.floor((Date.now()-startTime)/1000);
-                    let h = String(Math.floor(d/3600)).padStart(2,'0');
-                    let m = String(Math.floor((d%3600)/60)).padStart(2,'0');
-                    let s = String(d%60).padStart(2,'0');
-                    document.getElementById('record-timer').innerText = `${h}:${m}:${s}`;
-                }, 1000);
-            },
-            stop: () => {
-                if(mediaRec && mediaRec.state !== 'inactive') mediaRec.stop();
-                clearInterval(timerInt);
-                document.getElementById('btn-start-record').classList.remove('hidden');
-                document.getElementById('btn-stop-record').classList.add('hidden');
-                document.getElementById('record-timer').style.display='none';
-            }
-        };
+'use strict';
 
-        document.getElementById('btn-start-record').onclick = recorder.start;
-        document.getElementById('btn-stop-record').onclick = recorder.stop;
+// ── STATE ──────────────────────────────────────────────────
+const STATE = {
+  currentView: 'landing',
+  currentUser: null,
+  firebaseReady: false,
+  // recording
+  screenStream: null,
+  webcamStream: null,
+  mediaRecorder: null,
+  recordedChunks: [],
+  recordedBlob: null,
+  isRecording: false,
+  recordingStartTime: 0,
+  timerInterval: null,
+  autoStopTimer: null,
+  // audio
+  audioCtx: null,
+  micGain: null,
+  sysGain: null,
+  analyser: null,
+  micMuted: false,
+  meterInterval: null,
+  // annotation
+  currentTool: 'none',
+  isDrawing: false,
+  lastX: 0,
+  lastY: 0,
+  startX: 0,
+  startY: 0,
+  annotationCtx: null,
+  snapshotBeforeArrow: null,
+  drawColor: '#FF5A00',
+  // pip
+  pipDragging: false,
+  pipResizing: false,
+  pipDragOffX: 0,
+  pipDragOffY: 0,
+  // export
+  exportFormat: 'webm',
+  export4K: false,
+  pendingDownload: false,
+  // firebase
+  db: null,
+  auth: null,
+  // ads
+  adBannerMessages: [
+    'Nexra Studio Pro — Record Like a Pro, Export in Seconds',
+    'Upgrade your workflow with Nexra Premium',
+    'Nexra Tools Suite — 50+ apps for creators',
+  ],
+  adIdx: 0,
+};
 
-        // ---------------------------------------------------
-        // 5. PRO ANNOTATIONS (Arrow, Pen, Highlight)
-        // ---------------------------------------------------
-        const cvs = document.getElementById('annotation-canvas'); const ctx = cvs.getContext('2d');
-        window.addEventListener('resize', () => { const r = cvs.parentElement.getBoundingClientRect(); cvs.width=r.width; cvs.height=r.height; });
-        
-        let isDrawing=false; let startX=0; let startY=0;
-        window.tools = {
-            active: null,
-            set: t => { 
-                tools.active = tools.active === t ? null : t; 
-                ['pen','arrow','highlight'].forEach(id => document.getElementById(`tool-${id}`).classList.remove('active'));
-                if(tools.active) document.getElementById(`tool-${t}`).classList.add('active');
-                cvs.style.pointerEvents = tools.active ? 'auto' : 'none';
-            },
-            clear: () => ctx.clearRect(0,0,cvs.width,cvs.height)
-        };
+// ── FIREBASE ───────────────────────────────────────────────
+async function initFirebase() {
+  try {
+    const cfg = await import('./firebaseconfig.js').catch(() => null);
+    if (!cfg) { console.warn('firebaseconfig.js not found — Local Offline Mode'); return; }
+    const { initializeApp } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
+    const { getAuth, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, sendPasswordResetEmail, updateProfile } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js');
+    const { getFirestore, doc, setDoc, getDoc, collection, addDoc, getDocs, query, orderBy } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js');
 
-        cvs.addEventListener('mousedown', e => {
-            if(!tools.active) return; isDrawing=true; startX=e.offsetX; startY=e.offsetY;
-            ctx.beginPath(); ctx.moveTo(startX, startY);
-        });
-        cvs.addEventListener('mousemove', e => {
-            if(!isDrawing) return;
-            const c = document.getElementById('tool-color').value;
-            if(tools.active === 'pen') {
-                ctx.lineTo(e.offsetX, e.offsetY); ctx.strokeStyle=c; ctx.lineWidth=4; ctx.stroke();
-            } else if(tools.active === 'highlight') {
-                ctx.lineTo(e.offsetX, e.offsetY); ctx.strokeStyle=c+'80'; ctx.lineWidth=20; ctx.lineCap='square'; ctx.stroke();
-            }
-        });
-        cvs.addEventListener('mouseup', e => {
-            if(!isDrawing) return; isDrawing=false;
-            if(tools.active === 'arrow') {
-                const c = document.getElementById('tool-color').value;
-                const headlen = 15; const dx = e.offsetX - startX; const dy = e.offsetY - startY; const angle = Math.atan2(dy, dx);
-                ctx.beginPath(); ctx.moveTo(startX, startY); ctx.lineTo(e.offsetX, e.offsetY);
-                ctx.lineTo(e.offsetX - headlen * Math.cos(angle - Math.PI / 6), e.offsetY - headlen * Math.sin(angle - Math.PI / 6));
-                ctx.moveTo(e.offsetX, e.offsetY);
-                ctx.lineTo(e.offsetX - headlen * Math.cos(angle + Math.PI / 6), e.offsetY - headlen * Math.sin(angle + Math.PI / 6));
-                ctx.strokeStyle=c; ctx.lineWidth=4; ctx.stroke();
-            }
-        });
+    const app = initializeApp(cfg.firebaseConfig || cfg.default);
+    STATE.auth = getAuth(app);
+    STATE.db = getFirestore(app);
+    STATE.firebaseReady = true;
 
-        // ---------------------------------------------------
-        // 6. EXPORT ENGINE & AD REWARDS
-        // ---------------------------------------------------
-        window.engine = {
-            verifyAndExport: () => {
-                const q = document.getElementById('set-quality').value;
-                if(q === "2160") {
-                    // 4K requires Rewarded Ad
-                    ads.showRewarded(() => engine.runCanvasBurner());
-                } else {
-                    engine.runCanvasBurner();
-                }
-            },
-            runCanvasBurner: async () => {
-                if(!appState.user && !window.isLocalMode) { ui.showModal('auth-modal'); return; }
-                document.getElementById('btn-export').classList.add('hidden');
-                document.getElementById('export-progress').classList.remove('hidden');
-                
-                const bVid = document.getElementById('burn-video'); const bCvs = document.getElementById('burn-canvas'); const bx = bCvs.getContext('2d');
-                bVid.src = URL.createObjectURL(appState.recordingBlob);
-                await new Promise(r => bVid.onloadedmetadata=r);
-                bCvs.width = bVid.videoWidth; bCvs.height = bVid.videoHeight;
-                
-                const bStream = bCvs.captureStream(60);
-                const oStream = bVid.captureStream ? bVid.captureStream() : bVid.mozCaptureStream();
-                if(oStream && oStream.getAudioTracks().length>0) bStream.addTrack(oStream.getAudioTracks()[0]);
-                
-                const bRec = new MediaRecorder(bStream, {mimeType:'video/webm; codecs=vp9'});
-                const bChunks = []; bRec.ondataavailable = e => bChunks.push(e.data);
-                
-                bRec.onstop = async () => {
-                    const fBlob = new Blob(bChunks, {type:'video/mp4'}); // WebM wrapped as MP4
-                    const fname = `Nexra_Pro_${Date.now()}.mp4`;
-                    const a = document.createElement('a'); a.href = URL.createObjectURL(fBlob); a.download = fname; a.click();
-                    
-                    document.getElementById('btn-export').classList.remove('hidden');
-                    document.getElementById('export-progress').classList.add('hidden');
-                    ui.toast("Render Complete! Download started.");
-                    
-                    if(appState.user && !window.isLocalMode) {
-                        try{ await firestoreModule.setDoc(firestoreModule.doc(fbDb, "users", appState.user.uid, "recents", Date.now().toString()), {name: fname, date: new Date().toLocaleDateString(), size: (fBlob.size/(1024*1024)).toFixed(2)}); app.loadHistory(); }catch(e){}
-                    }
-                };
-                
-                bVid.play(); bRec.start();
-                const logo = document.getElementById('asset-logo');
-                const draw = () => {
-                    if(bVid.paused || bVid.ended) { bRec.stop(); return; }
-                    bx.drawImage(bVid, 0,0, bCvs.width, bCvs.height);
-                    bx.globalAlpha=1.0; bx.drawImage(logo, bCvs.width-180, 40, 140, 140*(logo.height/logo.width)); // Watermark
-                    
-                    let p = Math.floor((bVid.currentTime/bVid.duration)*100);
-                    document.getElementById('export-bar').style.width = `${p}%`; document.getElementById('export-pct').innerText = `${p}%`;
-                    requestAnimationFrame(draw);
-                }; draw();
-            }
-        };
+    // expose helpers
+    STATE._fb = { signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, GoogleAuthProvider, signOut, sendPasswordResetEmail, updateProfile, doc, setDoc, getDoc, collection, addDoc, getDocs, query, orderBy };
 
-        // Auth Setup
-        let isReg = false;
-        window.authManager = {
-            toggleMode: () => { isReg=!isReg; document.getElementById('auth-toggle-text').innerHTML=isReg?`Already registered? <span class="text-orange">Login</span>`:`Need an account? <span class="text-orange">Register</span>`; },
-            signInEmail: async () => {
-                if(window.isLocalMode) return ui.hideModal('auth-modal');
-                const e=document.getElementById('auth-email').value, p=document.getElementById('auth-pass').value;
-                try{ isReg ? await authModule.createUserWithEmailAndPassword(fbAuth,e,p) : await authModule.signInWithEmailAndPassword(fbAuth,e,p); }
-                catch(err){ document.getElementById('auth-error').innerText=err.message; document.getElementById('auth-error').style.display='block'; }
-            },
-            signInGoogle: async () => {
-                if(window.isLocalMode) return ui.hideModal('auth-modal');
-                try{ await authModule.signInWithPopup(fbAuth, new authModule.GoogleAuthProvider()); }catch(err){ document.getElementById('auth-error').innerText=err.message; document.getElementById('auth-error').style.display='block'; }
-            }
-        };
+    onAuthStateChanged(STATE.auth, (user) => {
+      STATE.currentUser = user;
+      updateAuthUI(user);
+      if (user) {
+        loadUserPrefs();
+        loadRecordingHistory();
+      }
+    });
+  } catch (e) {
+    console.warn('Firebase init error:', e.message);
+    toast('Running in Offline Mode — Firebase unavailable', 'info');
+  }
+}
 
-        // Boot
-        window.onload = () => { initFirebase(); };
-        
-        // PiP Drag
-        const pip=document.getElementById('pip-cam-container'); let isD=false,sX,sY,iX,iY;
-        pip.onmousedown=e=>{isD=true;sX=e.clientX;sY=e.clientY;iX=pip.offsetLeft;iY=pip.offsetTop;};
-        window.onmousemove=e=>{if(isD){pip.style.left=`${iX+e.clientX-sX}px`;pip.style.top=`${iY+e.clientY-sY}px`;pip.style.right='auto';pip.style.bottom='auto';}};
-        window.onmouseup=()=>{isD=false;};
+async function handleEmailLogin() {
+  if (!STATE.firebaseReady) { toast('Offline Mode — sign-in unavailable', 'info'); return; }
+  const email = document.getElementById('login-email').value.trim();
+  const pass = document.getElementById('login-password').value;
+  if (!email || !pass) { toast('Please fill in all fields', 'error'); return; }
+  try {
+    await STATE._fb.signInWithEmailAndPassword(STATE.auth, email, pass);
+    closeModal('auth-modal');
+    toast('Signed in successfully!', 'success');
+    if (STATE.pendingDownload) { STATE.pendingDownload = false; closeModal('download-gate-modal'); startBurnEngine(); }
+  } catch (e) { toast('Sign-in failed: ' + e.message.replace('Firebase: ',''), 'error'); }
+}
 
-    </script>
+async function handleRegister() {
+  if (!STATE.firebaseReady) { toast('Offline Mode — registration unavailable', 'info'); return; }
+  const name = document.getElementById('reg-name').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const pass = document.getElementById('reg-password').value;
+  if (!name || !email || !pass) { toast('Please fill in all fields', 'error'); return; }
+  try {
+    const cred = await STATE._fb.createUserWithEmailAndPassword(STATE.auth, email, pass);
+    await STATE._fb.updateProfile(cred.user, { displayName: name });
+    await STATE._fb.setDoc(STATE._fb.doc(STATE.db, 'users', cred.user.uid), { displayName: name, email, createdAt: Date.now(), plan: 'free' });
+    closeModal('auth-modal');
+    toast('Account created! Welcome to Nexra.', 'success');
+  } catch (e) { toast('Registration failed: ' + e.message.replace('Firebase: ',''), 'error'); }
+}
+
+async function handleGoogleLogin() {
+  if (!STATE.firebaseReady) { toast('Offline Mode — Google Sign-In unavailable', 'info'); return; }
+  try {
+    const provider = new STATE._fb.GoogleAuthProvider();
+    await STATE._fb.signInWithPopup(STATE.auth, provider);
+    closeModal('auth-modal');
+    toast('Signed in with Google!', 'success');
+  } catch (e) { toast('Google sign-in failed', 'error'); }
+}
+
+async function handleGoogleLoginForDownload() {
+  if (!STATE.firebaseReady) { toast('Offline Mode', 'info'); return; }
+  try {
+    const provider = new STATE._fb.GoogleAuthProvider();
+    await STATE._fb.signInWithPopup(STATE.auth, provider);
+    closeModal('download-gate-modal');
+    STATE.pendingDownload = false;
+    toast('Signed in! Starting export…', 'success');
+    startBurnEngine();
+  } catch (e) { toast('Sign-in failed', 'error'); }
+}
+
+async function handleGateLogin() {
+  if (!STATE.firebaseReady) { toast('Offline Mode', 'info'); return; }
+  const email = document.getElementById('gate-email').value.trim();
+  const pass = document.getElementById('gate-password').value;
+  if (!email || !pass) { toast('Please fill in all fields', 'error'); return; }
+  try {
+    await STATE._fb.signInWithEmailAndPassword(STATE.auth, email, pass);
+    closeModal('download-gate-modal');
+    STATE.pendingDownload = false;
+    toast('Signed in! Starting export…', 'success');
+    startBurnEngine();
+  } catch (e) { toast('Sign-in failed: ' + e.message.replace('Firebase: ',''), 'error'); }
+}
+
+async function handleForgotPassword() {
+  if (!STATE.firebaseReady) { toast('Offline Mode', 'info'); return; }
+  const email = document.getElementById('login-email').value.trim();
+  if (!email) { toast('Enter your email first', 'error'); return; }
+  try {
+    await STATE._fb.sendPasswordResetEmail(STATE.auth, email);
+    toast('Reset email sent! Check your inbox.', 'success');
+  } catch (e) { toast('Failed to send reset email', 'error'); }
+}
+
+async function handleSignOut() {
+  if (!STATE.firebaseReady || !STATE.auth) return;
+  try {
+    await STATE._fb.signOut(STATE.auth);
+    toast('Signed out.', 'info');
+  } catch (e) { toast('Sign-out failed', 'error'); }
+}
+
+async function savePref() {
+  if (!STATE.firebaseReady || !STATE.currentUser) return;
+  try {
+    const prefs = {
+      resolution: document.getElementById('pref-resolution').value,
+      fps: document.getElementById('pref-fps').value,
+      format: document.getElementById('pref-format').value,
+      noiseSuppress: document.getElementById('pref-noise').checked,
+      echoCancellation: document.getElementById('pref-echo').checked,
+      sysAudio: document.getElementById('pref-sysaudio').checked,
+      countdown: document.getElementById('pref-countdown').value,
+      autoStop: document.getElementById('pref-autostop').value,
+      updatedAt: Date.now(),
+    };
+    await STATE._fb.setDoc(STATE._fb.doc(STATE.db, 'users', STATE.currentUser.uid, 'settings', 'pref'), prefs);
+  } catch (e) { /* silent */ }
+}
+
+async function loadUserPrefs() {
+  if (!STATE.firebaseReady || !STATE.currentUser) return;
+  try {
+    const snap = await STATE._fb.getDoc(STATE._fb.doc(STATE.db, 'users', STATE.currentUser.uid, 'settings', 'pref'));
+    if (!snap.exists()) return;
+    const p = snap.data();
+    if (p.resolution) document.getElementById('pref-resolution').value = p.resolution;
+    if (p.fps) document.getElementById('pref-fps').value = p.fps;
+    if (p.format) document.getElementById('pref-format').value = p.format;
+    if (p.noiseSuppress !== undefined) document.getElementById('pref-noise').checked = p.noiseSuppress;
+    if (p.echoCancellation !== undefined) document.getElementById('pref-echo').checked = p.echoCancellation;
+    syncPrefsToStudio();
+  } catch (e) { /* silent */ }
+}
+
+async function saveToHistory(meta) {
+  // local
+  const hist = JSON.parse(localStorage.getItem('nexra_history') || '[]');
+  hist.unshift(meta);
+  if (hist.length > 50) hist.pop();
+  localStorage.setItem('nexra_history', JSON.stringify(hist));
+  renderHistory();
+  // cloud
+  if (!STATE.firebaseReady || !STATE.currentUser) return;
+  try {
+    await STATE._fb.addDoc(STATE._fb.collection(STATE.db, 'users', STATE.currentUser.uid, 'recents'), meta);
+  } catch (e) { /* silent */ }
+}
+
+async function loadRecordingHistory() {
+  const hist = JSON.parse(localStorage.getItem('nexra_history') || '[]');
+  if (STATE.firebaseReady && STATE.currentUser) {
+    try {
+      const snap = await STATE._fb.getDocs(STATE._fb.query(STATE._fb.collection(STATE.db, 'users', STATE.currentUser.uid, 'recents'), STATE._fb.orderBy('timestamp', 'desc')));
+      const cloud = snap.docs.map(d => d.data());
+      const merged = [...cloud, ...hist].reduce((acc, item) => {
+        if (!acc.find(i => i.filename === item.filename)) acc.push(item);
+        return acc;
+      }, []);
+      renderHistory(merged);
+      return;
+    } catch (e) { /* fall through to local */ }
+  }
+  renderHistory(hist);
+}
+
+function renderHistory(items) {
+  const hist = items || JSON.parse(localStorage.getItem('nexra_history') || '[]');
+  const list = document.getElementById('history-list');
+  if (!hist.length) {
+    list.innerHTML = '<div style="padding:40px;text-align:center;color:var(--text-muted);font-size:14px"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="display:block;margin:0 auto 12px;opacity:0.4"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>No recordings yet.</div>';
+    return;
+  }
+  list.innerHTML = hist.slice(0,20).map((r,i) => `
+    <div class="history-item">
+      <div class="history-icon"><svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 3a1 1 0 012 0v10a3 3 0 003 3h8a1 1 0 010 2H7A5 5 0 012 13V3z"/><path d="M6 1a1 1 0 011 1v9a1 1 0 01-1 1H5V2a1 1 0 011-1zm8 0a1 1 0 011 1v9h-1a1 1 0 01-1-1V2a1 1 0 011-1z"/></svg></div>
+      <div class="history-info">
+        <div class="name">${r.filename || 'Recording'}</div>
+        <div class="meta">${r.duration || '--'} · ${r.size || '--'} · ${r.date || '--'}</div>
+      </div>
+      <div class="history-actions">
+        <button class="icon-btn" onclick="deleteHistoryItem(${i})" title="Remove">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4L4 12M4 4l8 8"/></svg>
+        </button>
+      </div>
+    </div>`).join('');
+}
+
+function deleteHistoryItem(idx) {
+  const hist = JSON.parse(localStorage.getItem('nexra_history') || '[]');
+  hist.splice(idx, 1);
+  localStorage.setItem('nexra_history', JSON.stringify(hist));
+  renderHistory();
+}
+
+function updateAuthUI(user) {
+  const authArea = document.getElementById('header-auth-area');
+  const userArea = document.getElementById('header-user-area');
+  const signinBtn = document.getElementById('sidebar-signin-btn');
+  const signoutBtn = document.getElementById('sidebar-signout-btn');
+  const avatar = document.getElementById('user-avatar-btn');
+  if (user) {
+    authArea.style.display = 'none';
+    userArea.style.display = 'flex';
+    const initials = (user.displayName || user.email || 'U').slice(0,2).toUpperCase();
+    avatar.textContent = initials;
+    signinBtn.style.display = 'none';
+    signoutBtn.style.display = 'flex';
+    document.getElementById('history-note').textContent = `Signed in as ${user.displayName || user.email} — history synced.`;
+  } else {
+    authArea.style.display = 'flex';
+    userArea.style.display = 'none';
+    signinBtn.style.display = 'flex';
+    signoutBtn.style.display = 'none';
+  }
+}
+
+// ── ROUTING ────────────────────────────────────────────────
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + name).classList.add('active');
+  STATE.currentView = name;
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  const navBtn = document.getElementById('nav-' + name);
+  if (navBtn) navBtn.classList.add('active');
+  window.scrollTo(0,0);
+}
+
+function gotoStudio() {
+  showInterstitialAd(() => showView('studio'));
+}
+
+function syncPrefsToStudio() {
+  const r = document.getElementById('pref-resolution');
+  const f = document.getElementById('pref-fps');
+  if (r) document.getElementById('studio-res').value = r.value;
+  if (f) document.getElementById('studio-fps').value = f.value;
+}
+
+function dashTab(tab) {
+  ['overview','history','preferences'].forEach(t => {
+    const el = document.getElementById('dash-' + t);
+    if (el) el.style.display = t === tab ? 'block' : 'none';
+  });
+  document.querySelectorAll('.sidebar-item').forEach(b => b.classList.remove('active'));
+  event.currentTarget.classList.add('active');
+}
+
+// ── CAPTURE SOURCE ─────────────────────────────────────────
+async function selectSource(type) {
+  try {
+    if (STATE.screenStream) { STATE.screenStream.getTracks().forEach(t => t.stop()); STATE.screenStream = null; }
+
+    const constraints = { video: true, audio: document.getElementById('pref-sysaudio')?.checked || false };
+    const resMap = { '720p':{width:1280,height:720}, '1080p':{width:1920,height:1080}, '1440p':{width:2560,height:1440}, '4k':{width:3840,height:2160} };
+    const resKey = document.getElementById('studio-res')?.value || '1080p';
+    const fps = parseInt(document.getElementById('studio-fps')?.value || '30');
+    if (resMap[resKey]) {
+      constraints.video = { width:{ideal:resMap[resKey].width}, height:{ideal:resMap[resKey].height}, frameRate:{ideal:fps} };
+    }
+    if (type === 'tab') constraints.preferCurrentTab = true;
+    if (type === 'window') { constraints.video = { ...constraints.video, displaySurface:'window' }; }
+
+    STATE.screenStream = await navigator.mediaDevices.getDisplayMedia(constraints);
+    const prev = document.getElementById('preview-video');
+    prev.srcObject = STATE.screenStream;
+    prev.style.display = 'block';
+    document.getElementById('preview-placeholder').style.display = 'none';
+
+    document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('src-' + type).classList.add('active');
+
+    STATE.screenStream.getVideoTracks()[0].addEventListener('ended', () => {
+      STATE.screenStream = null;
+      prev.srcObject = null;
+      prev.style.display = 'none';
+      document.getElementById('preview-placeholder').style.display = 'flex';
+      document.querySelectorAll('.source-btn').forEach(b => b.classList.remove('active'));
+      if (STATE.isRecording) stopRecording();
+    });
+
+    // resize annotation canvas
+    prev.onloadedmetadata = () => { resizeAnnotationCanvas(); };
+    setupAudio();
+    setStatus('live', 'Source Active');
+    toast('Screen capture started', 'success');
+  } catch (e) {
+    if (e.name !== 'NotAllowedError') toast('Could not start capture: ' + e.message, 'error');
+    setStatus('', 'Ready');
+  }
+}
+
+// ── WEBCAM ─────────────────────────────────────────────────
+async function toggleWebcam() {
+  const on = document.getElementById('cam-toggle').checked;
+  const pip = document.getElementById('pip-webcam');
+  if (on) {
+    try {
+      STATE.webcamStream = await navigator.mediaDevices.getUserMedia({ video: { width:{ideal:640},height:{ideal:480},facingMode:'user' }, audio: false });
+      document.getElementById('pip-video').srcObject = STATE.webcamStream;
+      pip.style.display = 'block';
+      toast('Webcam active', 'success');
+    } catch (e) {
+      document.getElementById('cam-toggle').checked = false;
+      toast('Webcam access denied', 'error');
+    }
+  } else {
+    if (STATE.webcamStream) { STATE.webcamStream.getTracks().forEach(t => t.stop()); STATE.webcamStream = null; }
+    pip.style.display = 'none';
+  }
+}
+
+function toggleMirror() {
+  const v = document.getElementById('pip-video');
+  v.style.transform = document.getElementById('cam-mirror').checked ? 'scaleX(-1)' : '';
+}
+
+function toggleCamBlur() {
+  const v = document.getElementById('pip-video');
+  v.style.filter = document.getElementById('cam-blur').checked ? 'blur(6px)' : '';
+}
+
+function updateCamOpacity(el) {
+  document.getElementById('pip-webcam').style.opacity = el.value / 100;
+  document.getElementById('cam-opacity-val').textContent = el.value + '%';
+}
+
+function updateCamSize(el) {
+  const pip = document.getElementById('pip-webcam');
+  pip.style.width = el.value + 'px';
+  pip.style.height = el.value + 'px';
+  document.getElementById('cam-size-val').textContent = el.value + 'px';
+}
+
+function setPipShape(shape) {
+  const pip = document.getElementById('pip-webcam');
+  pip.className = '';
+  pip.id = 'pip-webcam';
+  if (shape !== 'circle') pip.classList.add(shape);
+  document.querySelectorAll('.shape-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('shape-' + shape).classList.add('active');
+}
+
+// PiP Drag
+function initPipDrag() {
+  const pip = document.getElementById('pip-webcam');
+  const container = document.getElementById('preview-container');
+  pip.addEventListener('mousedown', e => {
+    if (e.target.closest('#pip-resize-handle')) return;
+    STATE.pipDragging = true;
+    const rect = pip.getBoundingClientRect();
+    STATE.pipDragOffX = e.clientX - rect.left;
+    STATE.pipDragOffY = e.clientY - rect.top;
+    pip.style.cursor = 'grabbing';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!STATE.pipDragging) return;
+    const cRect = container.getBoundingClientRect();
+    let x = e.clientX - cRect.left - STATE.pipDragOffX;
+    let y = e.clientY - cRect.top - STATE.pipDragOffY;
+    x = Math.max(0, Math.min(cRect.width - pip.offsetWidth, x));
+    y = Math.max(0, Math.min(cRect.height - pip.offsetHeight, y));
+    pip.style.right = 'auto'; pip.style.bottom = 'auto';
+    pip.style.left = x + 'px'; pip.style.top = y + 'px';
+  });
+  document.addEventListener('mouseup', () => {
+    if (STATE.pipDragging) { STATE.pipDragging = false; pip.style.cursor = 'grab'; }
+  });
+  // resize
+  const handle = document.getElementById('pip-resize-handle');
+  handle.addEventListener('mousedown', e => { e.stopPropagation(); STATE.pipResizing = true; });
+  document.addEventListener('mousemove', e => {
+    if (!STATE.pipResizing) return;
+    const rect = pip.getBoundingClientRect();
+    const s = Math.max(60, Math.min(350, e.clientX - rect.left));
+    pip.style.width = s + 'px'; pip.style.height = s + 'px';
+    document.getElementById('cam-size').value = s;
+    document.getElementById('cam-size-val').textContent = s + 'px';
+  });
+  document.addEventListener('mouseup', () => { STATE.pipResizing = false; });
+}
+
+// ── AUDIO ──────────────────────────────────────────────────
+function setupAudio() {
+  if (STATE.audioCtx) { try { STATE.audioCtx.close(); } catch(e){} }
+  STATE.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  const dest = STATE.audioCtx.createMediaStreamDestination();
+  STATE.audioDestStream = dest.stream;
+
+  // Mic
+  const micOn = document.getElementById('pref-noise') && document.getElementById('pref-noise').checked;
+  navigator.mediaDevices.getUserMedia({
+    audio: {
+      noiseSuppression: document.getElementById('noise-sup')?.checked || true,
+      echoCancellation: document.getElementById('echo-cancel')?.checked || true,
+    }
+  }).then(micStream => {
+    const micSrc = STATE.audioCtx.createMediaStreamSource(micStream);
+    STATE.micGain = STATE.audioCtx.createGain();
+    STATE.micGain.gain.value = (document.getElementById('mic-vol')?.value || 80) / 100;
+    STATE.analyser = STATE.audioCtx.createAnalyser();
+    STATE.analyser.fftSize = 256;
+    micSrc.connect(STATE.micGain);
+    STATE.micGain.connect(STATE.analyser);
+    STATE.analyser.connect(dest);
+    STATE.micStream = micStream;
+    startMeter();
+  }).catch(() => { /* mic not available */ });
+
+  // System audio
+  if (STATE.screenStream) {
+    const audioTracks = STATE.screenStream.getAudioTracks();
+    if (audioTracks.length) {
+      const sysStream = new MediaStream(audioTracks);
+      const sysSrc = STATE.audioCtx.createMediaStreamSource(sysStream);
+      STATE.sysGain = STATE.audioCtx.createGain();
+      STATE.sysGain.gain.value = (document.getElementById('sys-vol')?.value || 70) / 100;
+      sysSrc.connect(STATE.sysGain);
+      STATE.sysGain.connect(dest);
+    }
+  }
+}
+
+function updateMicVol(el) {
+  document.getElementById('mic-vol-val').textContent = el.value + '%';
+  if (STATE.micGain) STATE.micGain.gain.value = el.value / 100;
+}
+
+function updateSysVol(el) {
+  document.getElementById('sys-vol-val').textContent = el.value + '%';
+  if (STATE.sysGain) STATE.sysGain.gain.value = el.value / 100;
+}
+
+function toggleMicMute() {
+  STATE.micMuted = !STATE.micMuted;
+  if (STATE.micGain) STATE.micGain.gain.value = STATE.micMuted ? 0 : (document.getElementById('mic-vol')?.value || 80) / 100;
+  const btn = document.getElementById('mic-mute-btn');
+  btn.classList.toggle('active', STATE.micMuted);
+  toast(STATE.micMuted ? 'Mic muted' : 'Mic unmuted', 'info');
+}
+
+function startMeter() {
+  if (STATE.meterInterval) clearInterval(STATE.meterInterval);
+  const bars = Array.from({length:8}, (_,i) => document.getElementById('mb'+i));
+  STATE.meterInterval = setInterval(() => {
+    if (!STATE.analyser) return;
+    const buf = new Uint8Array(STATE.analyser.frequencyBinCount);
+    STATE.analyser.getByteFrequencyData(buf);
+    const step = Math.floor(buf.length / 8);
+    bars.forEach((b, i) => {
+      if (!b) return;
+      const val = buf[i * step] / 255;
+      const h = Math.max(3, val * 32);
+      b.style.height = h + 'px';
+      b.classList.toggle('active', val > 0.05);
+    });
+  }, 80);
+}
+
+// ── RECORDING ─────────────────────────────────────────────
+async function startRecording() {
+  if (!STATE.screenStream) { toast('Select a capture source first', 'error'); return; }
+  const countdown = parseInt(document.getElementById('pref-countdown')?.value || '5');
+  if (countdown > 0) {
+    await runCountdown(countdown);
+  }
+  beginCapture();
+}
+
+function runCountdown(secs) {
+  return new Promise(resolve => {
+    const overlay = document.getElementById('countdown-overlay');
+    const num = document.getElementById('countdown-num');
+    overlay.style.display = 'flex';
+    let c = secs;
+    num.textContent = c;
+    const tick = setInterval(() => {
+      c--;
+      if (c <= 0) {
+        clearInterval(tick);
+        overlay.style.display = 'none';
+        resolve();
+      } else {
+        num.textContent = c;
+      }
+    }, 1000);
+  });
+}
+
+function beginCapture() {
+  const tracks = [...STATE.screenStream.getTracks()];
+  if (STATE.audioDestStream) {
+    STATE.audioDestStream.getAudioTracks().forEach(t => tracks.push(t));
+  }
+  const stream = new MediaStream(tracks);
+
+  const mimeTypes = ['video/webm;codecs=vp9,opus','video/webm;codecs=vp8,opus','video/webm','video/mp4'];
+  let mime = mimeTypes.find(m => MediaRecorder.isTypeSupported(m)) || '';
+
+  STATE.recordedChunks = [];
+  STATE.mediaRecorder = new MediaRecorder(stream, { mimeType: mime, videoBitsPerSecond: (parseInt(document.getElementById('bitrate')?.value||6)) * 1_000_000 });
+  STATE.mediaRecorder.ondataavailable = e => { if (e.data.size > 0) STATE.recordedChunks.push(e.data); };
+  STATE.mediaRecorder.onstop = () => finishRecording();
+  STATE.mediaRecorder.start(1000);
+  STATE.isRecording = true;
+  STATE.recordingStartTime = Date.now();
+
+  document.getElementById('btn-record').style.display = 'none';
+  document.getElementById('btn-stop').style.display = 'flex';
+  setStatus('recording', 'Recording…');
+
+  STATE.timerInterval = setInterval(updateTimer, 1000);
+
+  // auto-stop
+  const autoStop = parseInt(document.getElementById('pref-autostop')?.value || '0');
+  if (autoStop > 0) {
+    STATE.autoStopTimer = setTimeout(() => { stopRecording(); toast('Auto-stop: recording limit reached', 'info'); }, autoStop * 60 * 1000);
+  }
+
+  toast('Recording started!', 'success');
+}
+
+function stopRecording() {
+  if (!STATE.isRecording || !STATE.mediaRecorder) return;
+  STATE.mediaRecorder.stop();
+  STATE.isRecording = false;
+  clearInterval(STATE.timerInterval);
+  if (STATE.autoStopTimer) { clearTimeout(STATE.autoStopTimer); STATE.autoStopTimer = null; }
+  document.getElementById('btn-record').style.display = 'flex';
+  document.getElementById('btn-stop').style.display = 'none';
+  setStatus('', 'Processing…');
+  toast('Recording stopped — processing…', 'info');
+}
+
+function finishRecording() {
+  const mime = STATE.recordedChunks[0]?.type || 'video/webm';
+  STATE.recordedBlob = new Blob(STATE.recordedChunks, { type: mime });
+  const url = URL.createObjectURL(STATE.recordedBlob);
+  const exportVid = document.getElementById('export-video');
+  exportVid.src = url;
+  document.getElementById('no-recording-msg').style.display = 'none';
+  setStatus('live', 'Ready');
+  toast('Recording ready! Opening Export Bay…', 'success');
+
+  const elapsed = Math.round((Date.now() - STATE.recordingStartTime) / 1000);
+  const mins = Math.floor(elapsed / 60).toString().padStart(2,'0');
+  const secs = (elapsed % 60).toString().padStart(2,'0');
+  const meta = {
+    filename: `Nexra_${new Date().toISOString().slice(0,10)}_${Date.now()}.webm`,
+    duration: `${mins}:${secs}`,
+    size: formatBytes(STATE.recordedBlob.size),
+    date: new Date().toLocaleDateString(),
+    timestamp: Date.now(),
+  };
+  saveToHistory(meta);
+
+  const autoExport = document.getElementById('pref-autoexport')?.checked !== false;
+  if (autoExport) setTimeout(() => showView('export'), 600);
+}
+
+function updateTimer() {
+  const elapsed = Math.round((Date.now() - STATE.recordingStartTime) / 1000);
+  const m = Math.floor(elapsed / 60).toString().padStart(2,'0');
+  const s = (elapsed % 60).toString().padStart(2,'0');
+  document.getElementById('rec-timer').textContent = `${m}:${s}`;
+}
+
+// ── ANNOTATION ─────────────────────────────────────────────
+function initAnnotation() {
+  const canvas = document.getElementById('annotation-canvas');
+  STATE.annotationCtx = canvas.getContext('2d');
+  canvas.addEventListener('mousedown', onDrawStart);
+  canvas.addEventListener('mousemove', onDrawMove);
+  canvas.addEventListener('mouseup', onDrawEnd);
+  canvas.addEventListener('mouseleave', onDrawEnd);
+  // touch
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); onDrawStart(e.touches[0]); }, {passive:false});
+  canvas.addEventListener('touchmove', e => { e.preventDefault(); onDrawMove(e.touches[0]); }, {passive:false});
+  canvas.addEventListener('touchend', onDrawEnd);
+}
+
+function resizeAnnotationCanvas() {
+  const container = document.getElementById('preview-container');
+  const canvas = document.getElementById('annotation-canvas');
+  canvas.width = container.offsetWidth;
+  canvas.height = container.offsetHeight;
+}
+
+function setTool(tool) {
+  STATE.currentTool = tool;
+  const canvas = document.getElementById('annotation-canvas');
+  document.querySelectorAll('.tool-btn[id^="tool-"]').forEach(b => b.classList.remove('active'));
+  if (tool !== 'none') {
+    canvas.classList.add('drawing');
+    const btn = document.getElementById('tool-' + tool);
+    if (btn) btn.classList.add('active');
+  } else {
+    canvas.classList.remove('drawing');
+  }
+}
+
+function getPos(e) {
+  const canvas = document.getElementById('annotation-canvas');
+  const rect = canvas.getBoundingClientRect();
+  return { x: (e.clientX - rect.left) * (canvas.width / rect.width), y: (e.clientY - rect.top) * (canvas.height / rect.height) };
+}
+
+function onDrawStart(e) {
+  if (STATE.currentTool === 'none') return;
+  STATE.isDrawing = true;
+  const pos = getPos(e);
+  STATE.lastX = STATE.startX = pos.x;
+  STATE.lastY = STATE.startY = pos.y;
+  if (STATE.currentTool === 'arrow') {
+    STATE.snapshotBeforeArrow = STATE.annotationCtx.getImageData(0, 0, document.getElementById('annotation-canvas').width, document.getElementById('annotation-canvas').height);
+  }
+}
+
+function onDrawMove(e) {
+  if (!STATE.isDrawing || STATE.currentTool === 'none') return;
+  const ctx = STATE.annotationCtx;
+  const pos = getPos(e);
+  ctx.strokeStyle = STATE.drawColor;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+
+  if (STATE.currentTool === 'pen') {
+    ctx.lineWidth = 3;
+    ctx.globalAlpha = 1;
+    ctx.beginPath();
+    ctx.moveTo(STATE.lastX, STATE.lastY);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+  } else if (STATE.currentTool === 'highlight') {
+    ctx.lineWidth = 18;
+    ctx.globalAlpha = 0.35;
+    ctx.strokeStyle = '#FFE030';
+    ctx.beginPath();
+    ctx.moveTo(STATE.lastX, STATE.lastY);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  } else if (STATE.currentTool === 'arrow') {
+    if (STATE.snapshotBeforeArrow) ctx.putImageData(STATE.snapshotBeforeArrow, 0, 0);
+    drawArrow(ctx, STATE.startX, STATE.startY, pos.x, pos.y, STATE.drawColor);
+  } else if (STATE.currentTool === 'blur') {
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = 'rgba(80,80,80,0.55)';
+    ctx.fillRect(pos.x - 20, pos.y - 12, 40, 24);
+  }
+  STATE.lastX = pos.x;
+  STATE.lastY = pos.y;
+}
+
+function onDrawEnd() {
+  STATE.isDrawing = false;
+  STATE.snapshotBeforeArrow = null;
+}
+
+function drawArrow(ctx, x1, y1, x2, y2, color) {
+  const angle = Math.atan2(y2 - y1, x2 - x1);
+  const len = Math.sqrt((x2-x1)**2+(y2-y1)**2);
+  if (len < 2) return;
+  const headLen = Math.min(24, len * 0.35);
+  ctx.strokeStyle = color; ctx.fillStyle = color;
+  ctx.lineWidth = 3; ctx.globalAlpha = 1;
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  ctx.beginPath();
+  ctx.moveTo(x2, y2);
+  ctx.lineTo(x2 - headLen * Math.cos(angle - Math.PI/6), y2 - headLen * Math.sin(angle - Math.PI/6));
+  ctx.lineTo(x2 - headLen * Math.cos(angle + Math.PI/6), y2 - headLen * Math.sin(angle + Math.PI/6));
+  ctx.closePath(); ctx.fill();
+}
+
+function clearAnnotations() {
+  const canvas = document.getElementById('annotation-canvas');
+  STATE.annotationCtx.clearRect(0, 0, canvas.width, canvas.height);
+  toast('Annotations cleared', 'info');
+}
+
+function updateDrawColor() {
+  STATE.drawColor = document.getElementById('annotation-color').value;
+}
+
+// ── SCREENSHOT ─────────────────────────────────────────────
+function takeScreenshot() {
+  const video = document.getElementById('preview-video');
+  const ann = document.getElementById('annotation-canvas');
+  if (!video.srcObject) { toast('No active capture to screenshot', 'error'); return; }
+  const tmpCanvas = document.createElement('canvas');
+  tmpCanvas.width = video.videoWidth || 1920;
+  tmpCanvas.height = video.videoHeight || 1080;
+  const ctx = tmpCanvas.getContext('2d');
+  ctx.drawImage(video, 0, 0);
+  ctx.drawImage(ann, 0, 0, tmpCanvas.width, tmpCanvas.height);
+  tmpCanvas.toBlob(blob => {
+    // copy to clipboard
+    if (navigator.clipboard && navigator.clipboard.write) {
+      navigator.clipboard.write([new ClipboardItem({'image/png': blob})]).then(() => toast('Screenshot copied to clipboard!', 'success')).catch(() => downloadBlob(blob, 'nexra-screenshot.png'));
+    } else {
+      downloadBlob(blob, 'nexra-screenshot.png');
+    }
+    toast('Screenshot captured!', 'success');
+  }, 'image/png');
+}
+
+// ── EXPORT / BURN ENGINE ────────────────────────────────────
+function selectFormat(fmt, el) {
+  STATE.exportFormat = fmt;
+  document.querySelectorAll('.export-opt').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function triggerExport() {
+  if (!STATE.recordedBlob) { toast('No recording to export. Record something first!', 'error'); return; }
+  if (!STATE.currentUser) {
+    STATE.pendingDownload = true;
+    openModal('download-gate-modal');
+    return;
+  }
+  startBurnEngine();
+}
+
+function triggerExport4K() {
+  if (!STATE.recordedBlob) { toast('No recording to export', 'error'); return; }
+  showRewardedAd(() => {
+    STATE.export4K = true;
+    triggerExport();
+  });
+}
+
+function startBurnEngine() {
+  const burnCanvas = document.getElementById('burn-canvas');
+  const burnVideo = document.getElementById('burn-video');
+  const logo = document.getElementById('wm-logo');
+  const center = document.getElementById('wm-center');
+  const progWrap = document.getElementById('render-progress');
+  const progBar = document.getElementById('render-bar');
+  const progPct = document.getElementById('render-pct');
+
+  if (!STATE.recordedBlob) { toast('No recording found', 'error'); return; }
+
+  progWrap.style.display = 'block';
+  progBar.style.width = '0%';
+  progPct.textContent = '0%';
+
+  const url = URL.createObjectURL(STATE.recordedBlob);
+  burnVideo.src = url;
+  burnVideo.onloadedmetadata = () => {
+    const vw = burnVideo.videoWidth || 1920;
+    const vh = burnVideo.videoHeight || 1080;
+    burnCanvas.width = vw;
+    burnCanvas.height = vh;
+    const ctx = burnCanvas.getContext('2d');
+    const duration = burnVideo.duration;
+    const chunks = [];
+
+    const mimeTypes = ['video/webm;codecs=vp9','video/webm;codecs=vp8','video/webm'];
+    const mime = mimeTypes.find(m => MediaRecorder.isTypeSupported(m)) || 'video/webm';
+    const canvasStream = burnCanvas.captureStream(30);
+    const recorder = new MediaRecorder(canvasStream, { mimeType: mime, videoBitsPerSecond: 6_000_000 });
+    recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
+    recorder.onstop = () => {
+      const finalBlob = new Blob(chunks, { type: mime });
+      const ext = STATE.exportFormat === 'mp4' ? 'mp4' : STATE.exportFormat === 'mkv' ? 'mkv' : 'webm';
+      downloadBlob(finalBlob, `Nexra_Export_${Date.now()}.${ext}`);
+      progBar.style.width = '100%';
+      progPct.textContent = '100%';
+      toast('Export complete! Downloading…', 'success');
+      URL.revokeObjectURL(url);
+      setTimeout(() => { progWrap.style.display = 'none'; }, 2500);
+    };
+
+    // ensure watermark images are loaded
+    const imgsLoaded = [logo, center].map(img => img.complete ? Promise.resolve() : new Promise(r => { img.onload = r; img.onerror = r; }));
+    Promise.all(imgsLoaded).then(() => {
+      recorder.start(200);
+      burnVideo.play();
+
+      const logoW = 120;
+      const logoH = logo.naturalHeight && logo.naturalWidth ? Math.round(logoW * (logo.naturalHeight / logo.naturalWidth)) : 40;
+      const centerW = Math.round(vw * 0.25);
+      const centerH = center.naturalHeight && center.naturalWidth ? Math.round(centerW * (center.naturalHeight / center.naturalWidth)) : Math.round(vw * 0.06);
+
+      function renderFrame() {
+        if (burnVideo.paused || burnVideo.ended) {
+          recorder.stop();
+          return;
+        }
+        ctx.clearRect(0,0,vw,vh);
+        ctx.drawImage(burnVideo, 0, 0, vw, vh);
+
+        // corner logo
+        ctx.globalAlpha = 0.92;
+        ctx.drawImage(logo, vw - logoW - 16, 14, logoW, logoH);
+
+        // center watermark
+        ctx.globalAlpha = 0.12;
+        ctx.drawImage(center, (vw - centerW) / 2, (vh - centerH) / 2, centerW, centerH);
+        ctx.globalAlpha = 1;
+
+        // progress
+        const pct = Math.min(100, Math.round((burnVideo.currentTime / duration) * 100));
+        progBar.style.width = pct + '%';
+        progPct.textContent = pct + '%';
+
+        requestAnimationFrame(renderFrame);
+      }
+      renderFrame();
+    });
+  };
+  burnVideo.onerror = () => toast('Failed to process video', 'error');
+  toast('Burning watermark — please wait…', 'info');
+}
+
+// ── ADS ENGINE ─────────────────────────────────────────────
+// Mock AdMob IDs:
+// Banner: ca-app-pub-3940256099942544/6300978111
+// Interstitial: ca-app-pub-3940256099942544/1033173712
+// Rewarded: ca-app-pub-3940256099942544/5224354917
+
+const AD_COPIES = [
+  'Create. Record. Share — Nexra Studio Pro',
+  'Screen recording without limits — Nexra',
+  'Tutorial creators love Nexra Studio Pro',
+  'Zero latency, zero uploads — Nexra',
+];
+
+function loadBannerAds() {
+  const ids = ['banner-landing-content','banner-dashboard-content','banner-export-content'];
+  ids.forEach((id, i) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = AD_COPIES[i % AD_COPIES.length];
+  });
+}
+
+function showInterstitialAd(callback) {
+  const overlay = document.getElementById('ad-interstitial');
+  overlay.style.display = 'flex';
+  let c = 5;
+  const countEl = document.getElementById('ad-countdown');
+  const skipBtn = document.getElementById('interstitial-skip-btn');
+  skipBtn.classList.remove('enabled');
+  skipBtn.disabled = true;
+  countEl.textContent = c;
+  const tick = setInterval(() => {
+    c--;
+    countEl.textContent = c;
+    if (c <= 0) {
+      clearInterval(tick);
+      skipBtn.classList.add('enabled');
+      skipBtn.disabled = false;
+    }
+  }, 1000);
+  STATE._interstitialCallback = callback;
+}
+
+function closeInterstitial() {
+  document.getElementById('ad-interstitial').style.display = 'none';
+  if (STATE._interstitialCallback) { STATE._interstitialCallback(); STATE._interstitialCallback = null; }
+}
+
+function showRewardedAd(callback) {
+  openModal('rewarded-modal');
+  const closeBtn = document.getElementById('rewarded-close-btn');
+  const countEl = document.getElementById('rewarded-countdown');
+  closeBtn.classList.remove('enabled');
+  closeBtn.disabled = true;
+  let c = 5;
+  countEl.textContent = c;
+  const tick = setInterval(() => {
+    c--;
+    countEl.textContent = c;
+    if (c <= 0) {
+      clearInterval(tick);
+      closeBtn.classList.add('enabled');
+      closeBtn.disabled = false;
+    }
+  }, 1000);
+  STATE._rewardedCallback = callback;
+}
+
+function closeRewardedAd() {
+  closeModal('rewarded-modal');
+  if (STATE._rewardedCallback) { STATE._rewardedCallback(); STATE._rewardedCallback = null; }
+}
+
+// ── FOCUS MODE ─────────────────────────────────────────────
+let focusMode = false;
+function toggleFocusMode() {
+  focusMode = !focusMode;
+  document.body.classList.toggle('focus-mode', focusMode);
+  toast(focusMode ? 'Focus Mode on — hover toolbar to show' : 'Focus Mode off', 'info');
+}
+
+// ── STATUS ─────────────────────────────────────────────────
+function setStatus(type, text) {
+  const dot = document.getElementById('status-dot');
+  const txt = document.getElementById('status-text');
+  if (!dot || !txt) return;
+  dot.className = 'status-dot';
+  if (type) dot.classList.add(type);
+  txt.textContent = text;
+}
+
+// ── MODALS ─────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('visible'); }
+function closeModal(id) { document.getElementById(id).classList.remove('visible'); }
+function openAuthModal(tab) { openModal('auth-modal'); switchAuthTab(tab); }
+
+function switchAuthTab(tab) {
+  document.getElementById('auth-form-login').style.display = tab === 'login' ? 'block' : 'none';
+  document.getElementById('auth-form-register').style.display = tab === 'register' ? 'block' : 'none';
+  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+  document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+}
+
+// ── TOAST ───────────────────────────────────────────────────
+const TOAST_ICONS = {
+  success: '<svg viewBox="0 0 16 16" fill="#34C759"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zm3.2 5.5L7.5 10.2a.75.75 0 01-1.06 0L4.8 8.5a.75.75 0 111.06-1.06l1.11 1.11 3.17-3.17a.75.75 0 111.06 1.06z"/></svg>',
+  error: '<svg viewBox="0 0 16 16" fill="#FF3B30"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zM7 5h2v4H7V5zm0 5h2v2H7v-2z"/></svg>',
+  info: '<svg viewBox="0 0 16 16" fill="#007AFF"><path d="M8 1a7 7 0 100 14A7 7 0 008 1zM7 5h2v2H7V5zm0 4h2v4H7V9z"/></svg>',
+};
+
+function toast(msg, type = 'info') {
+  const container = document.getElementById('toast-container');
+  const el = document.createElement('div');
+  el.className = 'toast ' + (type || 'info');
+  el.innerHTML = (TOAST_ICONS[type] || TOAST_ICONS.info) + `<span>${msg}</span>`;
+  container.appendChild(el);
+  setTimeout(() => {
+    el.style.animation = 'toastOut 0.3s ease forwards';
+    setTimeout(() => el.remove(), 300);
+  }, 3200);
+}
+
+// ── KEYBOARD SHORTCUTS ─────────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.ctrlKey && e.shiftKey && e.key === 'R') { e.preventDefault(); startRecording(); }
+  if (e.ctrlKey && e.shiftKey && e.key === 'S') { e.preventDefault(); stopRecording(); }
+  if (e.altKey && e.key === 'd') { e.preventDefault(); setTool(STATE.currentTool === 'pen' ? 'none' : 'pen'); }
+  if (e.altKey && e.key === 's') { e.preventDefault(); takeScreenshot(); }
+  if (e.altKey && e.key === 'm') { e.preventDefault(); toggleMicMute(); }
+  if (e.altKey && e.key === 'f') { e.preventDefault(); toggleFocusMode(); }
+  if (e.key === 'Escape') {
+    document.querySelectorAll('.modal-overlay.visible').forEach(m => m.classList.remove('visible'));
+  }
+});
+
+// ── HEADER SCROLL EFFECT ────────────────────────────────────
+window.addEventListener('scroll', () => {
+  document.getElementById('app-header').classList.toggle('scrolled', window.scrollY > 30);
+}, { passive: true });
+
+// ── UTILS ───────────────────────────────────────────────────
+function formatBytes(bytes) {
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+}
+
+function downloadBlob(blob, filename) {
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+}
+
+// ── MOUSE GLOW ON CARDS ─────────────────────────────────────
+document.addEventListener('mousemove', e => {
+  document.querySelectorAll('.feature-card, .panel-card, .export-card').forEach(card => {
+    const r = card.getBoundingClientRect();
+    const cx = e.clientX - r.left;
+    const cy = e.clientY - r.top;
+    if (cx > 0 && cx < r.width && cy > 0 && cy < r.height) {
+      card.style.background = `radial-gradient(circle at ${cx}px ${cy}px, rgba(255,90,0,0.04), transparent 60%), var(--bg-card)`;
+    } else {
+      card.style.background = '';
+    }
+  });
+}, { passive: true });
+
+// ── RANGE TRACK FILL ───────────────────────────────────────
+function updateRangeFill(el) {
+  const min = parseFloat(el.min) || 0;
+  const max = parseFloat(el.max) || 100;
+  const val = parseFloat(el.value);
+  const pct = ((val - min) / (max - min)) * 100;
+  el.style.setProperty('--pct', pct + '%');
+}
+document.addEventListener('input', e => {
+  if (e.target.type === 'range') updateRangeFill(e.target);
+});
+
+// ── PWA SERVICE WORKER ─────────────────────────────────────
+if ('serviceWorker' in navigator) {
+  const SW_CODE = `
+const CACHE = 'nexra-v1';
+const ASSETS = ['/'];
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys => Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(caches.match(e.request).then(r => r || fetch(e.request).catch(()=>new Response('<h1>Nexra - Offline</h1><p>Studio features require internet for first load.</p>',{headers:{'Content-Type':'text/html'}}))));
+});
+  `.trim();
+  const blob = new Blob([SW_CODE], { type: 'application/javascript' });
+  const swUrl = URL.createObjectURL(blob);
+  navigator.serviceWorker.register(swUrl).catch(()=>{});
+}
+
+// ── RESIZE OBSERVER ─────────────────────────────────────────
+const containerObserver = new ResizeObserver(() => {
+  if (STATE.currentView === 'studio') resizeAnnotationCanvas();
+});
+containerObserver.observe(document.getElementById('preview-container'));
+
+// ── INIT ────────────────────────────────────────────────────
+function init() {
+  initFirebase();
+  initPipDrag();
+  initAnnotation();
+  loadBannerAds();
+  loadRecordingHistory();
+  resizeAnnotationCanvas();
+  syncPrefsToStudio();
+  // init range fills
+  document.querySelectorAll('input[type=range]').forEach(updateRangeFill);
+  // check storage
+  if (navigator.storage && navigator.storage.estimate) {
+    navigator.storage.estimate().then(({quota, usage}) => {
+      if (quota) {
+        const free = formatBytes(quota - usage);
+        document.getElementById('status-text') && (document.getElementById('status-text').title = `~${free} storage available`);
+      }
+    });
+  }
+  toast('Nexra Studio Pro loaded', 'success');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>
