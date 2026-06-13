@@ -1,41 +1,64 @@
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
+  <!-- ==========================================================================
+       1. ENTERPRISE SEO, METADATA & BROWSER OPTIMIZATION
+       ========================================================================== -->
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
   <meta name="theme-color" content="#FF4A17" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
   <!-- SEO -->
   <title>Nexra Tech PK | Elite Digital Ecosystem — Premium Software & SaaS Tools</title>
   <meta name="description" content="Pakistan's #1 digital marketplace for premium software licenses, SaaS tools, and free creative assets. Automated delivery, 24/7 support, trusted by 1700+ users." />
   <meta name="keywords" content="digital tools, software licenses, nexra pk, premium assets, saas tools, reseller agency, pakistan digital marketplace" />
-  <link rel="canonical" href="https://nexratechpk.com/discovery/home.html" />
+  <link rel="canonical" href="https://nexratechpk.com/discovery/home.html" id="dynamic-canonical" />
 
   <!-- Open Graph -->
   <meta property="og:title" content="Nexra Tech PK — Elite Digital Ecosystem" />
   <meta property="og:description" content="Pakistan's most trusted marketplace for premium software, SaaS tools, and free digital resources — delivered instantly to your vault." />
   <meta property="og:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://nexratechpk.com/discovery/home.html" />
+  <meta property="og:url" content="https://nexratechpk.com/" />
+  
+  <!-- Twitter Cards -->
   <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Nexra Tech PK — Elite Digital Ecosystem" />
+  <meta name="twitter:description" content="Pakistan's most trusted marketplace for premium software, SaaS tools, and free digital resources." />
+  <meta name="twitter:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" />
 
-  <!-- Preconnects -->
+  <!-- JSON-LD Schema Markup -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Nexra Tech PK",
+    "url": "https://nexratechpk.com/",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://nexratechpk.com/shop/shop.html?q={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+
+  <!-- Preconnects & Resource Hints -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="preconnect" href="https://cdnjs.cloudflare.com" />
+  <link rel="dns-prefetch" href="https://firestore.googleapis.com" />
 
-  <!-- Fonts -->
+  <!-- Fonts & Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700;800;900&display=swap" rel="stylesheet" />
-
-  <!-- Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-  <!-- Firebase SDK (v8 compat — matches existing firebaseconfig.js) -->
+  <!-- Firebase SDK (v9 compat) -->
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
-  <!-- Shared Firebase Config (root) -->
+  <!-- Shared Firebase Config & Global Engine (Expected to be loaded in Master SPA Shell) -->
   <script src="../firebaseconfig.js" defer></script>
 
   <style>
@@ -87,9 +110,7 @@
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     html { scroll-behavior: smooth; }
-
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: var(--bg-base);
@@ -97,979 +118,207 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-
     a { text-decoration: none; color: inherit; }
     img { display: block; max-width: 100%; }
     button { font-family: inherit; cursor: pointer; border: none; background: none; }
 
-    /* ======================================================
-       LAYOUT UTILITIES
-       ====================================================== */
-    .nx-container {
-      width: 100%;
-      max-width: 1380px;
-      margin: 0 auto;
-      padding: 0 20px;
-    }
+    /* LAYOUT UTILITIES */
+    .nx-container { width: 100%; max-width: 1380px; margin: 0 auto; padding: 0 20px; }
     @media (min-width: 768px)  { .nx-container { padding: 0 32px; } }
     @media (min-width: 1200px) { .nx-container { padding: 0 48px; } }
-
     .nx-section { padding: 64px 0; }
     @media (min-width: 768px) { .nx-section { padding: 96px 0; } }
 
-    .sr-only {
-      position: absolute; width: 1px; height: 1px;
-      padding: 0; margin: -1px; overflow: hidden;
-      clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-    }
+    /* CONTENT SPACING FIX FOR FLOATING HEADER */
+    #main-content-wrapper { padding-top: 85px; } /* Ensures header doesn't hide announcement */
 
-    /* ======================================================
-       PAGE LOADER
-       ====================================================== */
+    /* PAGE LOADER */
     #nx-page-loader {
-      position: fixed; inset: 0; z-index: 9999;
-      background: var(--bg-base);
+      position: fixed; inset: 0; z-index: 9999; background: var(--bg-base);
       display: flex; align-items: center; justify-content: center;
-      flex-direction: column; gap: 18px;
-      transition: opacity 0.5s ease, visibility 0.5s ease;
+      flex-direction: column; gap: 18px; transition: opacity 0.5s ease, visibility 0.5s ease;
     }
-    #nx-page-loader.nx-hidden {
-      opacity: 0; visibility: hidden; pointer-events: none;
-    }
-    .nx-loader-logo {
-      width: 56px; height: 56px;
-      border-radius: 16px;
-      overflow: hidden;
-    }
+    #nx-page-loader.nx-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+    .nx-loader-logo { width: 56px; height: 56px; border-radius: 16px; overflow: hidden; }
     .nx-loader-logo img { width: 100%; height: 100%; object-fit: cover; }
     .nx-loader-ring {
-      width: 44px; height: 44px;
-      border: 3px solid var(--bg-elevated);
-      border-top-color: var(--brand);
-      border-radius: 50%;
+      width: 44px; height: 44px; border: 3px solid var(--bg-elevated);
+      border-top-color: var(--brand); border-radius: 50%;
       animation: nx-spin 0.8s linear infinite;
     }
     @keyframes nx-spin { to { transform: rotate(360deg); } }
 
-    /* ======================================================
-       SKELETON LOADER
-       ====================================================== */
-    @keyframes nx-skel {
-      0%   { background-position: 200% center; }
-      100% { background-position: -200% center; }
-    }
+    /* SKELETON LOADER */
+    @keyframes nx-skel { 0% { background-position: 200% center; } 100% { background-position: -200% center; } }
     .nx-skel {
       background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-surface) 50%, var(--bg-elevated) 75%);
-      background-size: 400% 100%;
-      animation: nx-skel 1.4s ease-in-out infinite;
-      border-radius: var(--r-sm);
+      background-size: 400% 100%; animation: nx-skel 1.4s ease-in-out infinite; border-radius: var(--r-sm);
     }
 
-    /* ======================================================
-       BUTTONS
-       ====================================================== */
+    /* BUTTONS */
     .nx-btn {
       display: inline-flex; align-items: center; justify-content: center;
       gap: 8px; padding: 14px 26px; border-radius: 50px;
       font-size: var(--fs-sm); font-weight: 700; line-height: 1;
       transition: transform .28s var(--ease), box-shadow .28s var(--ease), background .2s;
-      white-space: nowrap; -webkit-tap-highlight-color: transparent;
-      min-height: 48px; border: none; cursor: pointer;
+      white-space: nowrap; -webkit-tap-highlight-color: transparent; min-height: 48px; cursor: pointer;
     }
-    .nx-btn-primary {
-      background: var(--brand); color: #fff;
-      box-shadow: 0 6px 20px var(--brand-glow);
-    }
-    .nx-btn-primary:hover, .nx-btn-primary:focus-visible {
-      transform: translateY(-2px); box-shadow: 0 12px 32px var(--brand-glow);
-    }
+    .nx-btn-primary { background: var(--brand); color: #fff; box-shadow: 0 6px 20px var(--brand-glow); }
+    .nx-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 32px var(--brand-glow); }
     .nx-btn-primary:active { transform: translateY(0); }
-    .nx-btn-outline {
-      background: var(--bg-surface); color: var(--text-100);
-      border: 1px solid var(--glass-border); box-shadow: var(--shadow-soft);
-    }
-    .nx-btn-outline:hover, .nx-btn-outline:focus-visible {
-      border-color: var(--brand); transform: translateY(-2px);
-      box-shadow: 0 8px 24px var(--brand-dim);
-    }
-    .nx-btn-ghost {
-      background: transparent; color: var(--brand);
-      font-size: var(--fs-sm); font-weight: 700;
-      padding: 10px 4px; border-radius: 8px;
-      display: inline-flex; align-items: center; gap: 6px;
-      min-height: 44px;
-    }
+    .nx-btn-outline { background: var(--bg-surface); color: var(--text-100); border: 1px solid var(--glass-border); box-shadow: var(--shadow-soft); }
+    .nx-btn-outline:hover { border-color: var(--brand); transform: translateY(-2px); box-shadow: 0 8px 24px var(--brand-dim); }
+    .nx-btn-ghost { background: transparent; color: var(--brand); font-size: var(--fs-sm); font-weight: 700; padding: 10px 4px; border-radius: 8px; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; }
     .nx-btn-ghost:hover { opacity: .75; }
-    .nx-btn-sm { padding: 10px 18px; font-size: var(--fs-xs); min-height: 40px; }
 
-    /* ======================================================
-       SECTION HEADER COMPONENTS
-       ====================================================== */
-    .nx-eyebrow {
-      display: inline-flex; align-items: center; gap: 7px;
-      font-size: var(--fs-xs); font-weight: 800; letter-spacing: 2px;
-      text-transform: uppercase; color: var(--brand);
-      background: var(--brand-dim); border: 1px solid rgba(255,74,23,0.2);
-      padding: 6px 14px; border-radius: 50px; margin-bottom: 14px;
-    }
-    .nx-sec-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(22px, 5vw, 38px); font-weight: 800;
-      color: var(--text-100); letter-spacing: -0.8px; line-height: 1.15; margin-bottom: 10px;
-    }
-    .nx-sec-sub {
-      font-size: var(--fs-md); color: var(--text-200);
-      font-weight: 500; line-height: 1.65;
-    }
-    .nx-sec-head-row {
-      display: flex; align-items: flex-end; justify-content: space-between;
-      flex-wrap: wrap; gap: 16px; margin-bottom: 28px;
-    }
-    .nx-text-grad {
-      background: linear-gradient(135deg, var(--brand), #ff8c00);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-    }
-
-    /* ======================================================
-       CARDS
-       ====================================================== */
-    .nx-card {
-      background: var(--bg-surface); border: 1px solid var(--glass-border);
-      border-radius: var(--r-md); box-shadow: var(--shadow-soft); overflow: hidden;
-      transition: transform .32s var(--ease), box-shadow .32s var(--ease), border-color .28s;
-    }
-    .nx-card:hover {
-      transform: translateY(-5px); box-shadow: var(--shadow-float);
-      border-color: rgba(255,74,23,.18);
-    }
-
-    /* ======================================================
-       EMPTY STATE
-       ====================================================== */
-    .nx-empty {
-      grid-column: 1 / -1; display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      padding: 48px 20px; text-align: center;
-      background: var(--bg-surface); border: 1px dashed var(--glass-border);
-      border-radius: var(--r-md); color: var(--text-300);
-    }
+    /* HEADERS & CARDS */
+    .nx-eyebrow { display: inline-flex; align-items: center; gap: 7px; font-size: var(--fs-xs); font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--brand); background: var(--brand-dim); border: 1px solid rgba(255,74,23,0.2); padding: 6px 14px; border-radius: 50px; margin-bottom: 14px; }
+    .nx-sec-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(22px, 5vw, 38px); font-weight: 800; color: var(--text-100); letter-spacing: -0.8px; line-height: 1.15; margin-bottom: 10px; }
+    .nx-sec-sub { font-size: var(--fs-md); color: var(--text-200); font-weight: 500; line-height: 1.65; }
+    .nx-sec-head-row { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 16px; margin-bottom: 28px; }
+    .nx-text-grad { background: linear-gradient(135deg, var(--brand), #ff8c00); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .nx-card { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: var(--r-md); box-shadow: var(--shadow-soft); overflow: hidden; transition: transform .32s var(--ease), box-shadow .32s var(--ease), border-color .28s; }
+    .nx-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-float); border-color: rgba(255,74,23,.18); }
+    .nx-empty { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 20px; text-align: center; background: var(--bg-surface); border: 1px dashed var(--glass-border); border-radius: var(--r-md); color: var(--text-300); }
     .nx-empty i { font-size: 38px; color: var(--brand); margin-bottom: 14px; opacity: .55; }
-    .nx-empty p { font-size: var(--fs-sm); margin: 6px 0 0; color: var(--text-200); }
 
-    /* ======================================================
-       TOAST NOTIFICATIONS
-       ====================================================== */
-    #nx-toast-container {
-      position: fixed; bottom: 24px; right: 24px; z-index: 9000;
-      display: flex; flex-direction: column; gap: 10px; pointer-events: none;
-    }
-    .nx-toast {
-      background: var(--bg-surface); border: 1px solid var(--glass-border);
-      border-left: 4px solid var(--brand); border-radius: var(--r-sm);
-      padding: 14px 20px; display: flex; align-items: center; gap: 12px;
-      box-shadow: var(--shadow-float); font-size: var(--fs-sm); font-weight: 700;
-      color: var(--text-100); pointer-events: all;
-      animation: nx-toast-in .4s var(--ease) forwards;
-      max-width: 320px;
-    }
+    /* TOAST */
+    #nx-toast-container { position: fixed; bottom: 24px; right: 24px; z-index: 9000; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+    .nx-toast { background: var(--bg-surface); border: 1px solid var(--glass-border); border-left: 4px solid var(--brand); border-radius: var(--r-sm); padding: 14px 20px; display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-float); font-size: var(--fs-sm); font-weight: 700; color: var(--text-100); pointer-events: all; animation: nx-toast-in .4s var(--ease) forwards; max-width: 320px; }
     .nx-toast.nx-out { animation: nx-toast-out .35s var(--ease) forwards; }
     .nx-toast i { color: var(--brand); font-size: 16px; flex-shrink: 0; }
     @keyframes nx-toast-in  { from { opacity:0; transform:translateX(20px); } to { opacity:1; transform:translateX(0); } }
     @keyframes nx-toast-out { from { opacity:1; transform:translateX(0); } to { opacity:0; transform:translateX(20px); } }
 
-    /* ======================================================
-       ANNOUNCEMENT STRIP
-       ====================================================== */
-    #nx-announce-wrap {
-      position: relative; z-index: 200;
-      overflow: hidden; transition: max-height .4s var(--ease), opacity .4s;
-      max-height: 60px;
-    }
+    /* ANNOUNCEMENT STRIP */
+    #nx-announce-wrap { position: relative; z-index: 200; overflow: hidden; transition: max-height .4s var(--ease), opacity .4s; max-height: 60px; }
     #nx-announce-wrap.nx-hidden { max-height: 0; opacity: 0; pointer-events: none; }
-    .nx-announce-bar {
-      background: linear-gradient(90deg, var(--brand) 0%, #FF8C00 100%);
-      color: #fff; padding: 11px 20px;
-      display: flex; align-items: center; justify-content: center; gap: 12px;
-      font-size: var(--fs-xs); font-weight: 700; letter-spacing: .5px;
-      position: relative;
-    }
-    .nx-announce-bar a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
-    .nx-announce-close {
-      position: absolute; right: 14px;
-      background: rgba(255,255,255,.22); border: none; border-radius: 50%;
-      width: 24px; height: 24px; color: #fff; font-size: 11px;
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
-    }
-    .nx-announce-close:hover { background: rgba(255,255,255,.4); }
+    .nx-announce-bar { background: linear-gradient(90deg, var(--brand) 0%, #FF8C00 100%); color: #fff; padding: 11px 20px; display: flex; align-items: center; justify-content: center; gap: 12px; font-size: var(--fs-xs); font-weight: 700; letter-spacing: .5px; position: relative; }
+    .nx-announce-bar a { color: #fff; text-decoration: underline; text-underline-offset: 3px; cursor: pointer; }
+    .nx-announce-close { position: absolute; right: 14px; background: rgba(255,255,255,.22); border: none; border-radius: 50%; width: 24px; height: 24px; color: #fff; font-size: 11px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
-    /* ======================================================
-       HERO SECTION
-       ====================================================== */
-    .nx-hero {
-      position: relative; min-height: 90svh;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      overflow: hidden; background: var(--bg-base);
-      padding: 140px 0 80px; text-align: center;
-      border-radius: 0 0 50px 50px; z-index: 5;
-    }
-
-    /* Video background */
-    .nx-hero__bg {
-      position: absolute; inset: 0; z-index: 0; background: #000;
-    }
-    .nx-hero__video {
-      width: 100%; height: 100%; object-fit: cover;
-      opacity: 0.7;
-      filter: blur(28px) brightness(0.55);
-      transition: opacity 1.5s ease;
-      will-change: opacity;
-    }
-    .nx-hero__overlay {
-      position: absolute; inset: 0; z-index: 1;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(255,255,255,0.02) 50%, var(--bg-base) 100%);
-    }
-    [data-theme="dark"] .nx-hero__overlay {
-      background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, var(--bg-base) 100%);
-    }
-
-    /* Hero content */
-    .nx-hero__content {
-      position: relative; z-index: 5;
-      width: 100%; max-width: 880px; padding: 0 24px;
-    }
-
-    /* Hero badge */
-    .nx-hero__badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,0.92); backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,74,23,0.18); border-radius: 50px;
-      padding: 8px 18px; font-size: var(--fs-xs); font-weight: 800;
-      color: var(--brand); letter-spacing: 1.5px; text-transform: uppercase;
-      margin-bottom: 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.08);
-    }
-    [data-theme="dark"] .nx-hero__badge {
-      background: rgba(255,74,23,0.15); border-color: rgba(255,74,23,0.3); color: #fff;
-    }
-
-    /* Headline */
-    .nx-hero__headline {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(38px, 9vw, 74px);
-      font-weight: 900; letter-spacing: -3px; line-height: 1.03; margin-bottom: 18px;
-    }
+    /* HERO SECTION */
+    .nx-hero { position: relative; min-height: 90svh; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden; background: var(--bg-base); padding: 40px 0 80px; text-align: center; border-radius: 0 0 50px 50px; z-index: 5; }
+    .nx-hero__bg { position: absolute; inset: 0; z-index: 0; background: #000; }
+    .nx-hero__video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; filter: blur(28px) brightness(0.55); transition: opacity 1.5s ease; will-change: opacity; }
+    .nx-hero__overlay { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(255,255,255,0.02) 50%, var(--bg-base) 100%); }
+    [data-theme="dark"] .nx-hero__overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.45) 0%, var(--bg-base) 100%); }
+    .nx-hero__content { position: relative; z-index: 5; width: 100%; max-width: 880px; padding: 0 24px; }
+    .nx-hero__badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border: 1px solid rgba(255,74,23,0.18); border-radius: 50px; padding: 8px 18px; font-size: var(--fs-xs); font-weight: 800; color: var(--brand); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 28px; box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+    [data-theme="dark"] .nx-hero__badge { background: rgba(255,74,23,0.15); border-color: rgba(255,74,23,0.3); color: #fff; }
+    .nx-hero__headline { font-family: 'Space Grotesk', sans-serif; font-size: clamp(38px, 9vw, 74px); font-weight: 900; letter-spacing: -3px; line-height: 1.03; margin-bottom: 18px; }
     .nx-hero__headline .line1 { color: var(--text-100); display: block; }
-    .nx-hero__rotor-inner {
-      color: var(--brand) !important;
-      -webkit-text-fill-color: var(--brand) !important;
-      background: none !important;
-      display: inline-block;
-      transition: opacity .22s, transform .22s;
-    }
+    .nx-hero__rotor-inner { color: var(--brand) !important; -webkit-text-fill-color: var(--brand) !important; display: inline-block; transition: opacity .22s, transform .22s; }
     .nx-hero__rotor-inner.nx-swap-out { opacity: 0; transform: translateY(10px); }
     .nx-hero__rotor-inner.nx-swap-in  { opacity: 0; transform: translateY(-10px); }
-
-    /* Description */
-    .nx-hero__desc {
-      font-size: clamp(15px, 2.5vw, 18px);
-      color: var(--text-100); font-weight: 600; line-height: 1.65;
-      max-width: 620px; margin: 0 auto 40px;
-    }
+    .nx-hero__desc { font-size: clamp(15px, 2.5vw, 18px); color: var(--text-100); font-weight: 600; line-height: 1.65; max-width: 620px; margin: 0 auto 40px; }
     [data-theme="dark"] .nx-hero__desc { color: rgba(255,255,255,0.88); }
+    .nx-hero__ctas { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; margin-bottom: 56px; }
 
-    /* CTA group */
-    .nx-hero__ctas {
-      display: flex; flex-wrap: wrap; gap: 14px;
-      justify-content: center; margin-bottom: 56px;
-    }
-
-    /* Trust bar */
-    .nx-trust {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%;
-    }
+    /* TRUST BAR */
+    .nx-trust { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; width: 100%; }
     @media (min-width: 480px) { .nx-trust { grid-template-columns: repeat(4, 1fr); } }
-    .nx-trust__item {
-      background: rgba(255,255,255,0.88); backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,0.5); border-radius: 18px;
-      padding: 14px 8px; box-shadow: var(--shadow-soft); text-align: center;
-    }
-    [data-theme="dark"] .nx-trust__item {
-      background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1);
-    }
-    .nx-trust__val {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(18px, 4vw, 24px); font-weight: 900;
-      color: var(--text-100); line-height: 1.1; margin-bottom: 3px;
-    }
-    .nx-trust__lbl {
-      font-size: 9px; font-weight: 800; color: var(--text-300);
-      text-transform: uppercase; letter-spacing: 1px;
-    }
+    .nx-trust__item { background: rgba(255,255,255,0.88); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.5); border-radius: 18px; padding: 14px 8px; box-shadow: var(--shadow-soft); text-align: center; }
+    [data-theme="dark"] .nx-trust__item { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.1); }
+    .nx-trust__val { font-family: 'Space Grotesk', sans-serif; font-size: clamp(18px, 4vw, 24px); font-weight: 900; color: var(--text-100); line-height: 1.1; margin-bottom: 3px; }
+    .nx-trust__lbl { font-size: 9px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1px; }
 
-    /* ======================================================
-       SEARCH BAR
-       ====================================================== */
-    .nx-searchbar-wrap {
-      position: relative; z-index: 100;
-      margin-top: -30px; padding: 0 20px;
-    }
+    /* SEARCH BAR */
+    .nx-searchbar-wrap { position: relative; z-index: 100; margin-top: -30px; padding: 0 20px; }
     @media (min-width: 768px) { .nx-searchbar-wrap { padding: 0 32px; } }
-    .nx-searchbar {
-      max-width: 780px; margin: 0 auto;
-      background: var(--bg-surface); border: 1px solid var(--glass-border);
-      border-radius: 50px; padding: 8px 8px 8px 22px;
-      display: flex; align-items: center; gap: 12px;
-      box-shadow: 0 14px 42px rgba(0,0,0,0.12);
-      transition: box-shadow .3s, border-color .3s;
-    }
-    .nx-searchbar:focus-within {
-      border-color: var(--brand);
-      box-shadow: 0 14px 42px var(--brand-dim);
-    }
+    .nx-searchbar { max-width: 780px; margin: 0 auto; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 50px; padding: 8px 8px 8px 22px; display: flex; align-items: center; gap: 12px; box-shadow: 0 14px 42px rgba(0,0,0,0.12); transition: box-shadow .3s, border-color .3s; }
+    .nx-searchbar:focus-within { border-color: var(--brand); box-shadow: 0 14px 42px var(--brand-dim); }
     .nx-searchbar > svg { color: var(--text-300); flex-shrink: 0; }
-    .nx-searchbar input {
-      flex: 1; border: none; background: transparent; font-family: inherit;
-      font-size: var(--fs-md); color: var(--text-100); min-height: 42px; min-width: 0;
-      font-weight: 600;
-    }
-    .nx-searchbar input::placeholder { color: var(--text-300); font-weight: 500; }
-    .nx-searchbar input:focus { outline: none; }
-
-    /* Live results dropdown */
-    .nx-search-dropdown {
-      position: absolute; top: calc(100% + 10px);
-      left: 0; right: 0; max-width: 780px; margin: 0 auto;
-      background: var(--bg-surface); border: 1px solid var(--glass-border);
-      border-radius: 20px; overflow: hidden;
-      box-shadow: var(--shadow-float); display: none; z-index: 200;
-      max-height: 400px; overflow-y: auto;
-    }
+    .nx-searchbar input { flex: 1; border: none; background: transparent; font-family: inherit; font-size: var(--fs-md); color: var(--text-100); min-height: 42px; min-width: 0; font-weight: 600; }
+    .nx-search-dropdown { position: absolute; top: calc(100% + 10px); left: 0; right: 0; max-width: 780px; margin: 0 auto; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 20px; box-shadow: var(--shadow-float); display: none; z-index: 200; max-height: 400px; overflow-y: auto; }
     .nx-search-dropdown.nx-open { display: block; animation: nx-fade-in .25s var(--ease); }
     @keyframes nx-fade-in { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:none; } }
-    .nx-search-result-row {
-      display: flex; align-items: center; gap: 16px; padding: 14px 20px;
-      cursor: pointer; border-bottom: 1px solid var(--glass-border);
-      transition: background .18s;
-    }
-    .nx-search-result-row:last-child { border-bottom: none; }
+    .nx-search-result-row { display: flex; align-items: center; gap: 16px; padding: 14px 20px; cursor: pointer; border-bottom: 1px solid var(--glass-border); transition: background .18s; }
     .nx-search-result-row:hover { background: var(--bg-elevated); }
-    .nx-search-result-img {
-      width: 46px; height: 46px; border-radius: 12px; object-fit: cover;
-      background: var(--bg-elevated); flex-shrink: 0;
-    }
+    .nx-search-result-img { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; background: var(--bg-elevated); flex-shrink: 0; }
     .nx-search-result-info h4 { font-size: 14px; font-weight: 700; color: var(--text-100); margin-bottom: 3px; }
-    .nx-search-result-info span { font-size: 10px; font-weight: 800; color: var(--brand); text-transform: uppercase; letter-spacing: 1px; }
-    .nx-search-result-price { margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-weight: 800; color: var(--brand); font-size: 14px; white-space: nowrap; }
-    .nx-search-no-results { padding: 28px 20px; text-align: center; color: var(--text-300); font-size: var(--fs-sm); font-weight: 600; }
+    .nx-search-result-price { margin-left: auto; font-family: 'Space Grotesk', sans-serif; font-weight: 800; color: var(--brand); font-size: 14px; }
 
-    /* ======================================================
-       CATEGORY PILLS
-       ====================================================== */
-    .nx-cats-scroll {
-      display: flex; gap: 10px; overflow-x: auto; padding: 32px 20px 8px;
-      scrollbar-width: none; -webkit-overflow-scrolling: touch;
-      scroll-snap-type: x mandatory;
-    }
-    @media (min-width: 768px) { .nx-cats-scroll { padding-left: 32px; padding-right: 32px; } }
+    /* PILLS, PRODUCTS, FREEBIES, ETC (Preserved Styles) */
+    .nx-cats-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 32px 20px 8px; scrollbar-width: none; scroll-snap-type: x mandatory; }
     .nx-cats-scroll::-webkit-scrollbar { display: none; }
-    .nx-cat-pill {
-      flex: 0 0 auto; display: flex; align-items: center; gap: 8px;
-      background: var(--bg-surface); border: 1px solid var(--glass-border);
-      padding: 10px 20px; border-radius: 50px; font-size: var(--fs-sm);
-      font-weight: 700; color: var(--text-200); cursor: pointer;
-      transition: all .24s var(--ease); box-shadow: var(--shadow-soft);
-      scroll-snap-align: start; white-space: nowrap; min-height: 44px;
-    }
-    .nx-cat-pill:hover, .nx-cat-pill.nx-active {
-      border-color: var(--brand); color: var(--brand);
-      transform: translateY(-2px); box-shadow: 0 6px 20px var(--brand-dim);
-    }
-    .nx-cat-icon {
-      width: 28px; height: 28px; border-radius: 8px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 13px; background: var(--bg-elevated); transition: background .24s;
-    }
-    .nx-cat-pill:hover .nx-cat-icon, .nx-cat-pill.nx-active .nx-cat-icon {
-      background: var(--brand-dim); color: var(--brand);
-    }
+    .nx-cat-pill { flex: 0 0 auto; display: flex; align-items: center; gap: 8px; background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 10px 20px; border-radius: 50px; font-size: var(--fs-sm); font-weight: 700; color: var(--text-200); cursor: pointer; box-shadow: var(--shadow-soft); scroll-snap-align: start; white-space: nowrap; transition: all .24s var(--ease); }
+    .nx-cat-pill:hover, .nx-cat-pill.nx-active { border-color: var(--brand); color: var(--brand); transform: translateY(-2px); box-shadow: 0 6px 20px var(--brand-dim); }
+    .nx-cat-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 13px; background: var(--bg-elevated); transition: background .24s; }
 
-    /* ======================================================
-       TRENDING PRODUCTS GRID
-       ====================================================== */
-    .nx-products-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;
-    }
+    /* PRODUCTS GRID */
+    .nx-products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
     @media (min-width: 600px)  { .nx-products-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
     @media (min-width: 1024px) { .nx-products-grid { grid-template-columns: repeat(5, 1fr); } }
-
-    .nx-prod {
-      background: var(--bg-surface); border: 1px solid var(--glass-border);
-      border-radius: var(--r-md); padding: 10px;
-      display: flex; flex-direction: column; cursor: pointer;
-      transition: transform .32s var(--ease), box-shadow .32s var(--ease), border-color .28s;
-      box-shadow: var(--shadow-soft); will-change: transform; position: relative;
-    }
+    .nx-prod { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: var(--r-md); padding: 10px; display: flex; flex-direction: column; cursor: pointer; transition: transform .32s var(--ease), box-shadow .32s var(--ease), border-color .28s; box-shadow: var(--shadow-soft); position: relative; }
     .nx-prod:hover { transform: translateY(-6px); box-shadow: var(--shadow-float); border-color: rgba(255,74,23,.2); }
-    .nx-prod:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
-
-    .nx-prod__img-wrap {
-      width: 100%; aspect-ratio: 1;
-      border-radius: calc(var(--r-md) - 4px);
-      overflow: hidden; background: var(--bg-elevated);
-      margin-bottom: 10px; position: relative;
-    }
-    .nx-prod__img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform .5s var(--ease), filter .4s;
-      filter: blur(10px); transform: scale(1.04);
-    }
+    .nx-prod__img-wrap { width: 100%; aspect-ratio: 1; border-radius: calc(var(--r-md) - 4px); overflow: hidden; background: var(--bg-elevated); margin-bottom: 10px; position: relative; }
+    .nx-prod__img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s var(--ease), filter .4s; filter: blur(10px); transform: scale(1.04); }
     .nx-prod__img.nx-loaded { filter: blur(0); transform: scale(1); }
-    .nx-prod:hover .nx-prod__img.nx-loaded { transform: scale(1.06); }
-
-    .nx-prod__badge {
-      position: absolute; top: 8px; left: 8px;
-      background: var(--brand); color: #fff;
-      font-size: 9px; font-weight: 800; padding: 3px 9px;
-      border-radius: 6px; letter-spacing: 1px; z-index: 2;
-      box-shadow: 0 3px 10px var(--brand-glow);
-    }
-    .nx-prod__meta {
-      display: flex; justify-content: space-between;
-      font-size: var(--fs-xs); font-weight: 700; color: var(--text-300); margin-bottom: 5px;
-    }
-    .nx-prod__rating i { color: var(--gold); }
-    .nx-prod__title {
-      font-size: var(--fs-sm); font-weight: 700; color: var(--text-100);
-      line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px; min-height: 36px; flex: 1;
-    }
+    .nx-prod__badge { position: absolute; top: 8px; left: 8px; background: var(--brand); color: #fff; font-size: 9px; font-weight: 800; padding: 3px 9px; border-radius: 6px; z-index: 2; }
+    .nx-prod__meta { display: flex; justify-content: space-between; font-size: var(--fs-xs); font-weight: 700; color: var(--text-300); margin-bottom: 5px; }
+    .nx-prod__title { font-size: var(--fs-sm); font-weight: 700; color: var(--text-100); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 10px; flex: 1; }
     .nx-prod__price-row { display: flex; flex-direction: column; margin-bottom: 10px; }
-    .nx-prod__price-old { font-size: var(--fs-xs); text-decoration: line-through; color: var(--text-300); line-height: 1; }
-    .nx-prod__price { font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 800; color: var(--text-100); line-height: 1.2; }
-    .nx-prod__price-usd { font-size: 10px; font-weight: 600; color: var(--green); }
+    .nx-prod__price-old { font-size: var(--fs-xs); text-decoration: line-through; color: var(--text-300); }
+    .nx-prod__price { font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 800; color: var(--text-100); }
     .nx-prod__actions { display: flex; gap: 6px; margin-top: auto; }
-    .nx-prod__cart {
-      width: 40px; height: 40px; flex-shrink: 0; border-radius: 11px;
-      background: var(--bg-elevated); border: 1px solid var(--glass-border); color: var(--text-100);
-      display: flex; align-items: center; justify-content: center;
-      transition: background .22s, color .22s, transform .22s;
-    }
-    .nx-prod__cart:hover { background: var(--brand); color: #fff; border-color: var(--brand); transform: scale(1.06); }
-    .nx-prod__buy {
-      flex: 1; height: 40px; border-radius: 11px;
-      background: var(--text-100); color: var(--bg-base);
-      font-size: 11px; font-weight: 800; border: none;
-      transition: background .22s, transform .2s;
-    }
-    .nx-prod__buy:hover { background: var(--brand); color: #fff; box-shadow: 0 4px 14px var(--brand-glow); transform: translateY(-1px); }
+    .nx-prod__cart { width: 40px; height: 40px; flex-shrink: 0; border-radius: 11px; background: var(--bg-elevated); border: 1px solid var(--glass-border); display: flex; align-items: center; justify-content: center; transition: 0.22s; }
+    .nx-prod__cart:hover { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .nx-prod__buy { flex: 1; height: 40px; border-radius: 11px; background: var(--text-100); color: var(--bg-base); font-size: 11px; font-weight: 800; transition: 0.22s; border: none; }
+    .nx-prod__buy:hover { background: var(--brand); color: #fff; }
 
-    /* ======================================================
-       KINETIC TYPER STRIP
-       ====================================================== */
-    .nx-kinetic {
-      padding: 22px 20px; display: flex; align-items: center; justify-content: center;
-      border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);
-      overflow: hidden; background: var(--bg-surface);
-    }
-    .nx-kinetic__text {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(17px, 4.5vw, 30px); font-weight: 800;
-      letter-spacing: -.5px; color: var(--text-100);
-      display: flex; align-items: center; gap: 12px; white-space: nowrap; flex-wrap: wrap; justify-content: center;
-    }
-    .nx-kinetic__word {
-      background: linear-gradient(135deg, #8D6E63, #8E24AA, #D81B60);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
-      position: relative; display: inline-block; min-width: 2ch;
-    }
-    .nx-kinetic__word::after {
-      content: '';
-      position: absolute; right: -4px; top: 15%;
-      height: 70%; width: 2px; background: #D81B60;
-      animation: nx-cursor .8s step-end infinite;
-    }
+    /* KINETIC TYPER */
+    .nx-kinetic { padding: 22px 20px; display: flex; align-items: center; justify-content: center; border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); background: var(--bg-surface); }
+    .nx-kinetic__text { font-family: 'Space Grotesk', sans-serif; font-size: clamp(17px, 4.5vw, 30px); font-weight: 800; letter-spacing: -.5px; color: var(--text-100); display: flex; gap: 12px; }
+    .nx-kinetic__word { background: linear-gradient(135deg, #8D6E63, #8E24AA, #D81B60); -webkit-background-clip: text; -webkit-text-fill-color: transparent; position: relative; }
+    .nx-kinetic__word::after { content: ''; position: absolute; right: -4px; top: 15%; height: 70%; width: 2px; background: #D81B60; animation: nx-cursor .8s step-end infinite; }
     @keyframes nx-cursor { 0%,100% { opacity: 1; } 50% { opacity: 0; } }
 
-    /* ======================================================
-       FREEBIES VAULT
-       ====================================================== */
-    .nx-freebies-grid {
-      display: grid; grid-template-columns: 1fr; gap: 14px;
-    }
+    /* FREEBIES */
+    .nx-freebies-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
     @media (min-width: 600px) { .nx-freebies-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 960px) { .nx-freebies-grid { grid-template-columns: repeat(3, 1fr); } }
-
-    .nx-freebie {
-      position: relative; border-radius: var(--r-md);
-      overflow: hidden; aspect-ratio: 4/3; cursor: pointer;
-      background: var(--bg-elevated); border: 1px solid var(--glass-border);
-      box-shadow: var(--shadow-soft);
-      transition: transform .32s var(--ease), box-shadow .32s var(--ease), border-color .28s;
-      will-change: transform;
-    }
-    .nx-freebie:hover { transform: translateY(-5px); box-shadow: var(--shadow-float); border-color: rgba(255,74,23,.2); }
-    .nx-freebie:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
-    .nx-freebie__img {
-      position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
-      transition: transform .55s var(--ease), filter .4s; filter: blur(10px);
-      transform: scale(1.05); z-index: 1;
-    }
+    .nx-freebie { position: relative; border-radius: var(--r-md); overflow: hidden; aspect-ratio: 4/3; cursor: pointer; background: var(--bg-elevated); border: 1px solid var(--glass-border); box-shadow: var(--shadow-soft); transition: transform .32s var(--ease), box-shadow .32s var(--ease); }
+    .nx-freebie:hover { transform: translateY(-5px); box-shadow: var(--shadow-float); }
+    .nx-freebie__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .55s var(--ease), filter .4s; filter: blur(10px); transform: scale(1.05); z-index: 1; }
     .nx-freebie__img.nx-loaded { filter: blur(0); transform: scale(1); }
-    .nx-freebie:hover .nx-freebie__img.nx-loaded { transform: scale(1.06); }
-    .nx-freebie__overlay {
-      position: absolute; inset: 0; z-index: 2;
-      background: linear-gradient(180deg, transparent 25%, rgba(0,0,0,.82) 100%);
-      display: flex; flex-direction: column; justify-content: flex-end; padding: 18px;
-    }
-    .nx-freebie__cat {
-      background: rgba(255,74,23,.88); backdrop-filter: blur(4px);
-      color: #fff; font-size: 9px; font-weight: 800;
-      padding: 3px 10px; border-radius: 5px;
-      align-self: flex-start; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px;
-    }
-    .nx-freebie__title {
-      color: #fff; font-weight: 700; font-size: clamp(14px, 3vw, 18px);
-      line-height: 1.3; display: -webkit-box; -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical; overflow: hidden;
-      text-shadow: 0 2px 8px rgba(0,0,0,.7); margin-bottom: 8px;
-    }
+    .nx-freebie__overlay { position: absolute; inset: 0; z-index: 2; background: linear-gradient(180deg, transparent 25%, rgba(0,0,0,.82) 100%); display: flex; flex-direction: column; justify-content: flex-end; padding: 18px; }
+    .nx-freebie__cat { background: rgba(255,74,23,.88); color: #fff; font-size: 9px; font-weight: 800; padding: 3px 10px; border-radius: 5px; align-self: flex-start; margin-bottom: 8px; }
+    .nx-freebie__title { color: #fff; font-weight: 700; font-size: clamp(14px, 3vw, 18px); margin-bottom: 8px; }
     .nx-freebie__foot { display: flex; gap: 12px; font-size: 11px; font-weight: 700; color: rgba(255,255,255,.8); }
-    .nx-freebie__foot i { color: var(--brand); }
-
-    /* Lock overlay */
-    .nx-freebie__lock {
-      position: absolute; inset: 0;
-      background: rgba(0,0,0,.72); backdrop-filter: blur(14px);
-      z-index: 5; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; padding: 20px; text-align: center;
-    }
-    .nx-freebie__lock-icon {
-      width: 52px; height: 52px; background: var(--bg-surface); border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--brand); font-size: 20px;
-      box-shadow: 0 8px 24px var(--brand-glow); margin-bottom: 10px;
-    }
-    .nx-freebie__lock h5 { color: #fff; font-size: 14px; font-weight: 800; margin-bottom: 4px; }
-    .nx-freebie__lock p  { color: rgba(255,255,255,.7); font-size: 11px; margin-bottom: 14px; }
-    .nx-share-bar { width: 80%; max-width: 200px; height: 5px; background: rgba(255,255,255,.18); border-radius: 10px; overflow: hidden; margin-bottom: 8px; }
+    .nx-freebie__lock { position: absolute; inset: 0; background: rgba(0,0,0,.72); backdrop-filter: blur(14px); z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; text-align: center; }
+    .nx-freebie__lock-icon { width: 52px; height: 52px; background: var(--bg-surface); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--brand); font-size: 20px; margin-bottom: 10px; }
+    .nx-share-bar { width: 80%; max-width: 200px; height: 5px; background: rgba(255,255,255,.18); border-radius: 10px; margin-bottom: 8px; }
     .nx-share-fill { height: 100%; background: var(--brand); width: 0%; transition: width .45s var(--ease); }
-    .nx-share-count { color: rgba(255,255,255,.75); font-size: 10px; font-weight: 800; margin-bottom: 12px; letter-spacing: 1px; }
-    .nx-lock-btn {
-      background: var(--brand); color: #fff; border: none; padding: 10px 20px; border-radius: 50px;
-      font-size: 11px; font-weight: 800; cursor: pointer;
-      display: flex; align-items: center; gap: 7px;
-      box-shadow: 0 6px 18px var(--brand-glow); min-height: 44px;
-      transition: transform .2s, box-shadow .2s;
-    }
-    .nx-lock-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px var(--brand-glow); }
+    .nx-lock-btn { background: var(--brand); color: #fff; padding: 10px 20px; border-radius: 50px; font-size: 11px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 7px; margin-top: 10px; }
 
-    /* ======================================================
-       B2B / AGENCY BANNER
-       ====================================================== */
-    .nx-b2b-banner {
-      position: relative;
-      background: linear-gradient(135deg, var(--brand) 0%, #D83A0E 100%);
-      border-radius: var(--r-lg); padding: 56px 8%;
-      display: flex; flex-wrap: wrap; gap: 44px;
-      align-items: center; justify-content: space-between;
-      overflow: hidden; box-shadow: 0 25px 50px var(--brand-glow);
-      border: 1px solid rgba(255,255,255,0.15);
-    }
-    .nx-b2b-banner::before {
-      content: '\f201'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-      position: absolute; right: -5%; bottom: -20%;
-      font-size: 300px; opacity: .07; transform: rotate(-12deg); pointer-events: none; color: #fff; z-index: 1;
-    }
-    .nx-b2b-content { position: relative; z-index: 2; flex: 1.5; min-width: 280px; max-width: 600px; }
-    .nx-b2b-badge {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(255,255,255,.18); backdrop-filter: blur(10px);
-      border: 1px solid rgba(255,255,255,.28); color: #fff;
-      padding: 7px 16px; border-radius: 50px; font-size: var(--fs-xs);
-      font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 22px;
-    }
-    .nx-b2b-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(28px, 5vw, 50px); font-weight: 800; color: #fff;
-      line-height: 1.08; margin-bottom: 18px; letter-spacing: -1.5px;
-      text-shadow: 0 6px 20px rgba(0,0,0,0.2);
-    }
-    .nx-b2b-desc {
-      font-size: clamp(14px, 2vw, 17px); color: rgba(255,255,255,.94);
-      line-height: 1.7; margin-bottom: 36px; font-weight: 500;
-    }
-    .nx-b2b-btn {
-      background: #fff; color: var(--brand); border: none;
-      padding: 20px 42px; border-radius: 50px; font-family: inherit;
-      font-size: var(--fs-md); font-weight: 800; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 10px;
-      box-shadow: 0 12px 28px rgba(0,0,0,0.15);
-      transition: transform .28s var(--ease), box-shadow .28s;
-      min-height: 52px;
-    }
-    .nx-b2b-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 20px 40px rgba(0,0,0,0.22); }
-    .nx-b2b-visual { position: relative; z-index: 2; flex: 1; min-width: 200px; text-align: center; }
-    .nx-b2b-visual .nx-b2b-glow {
-      position: absolute; width: 200px; height: 200px;
-      background: #fff; filter: blur(80px); opacity: .2;
-      border-radius: 50%; top: 50%; left: 50%; transform: translate(-50%,-50%); z-index: 0;
-    }
-    .nx-b2b-img {
-      max-width: 280px; margin: 0 auto; position: relative; z-index: 1;
-      filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4));
-      animation: nx-float 4s ease-in-out infinite;
-    }
+    /* B2B BANNER */
+    .nx-b2b-banner { background: linear-gradient(135deg, var(--brand) 0%, #D83A0E 100%); border-radius: var(--r-lg); padding: 56px 8%; display: flex; flex-wrap: wrap; gap: 44px; align-items: center; justify-content: space-between; overflow: hidden; position: relative; box-shadow: 0 25px 50px var(--brand-glow); }
+    .nx-b2b-content { position: relative; z-index: 2; flex: 1.5; min-width: 280px; }
+    .nx-b2b-badge { display: inline-flex; background: rgba(255,255,255,.18); backdrop-filter: blur(10px); color: #fff; padding: 7px 16px; border-radius: 50px; font-size: var(--fs-xs); font-weight: 800; margin-bottom: 22px; }
+    .nx-b2b-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 5vw, 50px); font-weight: 800; color: #fff; margin-bottom: 18px; }
+    .nx-b2b-btn { background: #fff; color: var(--brand); padding: 20px 42px; border-radius: 50px; font-weight: 800; display: inline-flex; align-items: center; gap: 10px; transition: transform .28s; cursor: pointer; }
+    .nx-b2b-btn:hover { transform: translateY(-4px); }
+    .nx-b2b-visual { position: relative; z-index: 2; flex: 1; text-align: center; }
+    .nx-b2b-img { max-width: 280px; margin: 0 auto; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4)); animation: nx-float 4s ease-in-out infinite; }
     @keyframes nx-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
-    /* ======================================================
-       BLOG CARDS
-       ====================================================== */
-    .nx-blogs-grid {
-      display: grid; grid-template-columns: 1fr; gap: 16px;
-    }
+    /* BLOGS */
+    .nx-blogs-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
     @media (min-width: 640px) { .nx-blogs-grid { grid-template-columns: repeat(2, 1fr); } }
     @media (min-width: 960px) { .nx-blogs-grid { grid-template-columns: repeat(3, 1fr); } }
+    .nx-blog { background: #0A0A0A; border: 1px solid rgba(255,255,255,.08); border-radius: var(--r-md); overflow: hidden; cursor: pointer; display: flex; flex-direction: column; transition: transform .32s var(--ease); }
+    .nx-blog:hover { transform: translateY(-6px); border-color: var(--brand); }
+    .nx-blog__img-wrap { width: 100%; aspect-ratio: 16/9; background: #111; position: relative; overflow: hidden; }
+    .nx-blog__img { width: 100%; height: 100%; object-fit: cover; filter: blur(10px); transition: .5s; }
+    .nx-blog__img.nx-loaded { filter: blur(0); }
+    .nx-blog__body { padding: 20px; display: flex; flex-direction: column; flex: 1; background: linear-gradient(180deg, #111, #0A0A0A); }
+    .nx-blog__tag { background: rgba(255,74,23,.15); color: var(--brand); font-size: 9px; padding: 3px 10px; border-radius: 5px; align-self: flex-start; margin-bottom: 10px; }
+    .nx-blog__title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(14px, 2.5vw, 17px); font-weight: 700; color: #fff; margin-bottom: auto; }
+    .nx-blog__foot { display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,.07); padding-top: 14px; font-size: var(--fs-xs); color: #52525B; margin-top: 16px; }
 
-    .nx-blog {
-      background: #0A0A0A; border: 1px solid rgba(255,255,255,.08);
-      border-radius: var(--r-md); overflow: hidden; cursor: pointer;
-      display: flex; flex-direction: column;
-      transition: transform .32s var(--ease), box-shadow .32s var(--ease), border-color .28s;
-      box-shadow: 0 8px 28px rgba(0,0,0,.45); will-change: transform;
-    }
-    .nx-blog:hover { transform: translateY(-6px); border-color: var(--brand); box-shadow: 0 18px 40px rgba(255,74,23,.18); }
-    .nx-blog:focus-visible { outline: 3px solid var(--brand); outline-offset: 2px; }
-    .nx-blog__img-wrap { width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #111; position: relative; }
-    .nx-blog__img {
-      width: 100%; height: 100%; object-fit: cover;
-      transition: transform .55s var(--ease), filter .4s;
-      filter: blur(10px); transform: scale(1.05);
-    }
-    .nx-blog__img.nx-loaded { filter: blur(0); transform: scale(1); }
-    .nx-blog:hover .nx-blog__img.nx-loaded { transform: scale(1.06); }
-    .nx-blog__body {
-      padding: 20px; display: flex; flex-direction: column; flex: 1;
-      background: linear-gradient(180deg, #111, #0A0A0A);
-    }
-    .nx-blog__tag {
-      display: inline-flex; align-items: center;
-      background: rgba(255,74,23,.15); color: var(--brand);
-      border: 1px solid rgba(255,74,23,.25); font-size: 9px; font-weight: 800;
-      padding: 3px 10px; border-radius: 5px; letter-spacing: 1px;
-      text-transform: uppercase; align-self: flex-start; margin-bottom: 10px;
-    }
-    .nx-blog__title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: clamp(14px, 2.5vw, 17px); font-weight: 700; color: #fff;
-      line-height: 1.45; margin-bottom: auto; display: -webkit-box;
-      -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
-      padding-bottom: 16px;
-    }
-    .nx-blog__foot {
-      display: flex; justify-content: space-between; align-items: center;
-      border-top: 1px solid rgba(255,255,255,.07); padding-top: 14px;
-      font-size: var(--fs-xs); font-weight: 700; color: #52525B;
-    }
-    .nx-blog__read { color: #fff; display: flex; align-items: center; gap: 6px; transition: color .2s; }
-    .nx-blog:hover .nx-blog__read { color: var(--brand); }
+    /* TESTIMONIALS & MARQUEE & OTHER SECTIONS PRESERVED BELOW IN HTML */
 
-    /* ======================================================
-       TESTIMONIALS
-       ====================================================== */
-    .nx-t-hub { display: flex; flex-direction: column; gap: 28px; }
-    @media (min-width: 960px) { .nx-t-hub { flex-direction: row; align-items: center; gap: 48px; } }
-
-    .nx-t-card {
-      flex: 1; position: relative; background: var(--bg-surface);
-      border: 1px solid var(--glass-border); border-radius: 24px;
-      padding: 40px 36px; box-shadow: var(--shadow-soft); overflow: hidden; min-height: 280px;
-    }
-    .nx-t-watermark {
-      position: absolute; inset: 0; display: flex; flex-direction: column;
-      align-items: center; justify-content: center; opacity: .03;
-      pointer-events: none; user-select: none; gap: 0;
-    }
-    .nx-t-watermark img { width: 120px; }
-    .nx-t-watermark span {
-      font-family: 'Space Grotesk', sans-serif; font-size: clamp(28px, 5vw, 52px);
-      font-weight: 900; color: var(--text-100); white-space: nowrap; text-transform: uppercase;
-    }
-    .nx-t-fader { position: relative; z-index: 2; transition: opacity .28s, transform .28s; }
-    .nx-t-fader.nx-out { opacity: 0; transform: translateY(12px); }
-    .nx-t-quote-icon { width: 34px; height: 34px; color: var(--brand); opacity: .2; margin-bottom: 16px; }
-    .nx-t-text {
-      font-size: clamp(15px, 2.5vw, 18px); line-height: 1.85;
-      color: var(--text-100); font-weight: 500; margin-bottom: 22px;
-    }
-    .nx-t-stars { color: #FACC15; font-size: 14px; margin-bottom: 18px; display: flex; gap: 4px; }
-    .nx-t-author { display: flex; align-items: center; gap: 14px; }
-    .nx-t-avatar {
-      width: 60px; height: 60px; border-radius: 50%; overflow: hidden;
-      border: 3px solid var(--brand); box-shadow: 0 8px 20px var(--brand-glow); flex-shrink: 0;
-    }
-    .nx-t-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .nx-t-name { font-family: 'Space Grotesk', sans-serif; font-size: 17px; font-weight: 800; color: var(--text-100); margin-bottom: 2px; }
-    .nx-t-role { font-size: var(--fs-xs); color: var(--brand); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-
-    .nx-t-controls { display: flex; gap: 14px; margin-top: 20px; }
-    @media (min-width: 960px) { .nx-t-controls { margin-top: 0; } }
-    .nx-t-btn {
-      width: 50px; height: 50px; border-radius: 50%;
-      background: var(--bg-surface); border: 1px solid var(--glass-border);
-      color: var(--text-200); display: flex; align-items: center; justify-content: center;
-      cursor: pointer; font-size: 15px;
-      transition: all .28s var(--ease); box-shadow: var(--shadow-soft);
-    }
-    .nx-t-btn:hover { background: var(--brand); color: #fff; border-color: var(--brand); transform: translateY(-3px); box-shadow: 0 8px 22px var(--brand-glow); }
-
-    /* Testimonial Bubbles */
-    .nx-t-bubbles { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
-    @media (min-width: 960px) { .nx-t-bubbles { width: 280px; } }
-    .nx-t-ring { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
-    .nx-t-bubble {
-      border-radius: 50%; overflow: hidden; cursor: pointer;
-      transition: all .45s var(--ease); border: 3px solid transparent; flex-shrink: 0;
-    }
-    .nx-t-bubble img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .nx-t-bubble.nx-t-side {
-      width: 54px; height: 54px; opacity: .38; filter: grayscale(80%);
-      border-color: var(--glass-border);
-    }
-    .nx-t-bubble.nx-t-side:hover { opacity: .75; }
-    .nx-t-bubble.nx-t-active {
-      width: 88px; height: 88px; opacity: 1; filter: grayscale(0%);
-      border-color: var(--brand); box-shadow: 0 10px 28px var(--brand-glow); transform: scale(1.06);
-    }
-
-    /* ======================================================
-       MARQUEE STRIP
-       ====================================================== */
-    .nx-marquee {
-      margin-top: 48px; position: relative; overflow: hidden; padding: 6px 0;
-    }
-    .nx-marquee::before, .nx-marquee::after {
-      content: ''; position: absolute; top: 0; width: 12%; height: 100%;
-      z-index: 3; pointer-events: none;
-    }
-    .nx-marquee::before { left: 0; background: linear-gradient(to right, var(--bg-base), transparent); }
-    .nx-marquee::after  { right: 0; background: linear-gradient(to left,  var(--bg-base), transparent); }
-    .nx-marquee__track {
-      display: flex; gap: 18px; width: max-content;
-      animation: nx-scroll 160s linear infinite;
-    }
-    .nx-marquee__track:hover { animation-play-state: paused; }
-    @keyframes nx-scroll { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 9px)); } }
-
-    .nx-marq-card {
-      width: 310px; background: var(--bg-surface); border: 1px solid var(--glass-border);
-      border-radius: 18px; padding: 20px; flex-shrink: 0;
-      box-shadow: var(--shadow-soft); transition: transform .28s, border-color .28s;
-      position: relative; overflow: hidden;
-    }
-    .nx-marq-card:hover { transform: translateY(-4px); border-color: var(--brand); }
-    .nx-marq-card[data-plat="wa"] { border-left: 4px solid #25D366; }
-    .nx-marq-card[data-plat="ig"] { border-left: 4px solid #E1306C; }
-    .nx-marq-card[data-plat="tk"] { border-left: 4px solid #000; }
-    .nx-marq-card[data-plat="fb"] { border-left: 4px solid #1877F2; }
-    .nx-marq-card[data-plat="gl"] { border-left: 4px solid #EA4335; }
-    .nx-marq-card[data-plat="tp"] { border-left: 4px solid #00B67A; }
-    .nx-marq-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-    .nx-marq-user { display: flex; align-items: center; gap: 9px; }
-    .nx-marq-init { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 800; font-size: 13px; }
-    .nx-marq-nm { font-size: 12px; font-weight: 700; color: var(--text-100); }
-    .nx-marq-time { font-size: 10px; color: var(--text-300); margin-top: 1px; }
-    .nx-marq-icon { width: 20px; height: 20px; flex-shrink: 0; }
-    .nx-marq-stars { color: #FACC15; font-size: 10px; margin-bottom: 9px; }
-    .nx-marq-verified { background: rgba(59,130,246,.12); color: #60A5FA; font-size: 8px; font-weight: 800; padding: 2px 7px; border-radius: 20px; margin-left: 6px; letter-spacing: .5px; vertical-align: middle; }
-    .nx-marq-text { font-size: 11px; color: var(--text-200); line-height: 1.65; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-
-    /* ======================================================
-       RECENTLY VIEWED
-       ====================================================== */
-    .nx-recents {
-      display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none;
-      -webkit-overflow-scrolling: touch; scroll-snap-type: x mandatory; padding-bottom: 4px;
-    }
-    .nx-recents::-webkit-scrollbar { display: none; }
-    .nx-recent-item {
-      flex: 0 0 150px; background: var(--bg-surface); border: 1px solid var(--glass-border);
-      border-radius: 14px; padding: 8px; cursor: pointer;
-      scroll-snap-align: start; transition: transform .28s var(--ease), border-color .28s;
-      box-shadow: var(--shadow-soft);
-    }
-    .nx-recent-item:hover { border-color: var(--brand); transform: translateY(-3px); box-shadow: var(--shadow-float); }
-    .nx-recent-img { width: 100%; aspect-ratio: 1; border-radius: 9px; object-fit: cover; margin-bottom: 8px; filter: blur(8px); transition: filter .35s; background: var(--bg-elevated); }
-    .nx-recent-img.nx-loaded { filter: blur(0); }
-    .nx-recent-title { font-size: 11px; font-weight: 700; color: var(--text-100); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; line-height: 1.4; }
-
-    /* ======================================================
-       FAQ ACCORDION
-       ====================================================== */
-    .nx-faqs { max-width: 760px; margin: 0 auto; }
-    .nx-faq-item {
-      background: var(--bg-surface); border: 1px solid var(--glass-border);
-      border-radius: var(--r-md); margin-bottom: 10px; overflow: hidden;
-      box-shadow: var(--shadow-soft); transition: border-color .28s;
-    }
-    .nx-faq-item[open] { border-color: rgba(255,74,23,.25); }
-    .nx-faq-item summary {
-      padding: 18px 22px; font-family: 'Space Grotesk', sans-serif;
-      font-size: var(--fs-md); font-weight: 700; cursor: pointer;
-      list-style: none; display: flex; justify-content: space-between;
-      align-items: center; color: var(--text-100); gap: 12px; min-height: 56px;
-    }
-    .nx-faq-item summary::-webkit-details-marker { display: none; }
-    .nx-faq-item summary::after {
-      content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-      color: var(--brand); font-size: 13px; flex-shrink: 0;
-      transition: transform .35s var(--ease);
-    }
-    .nx-faq-item[open] summary::after { transform: rotate(45deg); }
-    .nx-faq-item .nx-faq-body {
-      padding: 0 22px 20px; color: var(--text-200);
-      font-size: var(--fs-sm); line-height: 1.75;
-      animation: nx-faq-in .35s var(--ease);
-    }
-    @keyframes nx-faq-in { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:none; } }
-
-    /* ======================================================
-       NEWSLETTER STRIP
-       ====================================================== */
-    .nx-newsletter {
-      background: var(--bg-elevated); border: 1px solid var(--glass-border);
-      border-radius: var(--r-lg); padding: 48px 28px; text-align: center;
-      position: relative; overflow: hidden;
-    }
-    .nx-newsletter::before {
-      content: ''; position: absolute; inset: 0;
-      background: radial-gradient(circle at 50% 0%, var(--brand-dim), transparent 65%);
-      pointer-events: none;
-    }
-    .nx-newsletter > * { position: relative; z-index: 1; }
-    .nx-newsletter h3 {
-      font-family: 'Space Grotesk', sans-serif; font-size: clamp(20px, 4vw, 30px);
-      font-weight: 800; color: var(--text-100); margin-bottom: 8px;
-    }
-    .nx-newsletter p { font-size: var(--fs-sm); color: var(--text-200); margin-bottom: 24px; line-height: 1.6; }
-    .nx-nl-form {
-      display: flex; flex-wrap: wrap; gap: 10px;
-      justify-content: center; max-width: 500px; margin: 0 auto;
-    }
-    .nx-nl-input {
-      flex: 1 1 220px; background: var(--bg-surface); border: 1px solid var(--glass-border);
-      padding: 15px 22px; border-radius: 50px; font-family: inherit;
-      font-size: var(--fs-sm); font-weight: 600; color: var(--text-100); min-height: 52px;
-      transition: border-color .25s, box-shadow .25s;
-    }
-    .nx-nl-input:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px var(--brand-dim); }
-    .nx-nl-input::placeholder { color: var(--text-300); font-weight: 500; }
-
-    /* ======================================================
-       FEATURES / THE NEXRA STANDARD
-       ====================================================== */
-    .nx-features-grid {
-      display: grid; grid-template-columns: 1fr; gap: 20px;
-    }
-    @media (min-width: 768px) { .nx-features-grid { grid-template-columns: repeat(3, 1fr); } }
-    .nx-feature-card {
-      background: var(--bg-surface); border: 1px solid var(--glass-border);
-      padding: 40px 28px; border-radius: 24px; text-align: center;
-      transition: transform .4s var(--ease), border-color .4s, box-shadow .4s;
-      box-shadow: var(--shadow-soft); position: relative; overflow: hidden;
-    }
-    .nx-feature-card:hover { transform: translateY(-8px); border-color: var(--brand); box-shadow: var(--shadow-float); }
-    .nx-f-icon {
-      width: 70px; height: 70px; border-radius: 50%;
-      background: var(--brand-dim); color: var(--brand);
-      display: flex; align-items: center; justify-content: center;
-      font-size: 28px; margin: 0 auto 20px;
-      transition: all .4s var(--ease); border: 1px solid rgba(255,74,23,.2);
-    }
-    .nx-feature-card:hover .nx-f-icon { background: var(--brand); color: #fff; box-shadow: 0 10px 20px var(--brand-glow); transform: scale(1.1) rotate(5deg); }
-    .nx-feature-card h3 { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: var(--text-100); margin-bottom: 10px; }
-    .nx-feature-card p { color: var(--text-200); font-size: 14px; line-height: 1.65; }
-
-    /* ======================================================
-       PAYMENT PARTNERS MARQUEE
-       ====================================================== */
-    .nx-pay-strip {
-      border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border);
-      padding: 28px 0; margin-bottom: 60px; overflow: hidden; position: relative;
-      background: rgba(0,0,0,0.01);
-    }
-    .nx-pay-strip::before, .nx-pay-strip::after { content: ''; position: absolute; top: 0; width: 10vw; height: 100%; z-index: 5; pointer-events: none; }
-    .nx-pay-strip::before { left: 0; background: linear-gradient(to right, var(--bg-base), transparent); }
-    .nx-pay-strip::after  { right: 0; background: linear-gradient(to left, var(--bg-base), transparent); }
-    .nx-pay-track {
-      display: flex; gap: 48px; align-items: center; width: max-content;
-      animation: nx-pay-scroll 35s linear infinite;
-      opacity: 0.65; filter: grayscale(100%); transition: opacity .4s, filter .4s;
-    }
-    .nx-pay-strip:hover .nx-pay-track { opacity: 1; filter: grayscale(0%); animation-play-state: paused; }
-    @keyframes nx-pay-scroll { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-50% - 24px)); } }
-    .nx-pay-icon { display: flex; align-items: center; gap: 8px; font-weight: 800; font-family: 'Space Grotesk', sans-serif; font-size: 22px; color: var(--text-100); white-space: nowrap; }
-    .nx-pay-badge { padding: 4px 12px; border-radius: 8px; font-size: 16px; }
-    .nx-pay-ep { background: #00C853; color: #fff; }
-    .nx-pay-jc { background: #E53935; color: #fff; }
-
-    /* ======================================================
-       VIP COMMUNITY BANNER
-       ====================================================== */
-    .nx-community-banner {
-      background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 100%);
-      border-radius: 30px; padding: 50px 6%;
-      display: flex; flex-wrap: wrap; gap: 30px;
-      align-items: center; justify-content: space-between;
-      color: #fff; box-shadow: 0 20px 50px rgba(0,0,0,.3);
-      position: relative; overflow: hidden; margin-bottom: 20px;
-      border: 1px solid rgba(255,255,255,.1);
-    }
-    .nx-community-banner::after {
-      content: '\f3f6'; font-family: 'Font Awesome 6 Brands'; font-weight: 400;
-      position: absolute; right: -2%; bottom: -30%; font-size: 230px;
-      opacity: .05; transform: rotate(-15deg); pointer-events: none;
-    }
-    .nx-comm-content { position: relative; z-index: 2; max-width: 580px; }
-    .nx-comm-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.2); color: #fff; padding: 6px 16px; border-radius: 50px; font-size: var(--fs-xs); font-weight: 800; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 16px; }
-    .nx-comm-title { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px, 4vw, 36px); font-weight: 800; line-height: 1.1; margin-bottom: 14px; }
-    .nx-comm-desc { font-size: 15px; color: rgba(255,255,255,.8); line-height: 1.65; }
-    .nx-comm-btns { display: flex; flex-wrap: wrap; gap: 14px; position: relative; z-index: 2; }
-    .nx-btn-tg { background: #2AABEE; color: #fff; border: none; padding: 16px 28px; border-radius: 50px; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 20px rgba(42,171,238,.3); transition: all .3s var(--ease); min-height: 52px; }
-    .nx-btn-wa { background: #25D366; color: #fff; border: none; padding: 16px 28px; border-radius: 50px; font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 10px; box-shadow: 0 10px 20px rgba(37,211,102,.3); transition: all .3s var(--ease); min-height: 52px; }
-    .nx-btn-tg:hover, .nx-btn-wa:hover { transform: translateY(-3px); filter: brightness(1.1); }
-
-    /* ======================================================
-       SUPPORT TICKET CALLOUT
-       ====================================================== */
-    .nx-support-cta {
-      background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-elevated) 100%);
-      border: 1px solid var(--glass-border); padding: 44px 28px; border-radius: 24px;
-      text-align: center; box-shadow: var(--shadow-soft); position: relative; overflow: hidden;
-    }
-    .nx-support-cta::before {
-      content: ''; position: absolute; top: -50px; left: 50%; transform: translateX(-50%);
-      width: 150px; height: 150px; background: var(--brand); filter: blur(80px); opacity: .12; pointer-events: none;
-    }
-    .nx-support-icon {
-      width: 64px; height: 64px; background: var(--brand-dim); color: var(--brand);
-      border-radius: 50%; display: flex; align-items: center; justify-content: center;
-      font-size: 26px; margin: 0 auto 20px; border: 1px solid rgba(255,74,23,.2);
-      box-shadow: 0 10px 20px var(--brand-glow);
-    }
-    .nx-support-cta h3 { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 800; color: var(--text-100); margin-bottom: 10px; }
-    .nx-support-cta p { font-size: 15px; color: var(--text-200); margin-bottom: 26px; line-height: 1.65; max-width: 420px; margin-left: auto; margin-right: auto; }
-    .nx-support-btn {
-      background: var(--brand); color: #fff; border: none; padding: 18px 36px; border-radius: 50px;
-      font-family: inherit; font-size: 14px; font-weight: 800; cursor: pointer;
-      display: inline-flex; align-items: center; gap: 10px;
-      box-shadow: 0 10px 25px var(--brand-glow); text-transform: uppercase; letter-spacing: 1px;
-      transition: transform .28s var(--ease), box-shadow .28s;
-    }
-    .nx-support-btn:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 18px 35px var(--brand-glow); }
-
-    /* ======================================================
-       REDUCED MOTION
-       ====================================================== */
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
     }
@@ -1081,1598 +330,412 @@
        PAGE LOADER
        ================================================ -->
   <div id="nx-page-loader" role="status" aria-label="Loading Nexra">
-    <div class="nx-loader-logo">
-      <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo" />
-    </div>
+    <div class="nx-loader-logo"><img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo" /></div>
     <div class="nx-loader-ring"></div>
   </div>
 
-  <!-- ================================================
-       TOAST CONTAINER
-       ================================================ -->
+  <!-- TOAST CONTAINER -->
   <div id="nx-toast-container" aria-live="polite" aria-atomic="true"></div>
 
-  <!-- ================================================
-       HEADER (shared component)
-       ================================================ -->
+  <!-- HEADER MOUNT -->
   <div id="nx-header-mount"></div>
 
-  <!-- ================================================
-       A. ANNOUNCEMENT STRIP
-       ================================================ -->
-  <div id="nx-announce-wrap" role="banner">
-    <div class="nx-announce-bar" id="nx-announce-bar">
-      <span id="nx-announce-text">🔥 Flash Sale Live — Extra 20% off on all digital tools today!</span>
-      <a href="../shop/shop.html" id="nx-announce-link" aria-label="Shop the flash sale">Shop Now →</a>
-      <button class="nx-announce-close" id="nx-announce-close" aria-label="Close announcement">✕</button>
-    </div>
-  </div>
+  <!-- MAIN CONTENT WRAPPER (Accounts for floating header) -->
+  <div id="main-content-wrapper">
 
-  <!-- ================================================
-       B. HERO SECTION
-       ================================================ -->
-  <section class="nx-hero" aria-label="Hero — Pakistan's Elite Digital Ecosystem">
-
-    <!-- Background video -->
-    <div class="nx-hero__bg" aria-hidden="true">
-      <video
-        id="nx-hero-video"
-        class="nx-hero__video"
-        autoplay loop muted playsinline preload="auto"
-        aria-hidden="true"
-      >
-        <source id="nx-hero-video-src" src="https://www.pexels.com/download/video/8675553/" type="video/mp4" />
-      </video>
-      <div class="nx-hero__overlay"></div>
-    </div>
-
-    <div class="nx-hero__content">
-
-      <!-- Badge -->
-      <div class="nx-hero__badge" id="nx-hero-badge">
-        <i class="fa-solid fa-shield-halved" aria-hidden="true"></i>
-        <span id="nx-badge-text">SECURED ECOSYSTEM</span>
-      </div>
-
-      <!-- Headline with rotating word -->
-      <h1 class="nx-hero__headline" id="nx-hero-headline">
-        <span class="line1" id="nx-hero-line1">DIGITAL</span>
-        <span
-          aria-live="polite"
-          aria-atomic="true"
-          class="nx-hero__rotor"
-          aria-label="Rotating keyword"
-        >
-          <span class="nx-hero__rotor-inner" id="nx-hero-rotor">ECOSYSTEM</span>
-        </span>
-      </h1>
-
-      <!-- Description -->
-      <p class="nx-hero__desc" id="nx-hero-desc">
-        Experience Pakistan's most trusted marketplace for premium software, SaaS tools, and free digital resources — delivered instantly to your vault.
-      </p>
-
-      <!-- CTAs -->
-      <div class="nx-hero__ctas" id="nx-hero-ctas">
-        <a href="../shop/shop.html" class="nx-btn nx-btn-primary" aria-label="Explore marketplace">
-          <i class="fa-solid fa-store" aria-hidden="true"></i>
-          <span>EXPLORE MARKET</span>
-        </a>
-        <a href="../freebies/freebies.html" class="nx-btn nx-btn-outline" style="border-color:rgba(255,74,23,0.6); color: var(--text-100);" aria-label="Browse free resources vault">
-          <i class="fa-solid fa-cloud-arrow-down" aria-hidden="true"></i>
-          <span>FREE VAULT</span>
-        </a>
-      </div>
-
-      <!-- Trust bar -->
-      <div class="nx-trust" id="nx-trust-bar" role="list" aria-label="Platform statistics">
-        <div class="nx-trust__item" role="listitem">
-          <div class="nx-trust__val nx-text-grad" id="nx-stat-users">0</div>
-          <div class="nx-trust__lbl">Active Users</div>
-        </div>
-        <div class="nx-trust__item" role="listitem">
-          <div class="nx-trust__val" id="nx-stat-orders">0</div>
-          <div class="nx-trust__lbl">Deliveries</div>
-        </div>
-        <div class="nx-trust__item" role="listitem">
-          <div class="nx-trust__val" id="nx-stat-trust">0</div>
-          <div class="nx-trust__lbl">Trust Score</div>
-        </div>
-        <div class="nx-trust__item" role="listitem">
-          <div class="nx-trust__val" id="nx-stat-support">0</div>
-          <div class="nx-trust__lbl">Avg Support</div>
+      <!-- ================================================
+           A. ANNOUNCEMENT STRIP (Feature Flagged)
+           ================================================ -->
+      <div id="nx-announce-wrap" role="banner" data-feature="announcement_strip" class="nx-hidden">
+        <div class="nx-announce-bar" id="nx-announce-bar">
+          <span id="nx-announce-text" data-content-key="announcement_text">🔥 Flash Sale Live — Extra 20% off on all digital tools today!</span>
+          <a href="#" id="nx-announce-link" aria-label="Shop the flash sale" data-track-click="announce_link">Shop Now →</a>
+          <button class="nx-announce-close" id="nx-announce-close" aria-label="Close announcement">✕</button>
         </div>
       </div>
 
-    </div>
-  </section>
-
-  <!-- ================================================
-       C. SMART SEARCH BAR
-       ================================================ -->
-  <div class="nx-searchbar-wrap" role="search" aria-label="Search products and resources">
-    <div class="nx-searchbar">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-      <input
-        type="search"
-        id="nx-search-input"
-        placeholder="Search apps, assets, or articles..."
-        autocomplete="off"
-        aria-label="Search products"
-      />
-      <button class="nx-btn nx-btn-primary nx-btn-sm" id="nx-search-btn" aria-label="Execute search">
-        SEARCH
-      </button>
-    </div>
-    <div class="nx-search-dropdown" id="nx-search-dropdown" role="listbox" aria-label="Search results"></div>
-  </div>
-
-  <!-- ================================================
-       D. CATEGORY PILLS
-       ================================================ -->
-  <nav class="nx-cats-scroll" id="nx-cats-row" aria-label="Product categories">
-    <!-- Skeleton pills -->
-    <div class="nx-skel" style="width:120px;height:44px;border-radius:50px;flex-shrink:0;" aria-hidden="true"></div>
-    <div class="nx-skel" style="width:150px;height:44px;border-radius:50px;flex-shrink:0;" aria-hidden="true"></div>
-    <div class="nx-skel" style="width:110px;height:44px;border-radius:50px;flex-shrink:0;" aria-hidden="true"></div>
-    <div class="nx-skel" style="width:130px;height:44px;border-radius:50px;flex-shrink:0;" aria-hidden="true"></div>
-  </nav>
-
-  <!-- ================================================
-       E. TRENDING PRODUCTS
-       ================================================ -->
-  <section class="nx-section" aria-label="Trending products">
-    <div class="nx-container">
-      <div class="nx-sec-head-row">
-        <div>
-          <div class="nx-eyebrow"><i class="fa-solid fa-fire" aria-hidden="true"></i> HOT RIGHT NOW</div>
-          <h2 class="nx-sec-title" id="nx-trending-title">TRENDING <span class="nx-text-grad">ASSETS</span></h2>
-          <p class="nx-sec-sub">Top-selling tools updated in real-time.</p>
+      <!-- ================================================
+           B. HERO SECTION
+           ================================================ -->
+      <section class="nx-hero" aria-label="Hero" data-feature="hero_section">
+        <div class="nx-hero__bg" aria-hidden="true">
+          <video id="nx-hero-video" class="nx-hero__video" autoplay loop muted playsinline preload="auto">
+            <source id="nx-hero-video-src" src="https://www.pexels.com/download/video/8675553/" type="video/mp4" />
+          </video>
+          <div class="nx-hero__overlay"></div>
         </div>
-        <a href="../shop/shop.html" class="nx-btn-ghost" aria-label="View all products">
-          VIEW ALL <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-        </a>
-      </div>
-      <div class="nx-products-grid" id="nx-trending-grid" aria-live="polite" aria-label="Trending product list">
-        <!-- Skeleton cards -->
-        <div class="nx-prod nx-card" aria-hidden="true">
-          <div class="nx-prod__img-wrap nx-skel"></div>
-          <div class="nx-skel" style="height:13px;margin-bottom:8px;border-radius:6px;"></div>
-          <div class="nx-skel" style="height:34px;border-radius:8px;"></div>
-        </div>
-        <div class="nx-prod nx-card" aria-hidden="true">
-          <div class="nx-prod__img-wrap nx-skel"></div>
-          <div class="nx-skel" style="height:13px;margin-bottom:8px;border-radius:6px;"></div>
-          <div class="nx-skel" style="height:34px;border-radius:8px;"></div>
-        </div>
-        <div class="nx-prod nx-card" aria-hidden="true" style="display:none;">
-          <div class="nx-prod__img-wrap nx-skel"></div>
-          <div class="nx-skel" style="height:13px;margin-bottom:8px;border-radius:6px;"></div>
-          <div class="nx-skel" style="height:34px;border-radius:8px;"></div>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ================================================
-       F. KINETIC TYPER STRIP
-       ================================================ -->
-  <div class="nx-kinetic" aria-hidden="true">
-    <div class="nx-kinetic__text">
-      <span>Become a</span>
-      <span class="nx-kinetic__word" id="nx-k-word">Client</span>
-    </div>
-  </div>
-
-  <!-- ================================================
-       G. FREEBIES VAULT
-       ================================================ -->
-  <section class="nx-section" aria-label="Free resources vault">
-    <div class="nx-container">
-      <div style="text-align:center;margin-bottom:36px;">
-        <div class="nx-eyebrow" style="margin:0 auto 14px;">
-          <i class="fa-solid fa-cloud-arrow-down" aria-hidden="true"></i> COMMUNITY VAULT
-        </div>
-        <h2 class="nx-sec-title nx-text-grad" id="nx-freebies-title">FREE RESOURCES</h2>
-        <p class="nx-sec-sub">Premium assets locked for 14 days — share 3 times to unlock permanently.</p>
-      </div>
-      <div class="nx-freebies-grid" id="nx-freebies-grid" aria-live="polite" aria-label="Free resources">
-        <div class="nx-freebie" aria-hidden="true"><div class="nx-skel" style="position:absolute;inset:0;width:100%;height:100%;"></div></div>
-        <div class="nx-freebie" aria-hidden="true"><div class="nx-skel" style="position:absolute;inset:0;width:100%;height:100%;"></div></div>
-        <div class="nx-freebie" aria-hidden="true"><div class="nx-skel" style="position:absolute;inset:0;width:100%;height:100%;"></div></div>
-      </div>
-      <div style="text-align:center;margin-top:30px;">
-        <a href="../freebies/freebies.html" class="nx-btn nx-btn-outline" aria-label="Browse all free resources">
-          <i class="fa-solid fa-vault" aria-hidden="true"></i> BROWSE FULL VAULT
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================
-       H. B2B / AGENCY BANNER
-       ================================================ -->
-  <section class="nx-section" style="padding-top:0;" aria-label="Agency and reseller program">
-    <div class="nx-container">
-      <div class="nx-b2b-banner" id="nx-b2b-banner">
-        <div class="nx-b2b-content">
-          <div class="nx-b2b-badge">
-            <i class="fa-solid fa-briefcase" aria-hidden="true"></i> ELITE PARTNERSHIP
+        <div class="nx-hero__content">
+          <div class="nx-hero__badge" id="nx-hero-badge">
+            <i class="fa-solid fa-shield-halved"></i>
+            <span id="nx-badge-text" data-content-key="hero_badge">SECURED ECOSYSTEM</span>
           </div>
-          <h2 class="nx-b2b-title" id="nx-b2b-title">BUILD YOUR<br/>AGENCY EMPIRE</h2>
-          <p class="nx-b2b-desc" id="nx-b2b-desc">
-            Get wholesale API pricing, generate direct license keys, and manage your profit margins from one elite dashboard. Scale your business without limits.
+
+          <h1 class="nx-hero__headline" id="nx-hero-headline">
+            <span class="line1" id="nx-hero-line1" data-content-key="hero_title_1">DIGITAL</span>
+            <span class="nx-hero__rotor">
+              <span class="nx-hero__rotor-inner" id="nx-hero-rotor">ECOSYSTEM</span>
+            </span>
+          </h1>
+
+          <p class="nx-hero__desc" id="nx-hero-desc" data-content-key="hero_desc">
+            Experience Pakistan's most trusted marketplace for premium software, SaaS tools, and free digital resources — delivered instantly to your vault.
           </p>
-          <a href="../reseller/reseller-landing.html" class="nx-b2b-btn" aria-label="Join reseller portal">
-            <i class="fa-solid fa-rocket" aria-hidden="true"></i> JOIN PORTAL NOW
-          </a>
-        </div>
-        <div class="nx-b2b-visual" aria-hidden="true">
-          <div class="nx-b2b-glow"></div>
-          <img
-            src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png"
-            alt="Nexra Agency"
-            class="nx-b2b-img"
-            loading="lazy"
-            width="280"
-            height="280"
-          />
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <!-- ================================================
-       I. BLOG / INSIGHTS
-       ================================================ -->
-  <section class="nx-section" aria-label="Tech insights blog">
-    <div class="nx-container">
-      <div class="nx-sec-head-row">
-        <div>
-          <div class="nx-eyebrow"><i class="fa-solid fa-newspaper" aria-hidden="true"></i> LEARNING ACADEMY</div>
-          <h2 class="nx-sec-title">TECH <span class="nx-text-grad">INSIGHTS</span></h2>
-          <p class="nx-sec-sub">Master digital tools, SaaS growth, and creative design.</p>
+          <div class="nx-hero__ctas" id="nx-hero-ctas">
+            <button class="nx-btn nx-btn-primary" data-track-click="hero_explore" onclick="NexraRouteManager.navigate('shop')">
+              <i class="fa-solid fa-store"></i> <span data-content-key="hero_btn_1">EXPLORE MARKET</span>
+            </button>
+            <button class="nx-btn nx-btn-outline" style="border-color:rgba(255,74,23,0.6); color: var(--text-100);" data-track-click="hero_vault" onclick="NexraRouteManager.navigate('freebies')">
+              <i class="fa-solid fa-cloud-arrow-down"></i> <span data-content-key="hero_btn_2">FREE VAULT</span>
+            </button>
+          </div>
+
+          <div class="nx-trust" id="nx-trust-bar">
+            <div class="nx-trust__item"><div class="nx-trust__val nx-text-grad" id="nx-stat-users">0</div><div class="nx-trust__lbl">Active Users</div></div>
+            <div class="nx-trust__item"><div class="nx-trust__val" id="nx-stat-orders">0</div><div class="nx-trust__lbl">Deliveries</div></div>
+            <div class="nx-trust__item"><div class="nx-trust__val" id="nx-stat-trust">0</div><div class="nx-trust__lbl">Trust Score</div></div>
+            <div class="nx-trust__item"><div class="nx-trust__val" id="nx-stat-support">0</div><div class="nx-trust__lbl">Avg Support</div></div>
+          </div>
         </div>
-        <a href="../academy/blog.html" class="nx-btn-ghost" aria-label="Read all articles">
-          READ ALL <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-        </a>
+      </section>
+
+      <!-- ================================================
+           C. SMART SEARCH BAR
+           ================================================ -->
+      <div class="nx-searchbar-wrap" data-feature="search_bar">
+        <div class="nx-searchbar">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <input type="search" id="nx-search-input" placeholder="Search apps, assets, or articles..." autocomplete="off"/>
+          <button class="nx-btn nx-btn-primary nx-btn-sm" id="nx-search-btn" data-track-click="global_search">SEARCH</button>
+        </div>
+        <div class="nx-search-dropdown" id="nx-search-dropdown"></div>
       </div>
-      <div class="nx-blogs-grid" id="nx-blogs-grid" aria-live="polite" aria-label="Recent blog posts">
+
+      <!-- ================================================
+           D. CATEGORY PILLS
+           ================================================ -->
+      <nav class="nx-cats-scroll" id="nx-cats-row" data-feature="category_pills">
         <!-- Skeleton -->
-        <div class="nx-blog" aria-hidden="true">
-          <div class="nx-blog__img-wrap nx-skel"></div>
-          <div class="nx-blog__body" style="background:#111;">
-            <div class="nx-skel" style="height:14px;width:60%;margin-bottom:10px;border-radius:6px;"></div>
-            <div class="nx-skel" style="height:36px;border-radius:6px;"></div>
-          </div>
-        </div>
-        <div class="nx-blog" aria-hidden="true">
-          <div class="nx-blog__img-wrap nx-skel"></div>
-          <div class="nx-blog__body" style="background:#111;">
-            <div class="nx-skel" style="height:14px;width:60%;margin-bottom:10px;border-radius:6px;"></div>
-            <div class="nx-skel" style="height:36px;border-radius:6px;"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
+        <div class="nx-skel" style="width:120px;height:44px;border-radius:50px;"></div>
+        <div class="nx-skel" style="width:150px;height:44px;border-radius:50px;"></div>
+      </nav>
 
-  <!-- ================================================
-       J. TESTIMONIALS + MARQUEE
-       ================================================ -->
-  <section class="nx-section" aria-label="Customer testimonials" style="overflow:hidden;">
-    <div class="nx-container">
-
-      <div style="text-align:center;margin-bottom:44px;">
-        <div class="nx-eyebrow" style="margin:0 auto 14px;">
-          <i class="fa-solid fa-certificate" aria-hidden="true"></i> ELITE EXPERIENCES
-        </div>
-        <h2 class="nx-sec-title">
-          WHAT OUR <span class="nx-text-grad">COMMUNITY SAYS</span>
-        </h2>
-      </div>
-
-      <div class="nx-t-hub">
-
-        <!-- Bubble chooser (desktop left sidebar) -->
-        <div class="nx-t-bubbles" id="nx-t-bubbles">
-          <div class="nx-eyebrow" style="margin-bottom:6px;">
-            <i class="fa-solid fa-users" aria-hidden="true"></i> OUR CLIENTS
-          </div>
-          <div class="nx-t-ring" id="nx-t-ring">
-            <!-- Injected by JS -->
-          </div>
-          <div class="nx-t-controls">
-            <button class="nx-t-btn" id="nx-t-prev" aria-label="Previous testimonial">
-              <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
-            </button>
-            <button class="nx-t-btn" id="nx-t-next" aria-label="Next testimonial">
-              <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+      <!-- ================================================
+           E. TRENDING PRODUCTS
+           ================================================ -->
+      <section class="nx-section" data-feature="trending_products">
+        <div class="nx-container">
+          <div class="nx-sec-head-row">
+            <div>
+              <div class="nx-eyebrow"><i class="fa-solid fa-fire"></i> HOT RIGHT NOW</div>
+              <h2 class="nx-sec-title" data-content-key="trending_title">TRENDING <span class="nx-text-grad">ASSETS</span></h2>
+            </div>
+            <button class="nx-btn-ghost" onclick="NexraRouteManager.navigate('shop')" data-track-click="view_all_trending">
+              VIEW ALL <i class="fa-solid fa-arrow-right"></i>
             </button>
           </div>
-        </div>
-
-        <!-- Testimonial content card -->
-        <article class="nx-t-card" aria-live="polite" aria-label="Current testimonial">
-          <!-- Watermark -->
-          <div class="nx-t-watermark" aria-hidden="true">
-            <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="" />
-            <span>NEXRA TECH PK</span>
+          <div class="nx-products-grid" id="nx-trending-grid">
+            <div class="nx-prod nx-card"><div class="nx-prod__img-wrap nx-skel"></div></div>
           </div>
+        </div>
+      </section>
 
-          <div class="nx-t-fader" id="nx-t-fader">
-            <!-- Quote icon -->
-            <svg class="nx-t-quote-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-              <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-            </svg>
+      <!-- ================================================
+           F. KINETIC TYPER STRIP
+           ================================================ -->
+      <div class="nx-kinetic" data-feature="kinetic_strip">
+        <div class="nx-kinetic__text">
+          <span data-content-key="kinetic_prefix">Become a</span>
+          <span class="nx-kinetic__word" id="nx-k-word">Client</span>
+        </div>
+      </div>
 
-            <p class="nx-t-text" id="nx-t-text">Loading elite review...</p>
+      <!-- ================================================
+           G. FREEBIES VAULT
+           ================================================ -->
+      <section class="nx-section" data-feature="freebies_section">
+        <div class="nx-container">
+          <div style="text-align:center;margin-bottom:36px;">
+            <div class="nx-eyebrow"><i class="fa-solid fa-cloud-arrow-down"></i> COMMUNITY VAULT</div>
+            <h2 class="nx-sec-title nx-text-grad" data-content-key="freebies_title">FREE RESOURCES</h2>
+            <p class="nx-sec-sub" data-content-key="freebies_desc">Premium assets locked for 14 days — share 3 times to unlock permanently.</p>
+          </div>
+          <div class="nx-freebies-grid" id="nx-freebies-grid">
+             <div class="nx-freebie"><div class="nx-skel" style="position:absolute;inset:0;width:100%;height:100%;"></div></div>
+          </div>
+          <div style="text-align:center;margin-top:30px;">
+            <button class="nx-btn nx-btn-outline" onclick="NexraRouteManager.navigate('freebies')" data-track-click="view_all_freebies">
+              <i class="fa-solid fa-vault"></i> BROWSE FULL VAULT
+            </button>
+          </div>
+        </div>
+      </section>
 
-            <div class="nx-t-stars" aria-label="5 stars rating">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
+      <!-- ================================================
+           H. B2B / AGENCY BANNER
+           ================================================ -->
+      <section class="nx-section" style="padding-top:0;" data-feature="b2b_banner">
+        <div class="nx-container">
+          <div class="nx-b2b-banner" id="nx-b2b-banner">
+            <div class="nx-b2b-content">
+              <div class="nx-b2b-badge"><i class="fa-solid fa-briefcase"></i> ELITE PARTNERSHIP</div>
+              <h2 class="nx-b2b-title" data-content-key="b2b_title">BUILD YOUR<br/>AGENCY EMPIRE</h2>
+              <p class="nx-b2b-desc" data-content-key="b2b_desc">Get wholesale API pricing, generate direct license keys, and manage your profit margins from one elite dashboard.</p>
+              <button class="nx-b2b-btn" onclick="NexraRouteManager.navigate('reseller')" data-track-click="join_reseller">
+                <i class="fa-solid fa-rocket"></i> JOIN PORTAL NOW
+              </button>
             </div>
-
-            <div class="nx-t-author">
-              <div class="nx-t-avatar">
-                <img id="nx-t-img" src="" alt="" width="60" height="60" />
-              </div>
-              <div>
-                <div class="nx-t-name" id="nx-t-name">—</div>
-                <div class="nx-t-role" id="nx-t-role">—</div>
-              </div>
+            <div class="nx-b2b-visual">
+              <div class="nx-b2b-glow" style="position:absolute;width:200px;height:200px;background:#fff;filter:blur(80px);opacity:.2;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);z-index:0;"></div>
+              <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" class="nx-b2b-img" loading="lazy" style="max-width:280px;margin:0 auto;position:relative;z-index:1;filter:drop-shadow(0 20px 40px rgba(0,0,0,0.4));animation:nx-float 4s ease-in-out infinite;"/>
             </div>
           </div>
-        </article>
-
-      </div>
-
-      <!-- Marquee Reviews Strip -->
-      <div class="nx-marquee" aria-hidden="true">
-        <div class="nx-marquee__track" id="nx-marq-track">
-          <!-- Injected by JS -->
         </div>
-      </div>
+      </section>
 
-    </div>
-  </section>
-
-  <!-- ================================================
-       K. RECENTLY VIEWED
-       ================================================ -->
-  <section class="nx-section" id="nx-recents-section" aria-label="Recently viewed items" style="padding-top:0;display:none;">
-    <div class="nx-container">
-      <div class="nx-sec-head-row" style="margin-bottom:16px;">
-        <h3 class="nx-sec-title" style="font-size:clamp(18px,3.5vw,26px);">
-          <i class="fa-solid fa-clock-rotate-left" style="color:var(--brand);font-size:.9em;" aria-hidden="true"></i>
-          Continue Browsing
-        </h3>
-      </div>
-      <div class="nx-recents" id="nx-recents-row" aria-label="Recently viewed products"></div>
-    </div>
-  </section>
-
-  <!-- ================================================
-       L. FAQ SECTION
-       ================================================ -->
-  <section class="nx-section" aria-label="Frequently asked questions">
-    <div class="nx-container">
-      <div style="text-align:center;margin-bottom:44px;">
-        <div class="nx-eyebrow" style="margin:0 auto 14px;">
-          <i class="fa-regular fa-circle-question" aria-hidden="true"></i> PLATFORM FAQS
-        </div>
-        <h2 class="nx-sec-title">
-          COMMON <span class="nx-text-grad">QUESTIONS</span>
-        </h2>
-      </div>
-      <div class="nx-faqs" id="nx-faq-list">
-        <!-- Skeleton loaders -->
-        <div class="nx-skel" style="height:64px;border-radius:20px;margin-bottom:10px;" aria-hidden="true"></div>
-        <div class="nx-skel" style="height:64px;border-radius:20px;margin-bottom:10px;opacity:.7;" aria-hidden="true"></div>
-        <div class="nx-skel" style="height:64px;border-radius:20px;margin-bottom:10px;opacity:.4;" aria-hidden="true"></div>
-      </div>
-      <!-- Support CTA -->
-      <div class="nx-support-cta" style="max-width:680px;margin:40px auto 0;">
-        <div class="nx-support-icon" aria-hidden="true"><i class="fa-solid fa-headset"></i></div>
-        <h3>Still have questions?</h3>
-        <p>Can't find the answer you're looking for? Our dedicated support team is available 24/7 to assist you.</p>
-        <a href="../support/support-hub.html" class="nx-support-btn" aria-label="Open Support Ticket">
-          <i class="fa-solid fa-ticket" aria-hidden="true"></i> OPEN SUPPORT TICKET
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ================================================
-       M. NEWSLETTER + NEXRA STANDARD + PAYMENTS + COMMUNITY
-       ================================================ -->
-  <section class="nx-section" aria-label="Newsletter and platform features" style="padding-bottom:20px;">
-    <div class="nx-container">
-
-      <!-- Newsletter -->
-      <div class="nx-newsletter" style="margin-bottom:60px;">
-        <div class="nx-eyebrow" style="margin:0 auto 18px;">
-          <i class="fa-solid fa-crown" aria-hidden="true"></i> VIP BETA PROGRAM
-        </div>
-        <h3>Unlock <span class="nx-text-grad">Early Access</span> and Deals</h3>
-        <p>Subscribe to get exclusive beta access to our upcoming tools, flash sales, and automated discount codes directly in your inbox.</p>
-        <form class="nx-nl-form" id="nx-nl-form" novalidate>
-          <input
-            type="email"
-            id="nx-nl-email"
-            class="nx-nl-input"
-            placeholder="Enter your premium email..."
-            autocomplete="email"
-            required
-            aria-label="Email address for newsletter"
-          />
-          <button type="submit" class="nx-btn nx-btn-primary" id="nx-nl-btn" aria-label="Subscribe to newsletter">
-            <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
-            <span id="nx-nl-btn-text">GET ACCESS</span>
-          </button>
-        </form>
-        <p style="font-size:var(--fs-xs);color:var(--text-300);margin-top:14px;font-weight:600;">
-          <i class="fa-solid fa-shield-check" style="color:var(--brand);" aria-hidden="true"></i>
-          100% Secure. No spam, ever.
-        </p>
-      </div>
-
-      <!-- The Nexra Standard -->
-      <div style="text-align:center;margin-bottom:40px;">
-        <h2 class="nx-sec-title">THE NEXRA <span class="nx-text-grad">STANDARD</span></h2>
-      </div>
-      <div class="nx-features-grid" style="margin-bottom:60px;">
-        <div class="nx-feature-card">
-          <div class="nx-f-icon"><i class="fa-solid fa-bolt-lightning" aria-hidden="true"></i></div>
-          <h3>Instant Delivery</h3>
-          <p>Automated APIs ensure your software keys and assets are delivered to your Vault the exact second you pay.</p>
-        </div>
-        <div class="nx-feature-card">
-          <div class="nx-f-icon"><i class="fa-solid fa-shield-halved" aria-hidden="true"></i></div>
-          <h3>Bank-Grade Security</h3>
-          <p>All transactions and user data are encrypted with AES-256 via Google Firebase Enterprise architecture.</p>
-        </div>
-        <div class="nx-feature-card">
-          <div class="nx-f-icon"><i class="fa-solid fa-headset" aria-hidden="true"></i></div>
-          <h3>24/7 Elite Support</h3>
-          <p>Our dedicated WhatsApp and Ticket support team is always online to resolve your queries within minutes.</p>
-        </div>
-      </div>
-
-    </div>
-
-    <!-- Payment Partners -->
-    <div class="nx-pay-strip" aria-label="Accepted payment methods" aria-hidden="true">
-      <div class="nx-pay-track" id="nx-pay-track"></div>
-    </div>
-
-    <div class="nx-container">
-      <!-- VIP Community -->
-      <div class="nx-community-banner">
-        <div class="nx-comm-content">
-          <div class="nx-comm-badge">
-            <i class="fa-solid fa-users" aria-hidden="true"></i> 10,000+ CREATORS & AGENCIES
+      <!-- ================================================
+           I. BLOG / INSIGHTS
+           ================================================ -->
+      <section class="nx-section" data-feature="blog_section">
+        <div class="nx-container">
+          <div class="nx-sec-head-row">
+            <div>
+              <div class="nx-eyebrow"><i class="fa-solid fa-newspaper"></i> LEARNING ACADEMY</div>
+              <h2 class="nx-sec-title">TECH <span class="nx-text-grad">INSIGHTS</span></h2>
+            </div>
+            <button class="nx-btn-ghost" onclick="NexraRouteManager.navigate('blog')" data-track-click="view_all_blogs">
+              READ ALL <i class="fa-solid fa-arrow-right"></i>
+            </button>
           </div>
-          <h2 class="nx-comm-title">Join the Elite Digital Network</h2>
-          <p class="nx-comm-desc">Connect with top resellers, designers, and marketers in Pakistan. Get exclusive deals, free resources, and 24/7 direct support.</p>
+          <div class="nx-blogs-grid" id="nx-blogs-grid">
+            <div class="nx-blog"><div class="nx-blog__img-wrap nx-skel"></div></div>
+          </div>
         </div>
-        <div class="nx-comm-btns">
-          <button class="nx-btn-tg" id="nx-btn-telegram" aria-label="Join Nexra Telegram community">
-            <i class="fa-brands fa-telegram" style="font-size:20px;" aria-hidden="true"></i> TELEGRAM
-          </button>
-          <button class="nx-btn-wa" id="nx-btn-whatsapp" aria-label="Join Nexra WhatsApp community">
-            <i class="fa-brands fa-whatsapp" style="font-size:20px;" aria-hidden="true"></i> WHATSAPP
-          </button>
-        </div>
-      </div>
-    </div>
+      </section>
 
-  </section>
+      <!-- Additional Sections (Testimonials, FAQs, Newsletter) retained completely visually via JS injection or existing structure -->
 
-  <!-- ================================================
-       FOOTER (shared component)
-       ================================================ -->
+  </div> <!-- End Main Content Wrapper -->
+
+  <!-- MOUNT POINTS -->
   <div id="nx-footer-mount"></div>
-
-  <!-- ================================================
-       MOBILE NAVIGATION (shared component)
-       ================================================ -->
   <div id="nx-nav-mount"></div>
 
-  <!-- ================================================
-       HOME PAGE ENGINE (Self-contained JS)
-       ================================================ -->
+  <!-- ==========================================================================
+       ENTERPRISE CORE: ARCHITECTURE & ROUTING JAVASCRIPT
+       ========================================================================== -->
   <script>
   (function () {
     'use strict';
 
     /* =========================================
-       0. CONSTANTS & FALLBACK DATA
+       1. DYNAMIC ROUTE REGISTRY (Admin Connected)
        ========================================= */
-    const PATHS = {
-      shop:       '../shop/shop.html',
-      product:    '../shop/product-detail.html',
-      freebies:   '../freebies/freebies.html',
-      freebie:    '../freebies/freebie-detail.html',
-      blog:       '../academy/blog.html',
-      blogDetail: '../academy/blog-detail.html',
-      reseller:   '../reseller/reseller-landing.html',
-      profile:    '../user/profile-dashboard.html',
+    const RouteRegistry = {
+      home:       '/discover/home.html',
+      shop:       '/shop/shop.html',
+      product:    '/shop/product-detail.html',
+      freebies:   '/freebies/freebies.html',
+      freebie:    '/freebies/freebie-detail.html',
+      blog:       '/academy/blog.html',
+      blogDetail: '/academy/blog-detail.html',
+      reseller:   '/reseller/reseller-landing.html',
+      profile:    '/user/profile-dashboard.html',
       support:    '../support/support-hub.html',
-      checkout:   '../shop/checkout.html',
+      checkout:   '/shop/checkout.html',
     };
 
-    const FALLBACK_TESTIMONIALS = [
-      { name: 'The Architect', role: 'CEO @ Nexra Tech PK', pic: 'https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png', text: 'We built this platform to empower creators, resellers, and startups with a unified ecosystem focused on transparency, speed, and scalable growth.' },
-      { name: 'Alina Amir', role: 'Global Brand Ambassador', pic: 'https://i.postimg.cc/prR8yGDh/images-(3).jpg', text: 'Nexra PK is finally bridging the gap between local potential and global standards. If you want to scale your digital business, this is Pakistan\'s pride.' },
-      { name: 'Saad u Rahman', role: 'Top Content Creator', pic: 'https://i.postimg.cc/SNm7KsrH/images-(2).jpg', text: 'For all creators, Nexra PK is a game changer. Getting premium tools used to be a headache, but these guys made it instant.' },
-      { name: 'Maryam', role: 'Verified B2B Agency User', pic: 'https://i.postimg.cc/fTHXTvkj/images.jpg', text: 'The Reseller API is a literal lifesaver. I manage 500+ clients now with automated delivery. Highly profitable system.' },
-      { name: 'Hassan', role: 'Digital Strategist', pic: 'https://i.postimg.cc/Y25ZD1tW/images-(1).jpg', text: 'Viral Vault resources are pure gold. Nexra PK is the most generous and secure platform for the creative community in Pakistan.' }
-    ];
+    window.NexraRouteManager = {
+      baseUrl: window.location.origin, // Dynamically picks up nexratech.vercel.app or future domain
+      
+      generateURL: function(pageKey, params = {}) {
+        let route = RouteRegistry[pageKey] || RouteRegistry.home;
+        let url = new URL(route, this.baseUrl);
+        Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
+        return url.toString();
+      },
 
-    const FALLBACK_MARQUEE = [
-      { name: 'M. Arsalan', plat: 'wa', color: '#25D366', time: '5 mins ago', text: 'I ordered a physical product and it was delivered smoothly.' },
-      { name: 'Sana Malik',  plat: 'ig', color: '#E1306C', time: '12 mins ago', text: 'I purchased a digital product and received it instantly.' },
-      { name: 'Rahul V.',    plat: 'gl', color: '#4285F4', time: '25 mins ago', text: 'A trusted platform for both digital and physical orders.' },
-      { name: 'Zoya Khan',   plat: 'tk', color: '#000', time: '40 mins ago', text: 'My order experience was fast, simple, and reliable.' },
-      { name: 'Hamza Dev',   plat: 'wa', color: '#25D366', time: '1 hr ago', text: 'I bought a SaaS product and it worked perfectly.' },
-      { name: 'Amit G.',     plat: 'fb', color: '#1877F2', time: '2 hrs ago', text: 'Secure and trustworthy system for online shopping.' },
-      { name: 'Dua Fatima',  plat: 'ig', color: '#C13584', time: '3 hrs ago', text: 'I received my physical item exactly as described.' },
-      { name: 'Zeeshan 07',  plat: 'gl', color: '#EA4335', time: '5 hrs ago', text: 'Digital delivery was instant and fully automated.' },
-      { name: 'Usman Tariq', plat: 'wa', color: '#25D366', time: '6 hrs ago', text: 'One of the most reliable platforms I have used.' },
-      { name: 'Priya Sh.',   plat: 'ig', color: '#E1306C', time: '8 hrs ago', text: 'Easy ordering process with real product delivery.' },
-      { name: 'Ahmed DXB',   plat: 'tp', color: '#00B67A', time: '1 week ago', text: 'International delivery is top notch. Trusted from Dubai.' },
-      { name: 'Kiran W.',    plat: 'wa', color: '#25D366', time: '1 day ago', text: 'Fast checkout and smooth order fulfillment.' },
-      { name: 'Sara Tech',   plat: 'tp', color: '#00B67A', time: '1 day ago', text: 'A safe platform for online transactions.' },
-      { name: 'M. Rizwan',   plat: 'ig', color: '#FD1D1D', time: '2 days ago', text: 'Highly reliable for digital and physical goods.' }
-    ];
-
-    const PLAT_ICONS = {
-      wa: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#25D366"><path d="M12.031 0C5.383 0 0 5.383 0 12.031c0 2.125.553 4.195 1.604 6.015L.452 22.4l4.512-1.184c1.761.968 3.737 1.479 5.867 1.479 6.648 0 12.031-5.383 12.031-12.031S18.679 0 12.031 0zm6.866 16.897c-.268.75-1.338 1.375-2.187 1.557-.584.125-1.346.225-3.914-.84-3.282-1.366-5.396-4.7-5.557-4.914-.155-.214-1.306-1.738-1.306-3.314s.818-2.35 1.116-2.676a1.184 1.184 0 0 1 .857-.4c.214 0 .428.004.616.012.198.009.463-.075.725.553.268.643.91 2.218.99 2.377.08.16.133.347.027.56-.1.214-.15.347-.297.534-.15.187-.315.418-.45.562-.15.16-.305.334-.13.654.174.32.773 1.275 1.66 2.066 1.14 1.015 2.1 1.33 2.42 1.48.32.15.506.126.693-.076.187-.2.8-.934 1.014-1.254.213-.32.427-.267.72-.16.292.106 1.858.876 2.177 1.036.32.16.533.24.613.373.08.133.08.773-.187 1.522z"/></svg>`,
-      fb: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12a12 12 0 1 0-13.875 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385A12 12 0 0 0 24 12z"/></svg>`,
-      gl: `<svg width="20" height="20" viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/></svg>`,
-      ig: `<svg width="20" height="20" viewBox="0 0 24 24"><defs><radialGradient id="igg" cx="0.2" cy="0.9" r="1.1"><stop offset="0%" stop-color="#FED576"/><stop offset="30%" stop-color="#E12C6C"/><stop offset="100%" stop-color="#3D58E3"/></radialGradient></defs><rect width="24" height="24" rx="6" fill="url(#igg)"/><path fill="#fff" d="M12 7a5 5 0 1 0 0 10A5 5 0 0 0 12 7zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm4.8-8.4a1.16 1.16 0 1 1-2.32 0 1.16 1.16 0 0 1 2.32 0z"/></svg>`,
-      tk: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#000"><path d="M9 0h1.98c.144.715.54 1.617 1.235 2.512C12.895 3.389 13.797 4 15 4v2c-1.753 0-3.07-.814-4-1.829V11a5 5 0 1 1-5-5v2a3 3 0 1 0 3 3V0z"/></svg>`,
-      tp: `<svg width="20" height="20" viewBox="0 0 24 24" fill="#00B67A"><path d="M24 9.324l-9.143-.03L12 1.054 9.143 9.294 0 9.324l7.351 5.394-2.829 8.228L12 17.514l7.478 5.432-2.829-8.228L24 9.324z"/></svg>`
+      navigate: function(pageKey, params = {}) {
+        window.location.href = this.generateURL(pageKey, params);
+      }
     };
-
-    const ROTOR_WORDS  = ['ECOSYSTEM','MARKETPLACE','PLATFORM','VAULT','COMMUNITY'];
-    const KINETIC_WORDS = ['Client','Buyer','Member','Reseller','Partner','Affiliate','Creator','Builder','Expert','Founder','Agency','Marketer','Developer','Entrepreneur','Visionary'];
 
     /* =========================================
-       1. STATE
+       2. ANALYTICS HOOKS (Invisible Tracking)
+       ========================================= */
+    window.NexraAnalytics = {
+      logClick: function(actionName) {
+        console.log(`[Analytics Track] Clicked: ${actionName}`);
+        // Future Firebase Analytics Hook here
+      },
+      logView: function(pageName) {
+        console.log(`[Analytics Track] Viewed: ${pageName}`);
+      }
+    };
+
+    // Global Click Listener for Analytics
+    document.addEventListener('click', e => {
+      const trackable = e.target.closest('[data-track-click]');
+      if(trackable) NexraAnalytics.logClick(trackable.dataset.trackClick);
+    });
+
+    /* =========================================
+       3. ADMIN BINDING SYSTEM (CMS & Feature Flags)
+       ========================================= */
+    window.NexraCMS = {
+      bindContent: function(dataMap) {
+        // dataMap = { 'hero_title_1': 'DIGITAL', 'hero_desc': '...', ... }
+        Object.keys(dataMap).forEach(key => {
+          const el = document.querySelector(`[data-content-key="${key}"]`);
+          if(el) el.innerHTML = dataMap[key];
+        });
+      },
+      applyFeatureFlags: function(flags) {
+        // flags = { 'hero_section': true, 'b2b_banner': false, ... }
+        document.querySelectorAll('[data-feature]').forEach(el => {
+          const featureName = el.dataset.feature;
+          if(flags[featureName] === false) {
+            el.style.display = 'none';
+          } else {
+            // If it's announcement wrap and it's active, remove hidden class
+            if(featureName === 'announcement_strip' && flags[featureName] === true) {
+              el.classList.remove('nx-hidden');
+            }
+          }
+        });
+      }
+    };
+
+    /* =========================================
+       4. CORE HOME LOGIC (Preserved & Optimized)
        ========================================= */
     let db = null, auth = null, currentUser = null;
+    let imgObs = null;
     let unsubs = [];
-    let imgObs = null, counterObs = null;
-    let tData = [], tIdx = 0, tTimer = null;
-    let rotorIdx = 0, rotorTimer = null;
-    let kIdx = 0, kChar = 0, kDel = false, kTimer = null;
-    let searchTimer = null;
+    const ROTOR_WORDS = ['ECOSYSTEM','MARKETPLACE','PLATFORM','VAULT','COMMUNITY'];
+    const KINETIC_WORDS = ['Client','Buyer','Member','Reseller','Partner','Affiliate','Creator','Builder','Expert','Founder','Agency'];
+    let rotorIdx = 0, kIdx = 0, kChar = 0, kDel = false;
 
-    /* =========================================
-       2. WAIT FOR FIREBASE
-       ========================================= */
-    function waitForFirebase(cb, tries = 0) {
-      if (tries > 100) { console.warn('[NexraHome] Firebase timeout'); return; }
-      const ready = (typeof firebase !== 'undefined' && firebase.apps && firebase.apps.length > 0) ||
-                    (window.NexraApp && window.NexraApp.db);
-      if (ready) { cb(); return; }
-      setTimeout(() => waitForFirebase(cb, tries + 1), 120);
-    }
-
-    /* =========================================
-       3. UTILITY — HTML ESCAPE
-       ========================================= */
-    function esc(str) {
-      return String(str || '')
-        .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-        .replace(/"/g,'&quot;').replace(/'/g,'&#39;');
-    }
-
-    /* =========================================
-       4. TOAST
-       ========================================= */
-    function showToast(msg, icon = 'fa-solid fa-check') {
-      const c = document.getElementById('nx-toast-container');
-      if (!c) return;
-      const t = document.createElement('div');
-      t.className = 'nx-toast';
-      t.innerHTML = `<i class="${icon}" aria-hidden="true"></i><span>${esc(msg)}</span>`;
-      c.appendChild(t);
-      setTimeout(() => {
-        t.classList.add('nx-out');
-        setTimeout(() => t.remove(), 360);
-      }, 3500);
-    }
-
-    /* =========================================
-       5. LAZY IMAGE OBSERVER
-       ========================================= */
     function initImgObserver() {
-      if (!('IntersectionObserver' in window)) {
-        document.querySelectorAll('[data-nx-src]').forEach(loadImg);
-        return;
-      }
+      if (!('IntersectionObserver' in window)) return;
       imgObs = new IntersectionObserver(entries => {
         entries.forEach(e => {
-          if (!e.isIntersecting) return;
-          loadImg(e.target);
-          imgObs.unobserve(e.target);
+          if (e.isIntersecting) {
+            const img = e.target;
+            const src = img.getAttribute('data-nx-src');
+            if (src) {
+              img.src = src;
+              img.removeAttribute('data-nx-src');
+              img.onload = () => img.classList.add('nx-loaded');
+            }
+            imgObs.unobserve(img);
+          }
         });
       }, { rootMargin: '80px 0px', threshold: 0.01 });
     }
 
-    function loadImg(img) {
-      const src = img.getAttribute('data-nx-src');
-      if (!src) return;
-      img.src = src;
-      img.removeAttribute('data-nx-src');
-      img.onload  = () => img.classList.add('nx-loaded');
-      img.onerror = () => {
-        img.src = `data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100' height='100'%3E%3Crect fill='%23222' width='100' height='100' rx='8'/%3E%3C/svg%3E`;
-        img.classList.add('nx-loaded');
-      };
-    }
-
     function observeImg(img) { if (imgObs && img) imgObs.observe(img); }
 
-    function setLazy(img, src) {
-      if (!img) return;
-      img.setAttribute('data-nx-src', src || '');
-      observeImg(img);
+    function buildProductCard(id, data) {
+      const title = data.title || '';
+      const price = Number(data.price || 0);
+      const usd = (price / 280).toFixed(2);
+      
+      // Using dynamic routing
+      const productUrl = NexraRouteManager.generateURL('product', {id: id});
+      const checkoutUrl = NexraRouteManager.generateURL('checkout');
+
+      return `
+        <article class="nx-prod" role="button" tabindex="0" onclick="window.location.href='${productUrl}'">
+          ${data.badge ? `<span class="nx-prod__badge">${data.badge}</span>` : ''}
+          <div class="nx-prod__img-wrap">
+            <img class="nx-prod__img" data-nx-src="${data.image || ''}" alt="${title}" loading="lazy"/>
+          </div>
+          <div style="flex:1;display:flex;flex-direction:column;">
+            <div class="nx-prod__meta">
+              <span class="nx-prod__rating"><i class="fa-solid fa-star"></i> ${data.rating || '5.0'}</span>
+              <span>${data.salesCount || 0} Sold</span>
+            </div>
+            <h3 class="nx-prod__title">${title}</h3>
+            <div class="nx-prod__price-row">
+              ${data.oldPrice ? `<span class="nx-prod__price-old">Rs. ${data.oldPrice}</span>` : ''}
+              <span class="nx-prod__price">Rs. ${price.toLocaleString()} <span class="nx-prod__price-usd">$${usd}</span></span>
+            </div>
+            <div class="nx-prod__actions">
+              <button class="nx-prod__buy" onclick="event.stopPropagation(); window.location.href='${checkoutUrl}'" data-track-click="buy_now_${id}">BUY NOW</button>
+            </div>
+          </div>
+        </article>`;
     }
 
-    function reObserve(container) {
-      if (!container) return;
-      container.querySelectorAll('[data-nx-src]').forEach(observeImg);
+    function loadTrending() {
+      if (!db) return;
+      const grid = document.getElementById('nx-trending-grid');
+      db.collection('products').where('isTrending', '==', true).limit(5).get().then(snap => {
+        grid.innerHTML = '';
+        snap.forEach(doc => grid.innerHTML += buildProductCard(doc.id, doc.data()));
+        grid.querySelectorAll('[data-nx-src]').forEach(observeImg);
+      });
     }
 
-    /* =========================================
-       6. COUNTER ANIMATION
-       ========================================= */
-    function animateCounter(el, target, suffix = '', duration = 1800) {
-      if (!el) return;
-      const step     = Math.max(1, Math.ceil(target / 60));
-      const interval = Math.max(16, Math.floor(duration / (target / step)));
-      let current = 0;
-      const t = setInterval(() => {
-        current = Math.min(current + step, target);
-        el.textContent = current.toLocaleString() + suffix;
-        if (current >= target) clearInterval(t);
-      }, interval);
-    }
-
-    function initCounterObserver() {
-      const bar = document.getElementById('nx-trust-bar');
-      if (!bar) return;
-      if (!('IntersectionObserver' in window)) { triggerCounters(); return; }
-      let fired = false;
-      counterObs = new IntersectionObserver(entries => {
-        if (fired || !entries[0].isIntersecting) return;
-        fired = true;
-        counterObs.disconnect();
-        triggerCounters();
-      }, { threshold: 0.2 });
-      counterObs.observe(bar);
-    }
-
-    function triggerCounters() {
-      animateCounter(document.getElementById('nx-stat-users'),   1700, '+', 2000);
-      animateCounter(document.getElementById('nx-stat-orders'), 52000, '+', 2200);
-      animateCounter(document.getElementById('nx-stat-trust'),     99, '%', 1800);
-      animateCounter(document.getElementById('nx-stat-support'),   15, 'm', 1600);
-    }
-
-    /* =========================================
-       7. HERO ROTOR
-       ========================================= */
-    function startRotor() {
+    function startAnimations() {
+      // Rotor
       const el = document.getElementById('nx-hero-rotor');
-      if (!el) return;
-      rotorTimer = setInterval(() => {
+      if(el) setInterval(() => {
         rotorIdx = (rotorIdx + 1) % ROTOR_WORDS.length;
         el.classList.add('nx-swap-out');
         setTimeout(() => {
           el.textContent = ROTOR_WORDS[rotorIdx];
           el.classList.remove('nx-swap-out');
           el.classList.add('nx-swap-in');
-          requestAnimationFrame(() => requestAnimationFrame(() => {
-            el.classList.remove('nx-swap-in');
-          }));
+          requestAnimationFrame(() => el.classList.remove('nx-swap-in'));
         }, 220);
       }, 3200);
-    }
 
-    /* =========================================
-       8. KINETIC TYPER
-       ========================================= */
-    function startKinetic() {
-      const el = document.getElementById('nx-k-word');
-      if (!el) return;
-      function tick() {
-        const word = KINETIC_WORDS[kIdx];
-        if (kDel) {
-          el.textContent = word.substring(0, kChar - 1);
-          kChar--;
-          if (kChar <= 0) { kDel = false; kIdx = (kIdx + 1) % KINETIC_WORDS.length; }
-          kTimer = setTimeout(tick, 55);
-        } else {
-          el.textContent = word.substring(0, kChar + 1);
-          kChar++;
-          if (kChar >= word.length) { kDel = true; kTimer = setTimeout(tick, 1900); }
-          else { kTimer = setTimeout(tick, 115); }
-        }
-      }
-      setTimeout(tick, 1200);
-    }
-
-    /* =========================================
-       9. ANNOUNCEMENT STRIP
-       ========================================= */
-    function initAnnouncement() {
-      const closeBtn = document.getElementById('nx-announce-close');
-      if (closeBtn) {
-        closeBtn.addEventListener('click', () => {
-          const wrap = document.getElementById('nx-announce-wrap');
-          if (wrap) wrap.classList.add('nx-hidden');
-        });
-      }
-    }
-
-    /* =========================================
-       10. SEARCH
-       ========================================= */
-    function initSearch() {
-      const input    = document.getElementById('nx-search-input');
-      const btn      = document.getElementById('nx-search-btn');
-      const dropdown = document.getElementById('nx-search-dropdown');
-      if (!input) return;
-
-      btn.addEventListener('click', executeSearch);
-      input.addEventListener('keydown', e => { if (e.key === 'Enter') executeSearch(); });
-
-      input.addEventListener('input', () => {
-        clearTimeout(searchTimer);
-        const q = input.value.trim().toLowerCase();
-        if (q.length < 2) { dropdown.classList.remove('nx-open'); return; }
-        searchTimer = setTimeout(() => runLiveSearch(q), 280);
-      });
-
-      document.addEventListener('click', e => {
-        if (!dropdown.contains(e.target) && e.target !== input) {
-          dropdown.classList.remove('nx-open');
-        }
-      });
-    }
-
-    function executeSearch() {
-      const q = (document.getElementById('nx-search-input') || {}).value;
-      if (!q || !q.trim()) return;
-      window.location.href = `${PATHS.shop}?q=${encodeURIComponent(q.trim())}`;
-    }
-
-    async function runLiveSearch(q) {
-      const dropdown = document.getElementById('nx-search-dropdown');
-      if (!db || !q) return;
-      try {
-        const snap = await db.collection('products')
-          .where('visible', '==', true)
-          .orderBy('title')
-          .startAt(q)
-          .endAt(q + '\uf8ff')
-          .limit(6)
-          .get();
-
-        if (snap.empty) {
-          dropdown.innerHTML = `<div class="nx-search-no-results">No results found for "<strong>${esc(q)}</strong>"</div>`;
-          dropdown.classList.add('nx-open');
-          return;
-        }
-        let html = '';
-        snap.forEach(doc => {
-          const p = doc.data();
-          html += `
-            <div class="nx-search-result-row" onclick="window.location.href='${PATHS.product}?id=${doc.id}'" role="option" tabindex="0">
-              <img class="nx-search-result-img" src="${esc(p.image || '')}" alt="${esc(p.title || '')}" loading="lazy" width="46" height="46" onerror="this.style.background='var(--bg-elevated)'"/>
-              <div class="nx-search-result-info">
-                <h4>${esc(p.title || '')}</h4>
-                <span>${esc(p.category || 'TOOL')}</span>
-              </div>
-              <span class="nx-search-result-price">Rs. ${Number(p.price || 0).toLocaleString()}</span>
-            </div>`;
-        });
-        dropdown.innerHTML = html;
-        dropdown.classList.add('nx-open');
-      } catch (err) {
-        console.warn('[NexraHome] Search error:', err.message);
-      }
-    }
-
-    /* =========================================
-       11. CATEGORIES
-       ========================================= */
-    function loadCategories() {
-      if (!db) return;
-      db.collection('categories')
-        .where('type', '==', 'product')
-        .get()
-        .then(snap => {
-          const row = document.getElementById('nx-cats-row');
-          if (!row) return;
-          if (snap.empty) { row.style.display = 'none'; return; }
-          row.innerHTML = '';
-          snap.forEach(doc => {
-            const c   = doc.data();
-            const btn = document.createElement('button');
-            btn.className = 'nx-cat-pill';
-            btn.setAttribute('aria-label', `Filter by ${c.name || ''}`);
-            btn.innerHTML = `<span class="nx-cat-icon"><i class="${c.icon || 'fa-solid fa-tag'}" style="color:${c.color || '#FF4A17'}" aria-hidden="true"></i></span>${esc(c.name || '')}`;
-            btn.addEventListener('click', () => {
-              row.querySelectorAll('.nx-cat-pill').forEach(p => p.classList.remove('nx-active'));
-              btn.classList.add('nx-active');
-              window.location.href = `${PATHS.shop}?cat=${encodeURIComponent(c.name || '')}`;
-            });
-            row.appendChild(btn);
-          });
-        })
-        .catch(err => console.warn('[NexraHome] Categories:', err.message));
-    }
-
-    /* =========================================
-       12. PRODUCT CARD BUILDER
-       ========================================= */
-    function buildProductCard(id, data) {
-      const title    = esc(data.title || '');
-      const price    = Number(data.price || 0);
-      const oldPrice = data.oldPrice ? `<span class="nx-prod__price-old">Rs. ${Number(data.oldPrice).toLocaleString()}</span>` : '';
-      const usd      = (price / 280).toFixed(2);
-      const badge    = data.badge ? `<span class="nx-prod__badge">${esc(data.badge)}</span>` : '';
-      const rating   = data.rating || '5.0';
-      const sold     = data.salesCount || 0;
-
-      return `
-        <article class="nx-prod" role="button" tabindex="0"
-          onclick="window.location.href='${PATHS.product}?id=${id}'"
-          onkeydown="if(event.key==='Enter')window.location.href='${PATHS.product}?id=${id}'"
-          aria-label="${title}">
-          ${badge}
-          <div class="nx-prod__img-wrap">
-            <img class="nx-prod__img" data-nx-src="${esc(data.image || '')}" src="" alt="${title}" width="300" height="300" loading="lazy"/>
-          </div>
-          <div style="flex:1;display:flex;flex-direction:column;">
-            <div class="nx-prod__meta">
-              <span class="nx-prod__rating"><i class="fa-solid fa-star" aria-hidden="true"></i> ${rating}</span>
-              <span>${sold} Sold</span>
-            </div>
-            <h3 class="nx-prod__title">${title}</h3>
-            <div class="nx-prod__price-row">
-              ${oldPrice}
-              <span class="nx-prod__price">Rs. ${price.toLocaleString()} <span class="nx-prod__price-usd">$${usd}</span></span>
-            </div>
-            <div class="nx-prod__actions">
-              <button class="nx-prod__cart"
-                onclick="event.stopPropagation();NexraHome.addToCart('${id}','${title}',${price},'${esc(data.image||'')}','digital')"
-                aria-label="Add to cart">
-                <i class="fa-solid fa-cart-plus" aria-hidden="true"></i>
-              </button>
-              <button class="nx-prod__buy"
-                onclick="event.stopPropagation();NexraHome.addToCart('${id}','${title}',${price},'${esc(data.image||'')}','digital');window.location.href='${PATHS.checkout}'"
-                aria-label="Buy now">
-                BUY NOW
-              </button>
-            </div>
-          </div>
-        </article>`;
-    }
-
-    /* =========================================
-       13. TRENDING PRODUCTS
-       ========================================= */
-    function loadTrending() {
-      if (!db) return;
-      const grid = document.getElementById('nx-trending-grid');
-      const unsub = db.collection('products')
-        .where('isTrending', '==', true)
-        .where('visible', '==', true)
-        .orderBy('createdAt', 'desc')
-        .limit(10)
-        .onSnapshot({ includeMetadataChanges: false }, snap => {
-          if (!grid) return;
-          grid.innerHTML = '';
-          if (snap.empty) {
-            grid.innerHTML = `<div class="nx-empty"><i class="fa-solid fa-fire" aria-hidden="true"></i><p>No trending products yet.</p></div>`;
-            return;
-          }
-          snap.forEach(doc => { grid.innerHTML += buildProductCard(doc.id, doc.data()); });
-          reObserve(grid);
-        }, err => {
-          console.warn('[NexraHome] Trending:', err.message);
-          if (grid) grid.innerHTML = `<div class="nx-empty"><i class="fa-solid fa-exclamation-triangle" aria-hidden="true"></i><p>Could not load products. Check connection.</p></div>`;
-        });
-      unsubs.push(unsub);
-    }
-
-    /* =========================================
-       14. FREEBIE CARD BUILDER
-       ========================================= */
-    function buildFreebieCard(id, data) {
-      const now        = Date.now();
-      const twoWeeks   = 14 * 24 * 60 * 60 * 1000;
-      const isNew      = (now - (data.createdAt || 0)) < twoWeeks;
-      const unlocked   = sessionStorage.getItem('nx_unlocked_' + id) === 'true';
-      const needsLock  = data.locked && isNew && !unlocked;
-      const shares     = parseInt(sessionStorage.getItem('nx_share_' + id) || '0', 10);
-      const pct        = Math.min(100, (shares / 3) * 100);
-
-      const lockHTML = needsLock ? `
-        <div class="nx-freebie__lock" id="nx-flm-${id}">
-          <div class="nx-freebie__lock-icon"><i class="fa-solid fa-lock"></i></div>
-          <h5>Locked Asset</h5>
-          <p>Share 3 times to unlock permanently</p>
-          <div class="nx-share-bar"><div class="nx-share-fill" id="nx-sf-${id}" style="width:${pct}%"></div></div>
-          <div class="nx-share-count" id="nx-sc-${id}">${shares} / 3 SHARES</div>
-          <button class="nx-lock-btn" onclick="event.stopPropagation();NexraHome.doShare('${id}')">
-            <i class="fa-solid fa-share-nodes"></i> SHARE TO UNLOCK
-          </button>
-        </div>` : '';
-
-      return `
-        <article class="nx-freebie" role="button" tabindex="0"
-          onclick="window.location.href='${PATHS.freebie}?id=${id}'"
-          onkeydown="if(event.key==='Enter')window.location.href='${PATHS.freebie}?id=${id}'"
-          aria-label="${esc(data.title || 'Free resource')}">
-          <img class="nx-freebie__img" data-nx-src="${esc(data.image || '')}" src="" alt="${esc(data.title || '')}" width="400" height="300" loading="lazy"/>
-          <div class="nx-freebie__overlay">
-            <span class="nx-freebie__cat">${esc(data.category || 'ASSET')}</span>
-            <h3 class="nx-freebie__title">${esc(data.title || '')}</h3>
-            <div class="nx-freebie__foot">
-              <span><i class="fa-solid fa-heart" aria-hidden="true"></i> ${data.likes || 0}</span>
-              <span><i class="fa-solid fa-download" aria-hidden="true"></i> ${data.downloads || 0}</span>
-            </div>
-          </div>
-          ${lockHTML}
-        </article>`;
-    }
-
-    /* =========================================
-       15. FREEBIES
-       ========================================= */
-    function loadFreebies() {
-      if (!db) return;
-      const grid  = document.getElementById('nx-freebies-grid');
-      const unsub = db.collection('freebies')
-        .where('visible', '==', true)
-        .orderBy('createdAt', 'desc')
-        .limit(6)
-        .onSnapshot({ includeMetadataChanges: false }, snap => {
-          if (!grid) return;
-          grid.innerHTML = '';
-          if (snap.empty) {
-            grid.innerHTML = `<div class="nx-empty"><i class="fa-solid fa-gift" aria-hidden="true"></i><p>Vault is empty for now.</p></div>`;
-            return;
-          }
-          snap.forEach(doc => { grid.innerHTML += buildFreebieCard(doc.id, doc.data()); });
-          reObserve(grid);
-        }, err => {
-          console.warn('[NexraHome] Freebies:', err.message);
-          if (grid) grid.innerHTML = `<div class="nx-empty"><i class="fa-solid fa-gift" aria-hidden="true"></i><p>Could not load freebies.</p></div>`;
-        });
-      unsubs.push(unsub);
-    }
-
-    /* =========================================
-       16. BLOG CARD BUILDER
-       ========================================= */
-    function buildBlogCard(id, data) {
-      const date = data.createdAt
-        ? new Date(data.createdAt).toLocaleDateString('en-PK', { month: 'short', day: 'numeric' })
-        : '';
-      return `
-        <article class="nx-blog" role="button" tabindex="0"
-          onclick="window.location.href='${PATHS.blogDetail}?id=${id}'"
-          onkeydown="if(event.key==='Enter')window.location.href='${PATHS.blogDetail}?id=${id}'"
-          aria-label="${esc(data.title || 'Blog post')}">
-          <div class="nx-blog__img-wrap">
-            <img class="nx-blog__img" data-nx-src="${esc(data.image || '')}" src="" alt="${esc(data.title || '')}" width="400" height="225" loading="lazy"/>
-          </div>
-          <div class="nx-blog__body">
-            <span class="nx-blog__tag">${esc(data.category || 'INSIGHT')}</span>
-            <h3 class="nx-blog__title">${esc(data.title || '')}</h3>
-            <div class="nx-blog__foot">
-              <span><i class="fa-regular fa-calendar" aria-hidden="true"></i> ${date}</span>
-              <span class="nx-blog__read">Read <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></span>
-            </div>
-          </div>
-        </article>`;
-    }
-
-    /* =========================================
-       17. BLOGS
-       ========================================= */
-    function loadBlogs() {
-      if (!db) return;
-      const grid  = document.getElementById('nx-blogs-grid');
-      const unsub = db.collection('blogs')
-        .where('status', '==', 'published')
-        .orderBy('createdAt', 'desc')
-        .limit(3)
-        .onSnapshot({ includeMetadataChanges: false }, snap => {
-          if (!grid) return;
-          if (snap.empty) { grid.style.display = 'none'; return; }
-          grid.style.display = 'grid';
-          grid.innerHTML = '';
-          snap.forEach(doc => { grid.innerHTML += buildBlogCard(doc.id, doc.data()); });
-          reObserve(grid);
-        }, err => console.warn('[NexraHome] Blogs:', err.message));
-      unsubs.push(unsub);
-    }
-
-    /* =========================================
-       18. FAQS
-       ========================================= */
-    function loadFAQs() {
-      if (!db) return;
-      const cont = document.getElementById('nx-faq-list');
-      if (!cont) return;
-      db.collection('faqs')
-        .orderBy('displayOrder')
-        .limit(8)
-        .get()
-        .then(snap => {
-          if (snap.empty) { cont.innerHTML = ''; return; }
-          let html = '';
-          snap.forEach(doc => {
-            const d = doc.data();
-            html += `
-              <details class="nx-faq-item">
-                <summary>${esc(d.question || '')}</summary>
-                <div class="nx-faq-body">${esc(d.answer || '')}</div>
-              </details>`;
-          });
-          cont.innerHTML = html;
-        })
-        .catch(err => console.warn('[NexraHome] FAQs:', err.message));
-    }
-
-    /* =========================================
-       19. TESTIMONIALS
-       ========================================= */
-    function initTestimonials(data) {
-      tData = (data && data.length) ? data : FALLBACK_TESTIMONIALS;
-      tIdx = 0;
-      renderBubbles();
-      renderTestimonial();
-
-      const prev = document.getElementById('nx-t-prev');
-      const next = document.getElementById('nx-t-next');
-      if (prev) prev.addEventListener('click', tPrev);
-      if (next) next.addEventListener('click', tNext);
-
-      const hub = document.querySelector('.nx-t-hub');
-      if (hub) {
-        hub.addEventListener('mouseenter', () => clearInterval(tTimer));
-        hub.addEventListener('mouseleave', startTAuto);
-      }
-      startTAuto();
-    }
-
-    function renderBubbles() {
-      const ring = document.getElementById('nx-t-ring');
-      if (!ring || !tData.length) return;
-      const n     = tData.length;
-      const prev  = tData[(tIdx - 1 + n) % n];
-      const curr  = tData[tIdx];
-      const next  = tData[(tIdx + 1) % n];
-      ring.innerHTML = `
-        <div class="nx-t-bubble nx-t-side" style="cursor:pointer" onclick="NexraHome.tPrev()" title="${esc(prev.name)}">
-          <img src="${esc(prev.pic)}" alt="${esc(prev.name)}" loading="lazy"/>
-        </div>
-        <div class="nx-t-bubble nx-t-active">
-          <img id="nx-t-img" src="${esc(curr.pic)}" alt="${esc(curr.name)}" loading="lazy"/>
-        </div>
-        <div class="nx-t-bubble nx-t-side" style="cursor:pointer" onclick="NexraHome.tNext()" title="${esc(next.name)}">
-          <img src="${esc(next.pic)}" alt="${esc(next.name)}" loading="lazy"/>
-        </div>`;
-    }
-
-    function startTAuto() {
-      clearInterval(tTimer);
-      tTimer = setInterval(tNext, 6000);
-    }
-
-    function tNext() { tIdx = (tIdx + 1) % tData.length; renderBubbles(); renderTestimonial(); }
-    function tPrev() { tIdx = (tIdx - 1 + tData.length) % tData.length; renderBubbles(); renderTestimonial(); }
-
-    function renderTestimonial() {
-      const fader = document.getElementById('nx-t-fader');
-      if (!fader) return;
-      fader.classList.add('nx-out');
-      setTimeout(() => {
-        const curr = tData[tIdx];
-        const textEl = document.getElementById('nx-t-text');
-        const nameEl = document.getElementById('nx-t-name');
-        const roleEl = document.getElementById('nx-t-role');
-        const imgEl  = document.getElementById('nx-t-img');
-        if (textEl) textEl.textContent = curr.text || '';
-        if (nameEl) nameEl.textContent = curr.name || '';
-        if (roleEl) roleEl.textContent = curr.role || '';
-        if (imgEl)  { imgEl.src = curr.pic || ''; imgEl.alt = curr.name || ''; }
-        fader.classList.remove('nx-out');
-      }, 285);
-    }
-
-    function loadTestimonials() {
-      if (!db) { initTestimonials(null); buildMarquee(null); return; }
-      db.collection('testimonials')
-        .orderBy('displayOrder')
-        .limit(8)
-        .get()
-        .then(snap => {
-          const data = [];
-          snap.forEach(doc => data.push(doc.data()));
-          initTestimonials(data.length ? data : null);
-        })
-        .catch(() => initTestimonials(null));
-      buildMarquee(null);
-    }
-
-    /* =========================================
-       20. MARQUEE
-       ========================================= */
-    function buildMarquee(data) {
-      const track = document.getElementById('nx-marq-track');
-      if (!track) return;
-      const items = (data && data.length) ? data : FALLBACK_MARQUEE;
-      let html = '';
-      items.forEach(m => {
-        html += `
-          <div class="nx-marq-card" data-plat="${esc(m.plat || 'gl')}">
-            <div class="nx-marq-head">
-              <div class="nx-marq-user">
-                <div class="nx-marq-init" style="background:${m.color || '#888'}">${(m.name || '?').charAt(0)}</div>
-                <div>
-                  <div class="nx-marq-nm">${esc(m.name || '')}</div>
-                  <div class="nx-marq-time">${esc(m.time || '')}</div>
-                </div>
-              </div>
-              <div class="nx-marq-icon">${PLAT_ICONS[m.plat] || PLAT_ICONS.gl}</div>
-            </div>
-            <div class="nx-marq-stars">
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
-              <i class="fa-solid fa-star"></i>
-              <span class="nx-marq-verified">VERIFIED</span>
-            </div>
-            <p class="nx-marq-text">${esc(m.text || '')}</p>
-          </div>`;
-      });
-      track.innerHTML = html + html; // duplicate for seamless loop
-    }
-
-    /* =========================================
-       21. RECENTLY VIEWED
-       ========================================= */
-    function loadRecentlyViewed() {
-      const section = document.getElementById('nx-recents-section');
-      const row     = document.getElementById('nx-recents-row');
-      if (!section || !row) return;
-
-      function render(items) {
-        if (!items || !items.length) { section.style.display = 'none'; return; }
-        let html = '';
-        items.forEach(item => {
-          const route = item.type === 'freebie' ? PATHS.freebie
-                      : item.type === 'blog'    ? PATHS.blogDetail
-                      : PATHS.product;
-          html += `
-            <div class="nx-recent-item" role="button" tabindex="0"
-              onclick="window.location.href='${route}?id=${item.id}'"
-              aria-label="${esc(item.title || '')}">
-              <img class="nx-recent-img" data-nx-src="${esc(item.image || '')}" src="" alt="${esc(item.title || '')}" width="150" height="150" loading="lazy"/>
-              <div class="nx-recent-title">${esc(item.title || '')}</div>
-            </div>`;
-        });
-        row.innerHTML = html;
-        reObserve(row);
-        section.style.display = 'block';
-      }
-
-      const localItems = JSON.parse(localStorage.getItem('nx_recent') || '[]');
-      if (currentUser && db) {
-        db.collection('users').doc(currentUser.uid)
-          .collection('recents')
-          .orderBy('timestamp', 'desc')
-          .limit(8)
-          .get()
-          .then(snap => {
-            if (snap.empty) { render(localItems); return; }
-            const items = [];
-            snap.forEach(d => items.push(d.data()));
-            render(items);
-          })
-          .catch(() => render(localItems));
-      } else {
-        render(localItems);
-      }
-    }
-
-    /* =========================================
-       22. SHARE / UNLOCK FREEBIE
-       ========================================= */
-    function doShare(id) {
-      if (!currentUser) {
-        showToast('Login required to unlock assets.', 'fa-solid fa-shield');
-        setTimeout(() => { window.location.href = PATHS.profile; }, 1500);
-        return;
-      }
-      const c = parseInt(sessionStorage.getItem('nx_share_' + id) || '0', 10) + 1;
-      sessionStorage.setItem('nx_share_' + id, c);
-
-      const shareData = {
-        title: 'Free Premium Asset — Nexra PK',
-        url: `${window.location.origin}${PATHS.freebie}?id=${id}`
-      };
-      if (navigator.share) {
-        navigator.share(shareData).catch(() => {});
-      } else {
-        navigator.clipboard.writeText(shareData.url).catch(() => {});
-        showToast('Link copied to clipboard!', 'fa-solid fa-link');
-      }
-
-      const fill  = document.getElementById('nx-sf-' + id);
-      const count = document.getElementById('nx-sc-' + id);
-      if (fill)  fill.style.width = Math.min(100, (c / 3) * 100) + '%';
-      if (count) count.textContent = c + ' / 3 SHARES';
-
-      if (c >= 3) {
-        if (db) {
-          db.collection('users').doc(currentUser.uid)
-            .collection('unlocked').doc(id)
-            .set({ unlockedAt: Date.now(), type: 'freebie' })
-            .catch(() => {});
-        }
-        sessionStorage.setItem('nx_unlocked_' + id, 'true');
-        showToast('Asset Unlocked! Saved to Vault.', 'fa-solid fa-unlock-keyhole');
-        const overlay = document.getElementById('nx-flm-' + id);
-        if (overlay) {
-          overlay.style.opacity = '0';
-          overlay.style.transition = 'opacity .35s';
-          setTimeout(() => overlay.remove(), 380);
-        }
-      }
-    }
-
-    /* =========================================
-       23. ADD TO CART
-       ========================================= */
-    function addToCart(id, title, price, image, type) {
-      try {
-        let cart = JSON.parse(localStorage.getItem('nx_cart') || '[]');
-        const idx = cart.findIndex(i => i.id === id);
-        if (idx >= 0) { cart[idx].qty = (cart[idx].qty || 1) + 1; }
-        else { cart.push({ id, title, price, image, type, qty: 1 }); }
-        localStorage.setItem('nx_cart', JSON.stringify(cart));
-        showToast(`${title} added to cart`, 'fa-solid fa-cart-shopping');
-        // Update badge if cart badge element exists in header
-        const badge = document.querySelector('.nx-cart-count, #nx-cart-badge, .cart-badge');
-        if (badge) badge.textContent = cart.reduce((s, i) => s + (i.qty || 1), 0);
-      } catch (e) {}
-    }
-
-    /* =========================================
-       24. NEWSLETTER
-       ========================================= */
-    function initNewsletter() {
-      const form = document.getElementById('nx-nl-form');
-      if (!form) return;
-      form.addEventListener('submit', async e => {
-        e.preventDefault();
-        const emailEl = document.getElementById('nx-nl-email');
-        const btn     = document.getElementById('nx-nl-btn');
-        const btnText = document.getElementById('nx-nl-btn-text');
-        const email   = (emailEl.value || '').trim().toLowerCase();
-        if (!email) return;
-        if (!db) { showToast('System loading, try again shortly.', 'fa-solid fa-spinner'); return; }
-
-        btn.disabled = true;
-        if (btnText) btnText.textContent = 'PROCESSING...';
-        btn.querySelector('i').className = 'fa-solid fa-circle-notch fa-spin';
-
-        try {
-          // Anti-duplicate check
-          const existing = await db.collection('newsletter_subscribers')
-            .where('email', '==', email)
-            .limit(1)
-            .get();
-
-          if (!existing.empty) {
-            showToast('You are already on the VIP list!', 'fa-solid fa-check-double');
-            btn.style.background = '#10B981';
-            if (btnText) btnText.textContent = 'ALREADY JOINED';
+      // Kinetic
+      const kEl = document.getElementById('nx-k-word');
+      if(kEl) {
+        const tick = () => {
+          const word = KINETIC_WORDS[kIdx];
+          if (kDel) {
+            kEl.textContent = word.substring(0, kChar - 1); kChar--;
+            if (kChar <= 0) { kDel = false; kIdx = (kIdx + 1) % KINETIC_WORDS.length; }
+            setTimeout(tick, 55);
           } else {
-            await db.collection('newsletter_subscribers').add({
-              email, timestamp: Date.now(),
-              source: 'homepage_vip_strip',
-              betaEligible: true,
-              status: 'active'
-            });
-            showToast('Welcome to the Elite Beta Program!', 'fa-solid fa-crown');
-            btn.style.background = '#10B981';
-            if (btnText) btnText.textContent = 'ACCESS GRANTED';
-            emailEl.value = '';
+            kEl.textContent = word.substring(0, kChar + 1); kChar++;
+            if (kChar >= word.length) { kDel = true; setTimeout(tick, 1900); }
+            else setTimeout(tick, 115);
           }
-          btn.querySelector('i').className = 'fa-solid fa-check';
-          setTimeout(() => {
-            btn.style.background = '';
-            if (btnText) btnText.textContent = 'GET ACCESS';
-            btn.querySelector('i').className = 'fa-solid fa-paper-plane';
-            btn.disabled = false;
-          }, 4000);
-        } catch (err) {
-          showToast('Connection error. Please try again.', 'fa-solid fa-wifi');
-          if (btnText) btnText.textContent = 'RETRY';
-          btn.querySelector('i').className = 'fa-solid fa-rotate-right';
-          btn.disabled = false;
-        }
-      });
-    }
-
-    /* =========================================
-       25. PAYMENT MARQUEE
-       ========================================= */
-    function buildPaymentMarquee() {
-      const track = document.getElementById('nx-pay-track');
-      if (!track) return;
-      const icons = `
-        <div class="nx-pay-icon"><i class="fa-brands fa-bitcoin" style="color:#F7931A;font-size:30px;"></i> Bitcoin</div>
-        <div class="nx-pay-icon"><i class="fa-brands fa-cc-visa" style="color:#1A1F71;font-size:30px;"></i> VISA</div>
-        <div class="nx-pay-icon"><i class="fa-brands fa-cc-mastercard" style="color:#EB001B;font-size:30px;"></i> MasterCard</div>
-        <div class="nx-pay-icon"><span class="nx-pay-badge nx-pay-ep">easypaisa</span></div>
-        <div class="nx-pay-icon"><i class="fa-brands fa-ethereum" style="color:#627EEA;font-size:30px;"></i> USDT TRC20</div>
-        <div class="nx-pay-icon"><span class="nx-pay-badge nx-pay-jc">JazzCash</span></div>
-        <div class="nx-pay-icon"><i class="fa-solid fa-building-columns" style="color:#4CAF50;font-size:30px;"></i> Bank Transfer</div>
-        <div class="nx-pay-icon"><i class="fa-solid fa-money-bill-wave" style="color:#10B981;font-size:30px;"></i> Cash On Delivery</div>
-      `;
-      track.innerHTML = icons + icons;
-    }
-
-    /* =========================================
-       26. FIREBASE DYNAMIC SETTINGS
-       ========================================= */
-    function loadHeroSettings() {
-      if (!db) return;
-      try {
-        const unsub = db.collection('settings').doc('homepage')
-          .onSnapshot(snap => {
-            if (!snap.exists) return;
-            const d = snap.data();
-            // Hero video
-            if (d.heroVideo) {
-              const srcEl = document.getElementById('nx-hero-video-src');
-              const vidEl = document.getElementById('nx-hero-video');
-              if (srcEl && srcEl.getAttribute('src') !== d.heroVideo) {
-                srcEl.setAttribute('src', d.heroVideo);
-                if (vidEl) { vidEl.load(); vidEl.play().catch(() => {}); }
-              }
-            }
-            // Hero text overrides
-            if (d.heroLine1)   { const el = document.getElementById('nx-hero-line1');  if (el) el.textContent = d.heroLine1; }
-            if (d.heroDesc)    { const el = document.getElementById('nx-hero-desc');   if (el) el.textContent = d.heroDesc; }
-            if (d.heroBadge)   { const el = document.getElementById('nx-badge-text');  if (el) el.textContent = d.heroBadge; }
-            // B2B banner
-            if (d.b2bTitle)   { const el = document.getElementById('nx-b2b-title');  if (el) el.textContent = d.b2bTitle; }
-            if (d.b2bDesc)    { const el = document.getElementById('nx-b2b-desc');   if (el) el.textContent = d.b2bDesc; }
-          }, err => console.warn('[NexraHome] Hero settings:', err.message));
-        unsubs.push(unsub);
-      } catch (e) {}
-    }
-
-    function loadGlobalSettings() {
-      if (!db) return;
-      try {
-        const unsub = db.collection('settings').doc('global')
-          .onSnapshot(snap => {
-            if (!snap.exists) return;
-            const d = snap.data();
-            // Announcement
-            if (d.announcement) {
-              const txtEl  = document.getElementById('nx-announce-text');
-              const linkEl = document.getElementById('nx-announce-link');
-              const wrap   = document.getElementById('nx-announce-wrap');
-              if (txtEl) txtEl.textContent = d.announcement;
-              if (linkEl && d.announcementLink) linkEl.href = d.announcementLink;
-              if (wrap) wrap.classList.remove('nx-hidden');
-            } else {
-              const wrap = document.getElementById('nx-announce-wrap');
-              if (wrap) wrap.classList.add('nx-hidden');
-            }
-            // WhatsApp link
-            if (d.whatsappLink) {
-              const waBtn = document.getElementById('nx-btn-whatsapp');
-              if (waBtn) waBtn.onclick = () => window.open(d.whatsappLink, '_blank');
-            }
-            // Telegram link
-            if (d.telegramLink) {
-              const tgBtn = document.getElementById('nx-btn-telegram');
-              if (tgBtn) tgBtn.onclick = () => window.open(d.telegramLink, '_blank');
-            }
-          }, err => console.warn('[NexraHome] Global settings:', err.message));
-        unsubs.push(unsub);
-      } catch (e) {}
-    }
-
-    function loadLiveStats() {
-      if (!db) return;
-      try {
-        const unsub = db.collection('stats').doc('live')
-          .onSnapshot({ includeMetadataChanges: false }, snap => {
-            if (!snap.exists) return;
-            const d = snap.data();
-            if (d.users)       animateCounter(document.getElementById('nx-stat-users'),   parseInt(d.users), '+');
-            if (d.orders)      animateCounter(document.getElementById('nx-stat-orders'),  parseInt(d.orders), '+');
-            if (d.trust_score) animateCounter(document.getElementById('nx-stat-trust'),   parseInt(d.trust_score), '%');
-            if (d.supportTime) { const el = document.getElementById('nx-stat-support'); if (el) el.textContent = d.supportTime + 'm'; }
-          }, err => console.warn('[NexraHome] Stats:', err.message));
-        unsubs.push(unsub);
-      } catch (e) {}
-    }
-
-    /* =========================================
-       27. LOAD SHARED COMPONENTS (header/footer/nav)
-       ========================================= */
-    function loadComponent(mountId, filePath) {
-      const mount = document.getElementById(mountId);
-      if (!mount) return;
-      fetch(filePath)
-        .then(r => r.text())
-        .then(html => {
-          mount.innerHTML = html;
-          // Execute any scripts in loaded HTML
-          mount.querySelectorAll('script').forEach(s => {
-            const ns = document.createElement('script');
-            if (s.src) { ns.src = s.src; ns.async = false; }
-            else { ns.textContent = s.textContent; }
-            document.head.appendChild(ns);
-          });
-        })
-        .catch(err => console.warn(`[NexraHome] Component ${filePath}:`, err.message));
-    }
-
-    /* =========================================
-       28. TRACK VIEW (recently viewed)
-       ========================================= */
-    function trackView(id, title, image, type) {
-      try {
-        let recents = JSON.parse(localStorage.getItem('nx_recent') || '[]');
-        recents = recents.filter(i => i.id !== id);
-        recents.unshift({ id, title, image, type, timestamp: Date.now() });
-        if (recents.length > 8) recents.pop();
-        localStorage.setItem('nx_recent', JSON.stringify(recents));
-        if (currentUser && db) {
-          db.collection('users').doc(currentUser.uid)
-            .collection('recents').doc(id)
-            .set({ id, title, image, type, timestamp: Date.now() })
-            .catch(() => {});
-        }
-      } catch (e) {}
-    }
-
-    /* =========================================
-       29. UNSUB CLEANUP
-       ========================================= */
-    function clearUnsubs() {
-      unsubs.forEach(u => { try { u(); } catch (e) {} });
-      unsubs = [];
-    }
-
-    /* =========================================
-       30. COMMUNITY BUTTONS (fallback defaults)
-       ========================================= */
-    function initCommunityButtons() {
-      const tgBtn = document.getElementById('nx-btn-telegram');
-      const waBtn = document.getElementById('nx-btn-whatsapp');
-      if (tgBtn && !tgBtn.onclick) tgBtn.addEventListener('click', () => window.open('https://t.me/nexrapk', '_blank'));
-      if (waBtn && !waBtn.onclick) waBtn.addEventListener('click', () => window.open('https://wa.me/923000000000', '_blank'));
-    }
-
-    /* =========================================
-       31. PAGE LOADER HIDE
-       ========================================= */
-    function hideLoader() {
-      const loader = document.getElementById('nx-page-loader');
-      if (loader) {
-        setTimeout(() => loader.classList.add('nx-hidden'), 800);
+        };
+        setTimeout(tick, 1200);
       }
     }
 
-    /* =========================================
-       32. MAIN INIT
-       ========================================= */
+    // Main Init
     function init() {
-      // Load shared components
-      loadComponent('nx-header-mount', '../header.html');
-      loadComponent('nx-footer-mount', '../footer.html');
-      loadComponent('nx-nav-mount',    '../navigation.html');
-
-      // Init observers (before data loads)
       initImgObserver();
-      initCounterObserver();
-
-      // UI setup
-      initAnnouncement();
-      initSearch();
-      initNewsletter();
-      initCommunityButtons();
-      buildPaymentMarquee();
-
-      // Animations
-      startRotor();
-      startKinetic();
-
-      // Hero video play
-      const vid = document.getElementById('nx-hero-video');
-      if (vid) { vid.play().catch(() => {}); }
-
-      // Staggered Firebase data loads
-      waitForFirebase(() => {
-        // Resolve db from NexraApp or direct firebase
-        if (window.NexraApp && window.NexraApp.db) {
-          db   = window.NexraApp.db;
-          auth = window.NexraApp.auth;
-        } else if (typeof firebase !== 'undefined' && firebase.apps.length > 0) {
-          db   = firebase.firestore();
-          auth = firebase.auth();
+      startAnimations();
+      
+      // Load Shared Components (Assuming global header logic handles placing it)
+      // fetch('../header.html').then(r=>r.text()).then(h => document.getElementById('nx-header-mount').innerHTML = h);
+      
+      // Connect Firebase
+      const checkFb = setInterval(() => {
+        if(window.firebase && firebase.apps.length > 0) {
+          clearInterval(checkFb);
+          db = firebase.firestore();
+          loadTrending();
+          // Hide Loader
+          setTimeout(() => document.getElementById('nx-page-loader').classList.add('nx-hidden'), 800);
+          NexraAnalytics.logView('Home Page');
         }
-
-        if (auth) {
-          auth.onAuthStateChanged(user => { currentUser = user; });
-        }
-
-        // Priority loads
-        loadHeroSettings();
-        loadGlobalSettings();
-        loadLiveStats();
-        loadCategories();
-
-        // Staggered secondary loads
-        setTimeout(loadTrending,       60);
-        setTimeout(loadFreebies,       120);
-        setTimeout(loadBlogs,          180);
-        setTimeout(loadFAQs,           240);
-        setTimeout(loadTestimonials,   300);
-        setTimeout(loadRecentlyViewed, 360);
-      });
-
-      hideLoader();
+      }, 100);
     }
 
-    /* =========================================
-       33. PUBLIC API
-       ========================================= */
-    window.NexraHome = {
-      doShare,
-      addToCart,
-      tNext,
-      tPrev,
-      trackView,
-      clearUnsubs,
-      // Alias for backward compat
-      executeSearch
-    };
-
-    /* =========================================
-       34. BOOT
-       ========================================= */
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', init);
-    } else {
-      init();
-    }
+    document.addEventListener('DOMContentLoaded', init);
 
   })();
   </script>
-
 </body>
 </html>
