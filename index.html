@@ -1,19 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- 1. META & SEO CORE -->
+    <!-- 1. ENTERPRISE SEO & META CORE -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Nexra Tech PK | Elite Digital Ecosystem</title>
     
-    <!-- Meta Theme & SEO -->
+    <!-- Meta Theme & Performance -->
     <meta name="theme-color" id="meta-theme-color" content="#ffffff">
-    <meta name="description" content="Pakistan's elite digital marketplace for automated software licensing and premium SaaS solutions.">
+    <meta name="description" content="Pakistan's premium digital marketplace for automated software licensing, elite SaaS tools, and community freebies.">
+    <meta name="keywords" content="Nexra, Nexra PK, Digital Marketplace, SaaS Pakistan, Software Licensing, Freebies Vault">
+    <meta name="author" content="Nexra Tech PK">
     <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://nexrapk.com/">
     <link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
 
-    <!-- 2. PREMIUM TYPOGRAPHY & ICONS -->
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nexrapk.com/">
+    <meta property="og:title" content="Nexra Tech PK | Elite Digital Ecosystem">
+    <meta property="og:description" content="Automated digital assets and premium software licensing delivered instantly.">
+    <meta property="og:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://nexrapk.com/">
+    <meta property="twitter:title" content="Nexra Tech PK | Elite Digital Ecosystem">
+    <meta property="twitter:description" content="Pakistan's premium marketplace for SaaS and Digital Assets.">
+    <meta property="twitter:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Nexra Tech PK",
+      "url": "https://nexrapk.com/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://nexrapk.com/?view=search&q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- 2. PREMIUM ASSETS PRELOAD -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
@@ -24,10 +56,9 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
 
-    <!-- 4. CORE DESIGN SYSTEM (PREMIUM WHITE & DARK) -->
+    <!-- 4. CORE ENGINE CSS -->
     <style>
         :root {
-            /* LIGHT THEME (DEFAULT) */
             --bg-base: #ffffff;
             --bg-surface: #f8fafc;
             --bg-elevated: #f1f5f9;
@@ -56,35 +87,19 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { 
-            background: var(--bg-base); 
-            color: var(--text-100); 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            overflow-x: hidden; 
-            min-height: 100vh;
-        }
+        body { background: var(--bg-base); color: var(--text-100); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; min-height: 100vh; }
 
-        /* TOP LOADER (Apple Style) */
-        #top-loader {
-            position: fixed; top: 0; left: 0; width: 100%; height: 3px;
-            z-index: 200000; pointer-events: none; opacity: 0;
-        }
-        #top-loader-fill {
-            height: 100%; width: 0; background: var(--brand-main);
-            box-shadow: 0 0 15px var(--brand-main);
-            transition: width 0.4s ease, opacity 0.4s;
-        }
+        /* TOP PROGRESS LOADER */
+        #top-loader { position: fixed; top: 0; left: 0; width: 100%; height: 3px; z-index: 200000; pointer-events: none; opacity: 0; }
+        #top-loader-fill { height: 100%; width: 0; background: var(--brand-main); box-shadow: 0 0 15px var(--brand-main); transition: width 0.4s ease, opacity 0.4s; }
 
-        /* PREMIUM SPLASH INTERFACE */
+        /* ELITE SPLASH INTERFACE */
         #splash {
             position: fixed; inset: 0; z-index: 100000; background: var(--bg-base);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
         }
-        .splash-glow {
-            position: absolute; width: 60vw; height: 60vw; background: var(--brand-main);
-            filter: blur(140px); opacity: 0.08; border-radius: 50%; animation: pulseGlow 5s infinite alternate;
-        }
+        .splash-glow { position: absolute; width: 60vw; height: 60vw; background: var(--brand-main); filter: blur(140px); opacity: 0.08; border-radius: 50%; animation: pulseGlow 5s infinite alternate; }
         .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
         .sp-logo { width: clamp(80px, 20vw, 100px); height: auto; filter: drop-shadow(0 10px 25px var(--brand-glow)); }
         .sp-title { height: 22px; margin-top: 35px; filter: grayscale(1) brightness(0.2); }
@@ -92,10 +107,14 @@
         
         .sp-progress-box { width: 200px; margin-top: 60px; text-align: center; }
         .sp-bar { width: 100%; height: 2px; background: var(--bg-elevated); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
-        .sp-fill { height: 100%; width: 0%; background: var(--brand-main); transition: width 0.4s ease; }
+        .sp-fill { height: 100%; width: 0%; background: var(--brand-main); transition: width 0.3s ease; }
         .sp-status { font-size: 10px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 2px; }
 
-        /* MAINTENANCE INTERFACE */
+        /* SPA VIEW PORT */
+        #spa-main { width: 100%; min-height: 100vh; opacity: 1; transition: opacity 0.4s var(--transition), transform 0.4s var(--transition); }
+        .view-hidden { opacity: 0 !important; transform: translateY(10px); }
+
+        /* MAINTENANCE MODE */
         #maintenance {
             position: fixed; inset: 0; z-index: 100005; background: var(--bg-base);
             display: none; align-items: center; justify-content: center; padding: 25px;
@@ -106,113 +125,114 @@
             padding: 60px 40px; border-radius: var(--radius-lg); text-align: center;
             max-width: 550px; width: 100%; box-shadow: var(--shadow-md);
         }
-        .m-icon { 
-            width: 80px; height: 80px; background: var(--brand-soft); color: var(--brand-main);
-            border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            font-size: 32px; margin: 0 auto 30px; border: 1px solid var(--brand-glow);
-        }
-        .m-title { font-family: 'Space Grotesk'; font-size: 28px; font-weight: 800; margin-bottom: 15px; }
-        .m-desc { color: var(--text-200); font-size: 15px; line-height: 1.8; margin-bottom: 40px; }
 
-        /* SPA MAIN CONTAINER */
-        #spa-main { 
-            width: 100%; min-height: 100vh; opacity: 1; 
-            transition: opacity 0.4s var(--transition), transform 0.4s var(--transition); 
-        }
-        .view-hidden { opacity: 0 !important; transform: translateY(15px); }
-
-        .tech-font { font-family: 'Space Grotesk', sans-serif; }
+        /* ANIMATIONS */
         @keyframes pulseGlow { from { opacity: 0.05; transform: scale(1); } to { opacity: 0.12; transform: scale(1.15); } }
     </style>
 </head>
 <body>
 
-    <!-- TOP-LEVEL UI (LOADER) -->
+    <!-- TOP-LEVEL UI -->
     <div id="top-loader"><div id="top-loader-fill"></div></div>
+    
+    <!-- SYSTEM MOUNT POINTS -->
+    <div id="global-logic-container"></div>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
 
-    <!-- 1. SHARED COMPONENTS MOUNT POINTS -->
-    <div id="global-container"></div> <!-- Loads global.html (Logic & Colors) -->
-    <div id="navigation-container"></div> <!-- Loads navigation.html (Header/Dock/Sidebar) -->
-    <div id="ui-notifications-container"></div> <!-- Loads ui-notifications.html (Toasts/Modals) -->
-
-    <!-- 2. SPLASH SCREEN -->
+    <!-- 1. SPLASH SCREEN -->
     <div id="splash">
         <div class="splash-glow"></div>
         <div class="splash-content">
             <img class="sp-logo" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo">
-            <img class="sp-title" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech PK">
+            <img class="sp-title" src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/12945C3A-733B-45AB-9722-044C592AC5C7.jpeg" alt="Nexra Tech PK Branding">
             
             <div class="sp-progress-box">
                 <div class="sp-bar"><div class="sp-fill" id="sp-fill"></div></div>
-                <div class="sp-status" id="sp-status">Initializing Cloud...</div>
+                <div class="sp-status" id="sp-status">Synchronizing Ecosystem...</div>
             </div>
         </div>
-        <div style="position:absolute; bottom:40px; font-size:9px; font-weight:800; color:var(--text-300); letter-spacing:4px; text-transform:uppercase;">Powered by Nexra Tech PK</div>
+        <div style="position:absolute; bottom:40px; font-size:9px; font-weight:800; color:var(--text-300); letter-spacing:4px; text-transform:uppercase;">© 2026 Nexra Tech PK</div>
     </div>
 
-    <!-- 3. MAINTENANCE LAYER -->
+    <!-- 2. MAINTENANCE LAYER -->
     <div id="maintenance">
         <div class="m-card">
-            <div class="m-icon">
+            <div style="width: 80px; height: 80px; background: var(--brand-soft); color: var(--brand-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 30px; border: 1px solid var(--brand-glow);">
                 <i class="fa-solid fa-screwdriver-wrench"></i>
             </div>
-            <h1 class="m-title">Optimizing Ecosystem</h1>
-            <p class="m-desc">Our engineers are fine-tuning the platform for elite performance. We will be back online in a moment.</p>
+            <h1 style="font-family: 'Space Grotesk'; font-size: 28px; font-weight: 800; margin-bottom: 15px;">System Optimization</h1>
+            <p style="color: var(--text-200); font-size: 15px; line-height: 1.8; margin-bottom: 40px;">Our engineers are fine-tuning the platform for elite performance. We will be back online in a moment.</p>
+            <div id="m-socials" style="display:flex; justify-content:center; gap:15px;"></div>
         </div>
     </div>
 
-    <!-- 4. SPA VIEW PORT (Pages load here) -->
+    <!-- 3. SPA VIEW PORT (The Content Engine) -->
     <main id="spa-main"></main>
 
-    <!-- 5. JAVASCRIPT ENGINE (CLEAN URL ROUTER) -->
+    <!-- 4. PERSISTENT UI -->
+    <div id="footer-container"></div>
+    <div id="dock-container"></div>
+    <div id="ui-notifications-container"></div>
+
+    <!-- 5. JAVASCRIPT ENGINE (SMART PROJECT ROUTER) -->
     <script src="firebaseconfig.js"></script>
     <script>
         window.Nexra = {
             db: null,
-            state: { theme: 'light' },
-
-            // Route Mapping (URL -> Folder/File)
+            
+            // PROJECT DIRECTORY ARCHITECTURE MAPPING
             routes: {
                 '/': 'discovery/home.html',
                 '/home': 'discovery/home.html',
+                '/community': 'discovery/community-feed.html',
+                '/onboarding': 'discovery/onboarding.html',
+                '/search': 'discovery/search-results.html',
                 '/shop': 'shop/shop.html',
-                '/product': 'shop/product-detail.html', // Requires ID
+                '/product': 'shop/product-detail.html',
                 '/checkout': 'shop/checkout.html',
+                '/bundle': 'shop/bundle-builder.html',
+                '/success': 'shop/checkout-success.html',
+                '/track': 'shop/order-tracking.html',
+                '/receipt': 'shop/order-receipt.html',
                 '/freebies': 'freebies/freebies.html',
-                '/freebie': 'freebies/freebie-detail.html', // Requires ID
+                '/freebie': 'freebies/freebie-detail.html',
+                '/giveaway': 'freebies/giveaway-live.html',
                 '/blog': 'academy/blog.html',
-                '/article': 'academy/blog-detail.html', // Requires ID
+                '/article': 'academy/blog-detail.html',
+                '/auth': 'user/auth-gate.html',
                 '/profile': 'user/profile-dashboard.html',
                 '/vault': 'user/user-vault.html',
+                '/wallet': 'user/user-wallet.html',
+                '/wishlist': 'user/user-wishlist.html',
                 '/reseller': 'reseller/reseller-landing.html',
-                '/vip': 'vip/vip-tiers.html'
+                '/reseller-dashboard': 'reseller/reseller-dashboard.html',
+                '/vip': 'vip/vip-tiers.html',
+                '/vip-dashboard': 'vip/vip-dashboard.html',
+                '/support': 'support/support-hub.html',
+                '/404': 'system/error-404.html',
+                '/about': 'system/about.html',
+                '/policies': 'system/policies.html'
             },
 
-            /* --- 1. THEME ENGINE --- */
-            initTheme: function() {
-                const saved = localStorage.getItem('theme') || 'light';
-                if(saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-                this.state.theme = saved;
-            },
-
-            /* --- 2. THE CLEAN URL SPA ROUTER --- */
-            navTo: async function(path, id = null, pushState = true) {
+            /* --- 1. SPA ROUTER WITH DEEP-LINK RESTORATION --- */
+            navTo: async function(path, params = {}, pushState = true) {
                 const loader = document.getElementById('top-loader-fill');
                 const loaderParent = document.getElementById('top-loader');
                 const main = document.getElementById('spa-main');
                 
-                // Base Path resolving (e.g., /product)
-                const basePath = path.split('/')[1] ? `/${path.split('/')[1]}` : '/';
-                const fileToLoad = this.routes[basePath] || 'system/error-404.html';
+                // Route Resolution
+                const basePath = path.startsWith('/') ? path : '/' + path;
+                const fileToLoad = this.routes[basePath] || this.routes['/404'];
 
-                // UI Loading State
+                // Start Loading UI
                 loaderParent.style.opacity = '1';
                 loader.style.width = '40%';
                 main.classList.add('view-hidden');
 
                 try {
                     const response = await fetch(fileToLoad);
-                    if(!response.ok) throw new Error("File not found");
+                    if(!response.ok) throw new Error("Module Fetch Failed");
                     const html = await response.text();
                     
                     loader.style.width = '80%';
@@ -220,25 +240,27 @@
                     setTimeout(() => {
                         main.innerHTML = html;
                         
-                        // Execute internal scripts of the loaded file
+                        // Executive Script Injection
                         const scripts = main.querySelectorAll('script');
                         scripts.forEach(s => {
                             const newScript = document.createElement('script');
-                            newScript.text = s.innerHTML;
+                            if (s.src) {
+                                newScript.src = s.src;
+                            } else {
+                                newScript.text = s.innerHTML;
+                            }
                             document.body.appendChild(newScript).parentNode.removeChild(newScript);
                         });
 
-                        // Clean URL Update (e.g., nexrapk.com/product/123)
+                        // Dynamic URL Restoration (Clean Path)
                         if (pushState) {
-                            let newUrl = basePath;
-                            if (id) newUrl += `/${id}`;
-                            window.history.pushState({ path: basePath, id: id }, '', newUrl);
+                            let cleanUrl = basePath;
+                            const query = new URLSearchParams(params).toString();
+                            if (query) cleanUrl += '?' + query;
+                            window.history.pushState({ path: basePath, params: params }, '', cleanUrl);
                         }
 
-                        // Store ID globally if a detail page is loaded
-                        window.Nexra.currentViewId = id;
-
-                        // Finalize Animation
+                        // Complete Animation
                         loader.style.width = '100%';
                         main.classList.remove('view-hidden');
                         
@@ -251,21 +273,24 @@
                     }, 400);
 
                 } catch(e) {
-                    console.error("Routing Error:", e);
+                    console.error("Router Breach:", e);
                     loaderParent.style.opacity = '0';
-                    // Load 404
-                    if(path !== '/404') this.navTo('/404', null, false);
+                    if(basePath !== '/404') this.navTo('/404', {}, false);
                 }
             },
 
-            /* --- 3. BOOT SEQUENCE --- */
+            /* --- 2. THE BOOT ENGINE --- */
             boot: async function() {
-                this.initTheme();
+                // Initialize Theme Memory
+                const savedTheme = localStorage.getItem('theme') || 'light';
+                if(savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
                 const fill = document.getElementById('sp-fill');
                 const status = document.getElementById('sp-status');
 
+                // Step 1: Firebase Bridge
                 fill.style.width = '30%';
-                status.innerText = "Syncing Firebase...";
+                status.innerText = "Connecting to Firebase Cloud...";
 
                 const checkFirebase = setInterval(async () => {
                     if(window.firebase && firebase.apps.length) {
@@ -273,12 +298,12 @@
                         this.db = firebase.firestore();
                         
                         fill.style.width = '60%';
-                        status.innerText = "Loading Shared Modules...";
+                        status.innerText = "Mounting Project Modules...";
                         
-                        // Load Global UI Components First
-                        await this.loadSharedUI();
+                        // Concurrent Module Loading
+                        await this.mountSharedModules();
 
-                        status.innerText = "Authenticating System...";
+                        status.innerText = "Restoring Session...";
                         try {
                             const config = await this.db.collection('splash_settings').doc('config').get();
                             const data = config.exists ? config.data() : {};
@@ -288,19 +313,16 @@
                             } else {
                                 this.launch();
                             }
-                        } catch(e) { this.launch(); } // Launch anyway on config fetch fail
+                        } catch(e) { this.launch(); }
                     }
                 }, 100);
             },
 
-            /* --- 4. LAUNCHER & DEEP LINK RESTORATION --- */
+            /* --- 3. DYNAMIC REDIRECT & LAUNCHER --- */
             launch: async function() {
-                const fill = document.getElementById('sp-fill');
-                const status = document.getElementById('sp-status');
                 const splash = document.getElementById('splash');
-
-                fill.style.width = '100%';
-                status.innerText = "Opening Ecosystem...";
+                document.getElementById('sp-fill').style.width = '100%';
+                document.getElementById('sp-status').innerText = "Access Granted";
 
                 setTimeout(() => {
                     splash.style.opacity = '0';
@@ -308,47 +330,50 @@
                     setTimeout(() => {
                         splash.style.display = 'none';
                         
-                        // DEEP LINKING: Parse the actual URL path instead of query params
+                        // PARSE DEEP LINKS & EXTERNAL REFERRALS
+                        const urlParams = new URLSearchParams(window.location.search);
                         const currentPath = window.location.pathname;
-                        const segments = currentPath.split('/').filter(Boolean);
                         
-                        let baseRoute = '/';
-                        let extractedId = null;
+                        // Priority 1: Direct Path (Clean URLs)
+                        let targetView = this.routes[currentPath] ? currentPath : '/';
+                        
+                        // Priority 2: Query View (Fallback/Ads)
+                        if(urlParams.has('view')) targetView = '/' + urlParams.get('view');
 
-                        if (segments.length > 0) {
-                            baseRoute = `/${segments[0]}`;
-                            if (segments.length > 1) {
-                                extractedId = segments[1]; // e.g. /product/123 -> ID = 123
-                            }
-                        }
+                        // Collect all current Params (ID, Ref, Campaign)
+                        const params = {};
+                        urlParams.forEach((val, key) => params[key] = val);
 
-                        this.navTo(baseRoute, extractedId, false); // false = Don't push to history on first load
+                        this.navTo(targetView, params, false);
                     }, 800);
                 }, 600);
             },
 
-            loadSharedUI: async function() {
-                // Fetch UI modules from root folder as defined in architecture
-                const mods = [
-                    { id: 'global-container', file: 'global.html' },
-                    { id: 'navigation-container', file: 'navigation.html' },
+            /* --- 4. PROJECT MODULE CONTEXT MAPPING --- */
+            mountSharedModules: async function() {
+                const modules = [
+                    { id: 'global-logic-container', file: 'global.html' },
+                    { id: 'header-container', file: 'header.html' },
+                    { id: 'footer-container', file: 'footer.html' },
+                    { id: 'dock-container', file: 'navigation.html' },
                     { id: 'ui-notifications-container', file: 'ui-notifications.html' }
                 ];
                 
-                await Promise.all(mods.map(async (m) => {
+                await Promise.all(modules.map(async (m) => {
                     try {
                         const res = await fetch(m.file);
                         if(res.ok) {
-                            document.getElementById(m.id).innerHTML = await res.text();
-                            // Execute scripts inside shared UI
-                            const scripts = document.getElementById(m.id).querySelectorAll('script');
+                            const container = document.getElementById(m.id);
+                            container.innerHTML = await res.text();
+                            // Script safety
+                            const scripts = container.querySelectorAll('script');
                             scripts.forEach(s => {
                                 const newScript = document.createElement('script');
                                 newScript.text = s.innerHTML;
                                 document.body.appendChild(newScript).parentNode.removeChild(newScript);
                             });
                         }
-                    } catch(e) { console.error(`Failed to load ${m.file}`); }
+                    } catch(e) { console.warn(`Module ${m.file} is missing in root.`); }
                 }));
             },
 
@@ -360,33 +385,31 @@
             }
         };
 
-        // Intercept all <a> tags to use SPA router instead of native browser load
-        document.body.addEventListener('click', e => {
-            const link = e.target.closest('a');
-            if(link && link.href.startsWith(window.location.origin)) {
+        // GLOBAL LINK INTERCEPTOR (SPA Connectivity)
+        document.addEventListener('click', e => {
+            const el = e.target.closest('a');
+            if(el && el.href.startsWith(window.location.origin) && !el.hasAttribute('download') && el.target !== '_blank') {
                 e.preventDefault();
-                const path = new URL(link.href).pathname;
-                
-                // Extract possible ID (e.g. /product/123)
-                const segments = path.split('/').filter(Boolean);
-                const baseRoute = segments.length > 0 ? `/${segments[0]}` : '/';
-                const id = segments.length > 1 ? segments[1] : null;
-
-                window.Nexra.navTo(baseRoute, id);
+                const url = new URL(el.href);
+                const path = url.pathname;
+                const params = {};
+                url.searchParams.forEach((v, k) => params[k] = v);
+                window.Nexra.navTo(path, params);
             }
         });
 
-        // Handle Browser Forward/Back Buttons
-        window.onpopstate = (event) => {
-            if (event.state) {
-                window.Nexra.navTo(event.state.path, event.state.id, false);
-            } else {
-                window.Nexra.navTo('/', null, false);
-            }
+        // Browser Navigation Persistence
+        window.onpopstate = (e) => {
+            if(e.state && e.state.path) window.Nexra.navTo(e.state.path, e.state.params, false);
+            else window.location.reload();
         };
 
-        // Start Boot process
+        // Boot System
         document.addEventListener('DOMContentLoaded', () => Nexra.boot());
+        
+        // Offline Detection UX
+        window.addEventListener('offline', () => Nexra.showToast ? Nexra.showToast("Connection Lost. Working Offline.", "warning") : null);
+        window.addEventListener('online', () => Nexra.showToast ? Nexra.showToast("Connection Restored.", "success") : null);
     </script>
 </body>
 </html>
