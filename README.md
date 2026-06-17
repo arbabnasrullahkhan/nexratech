@@ -1,101 +1,118 @@
 <div align="center">
-  <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo" width="120" />
+  <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo" width="130" />
   <h1>🚀 NEXRA PK | ELITE DIGITAL ECOSYSTEM</h1>
-  <p><b>The Ultimate B2C, B2B SaaS, and Digital Agency Platform.</b></p>
+  <p><b>The Ultimate B2C Marketplace, B2B SaaS Reseller Network & Creator Hub.</b></p>
   
-  [![Version](https://img.shields.io/badge/Version-3.0.0-FF4A17.svg?style=for-the-badge)]()
+  [![Version](https://img.shields.io/badge/Version-3.0.0_Enterprise-FF4A17.svg?style=for-the-badge)]()
   [![Architecture](https://img.shields.io/badge/Architecture-Modular_MPA-10b981.svg?style=for-the-badge)]()
-  [![Status](https://img.shields.io/badge/Status-Production_Ready-3b82f6.svg?style=for-the-badge)]()
+  [![Routing](https://img.shields.io/badge/Routing-Domain_Independent-8b5cf6.svg?style=for-the-badge)]()
+  [![Tech](https://img.shields.io/badge/Tech-Vanilla_JS_+_Firebase-FFCA28.svg?style=for-the-badge)]()
   [![License](https://img.shields.io/badge/License-PROPRIETARY_&_STRICTLY_CONFIDENTIAL-red.svg?style=for-the-badge)]()
 </div>
 
 <hr />
 
-<h2>🌐 About The Project</h2>
+<h2>🌐 1. Platform Overview</h2>
 <p>
-  <b>Nexra PK</b> is a next-generation digital ecosystem designed to scale beyond standard e-commerce. It is a highly optimized, domain-independent, Multi-Page Application (MPA) built without relying on heavy frameworks, ensuring lightning-fast load times, superior SEO, and infinite scalability.
+  <b>Nexra PK</b> is a highly optimized, domain-independent, Multi-Page Application (MPA) built without relying on bloated frontend frameworks like React or Vue. It delivers lightning-fast load times, superior SEO, and infinite scalability.
 </p>
 <p>
-  It bridges the gap between <b>B2C Customers</b> purchasing digital assets, <b>B2B Agencies</b> utilizing automated Reseller APIs, and <b>Creators</b> sharing resources in a centralized Hub.
+  More than just an e-commerce store, Nexra is a complete <b>Digital Ecosystem</b> that unites Buyers, Creators, Influencers, and B2B Agencies under one highly scalable architecture powered by custom Vanilla JS engines and Firebase.
 </p>
 
 ---
 
-<h2>🔥 Core Modules & Features</h2>
+<h2>🧠 2. Core Architectural Innovations</h2>
 
-### 🛒 1. Digital Marketplace & Vault
-*   **Instant Encrypted Delivery:** SaaS subscriptions and license keys are delivered instantly to a secure User Vault.
-*   **Smart Bundle Engine:** Drag-and-drop builder for custom packages with automated JS-based discounting.
-*   **Live Giveaway System:** Verifiably random spin-wheel engine with unique ticket generation.
+### 🔗 Domain-Independent URL Engine
+The entire platform is built with a dynamic, migration-safe routing architecture. **No domain, subdomain, or hosting path is ever hardcoded.** 
+* Seamlessly migrates between Vercel, Firebase Hosting, Cloudflare Pages, or custom VPS.
+* Employs Vercel Rewrites (`vercel.json`) to mask physical `.html` files, delivering premium, short SEO slugs.
+* **Routing Map:**
+  * `/h` ➔ Main Dashboard
+  * `/s` ➔ Marketplace
+  * `/p/{product-slug}` ➔ Product Detail
+  * `/c/{product-slug}` ➔ Secure Checkout
+  * `/f/{freebie-slug}` ➔ Free Vault & Downloads
+  * `/b/{blog-slug}` ➔ Tech Insights
+  * `/u/{username}` ➔ Public Profile & Vault
+  * `/r/{store-slug}` ➔ Reseller Public Storefront
 
-### 💼 2. B2B Reseller Enterprise
-*   **Live Storefront Builder:** A Shopify-style split-screen visual editor allowing resellers to customize their branded stores.
-*   **Developer API Portal:** Stripe-inspired API documentation for integrating Nexra's auto-dispatch system externally.
-*   **Wholesale Portal:** Dynamic bulk discount calculators for agencies.
+### ⚡ Vanilla Component Injector
+Achieves the modularity of React without the overhead. The custom `core.js` engine dynamically injects `header.html`, `footer.html`, and `sidebar.html` across 37+ pages instantly, maintaining a single source of truth for UI components.
 
-### 🎨 3. Creator Hub (Youtuber Bano)
-*   **Resource Vault:** Download Source Codes, Premium Templates, and Thumbnail PSDs.
-*   **Upload Portal:** Interactive drag-and-drop zone for creators to submit files for admin approval.
-*   **Public Creator Profiles:** Social-style portfolios showcasing uploaded assets and follower counts.
-
-### 🏢 4. Agency Services
-*   **Premium Web & App Development:** High-end service landing pages.
-*   **SEO & UI/UX Branding:** Conversion-optimized service funnels.
-*   **Success Stories & Case Studies:** Data-driven client portfolios to build trust.
-
-### 🔐 5. Centralized User Ecosystem
-*   **Secure Dashboard:** 2FA authentication, active session tracking, and password management.
-*   **Nexra Wallet & Affiliates:** Earn coins via referrals, track link clicks, and request commission payouts.
-*   **Social Community Feed:** Twitter/LinkedIn style timeline for platform updates and user interactions.
+### 📊 Advanced Analytics & Tracking Ready
+Architected to support granular tracking:
+* Independent tracking for WhatsApp, Telegram, LinkedIn, Instagram, and QR code traffic.
+* Deep analytics for Clicks, Conversions, Affiliate Referrals, Commission Link performance, and Reseller Store visits.
 
 ---
 
-<h2>🛠️ Tech Stack & Architecture</h2>
+<h2>🔥 3. Comprehensive Feature Matrix</h2>
 
-*   **Frontend:** Pure HTML5, Modern CSS3 (Custom CSS Variables & Design System), Vanilla JavaScript (ES6+).
-*   **Routing:** Vercel Rewrites (`vercel.json`) & Custom Vanilla JS URL Engine (Domain Independent).
-*   **Backend Readiness:** Architected to seamlessly integrate with **Firebase** (Firestore, Auth, Storage) via abstracted API wrappers.
-*   **Component Injection:** Automated DOM injection for Headers, Footers, and Sidebars without using React/Vue.
+### 🛒 A. E-Commerce & Checkout Engine
+* **Instant Encrypted Delivery:** SaaS subscriptions and license keys are dispatched to the User Vault via automated APIs.
+* **Smart Bundle Engine:** Interactive drag-and-drop builder. Auto-calculates progressive discounts (e.g., 20% off for 3+ items).
+* **Localized & Crypto Payments:** Built-in UI for Easypaisa, JazzCash, Bank Transfers, and USDT (TRC-20) with screenshot/proof upload integration.
+
+### 💼 B. B2B Reseller Enterprise
+* **Shopify-Style Store Builder:** A live split-screen visual editor allowing resellers to customize colors, fonts, and logos for their branded storefront (`/r/{store-slug}`).
+* **Developer API Portal:** Stripe-inspired API documentation allowing agencies to generate API keys and integrate Nexra's auto-dispatch system into their own websites.
+* **Margin Calculator:** Resellers set their own retail prices while the system auto-calculates wholesale costs and profit margins.
+
+### 🎨 C. Creator Hub (Youtuber Bano)
+* **Upload Portal:** Creators can upload Source Codes, Premium Templates, and Thumbnail PSDs directly to the platform.
+* **Gamified Unlocking:** "Share 3 Times to Unlock" local-storage mechanic driving viral organic growth.
+* **Public Portfolios:** Creators get a public URL to showcase their assets, gather followers, and track downloads.
+
+### 👑 D. VIP Gamification & Community
+* **VIP Tiers:** Free, Pro, Diamond, and Agency tiers with dynamic pricing toggles (Monthly/Yearly).
+* **Private Telegram-Style Hub:** A restricted, read-only feed for VIP members to receive zero-cost premium software drops and admin announcements.
+* **Live Giveaway Engine:** A verifiably random spin-wheel system with unique ticket generation (e.g., `NX-GA-123456`) and QR code verification.
+* **Achievements & Rewards:** Users earn XP, unlock milestone badges, and exchange Nexra Coins for discounts.
 
 ---
 
-<h2>📂 Folder Structure Overview</h2>
+<h2>📁 4. Clean Folder Structure</h2>
+<p><i>Strictly maintained without unnecessary sub-folders (like /public or /media) to ensure rapid routing and asset resolution.</i></p>
 
 ```text
 /nexra-ecosystem
-├── /assets/             # Global CSS Variables, Themes, JS Engines
-├── /components/         # Reusable HTML snippets (Header, Footer, Cart Drawer)
+├── index.html                   # Splash Screen & Maintenance Gatekeeper
+├── vercel.json                  # URL Routing & Rewrite Engine
+├── /assets/                     # Global CSS, Core JS, Fonts
+├── /components/                 # Reusable HTML (Nav, Footer, Cart, Toasts)
 ├── /pages/
-│   ├── /marketplace/    # Shop, Product Detail, Checkout, Bundles
-│   ├── /reseller/       # B2B Dashboard, API Docs, Store Builder
-│   ├── /creator/        # Freebies, Blog, Upload Hub, Creator Profiles
-│   ├── /user/           # Vault, Wallet, Security, Affiliates
-│   ├── /services/       # Web Dev, SEO, UI/UX Agency Pages
-│   ├── /support/        # Help Center, Roadmap, Feedback, Status
-│   └── /system/         # 404, Maintenance, Launchpad
-├── index.html           # App Entry & Security Gatekeeper
-└── vercel.json          # Advanced URL Routing & Masking Rules
-<h2>🚀 Installation & Setup (Local Development)</h2>
-Since this architecture uses dynamic component fetching, it must be run on a local web server (opening the HTML file directly via file:// will block CORS requests for components).
-Clone the repository (Authorized personnel only).
-Open the project in VS Code.
-Install the "Live Server" extension in VS Code.
-Right-click on index.html and select "Open with Live Server".
-The ecosystem will boot up at http://127.0.0.1:5500/.
+│   ├── /marketplace/            # s.html, p.html, c.html, bundle.html
+│   ├── /creator/                # f.html, fd.html, b.html, creator-hub.html
+│   ├── /reseller/               # agency.html, builder.html, api.html
+│   ├── /user/                   # u.html (Vault, Wallet, Security, Settings)
+│   ├── /support/                # help.html, roadmap.html, tracking.html
+│   └── /system/                 # 404.html, status.html, maintenance.html
+<h2>🚀 5. Local Development Setup</h2>
+Due to the Custom Component Injector (fetch API), this project cannot be run directly from the file system (file:///).
+Clone the repository.
+Open the directory in VS Code.
+Install the Live Server extension.
+Right-click index.html and select "Open with Live Server".
+The platform will initialize at http://127.0.0.1:5500/.
 <br>
-<div align="center">
-<h2 style="color: #ff0000; font-family: sans-serif; font-weight: 900; border: 2px solid #ff0000; padding: 15px; display: inline-block;">
-🛑 STRICT LEGAL DISCLAIMER & COPYRIGHT NOTICE 🛑
+<hr style="border: 2px solid #ff0000;" />
+<div align="center" style="background-color: rgba(255,0,0,0.05); padding: 20px; border-radius: 10px; border: 1px solid #ff0000;">
+<h2 style="color: #ff0000; font-family: 'Arial Black', sans-serif; font-weight: 900; letter-spacing: 1px; text-transform: uppercase;">
+🛑 STRICT LEGAL DISCLAIMER & INTELLECTUAL PROPERTY WARNING 🛑
 </h2>
 </div>
-CONFIDENTIALITY & INTELLECTUAL PROPERTY WARNING:
-This entire codebase, including its UI/UX design, custom algorithms, routing architecture, CSS design system, JavaScript logic, and folder structure, is the exclusive intellectual property of ARBAB NASRULLAH / NEXRA PK.
+<br>
+CONFIDENTIALITY & TRADE SECRET NOTICE:
+This entire ecosystem—including its source code, UI/UX design components, proprietary Vanilla JS routing architecture (vercel.json rewrites and core.js), business logic, B2B Reseller models, and directory structure—is the exclusive intellectual property of ARBAB NASRULLAH / NEXRA PK.
 <h3 style="color: #ff0000;">⚠️ ZERO TOLERANCE POLICY ⚠️</h3>
-NO PERMISSION is granted to copy, fork, clone, replicate, reverse-engineer, sell, distribute, or host this code (partially or fully) under any circumstances.
-NO OPEN SOURCE LICENSE is attached to this repository. You are viewing proprietary enterprise software.
-Using this code, its UI components, or its unique logic flow for any competing business (e.g., selling digital products, SaaS licenses, or B2B reseller APIs) is strictly prohibited.
-LEGAL ACTION: Any unauthorized use, modification, or distribution of this code will result in immediate legal action, including but not limited to DMCA Takedown notices sent to your hosting provider (Vercel, GitHub, Hostinger, etc.), and financial damages claims under international copyright and intellectual property laws.
-If you have been granted temporary access to this repository for review or auditing purposes, you are bound by a Non-Disclosure Agreement (NDA). Do not download or distribute.
+NO OPEN SOURCE LICENSE: This is NOT an open-source project. You are viewing strictly proprietary, enterprise-grade software.
+NO CLONING OR REPLICATION: You are strictly prohibited from copying, forking, cloning, reverse-engineering, modifying, selling, or distributing this code, partially or fully.
+BUSINESS MODEL PROTECTION: Replicating the specific logic flows created here (e.g., The "Share 3x to Unlock" engine, The Reseller Live Storefront Builder, The Vercel Dynamic Slug Architecture, or the VIP Community Hub) for a competing business is a direct violation of trade secrets.
+LEGAL CONSEQUENCES:
+Any unauthorized use, extraction of CSS/JS, or hosting of this repository will result in immediate legal action. This includes filing DMCA Takedown notices directly to your hosting providers (Vercel, GitHub, Hostinger, AWS, Cloudflare) leading to the permanent suspension of your accounts, followed by financial damage claims under international Intellectual Property (IP) and Copyright laws.
+If you have been granted temporary access to this repository for auditing, hiring review, or technical evaluation, you are bound by an implied Non-Disclosure Agreement (NDA). Close this repository immediately upon completion of your review.
 <br>
 <hr />
 <div align="center">
