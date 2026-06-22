@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Nexra PK | Elite Digital Ecosystem</title>
+    <meta name="description" content="Pakistan's most trusted marketplace for premium software, SaaS tools, and free digital resources.">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Global Design System -->
+    <link rel="stylesheet" href="/assets/css/global.css">
+    <link rel="stylesheet" href="/assets/css/utilities.css">
+
+    <!-- Page Specific Scoped CSS -->
+    <style>
+        /* ── HERO SECTION ── */
+        .nx-hero {
+            position: relative; min-height: 90vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; overflow: hidden;
+            background: var(--bg-base); padding: 150px 20px 80px;
+            text-align: center; border-radius: 0 0 50px 50px; z-index: 1;
+        }
+        
+        .nx-hero-bg { position: absolute; inset: 0; z-index: -2; background: #000; }
+        .nx-hero-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; filter: blur(25px) brightness(0.6); }
+        .nx-hero-overlay { position: absolute; inset: 0; z-index: -1; background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, var(--bg-base) 100%); }
+        html[data-theme="dark"] .nx-hero-overlay { background: linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, var(--bg-base) 100%); }
+
+        .nx-hero-content { position: relative; z-index: 5; width: 100%; max-width: 850px; }
+        
+        .nx-hero-title { font-size: clamp(36px, 8vw, 64px); line-height: 1.05; margin-bottom: 20px; color: #000; letter-spacing: -2px; }
+        html[data-theme="dark"] .nx-hero-title { color: #fff; }
+        
+        .nx-hero-desc { font-size: clamp(15px, 2.5vw, 18px); color: var(--text-200); font-weight: 600; line-height: 1.6; max-width: 620px; margin: 0 auto 40px; }
+        
+        .nx-hero-ctas { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 60px; }
+
+        /* ── TRUST BAR ── */
+        .nx-trust-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; }
+        @media (min-width: 768px) { .nx-trust-grid { grid-template-columns: repeat(4, 1fr); } }
+        
+        .nx-trust-item { background: var(--glass-bg); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 20px 15px; box-shadow: var(--shadow-soft); transition: var(--transition-normal); }
+        .nx-trust-item:hover { transform: translateY(-5px); border-color: var(--brand-glow); }
+        .nx-trust-val { font-family: 'Space Grotesk', sans-serif; font-size: clamp(24px, 4vw, 32px); font-weight: 800; color: var(--text-100); margin-bottom: 5px; }
+        .nx-trust-lbl { font-size: 10px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ── SEARCH & CATEGORIES ── */
+        .nx-search-wrapper { position: relative; z-index: 10; max-width: 800px; margin: -30px auto 40px; padding: 0 20px; }
+        .nx-search-bar { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 50px; padding: 8px 8px 8px 25px; display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-float); transition: var(--transition-normal); }
+        .nx-search-bar:focus-within { border-color: var(--brand-main); box-shadow: 0 15px 40px var(--brand-glow); }
+        .nx-search-bar i { color: var(--text-300); font-size: 16px; }
+        .nx-search-bar input { flex: 1; border: none; background: transparent; font-size: 15px; color: var(--text-100); outline: none; }
+
+        .nx-cat-row { display: flex; gap: 12px; overflow-x: auto; padding: 10px 5%; scrollbar-width: none; justify-content: center; margin-bottom: 60px; }
+        .nx-cat-row::-webkit-scrollbar { display: none; }
+        .nx-cat-pill { display: flex; align-items: center; gap: 10px; padding: 10px 20px; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 50px; font-size: 13px; font-weight: 700; color: var(--text-200); cursor: pointer; transition: var(--transition-normal); white-space: nowrap; box-shadow: var(--shadow-soft); }
+        .nx-cat-pill:hover { border-color: var(--brand-main); color: var(--brand-main); transform: translateY(-3px); }
+        .nx-cat-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; }
+
+        /* ── SECTIONS ── */
+        .nx-section { padding: 80px 0; }
+        .nx-sec-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 20px; }
+        .nx-sec-title { font-size: clamp(28px, 5vw, 42px); letter-spacing: -1px; margin-bottom: 10px; }
+
+        /* ── PRODUCT CARD ── */
+        .nx-prod-card { display: flex; flex-direction: column; height: 100%; }
+        .nx-prod-img-wrap { width: 100%; aspect-ratio: 1; border-radius: var(--radius-sm); overflow: hidden; margin-bottom: 15px; position: relative; background: var(--bg-elevated); }
+        .nx-prod-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+        .nx-prod-card:hover .nx-prod-img { transform: scale(1.08); }
+        .nx-prod-badge { position: absolute; top: 10px; left: 10px; z-index: 2; }
+        
+        .nx-prod-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--text-300); margin-bottom: 8px; }
+        .nx-prod-title { font-size: 15px; font-weight: 800; color: var(--text-100); margin-bottom: 10px; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+        .nx-prod-price { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: var(--text-100); margin-bottom: 15px; margin-top: auto; }
+        
+        .nx-prod-actions { display: flex; gap: 8px; }
+        .nx-btn-buy { flex: 1; background: var(--text-100); color: var(--bg-base); border: none; padding: 12px; border-radius: 12px; font-weight: 800; font-size: 12px; cursor: pointer; transition: var(--transition-normal); text-transform: uppercase; }
+        .nx-btn-buy:hover { background: var(--brand-main); color: #fff; box-shadow: var(--shadow-brand); }
+        .nx-btn-cart { width: 42px; height: 42px; border-radius: 12px; background: var(--bg-elevated); border: 1px solid var(--glass-border); color: var(--text-100); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: var(--transition-normal); }
+        .nx-btn-cart:hover { background: var(--brand-main); color: #fff; border-color: var(--brand-main); }
+
+        /* ── B2B BANNER ── */
+        .nx-b2b-banner { background: linear-gradient(135deg, var(--brand-main) 0%, #D83A0E 100%); border-radius: var(--radius-lg); padding: 60px 40px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between; color: #fff; box-shadow: 0 30px 60px var(--brand-glow); position: relative; overflow: hidden; margin: 60px 0; }
+        .nx-b2b-banner::after { content: '\f201'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: -5%; bottom: -20%; font-size: 300px; opacity: 0.1; transform: rotate(-15deg); }
+        
+        /* ── TESTIMONIAL MARQUEE ── */
+        .nx-marquee-container { overflow: hidden; position: relative; padding: 20px 0; }
+        .nx-marquee-container::before, .nx-marquee-container::after { content: ''; position: absolute; top: 0; width: 100px; height: 100%; z-index: 2; pointer-events: none; }
+        .nx-marquee-container::before { left: 0; background: linear-gradient(to right, var(--bg-base), transparent); }
+        .nx-marquee-container::after { right: 0; background: linear-gradient(to left, var(--bg-base), transparent); }
+        .nx-marquee-track { display: flex; gap: 20px; width: max-content; animation: scrollMarquee 40s linear infinite; }
+        .nx-marquee-track:hover { animation-play-state: paused; }
+        @keyframes scrollMarquee { from { transform: translateX(0); } to { transform: translateX(calc(-50% - 10px)); } }
+
+        .nx-review-card { width: 320px; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 20px; padding: 25px; box-shadow: var(--shadow-soft); flex-shrink: 0; }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================
+         1. COMPONENT INJECTIONS
+         ========================================== -->
+    <div data-include="loader"></div>
+    <div data-include="ui-notifications"></div>
+    <div data-include="header"></div>
+    <div data-include="cart-drawer"></div>
+    <div data-include="mobile-dock"></div>
+
+    <!-- ==========================================
+         2. MAIN HOME CONTENT
+         ========================================== -->
+    <main>
+        
+        <!-- Announcement Strip -->
+        <div style="background: linear-gradient(90deg, var(--brand-main), #ff8c00); color: #fff; text-align: center; padding: 10px; font-size: 12px; font-weight: 700; position: relative; z-index: 8000;">
+            🔥 Flash Sale Live — Extra 20% off on all digital tools today! 
+            <a href="javascript:void(0)" onclick="window.NexraCore.navigate('shop')" style="text-decoration: underline; margin-left: 10px;">Shop Now →</a>
+        </div>
+
+        <!-- HERO SECTION -->
+        <section class="nx-hero">
+            <div class="nx-hero-bg">
+                <video autoplay loop muted playsinline class="nx-hero-video">
+                    <!-- High quality abstract tech video -->
+                    <source src="https://www.pexels.com/download/video/8675553/" type="video/mp4">
+                </video>
+                <div class="nx-hero-overlay"></div>
+            </div>
+            
+            <div class="nx-hero-content">
+                <h1 class="tech-font nx-hero-title">DIGITAL <span class="text-gradient">ECOSYSTEM</span></h1>
+                <p class="nx-hero-desc">Experience Pakistan's most trusted marketplace for premium software, SaaS tools, and free digital resources — delivered instantly to your vault.</p>
+                
+                <div class="nx-hero-ctas">
+                    <button class="btn btn-primary" onclick="window.NexraCore.navigate('shop')">
+                        <i class="fa-solid fa-store"></i> EXPLORE MARKET
+                    </button>
+                    <button class="btn btn-outline" style="background: var(--glass-bg); backdrop-filter: blur(10px);" onclick="window.NexraCore.navigate('freebies')">
+                        <i class="fa-solid fa-cloud-arrow-down"></i> FREE VAULT
+                    </button>
+                </div>
+
+                <!-- Live Trust Stats -->
+                <div class="nx-trust-grid">
+                    <div class="nx-trust-item">
+                        <div class="nx-trust-val text-gradient" id="stat-users">1,700+</div>
+                        <div class="nx-trust-lbl">Active Users</div>
+                    </div>
+                    <div class="nx-trust-item">
+                        <div class="nx-trust-val" id="stat-orders">52,000+</div>
+                        <div class="nx-trust-lbl">Deliveries</div>
+                    </div>
+                    <div class="nx-trust-item">
+                        <div class="nx-trust-val">99.9%</div>
+                        <div class="nx-trust-lbl">Trust Score</div>
+                    </div>
+                    <div class="nx-trust-item">
+                        <div class="nx-trust-val">5m</div>
+                        <div class="nx-trust-lbl">Avg Support</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GLOBAL SEARCH -->
+        <div class="nx-search-wrapper">
+            <div class="nx-search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="search" id="global-search" placeholder="Search apps, templates, courses or articles..." onkeydown="if(event.key === 'Enter') HomeEngine.search()">
+                <button class="btn btn-primary" style="padding: 12px 25px; font-size:12px;" onclick="HomeEngine.search()">SEARCH</button>
+            </div>
+        </div>
+
+        <!-- CATEGORIES SLIDER -->
+        <div class="nx-cat-row" id="categories-container">
+            <!-- Injected via JS -->
+            <div class="skeleton" style="width: 120px; height: 45px; border-radius: 50px;"></div>
+            <div class="skeleton" style="width: 150px; height: 45px; border-radius: 50px;"></div>
+        </div>
+
+        <!-- TRENDING PRODUCTS -->
+        <section class="nx-section container">
+            <div class="nx-sec-header">
+                <div>
+                    <div class="badge badge-brand" style="margin-bottom: 15px;"><i class="fa-solid fa-fire"></i> HOT RIGHT NOW</div>
+                    <h2 class="tech-font nx-sec-title">Trending <span class="text-gradient">Assets</span></h2>
+                    <p class="text-muted">Top-selling tools updated in real-time based on community purchases.</p>
+                </div>
+                <button class="btn btn-outline" onclick="window.NexraCore.navigate('shop')">VIEW ALL <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+            <div class="grid-4" id="trending-grid">
+                <!-- Injected via JS -->
+                <div class="skeleton" style="height: 350px;"></div>
+                <div class="skeleton" style="height: 350px;"></div>
+                <div class="skeleton" style="height: 350px;"></div>
+                <div class="skeleton" style="height: 350px;"></div>
+            </div>
+        </section>
+
+        <!-- B2B ENTERPRISE BANNER -->
+        <section class="container">
+            <div class="nx-b2b-banner">
+                <div style="position: relative; z-index: 2; flex: 1; min-width: 300px;">
+                    <div class="badge" style="background: rgba(255,255,255,0.2); color: #fff; border: 1px solid rgba(255,255,255,0.3); margin-bottom: 20px;">
+                        <i class="fa-solid fa-briefcase"></i> ELITE PARTNERSHIP
+                    </div>
+                    <h2 class="tech-font" style="font-size: clamp(32px, 5vw, 48px); line-height: 1.1; margin-bottom: 20px;">Build Your Agency Empire</h2>
+                    <p style="font-size: 16px; margin-bottom: 30px; opacity: 0.9; max-width: 500px; line-height: 1.6;">Get wholesale API pricing, generate direct license keys, and manage your profit margins from one elite dashboard.</p>
+                    <button class="btn" style="background: #ffffff; color: var(--brand-main); box-shadow: 0 10px 30px rgba(0,0,0,0.15);" onclick="window.NexraCore.navigate('resellerDash')">
+                        <i class="fa-solid fa-rocket"></i> JOIN RESELLER PORTAL
+                    </button>
+                </div>
+                <div style="position: relative; z-index: 2;">
+                    <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Enterprise" style="max-width: 250px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.4)); animation: floatLogo 4s infinite ease-in-out;">
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIALS MARQUEE -->
+        <section class="nx-section" style="background: var(--bg-elevated); padding: 80px 0;">
+            <div class="container" style="text-align: center; margin-bottom: 40px;">
+                <h2 class="tech-font nx-sec-title">What Our <span class="text-gradient">Community Says</span></h2>
+            </div>
+            
+            <div class="nx-marquee-container">
+                <div class="nx-marquee-track" id="testimonial-track">
+                    <!-- Injected via JS -->
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ==========================================
+         3. FOOTER INJECTION
+         ========================================== -->
+    <div data-include="footer"></div>
+
+    <!-- ==========================================
+         4. CORE SCRIPTS & LOCAL ENGINE
+         ========================================== -->
+    <script src="/assets/js/core.js"></script>
+    <script>
+        // PAGE SPECIFIC LOGIC ENGINE
+        window.HomeEngine = (function() {
+            
+            // Simulated Database
+            const DB = {
+                categories: [
+                    { name: 'SaaS Accounts', icon: 'fa-cloud' },
+                    { name: 'WordPress', icon: 'fa-wordpress' },
+                    { name: 'Graphics', icon: 'fa-pen-nib' },
+                    { name: 'UI Kits', icon: 'fa-layer-group' },
+                    { name: 'Video Editing', icon: 'fa-film' }
+                ],
+                trendingProducts: [
+                    { id: 'capcut-pro', title: 'CapCut Pro Lifetime Access', price: 950, img: 'https://i.postimg.cc/SNm7KsrH/images-(2).jpg', badge: 'SALE', rating: 5.0, sold: '1.2K' },
+                    { id: 'canva-edu', title: 'Canva Pro 1 Year Subscription', price: 450, img: 'https://i.postimg.cc/Y25ZD1tW/images-(1).jpg', badge: 'HOT', rating: 4.9, sold: '3.4K' },
+                    { id: 'elementor-pro', title: 'Elementor Pro Agency License', price: 500, img: 'https://i.postimg.cc/prR8yGDh/images-(3).jpg', badge: 'NEW', rating: 4.8, sold: '890' },
+                    { id: 'netflix-4k', title: 'Netflix 4K Ultra 1 Month', price: 1200, img: 'https://i.postimg.cc/fTHXTvkj/images.jpg', badge: 'POPULAR', rating: 4.7, sold: '5.1K' }
+                ],
+                reviews: [
+                    { name: 'Ali Khan', platform: 'WhatsApp', text: 'Fast delivery, CapCut works perfectly without watermark.' },
+                    { name: 'Sana Dev', platform: 'Instagram', text: 'The best digital marketplace in Pakistan. Very secure.' },
+                    { name: 'Zain B.', platform: 'Google', text: 'Awesome freebies section! Downloaded a great UI kit.' },
+                    { name: 'Omer T.', platform: 'Facebook', text: 'Reseller portal boosted my agency income. Love it.' },
+                    { name: 'Kiran W.', platform: 'WhatsApp', text: 'Got my Elementor key in 2 minutes. Excellent service.' }
+                ]
+            };
+
+            function init() {
+                renderCategories();
+                renderTrending();
+                renderTestimonials();
+            }
+
+            function renderCategories() {
+                const cont = document.getElementById('categories-container');
+                let html = '';
+                DB.categories.forEach(c => {
+                    html += `
+                        <div class="nx-cat-pill" onclick="window.NexraCore.navigate('shop')">
+                            <div class="nx-cat-icon"><i class="fa-brands ${c.icon}" style="color:var(--brand-main)"></i></div>
+                            ${c.name}
+                        </div>
+                    `;
+                });
+                cont.innerHTML = html;
+            }
+
+            function renderTrending() {
+                const cont = document.getElementById('trending-grid');
+                let html = '';
+                DB.trendingProducts.forEach(p => {
+                    html += `
+                        <article class="card nx-prod-card" onclick="window.NexraCore.navigate('product', '${p.id}')">
+                            <div class="badge badge-danger nx-prod-badge">${p.badge}</div>
+                            <div class="nx-prod-img-wrap"><img src="${p.img}" alt="${p.title}" class="nx-prod-img"></div>
+                            
+                            <div class="nx-prod-meta">
+                                <span><i class="fa-solid fa-star" style="color:var(--warning)"></i> ${p.rating}</span>
+                                <span><i class="fa-solid fa-fire" style="color:var(--brand-main)"></i> ${p.sold} Sold</span>
+                            </div>
+                            
+                            <h3 class="nx-prod-title">${p.title}</h3>
+                            <div class="nx-prod-price">Rs. ${p.price}</div>
+                            
+                            <div class="nx-prod-actions">
+                                <button class="nx-btn-buy" onclick="event.stopPropagation(); window.NexraCore.navigate('checkout', '${p.id}')">Buy Now</button>
+                                <button class="nx-btn-cart" onclick="event.stopPropagation(); window.NexraCart.addItem({id:'${p.id}', title:'${p.title}', price:${p.price}, image:'${p.img}'})">
+                                    <i class="fa-solid fa-cart-plus"></i>
+                                </button>
+                            </div>
+                        </article>
+                    `;
+                });
+                cont.innerHTML = html;
+            }
+
+            function renderTestimonials() {
+                const track = document.getElementById('testimonial-track');
+                let html = '';
+                DB.reviews.forEach(r => {
+                    // Assign random color based on platform
+                    let iconColor = r.platform === 'WhatsApp' ? '#25D366' : r.platform === 'Instagram' ? '#E1306C' : r.platform === 'Facebook' ? '#1877F2' : '#EA4335';
+                    let iconClass = r.platform === 'Google' ? 'fa-google' : r.platform === 'WhatsApp' ? 'fa-whatsapp' : r.platform === 'Facebook' ? 'fa-facebook-f' : 'fa-instagram';
+
+                    html += `
+                        <div class="nx-review-card">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
+                                <div style="display:flex; align-items:center; gap:10px;">
+                                    <div style="width:35px; height:35px; border-radius:50%; background:var(--bg-base); display:flex; align-items:center; justify-content:center; font-weight:800; color:var(--brand-main); border:1px solid var(--glass-border);">${r.name.charAt(0)}</div>
+                                    <div>
+                                        <div style="font-size:14px; font-weight:800; color:var(--text-100);">${r.name} <i class="fa-solid fa-circle-check" style="color:var(--success); font-size:12px;"></i></div>
+                                        <div style="font-size:10px; color:var(--warning);"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+                                    </div>
+                                </div>
+                                <i class="fa-brands ${iconClass}" style="color:${iconColor}; font-size:20px; opacity:0.8;"></i>
+                            </div>
+                            <p style="font-size:13px; color:var(--text-200); line-height:1.6;">"${r.text}"</p>
+                        </div>
+                    `;
+                });
+                // Duplicate for seamless infinite scroll
+                track.innerHTML = html + html;
+            }
+
+            function search() {
+                const q = document.getElementById('global-search').value;
+                if(q) {
+                    window.NexraCore.showToast(`Searching for: ${q}`, 'info');
+                    setTimeout(() => window.NexraCore.navigate('shop'), 800);
+                }
+            }
+
+            return { init, search };
+        })();
+
+        // Start Engine when DOM is ready
+        document.addEventListener('DOMContentLoaded', () => {
+            // core.js init handles component injection
+            setTimeout(() => {
+                HomeEngine.init();
+            }, 200); // Small delay to let components inject
+        });
+    </script>
+</body>
+</html>
