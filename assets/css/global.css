@@ -1,0 +1,229 @@
+/* ==========================================================================
+   NEXRA ELITE ECOSYSTEM - GLOBAL DESIGN SYSTEM v3.0
+   ========================================================================== */
+
+/* --- 1. FONTS IMPORT --- */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;600;700;800&display=swap');
+
+/* --- 2. GLOBAL VARIABLES (LIGHT MODE DEFAULT) --- */
+:root {
+    /* Brand Colors */
+    --brand-main: #FF4A17; 
+    --brand-dark: #D83A0E;
+    --brand-light: #FF8A00;
+    --brand-glow: rgba(255, 74, 23, 0.25);
+    --brand-dim: rgba(255, 74, 23, 0.1);
+
+    /* Backgrounds (Apple / Stripe Premium Style) */
+    --bg-base: #f8fafc;
+    --bg-surface: #ffffff;
+    --bg-elevated: #f1f5f9;
+    
+    /* Glassmorphism Elements */
+    --glass-bg: rgba(255, 255, 255, 0.85);
+    --glass-border: rgba(0, 0, 0, 0.08);
+    --nav-blur: rgba(255, 255, 255, 0.85);
+    --overlay: rgba(0, 0, 0, 0.6);
+
+    /* Text Colors */
+    --text-100: #0f172a;
+    --text-200: #475569;
+    --text-300: #94a3b8;
+
+    /* Semantic / Alert Colors */
+    --success: #10b981;
+    --success-dim: rgba(16, 185, 129, 0.1);
+    --warning: #f59e0b;
+    --warning-dim: rgba(245, 158, 11, 0.1);
+    --danger: #ef4444;
+    --danger-dim: rgba(239, 68, 68, 0.1);
+    --info: #3b82f6;
+    --info-dim: rgba(59, 130, 246, 0.1);
+
+    /* Shadows */
+    --shadow-soft: 0 12px 30px -10px rgba(0, 0, 0, 0.05);
+    --shadow-float: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    --shadow-brand: 0 10px 30px var(--brand-glow);
+
+    /* Border Radii */
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 32px;
+    --radius-pill: 50px;
+
+    /* Animation Timings */
+    --transition-fast: 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-normal: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --transition-slow: 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    
+    /* Layout */
+    --max-width: 1400px;
+    --header-height: 80px;
+}
+
+/* --- 3. DARK MODE (CINEMATIC LUXURY) --- */
+html[data-theme="dark"] {
+    --bg-base: #050505;
+    --bg-surface: #121212;
+    --bg-elevated: #1a1a1a;
+    
+    --glass-bg: rgba(18, 18, 18, 0.85);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --nav-blur: rgba(5, 5, 5, 0.85);
+    --overlay: rgba(0, 0, 0, 0.8);
+
+    --text-100: #ffffff;
+    --text-200: #a1a1aa;
+    --text-300: #52525b;
+
+    --brand-glow: rgba(255, 74, 23, 0.4);
+    
+    --shadow-soft: 0 12px 30px rgba(0, 0, 0, 0.5);
+    --shadow-float: 0 24px 50px rgba(0, 0, 0, 0.8);
+}
+
+/* --- 4. CSS RESET & ACCESSIBILITY --- */
+*, *::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    outline: none;
+}
+
+html {
+    scroll-behavior: smooth;
+    text-size-adjust: 100%;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--bg-base);
+    color: var(--text-100);
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    transition: background-color var(--transition-normal), color var(--transition-normal);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Base Elements */
+a { text-decoration: none; color: inherit; cursor: pointer; transition: color var(--transition-fast); }
+ul, ol { list-style: none; }
+img, video, svg { max-width: 100%; height: auto; display: block; }
+button, input, textarea, select { font-family: inherit; }
+
+/* --- 5. TYPOGRAPHY --- */
+h1, h2, h3, h4, h5, h6 {
+    color: var(--text-100);
+    line-height: 1.2;
+    margin-bottom: 0.5em;
+    font-weight: 800;
+}
+
+.tech-font { 
+    font-family: 'Space Grotesk', sans-serif; 
+    letter-spacing: -0.5px; 
+}
+
+.text-gradient { 
+    background: linear-gradient(135deg, var(--brand-main) 0%, var(--brand-light) 100%); 
+    -webkit-background-clip: text; 
+    -webkit-text-fill-color: transparent; 
+    background-clip: text;
+    display: inline-block;
+}
+
+.text-muted { color: var(--text-200); }
+.text-small { font-size: 13px; color: var(--text-300); }
+
+/* --- 6. LAYOUT UTILITIES --- */
+.container {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+    padding: 0 5%;
+}
+
+/* Flexbox Helpers */
+.flex-center { display: flex; align-items: center; justify-content: center; }
+.flex-between { display: flex; align-items: center; justify-content: space-between; }
+.flex-column { display: flex; flex-direction: column; }
+.gap-sm { gap: 8px; }
+.gap-md { gap: 16px; }
+.gap-lg { gap: 24px; }
+
+/* Grid Helpers */
+.grid-2 { display: grid; grid-template-columns: repeat(1, 1fr); gap: 24px; }
+.grid-3 { display: grid; grid-template-columns: repeat(1, 1fr); gap: 24px; }
+.grid-4 { display: grid; grid-template-columns: repeat(1, 1fr); gap: 24px; }
+
+@media (min-width: 768px) {
+    .grid-2 { grid-template-columns: repeat(2, 1fr); }
+    .grid-3 { grid-template-columns: repeat(2, 1fr); }
+    .grid-4 { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    .grid-4 { grid-template-columns: repeat(4, 1fr); }
+}
+
+/* --- 7. CUSTOM SCROLLBAR (PREMIUM LOOK) --- */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+::-webkit-scrollbar-track {
+    background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+    background: var(--text-300);
+    border-radius: 10px;
+    border: 2px solid var(--bg-base);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-200);
+}
+
+/* --- 8. GLOBAL ANIMATIONS (SKELETONS & FADES) --- */
+.fade-in { animation: fadeIn var(--transition-normal) forwards; }
+.slide-up { animation: slideUp var(--transition-normal) forwards; }
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Skeleton Loading State for Dynamic Content */
+.skeleton {
+    background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-surface) 50%, var(--bg-elevated) 75%);
+    background-size: 400% 100%;
+    animation: skeletonLoading 1.5s infinite ease-in-out;
+    border-radius: var(--radius-sm);
+}
+
+@keyframes skeletonLoading {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
+}
+
+/* --- 9. NO-SCRIPT FALLBACK --- */
+noscript {
+    display: block;
+    padding: 20px;
+    background: var(--danger);
+    color: white;
+    text-align: center;
+    font-weight: 700;
+    z-index: 999999;
+    position: relative;
+}
