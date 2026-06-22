@@ -1,0 +1,103 @@
+{
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/h", "destination": "/pages/marketplace/home.html" },
+    { "source": "/s", "destination": "/pages/marketplace/shop-inventory.html" },
+    { "source": "/p/:slug", "destination": "/pages/marketplace/product-detail.html" },
+    { "source": "/cart", "destination": "/pages/marketplace/cart-full.html" },
+    { "source": "/c/:slug", "destination": "/pages/marketplace/checkout.html" },
+    { "source": "/o/:id", "destination": "/pages/marketplace/checkout-success.html" },
+    { "source": "/receipt/:id", "destination": "/pages/marketplace/order-receipt.html" },
+    { "source": "/track", "destination": "/pages/marketplace/order-tracking.html" },
+    { "source": "/bundle", "destination": "/pages/marketplace/bundle-builder.html" },
+    { "source": "/compare", "destination": "/pages/marketplace/compare-tools.html" },
+    { "source": "/calculator", "destination": "/pages/marketplace/price-calculator.html" },
+    
+    { "source": "/f", "destination": "/pages/creator-hub/free-vault.html" },
+    { "source": "/f/:slug", "destination": "/pages/creator-hub/freebie-unlock.html" },
+    { "source": "/b", "destination": "/pages/creator-hub/academy-home.html" },
+    { "source": "/b/:slug", "destination": "/pages/creator-hub/blog-article.html" },
+    { "source": "/giveaway", "destination": "/pages/creator-hub/giveaway-live.html" },
+    { "source": "/winners", "destination": "/pages/creator-hub/giveaway-winners.html" },
+    { "source": "/creator", "destination": "/pages/creator-hub/creator-portal.html" },
+    
+    { "source": "/reseller", "destination": "/pages/reseller/landing.html" },
+    { "source": "/agency/auth", "destination": "/pages/reseller/auth-gate.html" },
+    { "source": "/agency", "destination": "/pages/reseller/dashboard.html" },
+    { "source": "/agency/inventory", "destination": "/pages/reseller/inventory-manage.html" },
+    { "source": "/agency/orders", "destination": "/pages/reseller/orders-log.html" },
+    { "source": "/agency/payouts", "destination": "/pages/reseller/payouts.html" },
+    { "source": "/agency/submissions", "destination": "/pages/reseller/submissions.html" },
+    { "source": "/builder", "destination": "/pages/reseller/store-builder.html" },
+    { "source": "/r/:store", "destination": "/pages/reseller/store-preview.html" },
+    { "source": "/affiliates", "destination": "/pages/reseller/affiliate-center.html" },
+    
+    { "source": "/auth", "destination": "/pages/user/auth.html" },
+    { "source": "/u/:username", "destination": "/pages/user/dashboard.html" },
+    { "source": "/u/:username/vault", "destination": "/pages/user/digital-vault.html" },
+    { "source": "/u/:username/wallet", "destination": "/pages/user/wallet-coins.html" },
+    { "source": "/u/:username/wishlist", "destination": "/pages/user/wishlist.html" },
+    { "source": "/u/:username/security", "destination": "/pages/user/security.html" },
+    { "source": "/u/:username/notifications", "destination": "/pages/user/notifications.html" },
+    { "source": "/u/:username/licenses", "destination": "/pages/user/licenses-manage.html" },
+    { "source": "/feedback", "destination": "/pages/user/feedback.html" },
+    
+    { "source": "/vip/tiers", "destination": "/pages/vip/tiers.html" },
+    { "source": "/vip/perks", "destination": "/pages/vip/perks.html" },
+    { "source": "/vip/dashboard", "destination": "/pages/vip/vip-dashboard.html" },
+    
+    { "source": "/help", "destination": "/pages/support/help-center.html" },
+    { "source": "/support/requests", "destination": "/pages/support/request-hub.html" },
+    { "source": "/support/chat", "destination": "/pages/support/chat-live.html" },
+    { "source": "/troubleshoot", "destination": "/pages/support/troubleshoot.html" },
+    { "source": "/roadmap", "destination": "/pages/support/roadmap.html" },
+    { "source": "/status", "destination": "/pages/support/status.html" },
+    
+    { "source": "/about", "destination": "/pages/system/about-us.html" },
+    { "source": "/api-docs", "destination": "/pages/system/developer-portal.html" },
+    { "source": "/offline", "destination": "/pages/system/offline.html" },
+    { "source": "/maintenance", "destination": "/pages/system/maintenance.html" },
+    { "source": "/legal/:slug", "destination": "/pages/system/policies.html" }
+  ]
+}
