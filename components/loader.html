@@ -1,0 +1,83 @@
+<!-- ==========================================================================
+     NEXRA ELITE - PAGE LOADER COMPONENT
+     ========================================================================== -->
+<style>
+    /* Scoped Loader Variables */
+    #nx-global-loader {
+        --loader-bg: #f8fafc;
+        --loader-brand: #FF4A17;
+        --loader-text: #475569;
+        position: fixed;
+        inset: 0;
+        background-color: var(--loader-bg);
+        z-index: 999999;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s;
+    }
+
+    /* Dark Mode Support */
+    html[data-theme="dark"] #nx-global-loader {
+        --loader-bg: #050505;
+        --loader-text: #a1a1aa;
+    }
+
+    .nx-spinner-ring {
+        width: 60px;
+        height: 60px;
+        border: 4px solid rgba(255, 74, 23, 0.15);
+        border-top-color: var(--loader-brand);
+        border-radius: 50%;
+        animation: nx-spin 1s linear infinite;
+        margin-bottom: 20px;
+        box-shadow: 0 0 20px rgba(255, 74, 23, 0.2);
+    }
+
+    .nx-loader-text {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 3px;
+        color: var(--loader-text);
+        text-transform: uppercase;
+        animation: nx-pulse 1.5s infinite alternate;
+    }
+
+    @keyframes nx-spin { to { transform: rotate(360deg); } }
+    @keyframes nx-pulse { from { opacity: 0.5; } to { opacity: 1; } }
+
+    /* Hide State */
+    #nx-global-loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+</style>
+
+<div id="nx-global-loader">
+    <div class="nx-spinner-ring"></div>
+    <div class="nx-loader-text">SECURELY SECURING...</div>
+</div>
+
+<script>
+    // Self-contained Loader Logic
+    window.NexraLoader = (function() {
+        const loader = document.getElementById('nx-global-loader');
+        
+        function hide() {
+            if (loader) {
+                loader.classList.add('hidden');
+                setTimeout(() => loader.remove(), 600); // Remove from DOM after fade out
+            }
+        }
+
+        // Auto hide when window fully loads
+        window.addEventListener('load', hide);
+
+        // Fallback hide after 5 seconds just in case of slow network
+        setTimeout(hide, 5000);
+
+        return { hide };
+    })();
+</script>
