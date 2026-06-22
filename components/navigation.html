@@ -1,0 +1,175 @@
+<!-- ==========================================================================
+     NEXRA ELITE - SIDEBAR & MOBILE DOCK COMPONENT
+     ========================================================================== -->
+<style>
+    /* Scoped Variables */
+    .nx-nav-sys {
+        --nav-bg: #ffffff;
+        --nav-base: #f8fafc;
+        --nav-glass: rgba(255, 255, 255, 0.85);
+        --nav-border: rgba(0, 0, 0, 0.08);
+        --nav-text: #0f172a;
+        --nav-muted: #94a3b8;
+        --nav-brand: #FF4A17;
+        --nav-hover: #f1f5f9;
+        font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    html[data-theme="dark"] .nx-nav-sys {
+        --nav-bg: #121212;
+        --nav-base: #050505;
+        --nav-glass: rgba(18, 18, 18, 0.85);
+        --nav-border: rgba(255, 255, 255, 0.08);
+        --nav-text: #ffffff;
+        --nav-muted: #52525b;
+        --nav-hover: #1a1a1a;
+    }
+
+    /* 1. SIDEBAR DRAWER */
+    .nx-sb-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+        z-index: 9998; opacity: 0; visibility: hidden; transition: 0.4s;
+    }
+    .nx-sb-overlay.open { opacity: 1; visibility: visible; }
+
+    .nx-sb-drawer {
+        position: fixed; top: 0; left: -360px; width: 320px; max-width: 85%; height: 100%;
+        background: var(--nav-bg); border-right: 1px solid var(--nav-border);
+        z-index: 9999; display: flex; flex-direction: column; box-shadow: 20px 0 50px rgba(0,0,0,0.2);
+        transition: left 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nx-sb-drawer.open { left: 0; }
+
+    .nx-sb-head { padding: 25px; border-bottom: 1px solid var(--nav-border); display: flex; justify-content: space-between; align-items: center; }
+    .nx-sb-title { font-family: 'Space Grotesk', sans-serif; font-size: 18px; font-weight: 800; color: var(--nav-text); }
+    .nx-sb-close { background: var(--nav-hover); border: 1px solid var(--nav-border); color: var(--nav-text); width: 35px; height: 35px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+    
+    .nx-sb-body { flex: 1; overflow-y: auto; padding: 20px; }
+    .nx-sb-group { margin-bottom: 30px; }
+    .nx-sb-label { font-size: 10px; font-weight: 800; color: var(--nav-muted); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block; padding-left: 10px; }
+    
+    .nx-sb-link {
+        display: flex; align-items: center; gap: 15px; padding: 15px 20px;
+        border-radius: 16px; color: var(--nav-text); font-size: 14px; font-weight: 700;
+        text-decoration: none; transition: 0.3s; margin-bottom: 8px;
+    }
+    .nx-sb-link svg { width: 18px; height: 18px; color: var(--nav-muted); transition: 0.3s; }
+    .nx-sb-link:hover { background: var(--nav-hover); color: var(--nav-brand); transform: translateX(5px); }
+    .nx-sb-link:hover svg { color: var(--nav-brand); }
+
+    /* 2. MOBILE DOCK */
+    .nx-dock-wrap {
+        position: fixed; bottom: 20px; left: 0; width: 100%; display: flex; justify-content: center;
+        z-index: 8500; pointer-events: none;
+    }
+    @media(min-width: 1024px) { .nx-dock-wrap { display: none !important; } }
+    
+    .nx-dock-ui {
+        background: var(--nav-glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+        border: 1px solid var(--nav-border); border-radius: 40px; height: 70px;
+        display: flex; justify-content: space-around; align-items: center; padding: 0 10px;
+        width: 92%; max-width: 450px; pointer-events: auto; box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+    
+    .nx-dock-item {
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        color: var(--nav-muted); cursor: pointer; transition: 0.4s; flex: 1; position: relative; text-decoration: none;
+    }
+    .nx-dock-item svg { width: 22px; height: 22px; transition: 0.4s; stroke-width: 2px; }
+    .nx-dock-item span { font-size: 9px; font-weight: 800; opacity: 0; position: absolute; bottom: -18px; transition: 0.4s; }
+    
+    .nx-dock-item.active { color: var(--nav-brand); transform: translateY(-8px); }
+    .nx-dock-item.active svg { transform: scale(1.15); filter: drop-shadow(0 5px 10px rgba(255,74,23,0.3)); }
+    .nx-dock-item.active span { opacity: 1; bottom: -20px; color: var(--nav-text); }
+</style>
+
+<div class="nx-nav-sys">
+    <!-- SIDEBAR -->
+    <div class="nx-sb-overlay" id="nx-sidebar-overlay" onclick="window.NexraSidebar.toggle()"></div>
+    <aside class="nx-sb-drawer" id="nx-sidebar">
+        <div class="nx-sb-head">
+            <div class="nx-sb-title">Navigation</div>
+            <button class="nx-sb-close" onclick="window.NexraSidebar.toggle()">
+                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="16"><line x1="18" x2="6" y1="6" y2="18"/><line x1="6" x2="18" y1="6" y2="18"/></svg>
+            </button>
+        </div>
+        <div class="nx-sb-body">
+            <div class="nx-sb-group">
+                <span class="nx-sb-label">Platform Core</span>
+                <a href="/s" class="nx-sb-link"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg> Digital Market</a>
+                <a href="/f" class="nx-sb-link"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Free Vault</a>
+                <a href="/bundle" class="nx-sb-link"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"/><line x1="3" x2="21" y1="9" y2="9"/><line x1="9" x2="9" y1="21" y2="9"/></svg> Smart Bundles</a>
+            </div>
+            <div class="nx-sb-group">
+                <span class="nx-sb-label">Enterprise Access</span>
+                <a href="/agency" class="nx-sb-link"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg> Reseller Portal</a>
+                <a href="/vip/tiers" class="nx-sb-link"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> VIP Tiers</a>
+                <a href="/api-docs" class="nx-sb-link"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg> Developer API</a>
+            </div>
+            <div class="nx-sb-group">
+                <span class="nx-sb-label">Community</span>
+                <a href="/giveaway" class="nx-sb-link"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><polyline points="20 12 20 22 4 22 4 12"/><rect height="5" width="20" x="2" y="7"/><line x1="12" x2="12" y1="22" y2="7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg> Live Giveaway</a>
+                <a href="/help" class="nx-sb-link"><svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg> Help Center</a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- MOBILE DOCK -->
+    <div class="nx-dock-wrap">
+        <div class="nx-dock-ui">
+            <a href="/h" class="nx-dock-item" data-dock="home">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+                <span>Home</span>
+            </a>
+            <a href="/s" class="nx-dock-item" data-dock="shop">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+                <span>Market</span>
+            </a>
+            <a href="/f" class="nx-dock-item" data-dock="freebies">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                <span>Vault</span>
+            </a>
+            <a href="/u/dashboard" class="nx-dock-item" data-dock="user">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <span>Profile</span>
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Self-contained Sidebar & Dock Logic
+    window.NexraSidebar = (function() {
+        const drawer = document.getElementById('nx-sidebar');
+        const overlay = document.getElementById('nx-sidebar-overlay');
+
+        function toggle() {
+            if (drawer.classList.contains('open')) {
+                drawer.classList.remove('open');
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            } else {
+                drawer.classList.add('open');
+                overlay.classList.add('open');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        // Auto Highlight Active Dock Item based on URL
+        const path = window.location.pathname;
+        document.querySelectorAll('.nx-dock-item').forEach(item => {
+            const route = item.getAttribute('data-dock');
+            if (path.includes(route) || (path === '/' && route === 'home')) {
+                item.classList.add('active');
+            }
+        });
+
+        // Add trigger to Header menu button if exists
+        setTimeout(() => {
+            const menuBtn = document.querySelector('.nx-mobile-menu-btn');
+            if(menuBtn) menuBtn.onclick = toggle;
+        }, 500);
+
+        return { toggle };
+    })();
+</script>
