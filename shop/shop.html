@@ -11,8 +11,14 @@
     <title>Digital Marketplace | Nexra Tech PK</title>
     <meta name="description" content="Browse Pakistan's elite collection of premium software licenses, SaaS tools, UI kits, and physical tech assets. Instant delivery and 256-bit encryption.">
     <meta name="robots" content="index, follow">
+    
     <meta name="theme-color" id="meta-theme-color" content="#ffffff">
     <link rel="icon" id="dynamic-favicon" href="" type="image/png">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Digital Marketplace | Nexra Tech PK">
+    <meta property="og:description" content="Shop elite SaaS tools and software keys with instant automated delivery.">
 
     <!-- ==========================================================================
          2. RESOURCE PRELOADING & TYPOGRAPHY
@@ -38,12 +44,11 @@
          ========================================================================== -->
     <style>
         :root {
-            /* Dynamic Brand Tokens */
+            /* Fallback Variables (Overridden by NexraBrand) */
             --brand-main: #FF4A17; 
             --brand-glow: rgba(255, 74, 23, 0.25);
             --brand-dim: rgba(255, 74, 23, 0.1);
             
-            /* Light Theme */
             --bg-base: #ffffff;
             --bg-surface: #f8fafc;
             --bg-elevated: #f1f5f9;
@@ -87,13 +92,15 @@
         .tech-font { font-family: 'Space Grotesk', sans-serif; }
         .text-gradient { background: linear-gradient(135deg, var(--brand-main) 0%, #ff8a00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
+        /* COMPONENT MOUNT POINTS */
+        .nx-mount-point { display: contents; }
+
         /* SKELETON LOADER */
         .skeleton {
             background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-surface) 50%, var(--bg-elevated) 75%);
             background-size: 400% 100%; animation: shimmer 1.5s infinite linear; border-radius: 16px;
         }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        .nx-mount-point { display: contents; }
 
         /* ==========================================================================
            PROMO BANNERS (HORIZONTAL SCROLL)
@@ -128,6 +135,7 @@
         .search-box {
             display: flex; align-items: center; background: var(--bg-surface); border: 2px solid var(--glass-border);
             border-radius: 50px; padding: 10px 15px 10px 25px; box-shadow: var(--shadow-soft); transition: 0.3s;
+            position: relative;
         }
         .search-box:focus-within { border-color: var(--brand-main); box-shadow: 0 10px 30px var(--brand-glow); }
         .search-box i.fa-search { color: var(--text-300); font-size: 18px; }
@@ -145,13 +153,30 @@
         .search-btn { background: var(--text-100); color: var(--bg-base); border: none; padding: 12px 30px; border-radius: 50px; font-weight: 800; cursor: pointer; margin-left: 10px; transition: 0.3s; }
         .search-btn:hover { background: var(--brand-main); color: #fff; }
 
+        /* LIVE DROPDOWN SEARCH */
+        .live-search-dropdown {
+            position: absolute; top: calc(100% + 10px); left: 0; right: 0;
+            background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: var(--radius-md);
+            box-shadow: var(--shadow-float); padding: 10px; z-index: 1000;
+            display: none; max-height: 400px; overflow-y: auto;
+        }
+        .live-search-dropdown.active { display: block; animation: slideDown 0.3s var(--transition); }
+        .ls-item { display: flex; align-items: center; gap: 15px; padding: 12px; border-radius: 12px; cursor: pointer; transition: 0.3s; }
+        .ls-item:hover { background: var(--bg-elevated); }
+        .ls-img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; background: var(--bg-elevated); }
+        .ls-info h4 { font-size: 14px; font-weight: 700; color: var(--text-100); margin-bottom: 4px; }
+        .ls-info span { font-size: 10px; font-weight: 800; color: var(--brand-main); text-transform: uppercase; }
+        .ls-price { margin-left: auto; font-family: 'Space Grotesk'; font-weight: 800; color: var(--text-100); }
+
+        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
         /* ==========================================================================
-           SWIMLANES (CATEGORY ROWS)
+           SWIMLANES (CATEGORY ROWS) & SIDEBAR
            ========================================================================== */
         .market-layout { max-width: 1440px; margin: 0 auto; padding: 0 5% 100px; display: grid; gap: 30px; }
         @media(min-width: 1024px) { .market-layout { grid-template-columns: 260px 1fr; align-items: start; } }
 
-        /* Sidebar */
+        /* Sidebar Filters */
         .filter-sidebar { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 25px; position: sticky; top: 160px; display: none; }
         @media(min-width: 1024px) { .filter-sidebar { display: block; } }
         .filter-group { margin-bottom: 25px; }
@@ -164,6 +189,27 @@
         .filter-radio input:checked + .custom-radio::after { opacity: 1; transform: scale(1); }
         .filter-radio input:checked ~ span { color: var(--text-100); font-weight: 800; }
 
+        /* Mobile Filter Toggle Button */
+        .mobile-filter-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 16px; background: var(--bg-surface); border: 1px solid var(--glass-border);
+            border-radius: 16px; font-weight: 800; font-size: 13px; color: var(--text-100);
+            margin-bottom: 20px; cursor: pointer; box-shadow: var(--shadow-soft);
+        }
+        @media(min-width: 1024px) { .mobile-filter-btn { display: none; } }
+        .mobile-filter-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); z-index: 10000; opacity: 0; visibility: hidden; transition: 0.4s; }
+        .mobile-filter-overlay.active { opacity: 1; visibility: visible; }
+        
+        @media(max-width: 1023px) {
+            .filter-sidebar {
+                position: fixed; bottom: 0; left: 0; width: 100%; top: auto;
+                border-radius: 30px 30px 0 0; z-index: 10001;
+                transform: translateY(100%); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                max-height: 85vh; overflow-y: auto; padding: 30px 20px 100px;
+            }
+            .filter-sidebar.active { transform: translateY(0); }
+        }
+
         /* Swimlane Section */
         .swimlane-section { margin-bottom: 50px; }
         .swimlane-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
@@ -174,23 +220,26 @@
         .swimlane-track { display: flex; gap: 16px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; scroll-snap-type: x mandatory; }
         .swimlane-track::-webkit-scrollbar { display: none; }
         
-        /* Master Grid (Used when searching/filtering) */
+        /* Master Grid (Used when filtering) */
         .master-grid { display: none; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
         .master-grid.active { display: grid; }
 
-        /* Product Card */
+        /* Premium Product Card */
         .nx-card {
             flex: 0 0 240px; scroll-snap-align: start;
             background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 20px;
             padding: 12px; display: flex; flex-direction: column; cursor: pointer; transition: 0.4s;
-            box-shadow: var(--shadow-soft); position: relative;
+            box-shadow: var(--shadow-soft); position: relative; overflow: hidden;
         }
-        .master-grid .nx-card { flex: auto; }
+        .master-grid .nx-card { flex: auto; scroll-snap-align: none; }
         .nx-card:hover { transform: translateY(-6px); border-color: var(--brand-main); box-shadow: var(--shadow-float); }
         
         .nx-card-img-wrap { width: 100%; aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: var(--bg-elevated); margin-bottom: 12px; position: relative; }
         .nx-card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .nx-card:hover .nx-card-img { transform: scale(1.08); }
+        
+        /* Dynamic Watermark inside Image Wrap */
+        .nx-card-watermark { position: absolute; bottom: 8px; right: 8px; width: 60px; opacity: 0.5; pointer-events: none; z-index: 2; }
         
         .nx-card-badge { position: absolute; top: 8px; left: 8px; background: var(--brand-main); color: #fff; font-size: 9px; font-weight: 900; padding: 4px 10px; border-radius: 6px; letter-spacing: 1px; z-index: 2; }
         
@@ -212,12 +261,11 @@
         /* Empty State */
         .nx-empty-state { grid-column: 1 / -1; padding: 60px 20px; text-align: center; border: 1px dashed var(--glass-border); border-radius: var(--radius-md); }
         .nx-empty-state i { font-size: 40px; color: var(--text-300); margin-bottom: 15px; }
-
     </style>
 </head>
 <body>
 
-    <!-- 1. COMPONENT MOUNT POINTS (Handled Gracefully to avoid 404s breaking JS) -->
+    <!-- 1. COMPONENT MOUNT POINTS (Safe Loading) -->
     <div id="global-container" class="nx-mount-point"></div>
     <div id="header-container" class="nx-mount-point"></div>
     <div id="sidebar-container" class="nx-mount-point"></div>
@@ -230,6 +278,7 @@
         <!-- A. PROMO BANNERS CAROUSEL -->
         <section class="promo-section">
             <div class="banner-track" id="banner-track">
+                <!-- Skeletons -->
                 <div class="promo-banner skeleton"></div>
                 <div class="promo-banner skeleton"></div>
             </div>
@@ -239,7 +288,7 @@
         <div class="search-container">
             <div class="search-box">
                 <i class="fa-solid fa-search"></i>
-                <input type="text" id="market-search" placeholder="Search CapCut, UI Kits, Microphones..." onkeyup="NX_SHOP.handleSearchTyping(event)">
+                <input type="text" id="market-search" placeholder="Search CapCut, UI Kits, Physical Gear..." autocomplete="off">
                 
                 <!-- Voice Search Button -->
                 <button class="voice-btn" id="voice-btn" onclick="NX_SHOP.startVoiceSearch()" title="Search by Voice">
@@ -247,35 +296,52 @@
                 </button>
                 
                 <button class="search-btn" onclick="NX_SHOP.executeSearch()">FIND</button>
+
+                <!-- Live Search Dropdown -->
+                <div class="live-search-dropdown" id="live-search-dropdown"></div>
             </div>
         </div>
 
         <section class="market-layout">
             
-            <!-- C. DESKTOP FILTER SIDEBAR -->
-            <aside class="filter-sidebar">
-                <div class="filter-group">
-                    <span class="filter-title">Categories</span>
-                    <ul class="filter-list" id="sidebar-categories">
-                        <div class="skeleton" style="height:20px; width:80%; margin-bottom:10px;"></div>
-                        <div class="skeleton" style="height:20px; width:60%;"></div>
-                    </ul>
+            <!-- C. MOBILE FILTER TRIGGER -->
+            <button class="mobile-filter-btn" onclick="NX_SHOP.toggleMobileFilters()">
+                <i class="fa-solid fa-sliders"></i> Filters & Sorting
+            </button>
+            <div class="mobile-filter-overlay" id="mobile-filter-bg" onclick="NX_SHOP.toggleMobileFilters()"></div>
+
+            <!-- D. SIDEBAR FILTERS -->
+            <aside class="filter-sidebar" id="filter-sidebar">
+                <div class="flex-between" style="margin-bottom: 25px; display: none;" id="mobile-filter-header">
+                    <h3 class="tech-font" style="font-size: 20px;">Filters</h3>
+                    <button style="background:none; border:none; font-size:20px; color:var(--text-100);" onclick="NX_SHOP.toggleMobileFilters()"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
+                <!-- Product Type -->
                 <div class="filter-group">
-                    <span class="filter-title">Product Type</span>
+                    <span class="filter-title">Asset Type</span>
                     <ul class="filter-list">
-                        <label class="filter-radio"><input type="radio" name="type" value="all" checked onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span>All Items</span></label>
-                        <label class="filter-radio"><input type="radio" name="type" value="saas" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span>SaaS Tools</span></label>
-                        <label class="filter-radio"><input type="radio" name="type" value="digital" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span>Digital Assets</span></label>
+                        <label class="filter-radio"><input type="radio" name="type" value="all" checked onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span>All Assets</span></label>
+                        <label class="filter-radio"><input type="radio" name="type" value="digital" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span>Digital Tools</span></label>
+                        <label class="filter-radio"><input type="radio" name="type" value="saas" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span>SaaS Licenses</span></label>
                         <label class="filter-radio"><input type="radio" name="type" value="physical" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span>Physical Gear</span></label>
                     </ul>
                 </div>
 
+                <!-- Category Filter (Loaded Dynamically) -->
+                <div class="filter-group">
+                    <span class="filter-title">Categories</span>
+                    <ul class="filter-list" id="filter-categories-list">
+                        <div class="skeleton" style="height: 20px; width: 80%; margin-bottom: 10px;"></div>
+                        <div class="skeleton" style="height: 20px; width: 60%; margin-bottom: 10px;"></div>
+                    </ul>
+                </div>
+
+                <!-- Sort Filter -->
                 <div class="filter-group">
                     <span class="filter-title">Sort By</span>
                     <ul class="filter-list">
-                        <label class="filter-radio"><input type="radio" name="sort" value="newest" checked onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span>Newest First</span></label>
+                        <label class="filter-radio"><input type="radio" name="sort" value="newest" checked onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span>Newest Arrivals</span></label>
                         <label class="filter-radio"><input type="radio" name="sort" value="price_low" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span>Price: Low to High</span></label>
                         <label class="filter-radio"><input type="radio" name="sort" value="price_high" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span>Price: High to Low</span></label>
                     </ul>
@@ -284,13 +350,13 @@
                 <button class="search-btn" style="width:100%; margin:0; background:var(--bg-elevated); color:var(--text-100);" onclick="NX_SHOP.resetFilters()">Clear Filters</button>
             </aside>
 
-            <!-- D. DYNAMIC CONTENT AREA -->
+            <!-- E. DYNAMIC CONTENT AREA -->
             <div id="content-area">
                 
                 <!-- DEFAULT VIEW: SWIMLANES -->
                 <div id="swimlanes-view">
                     
-                    <!-- 1. Personalized Recommendation -->
+                    <!-- 1. Personalized (Recently Viewed/Recommended) -->
                     <div class="swimlane-section" id="section-recommended" style="display: none;">
                         <div class="swimlane-header">
                             <h2 class="swimlane-title"><i class="fa-solid fa-sparkles text-gradient"></i> Recommended For You</h2>
@@ -298,18 +364,7 @@
                         <div class="swimlane-track" id="track-recommended"></div>
                     </div>
 
-                    <!-- 2. SaaS Tools -->
-                    <div class="swimlane-section" id="section-saas">
-                        <div class="swimlane-header">
-                            <h2 class="swimlane-title">SaaS <span class="text-gradient">Tools</span></h2>
-                            <button class="see-all-btn" onclick="NX_SHOP.setFilterAndSwitch('type', 'saas')">See All <i class="fa-solid fa-arrow-right"></i></button>
-                        </div>
-                        <div class="swimlane-track" id="track-saas">
-                            <div class="skeleton nx-card"></div><div class="skeleton nx-card"></div><div class="skeleton nx-card"></div>
-                        </div>
-                    </div>
-
-                    <!-- 3. Digital Assets -->
+                    <!-- 2. Digital Assets -->
                     <div class="swimlane-section" id="section-digital">
                         <div class="swimlane-header">
                             <h2 class="swimlane-title">Digital <span class="text-gradient">Assets</span></h2>
@@ -320,7 +375,18 @@
                         </div>
                     </div>
 
-                    <!-- 4. Physical Goods -->
+                    <!-- 3. SaaS Licenses -->
+                    <div class="swimlane-section" id="section-saas">
+                        <div class="swimlane-header">
+                            <h2 class="swimlane-title">SaaS <span class="text-gradient">Licenses</span></h2>
+                            <button class="see-all-btn" onclick="NX_SHOP.setFilterAndSwitch('type', 'saas')">See All <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                        <div class="swimlane-track" id="track-saas">
+                            <div class="skeleton nx-card"></div><div class="skeleton nx-card"></div><div class="skeleton nx-card"></div>
+                        </div>
+                    </div>
+
+                    <!-- 4. Physical Gear -->
                     <div class="swimlane-section" id="section-physical">
                         <div class="swimlane-header">
                             <h2 class="swimlane-title">Physical <span class="text-gradient">Gear</span></h2>
@@ -335,8 +401,11 @@
 
                 <!-- FILTERED VIEW: MASTER GRID (Hidden by default) -->
                 <div id="filtered-view" style="display: none;">
-                    <div style="margin-bottom: 20px; font-size: 14px; color: var(--text-200); font-weight: 600;">
-                        Showing <span id="result-count" style="color: var(--text-100);">0</span> results
+                    <div class="flex-between" style="margin-bottom: 20px;">
+                        <span style="font-size: 14px; color: var(--text-200); font-weight: 600;">
+                            Showing <span id="result-count" style="color: var(--text-100);">0</span> results
+                        </span>
+                        <button class="see-all-btn" onclick="NX_SHOP.resetFilters()"><i class="fa-solid fa-arrow-left"></i> Back to Sections</button>
                     </div>
                     <div class="master-grid" id="master-grid"></div>
                 </div>
@@ -345,42 +414,45 @@
         </section>
     </main>
 
-    <div id="navigation-container" class="nx-mount-point"></div>
-    <div id="footer-container" class="nx-mount-point"></div>
-
     <!-- ==========================================================================
-         SHOP LOGIC ENGINE (HYBRID DB + VOICE SEARCH + PERSONALIZATION)
+         SHOP LOGIC ENGINE (HYBRID DB + VOICE SEARCH + DYNAMIC BRANDING)
          ========================================================================== -->
     <script>
         window.NX_SHOP = {
             state: {
                 allProducts: [],
-                banners: [],
+                filtered: [],
                 categories: [],
                 filters: { search: '', type: 'all', category: 'all', sort: 'newest' },
-                isFilteredView: false,
-                viewedIds: JSON.parse(localStorage.getItem('nx_viewed_products') || '[]')
+                viewedIds: JSON.parse(localStorage.getItem('nx_viewed_products') || '[]'),
+                searchTimer: null
             },
 
             init: async function() {
                 console.log("🛒 NX_SHOP Engine Initializing...");
                 
-                // 1. Safe UI Mounting (Catches 404s gracefully without breaking)
+                // 1. Safe Load Components (Ignores 404s to keep running)
                 await this.safeLoadSharedUI();
 
-                // 2. Refresh Branding if Engine exists
-                if(window.NexraBrand) window.NexraBrand.refreshDOMAssets();
+                // 2. Wait for Backend
+                this.waitForBackend(async () => {
+                    
+                    // 3. Sync Branding (Watermarks & Logos)
+                    if(window.NexraBrand) window.NexraBrand.refreshDOMAssets();
 
-                // 3. Check URL Params for direct filtering
-                this.parseParams();
+                    // 4. Initialize Search Listeners
+                    this.initSearchListener();
 
-                // 4. Data Fetching Pipeline
-                this.fetchBanners();
-                this.fetchCategories();
-                this.fetchProducts(); // Master fetch for everything
+                    // 5. Fetch Data (Supabase -> Firestore -> Fallback)
+                    this.fetchBanners();
+                    await this.fetchCategories();
+                    await this.fetchProducts();
+
+                    // 6. Check URL Params (e.g. from index.html search)
+                    this.parseUrlParams();
+                });
             },
 
-            // Safe Loader prevents console 404s from killing execution
             safeLoadSharedUI: async function() {
                 const components = [
                     { id: 'global-container', path: '../global.html' },
@@ -404,26 +476,33 @@
                                 document.body.appendChild(ns);
                             });
                         }
-                    } catch (e) {
-                        // Silently fail for missing components (useful for local testing)
-                    }
+                    } catch (e) { /* Silent fail for testing */ }
                 }
             },
 
-            /* --- 1. VOICE SEARCH INTEGRATION --- */
+            waitForBackend: function(callback, tries = 0) {
+                if (tries > 30) {
+                    console.warn("[NX_SHOP] Backend Timeout. Using Static Fallbacks.");
+                    callback(); return;
+                }
+                if (window.supabaseClient || window.db) callback();
+                else setTimeout(() => this.waitForBackend(callback, tries + 1), 100);
+            },
+
+            /* --- 1. VOICE & LIVE SEARCH --- */
             startVoiceSearch: function() {
                 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
                 const btn = document.getElementById('voice-btn');
                 
                 if (!SpeechRecognition) {
-                    alert("Voice search is not supported in this browser. Please use Chrome or Safari.");
+                    if(window.Nexra && window.Nexra.showToast) Nexra.showToast("Voice search not supported on this browser.", "error");
+                    else alert("Voice search not supported.");
                     return;
                 }
 
                 const recognition = new SpeechRecognition();
                 recognition.lang = 'en-US';
                 recognition.interimResults = false;
-                recognition.maxAlternatives = 1;
 
                 recognition.onstart = () => {
                     btn.classList.add('listening');
@@ -432,17 +511,13 @@
 
                 recognition.onresult = (event) => {
                     const transcript = event.results[0][0].transcript;
-                    document.getElementById('market-search').value = transcript;
+                    const input = document.getElementById('market-search');
+                    input.value = transcript;
                     this.state.filters.search = transcript.toLowerCase();
                     this.applyFilters();
                 };
 
-                recognition.onerror = (event) => {
-                    console.error("Voice Error:", event.error);
-                    btn.classList.remove('listening');
-                    btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-                };
-
+                recognition.onerror = () => btn.classList.remove('listening');
                 recognition.onend = () => {
                     btn.classList.remove('listening');
                     btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
@@ -451,47 +526,107 @@
                 recognition.start();
             },
 
-            handleSearchTyping: function(e) {
-                if(e.key === 'Enter') this.executeSearch();
+            initSearchListener: function() {
+                const input = document.getElementById('market-search');
+                const dropdown = document.getElementById('live-search-dropdown');
+
+                input.addEventListener('input', (e) => {
+                    clearTimeout(this.state.searchTimer);
+                    const query = e.target.value.toLowerCase().trim();
+                    
+                    if(query.length < 2) {
+                        dropdown.classList.remove('active');
+                        return;
+                    }
+
+                    this.state.searchTimer = setTimeout(() => {
+                        this.handleLiveSearch(query);
+                    }, 300);
+                });
+
+                // Close dropdown when clicking outside
+                document.addEventListener('click', (e) => {
+                    if(!input.contains(e.target) && !dropdown.contains(e.target)) {
+                        dropdown.classList.remove('active');
+                    }
+                });
+            },
+
+            handleLiveSearch: function(query) {
+                const dropdown = document.getElementById('live-search-dropdown');
+                const results = this.state.allProducts.filter(p => 
+                    (p.title && p.title.toLowerCase().includes(query)) || 
+                    (p.category && p.category.toLowerCase().includes(query))
+                ).slice(0, 5); // Max 5 results for dropdown
+
+                if(results.length === 0) {
+                    dropdown.innerHTML = `<div style="padding:15px; text-align:center; color:var(--text-300); font-size:13px; font-weight:600;">No instant matches found.</div>`;
+                } else {
+                    dropdown.innerHTML = results.map(p => `
+                        <div class="ls-item" onclick="NX_SHOP.viewProduct('${p.id}')">
+                            <img src="${p.image}" class="ls-img" alt="${p.title}">
+                            <div class="ls-info">
+                                <h4>${p.title}</h4>
+                                <span>${p.type.toUpperCase()}</span>
+                            </div>
+                            <div class="ls-price">Rs. ${p.price}</div>
+                        </div>
+                    `).join('');
+                }
+                dropdown.classList.add('active');
             },
 
             executeSearch: function() {
+                document.getElementById('live-search-dropdown').classList.remove('active');
                 const val = document.getElementById('market-search').value.toLowerCase().trim();
                 this.state.filters.search = val;
                 this.applyFilters();
             },
 
-            /* --- 2. DATA FETCHING (HYBRID: SUPABASE -> FIREBASE -> STATIC) --- */
-            
-            // BANNERS
+            parseUrlParams: function() {
+                const params = new URLSearchParams(window.location.search);
+                if (params.has('q')) {
+                    document.getElementById('market-search').value = params.get('q');
+                    this.state.filters.search = params.get('q').toLowerCase();
+                }
+                if (params.has('cat')) {
+                    this.state.filters.category = params.get('cat');
+                    const radio = document.querySelector(`input[name="category"][value="${params.get('cat')}"]`);
+                    if(radio) radio.checked = true;
+                }
+                
+                // If there are any params, immediately apply filters (which switches to grid view)
+                if(params.has('q') || params.has('cat')) {
+                    this.applyFilters();
+                } else {
+                    this.renderSwimlanes();
+                }
+            },
+
+            /* --- 2. DATA FETCHING (HYBRID) --- */
             fetchBanners: async function() {
                 const track = document.getElementById('banner-track');
-                const fallbackBanners = [
+                const fallback = [
                     { image: 'https://img.freepik.com/free-vector/gradient-modern-sale-banner-template_23-2148897530.jpg', tag: 'SALE', title: '50% Off Agency Bundles' },
                     { image: 'https://img.freepik.com/free-vector/modern-creative-gradient-banner-template_23-2148419614.jpg', tag: 'NEW', title: 'Premium SaaS Licenses Added' }
                 ];
-
+                
                 try {
+                    let data = [];
                     if (window.supabaseClient) {
-                        const { data, error } = await window.supabaseClient.from('banners').select('*').eq('active', true);
-                        if (!error && data.length) { this.renderBanners(data); return; }
+                        const res = await window.supabaseClient.from('banners').select('*').eq('active', true);
+                        if(res.data && res.data.length > 0) data = res.data;
                     }
-                    if (window.db) {
+                    if (data.length === 0 && window.db) {
                         const snap = await window.db.collection('banners').where('active', '==', true).get();
-                        if (!snap.empty) {
-                            this.renderBanners(snap.docs.map(d => d.data()));
-                            return;
-                        }
+                        data = snap.docs.map(d => d.data());
                     }
-                    throw new Error("No DB");
-                } catch(e) {
-                    this.renderBanners(fallbackBanners); // Static fallback
-                }
+                    this.renderBanners(data.length > 0 ? data : fallback);
+                } catch(e) { this.renderBanners(fallback); }
             },
             
             renderBanners: function(data) {
-                const track = document.getElementById('banner-track');
-                track.innerHTML = data.map(b => `
+                document.getElementById('banner-track').innerHTML = data.map(b => `
                     <div class="promo-banner">
                         <img src="${b.image}" alt="${b.title}">
                         <div class="promo-overlay">
@@ -502,74 +637,144 @@
                 `).join('');
             },
 
-            // CATEGORIES
             fetchCategories: async function() {
-                const list = document.getElementById('sidebar-categories');
-                const fallbackCats = [{id:'c1', name:'Video Editing'}, {id:'c2', name:'UI Kits'}, {id:'c3', name:'WordPress'}];
+                const list = document.getElementById('filter-categories-list');
+                const fallbackCats = [{id:'c1', name:'Video Editing'}, {id:'c2', name:'UI Kits'}, {id:'c3', name:'Gear'}];
 
                 try {
                     let cats = [];
                     if (window.supabaseClient) {
-                        const { data, error } = await window.supabaseClient.from('categories').select('*').eq('type', 'product');
-                        if (!error && data.length) cats = data;
-                        else throw new Error("Supabase Empty/Fail");
+                        const res = await window.supabaseClient.from('categories').select('*').eq('type', 'product').order('name');
+                        if(res.data && res.data.length > 0) cats = res.data;
                     }
-                } catch(e) {
-                    console.warn("Using Category Fallback.");
-                    this.renderCategories(fallbackCats);
+                    if (cats.length === 0 && window.db) {
+                        const snap = await window.db.collection('categories').where('type', '==', 'product').get();
+                        cats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    }
+                    if(cats.length === 0) cats = fallbackCats;
+
+                    let html = `
+                        <label class="filter-radio">
+                            <input type="radio" name="category" value="all" ${this.state.filters.category === 'all' ? 'checked' : ''} onchange="NX_SHOP.applyFilters()">
+                            <div class="custom-radio"></div> <span class="label-text">All Categories</span>
+                        </label>
+                    `;
+                    cats.forEach(c => {
+                        const isChecked = this.state.filters.category === c.name ? 'checked' : '';
+                        html += `
+                            <label class="filter-radio">
+                                <input type="radio" name="category" value="${c.name}" ${isChecked} onchange="NX_SHOP.applyFilters()">
+                                <div class="custom-radio"></div> <span class="label-text">${c.name}</span>
+                            </label>
+                        `;
+                    });
+                    list.innerHTML = html;
+                } catch (e) {
+                    console.warn("Using Category Fallback.", e);
+                    // Safe execution even if fails
                 }
             },
 
-            renderCategories: function(data) {
-                const list = document.getElementById('sidebar-categories');
-                let html = `
-                    <label class="filter-radio">
-                        <input type="radio" name="category" value="all" checked onchange="NX_SHOP.applyFilters()">
-                        <div class="custom-radio"></div> <span class="label-text">All Categories</span>
-                    </label>
-                `;
-                data.forEach(c => {
-                    html += `
-                        <label class="filter-radio">
-                            <input type="radio" name="category" value="${c.name}" onchange="NX_SHOP.applyFilters()">
-                            <div class="custom-radio"></div> <span class="label-text">${c.name}</span>
-                        </label>
-                    `;
-                });
-                list.innerHTML = html;
-            },
-
-            // PRODUCTS
             fetchProducts: async function() {
                 const fallbackProducts = [
-                    { id: 'p1', title: 'CapCut Pro Lifetime', price: 950, type: 'saas', category: 'Video Editing', image: 'https://i.postimg.cc/SNm7KsrH/images-(2).jpg', rating: 5.0, salesCount: 1200 },
+                    { id: 'p1', title: 'CapCut Pro Lifetime', price: 950, oldPrice: 3500, type: 'saas', category: 'Video Editing', image: 'https://i.postimg.cc/SNm7KsrH/images-(2).jpg', rating: 5.0, salesCount: 1200, badge: 'HOT' },
                     { id: 'p2', title: 'Canva Pro 1 Year', price: 450, type: 'saas', category: 'Design', image: 'https://i.postimg.cc/Y25ZD1tW/images-(1).jpg', rating: 4.8, salesCount: 3400 },
                     { id: 'p3', title: 'SaaS Dashboard UI Kit', price: 1500, type: 'digital', category: 'UI Kits', image: 'https://i.postimg.cc/prR8yGDh/images-(3).jpg', rating: 4.9, salesCount: 500 },
                     { id: 'p4', title: 'Wireless Streaming Mic', price: 4500, type: 'physical', category: 'Gear', image: 'https://i.postimg.cc/fTHXTvkj/images.jpg', rating: 4.7, salesCount: 890 }
                 ];
 
                 try {
+                    let products = [];
                     if (window.supabaseClient) {
-                        const { data, error } = await window.supabaseClient.from('products').select('*').eq('visible', true);
-                        if (!error && data.length) { this.state.allProducts = data; this.initRender(); return; }
-                        throw new Error("Supabase Empty/Fail");
+                        const res = await window.supabaseClient.from('products').select('*').eq('visible', true);
+                        if(res.data && res.data.length > 0) products = res.data;
                     }
-                } catch(e) {
-                    console.warn("Using Product Fallback.");
+                    if (products.length === 0 && window.db) {
+                        const snap = await window.db.collection('products').where('visible', '==', true).get();
+                        products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                    }
+
+                    this.state.allProducts = products.length > 0 ? products : fallbackProducts;
+                    
+                    // Initial render decision based on URL params
+                    if(this.state.filters.search !== '' || this.state.filters.category !== 'all') {
+                        this.applyFilters();
+                    } else {
+                        this.renderSwimlanes();
+                    }
+
+                } catch (e) {
+                    console.warn("Using Product Fallback.", e);
                     this.state.allProducts = fallbackProducts;
-                    this.initRender();
+                    this.renderSwimlanes();
                 }
             },
 
-            /* --- 3. VIEW MANAGEMENT (SWIMLANES VS GRID) --- */
-            initRender: function() {
-                if(this.state.filters.search || this.state.filters.type !== 'all' || this.state.filters.category !== 'all') {
-                    this.applyFilters(); // URL requested a specific filter
-                } else {
-                    this.renderSwimlanes(); // Default View
-                }
+            /* --- 3. FILTERING ENGINE --- */
+            setFilterAndSwitch: function(key, value) {
+                const radio = document.querySelector(`input[name="${key}"][value="${value}"]`);
+                if(radio) radio.checked = true;
+                this.applyFilters();
+                window.scrollTo({top: 0, behavior: 'smooth'});
             },
 
+            applyFilters: function() {
+                // Read states from UI
+                const typeRadio = document.querySelector('input[name="type"]:checked');
+                if (typeRadio) this.state.filters.type = typeRadio.value;
+                
+                const catRadio = document.querySelector('input[name="category"]:checked');
+                if (catRadio) this.state.filters.category = catRadio.value;
+
+                const sortRadio = document.querySelector('input[name="sort"]:checked');
+                if (sortRadio) this.state.filters.sort = sortRadio.value;
+
+                // Are we filtering?
+                const isFiltering = this.state.filters.search !== '' || this.state.filters.type !== 'all' || this.state.filters.category !== 'all';
+                
+                if (!isFiltering && this.state.filters.sort === 'newest') {
+                    // Back to Swimlane view
+                    this.renderSwimlanes();
+                    return;
+                }
+
+                // Switch UI to Grid View
+                document.getElementById('swimlanes-view').style.display = 'none';
+                document.getElementById('filtered-view').style.display = 'block';
+                this.state.isFilteredView = true;
+
+                // Process Data
+                let result = [...this.state.allProducts];
+
+                if (this.state.filters.search) {
+                    const query = this.state.filters.search;
+                    result = result.filter(p => 
+                        (p.title && p.title.toLowerCase().includes(query)) || 
+                        (p.category && p.category.toLowerCase().includes(query))
+                    );
+                }
+
+                if (this.state.filters.type !== 'all') result = result.filter(p => p.type === this.state.filters.type);
+                if (this.state.filters.category !== 'all') result = result.filter(p => p.category === this.state.filters.category);
+
+                // Sort
+                if (this.state.filters.sort === 'price_low') result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                else if (this.state.filters.sort === 'price_high') result.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+
+                this.state.filtered = result;
+                this.renderMasterGrid(result);
+            },
+
+            resetFilters: function() {
+                document.getElementById('market-search').value = '';
+                this.state.filters.search = '';
+                document.querySelector('input[name="type"][value="all"]').checked = true;
+                document.querySelector('input[name="category"][value="all"]').checked = true;
+                document.querySelector('input[name="sort"][value="newest"]').checked = true;
+                this.applyFilters();
+            },
+
+            /* --- 4. RENDER PIPELINE --- */
             renderSwimlanes: function() {
                 document.getElementById('swimlanes-view').style.display = 'block';
                 document.getElementById('filtered-view').style.display = 'none';
@@ -577,72 +782,25 @@
 
                 const all = this.state.allProducts;
                 
-                // Filtering for Swimlanes
+                // Segregate
                 const saas = all.filter(p => p.type === 'saas');
                 const digital = all.filter(p => p.type === 'digital');
                 const physical = all.filter(p => p.type === 'physical');
 
-                document.getElementById('track-saas').innerHTML = saas.length ? saas.map(p => this.buildCard(p)).join('') : '<p>No SaaS Tools currently.</p>';
-                document.getElementById('track-digital').innerHTML = digital.length ? digital.map(p => this.buildCard(p)).join('') : '<p>No Digital Assets currently.</p>';
-                document.getElementById('track-physical').innerHTML = physical.length ? physical.map(p => this.buildCard(p)).join('') : '<p>No Physical Gear currently.</p>';
+                document.getElementById('track-saas').innerHTML = saas.length ? saas.map(p => this.buildCard(p)).join('') : '<p style="color:var(--text-300);">No SaaS Tools currently.</p>';
+                document.getElementById('track-digital').innerHTML = digital.length ? digital.map(p => this.buildCard(p)).join('') : '<p style="color:var(--text-300);">No Digital Assets currently.</p>';
+                document.getElementById('track-physical').innerHTML = physical.length ? physical.map(p => this.buildCard(p)).join('') : '<p style="color:var(--text-300);">No Physical Gear currently.</p>';
 
-                // Personalization (Recommended)
+                // Personalization (Recently Viewed logic)
                 if(this.state.viewedIds.length > 0) {
                     const recSection = document.getElementById('section-recommended');
                     const recTrack = document.getElementById('track-recommended');
-                    // Find products matching the categories of viewed items, excluding the exact viewed items if you want, 
-                    // but for simplicity, just show highly rated items from those types.
-                    const recs = all.filter(p => this.state.viewedIds.includes(p.id) || p.rating >= 4.9).slice(0, 5);
+                    const recs = all.filter(p => this.state.viewedIds.includes(p.id) || p.rating >= 4.9).slice(0, 6);
                     if(recs.length) {
                         recSection.style.display = 'block';
                         recTrack.innerHTML = recs.map(p => this.buildCard(p)).join('');
                     }
                 }
-            },
-
-            /* --- 4. FILTERING & SEARCHING --- */
-            setFilterAndSwitch: function(key, value) {
-                // E.g., User clicks "See All" on SaaS row
-                document.querySelector(`input[name="${key}"][value="${value}"]`).checked = true;
-                this.applyFilters();
-                window.scrollTo({top: 0, behavior: 'smooth'});
-            },
-
-            applyFilters: function() {
-                // Read states
-                const search = document.getElementById('market-search').value.toLowerCase().trim();
-                const type = document.querySelector('input[name="type"]:checked').value;
-                const cat = document.querySelector('input[name="category"]:checked').value;
-                const sort = document.querySelector('input[name="sort"]:checked').value;
-
-                // Update State
-                this.state.filters = { search, type, category: cat, sort };
-
-                // Are we filtering?
-                const isFiltering = search !== '' || type !== 'all' || cat !== 'all';
-                
-                if (!isFiltering && sort === 'newest') {
-                    // Back to default view
-                    this.renderSwimlanes();
-                    return;
-                }
-
-                // Switch to Grid View
-                document.getElementById('swimlanes-view').style.display = 'none';
-                document.getElementById('filtered-view').style.display = 'block';
-                this.state.isFilteredView = true;
-
-                // Process Array
-                let result = [...this.state.allProducts];
-
-                if(search) result = result.filter(p => p.title.toLowerCase().includes(search));
-                if(type !== 'all') result = result.filter(p => p.type === type);
-                if(cat !== 'all') result = result.filter(p => p.category === cat);
-
-                if(sort === 'price_low') result.sort((a,b) => a.price - b.price);
-                if(sort === 'price_high') result.sort((a,b) => b.price - a.price);
-
-                this.renderMasterGrid(result);
             },
 
             renderMasterGrid: function(products) {
@@ -655,79 +813,121 @@
                             <i class="fa-solid fa-ghost"></i>
                             <h2 style="font-family:'Space Grotesk'; font-size:24px; margin-bottom:10px;">No Assets Found</h2>
                             <p style="color:var(--text-200); font-size:14px;">Try adjusting your search or filters.</p>
-                            <button class="search-btn" style="margin-top:20px;" onclick="NX_SHOP.resetFilters()">Clear Filters</button>
+                            <button class="search-btn" style="margin-top:20px; background:var(--brand-main); color:#fff;" onclick="NX_SHOP.resetFilters()">Clear Filters</button>
                         </div>
                     `;
+                    grid.classList.remove('active');
                     return;
                 }
 
                 grid.innerHTML = products.map(p => this.buildCard(p)).join('');
+                grid.classList.add('active');
             },
 
-            resetFilters: function() {
-                document.getElementById('market-search').value = '';
-                document.querySelector('input[name="type"][value="all"]').checked = true;
-                document.querySelector('input[name="category"][value="all"]').checked = true;
-                document.querySelector('input[name="sort"][value="newest"]').checked = true;
-                this.applyFilters();
-            },
-
-            /* --- 5. UI CARD BUILDER & ACTIONS --- */
+            // DYNAMIC CARD BUILDER WITH WATERMARK INJECTION
             buildCard: function(p) {
                 const price = parseFloat(p.price || 0).toLocaleString();
-                const oldPrice = p.oldPrice ? `<span class="nx-card-price-old">Rs. ${parseFloat(p.oldPrice).toLocaleString()}</span>` : '';
-                const badge = p.badge ? `<span class="nx-card-badge">${p.badge}</span>` : '';
+                const oldPriceHtml = p.oldPrice ? `<span class="nx-card-price-old">Rs. ${parseFloat(p.oldPrice).toLocaleString()}</span>` : '';
+                const badgeHtml = p.badge ? `<span class="nx-card-badge">${p.badge}</span>` : '';
+                
+                // Route binding
+                const productUrl = window.NexraRoutes ? window.NexraRoutes.generateURL('product', `?id=${p.id}`) : `product-detail.html?id=${p.id}`;
                 const safeTitle = (p.title || '').replace(/'/g, "\\'");
                 
-                // Track personalization internally
-                const clickAction = `NX_SHOP.viewProduct('${p.id}')`;
+                // Fetch dynamic watermark from NexraBrand
+                const watermarkUrl = window.NexraBrand ? window.NexraBrand.getAsset('watermark') : '';
 
                 return `
-                    <div class="nx-card" onclick="${clickAction}">
+                    <div class="nx-card" onclick="NX_SHOP.viewProduct('${p.id}')">
                         <div class="nx-card-img-wrap">
-                            ${badge}
-                            <button class="nx-card-wishlist" onclick="event.stopPropagation(); alert('Wishlist added')"><i class="fa-regular fa-heart"></i></button>
-                            <img src="${p.image}" class="nx-card-img" alt="${safeTitle}" loading="lazy">
+                            ${badgeHtml}
+                            <button class="nx-card-wishlist" aria-label="Add to Wishlist" onclick="event.stopPropagation(); NX_SHOP.addToWishlist('${p.id}')">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                            <img src="${p.image}" class="nx-card-img" alt="${p.title}" loading="lazy">
+                            <img src="${watermarkUrl}" class="nx-card-watermark nx-brand-watermark" alt="watermark">
                         </div>
+                        
                         <div class="nx-card-meta">
                             <span class="nx-card-stars"><i class="fa-solid fa-star"></i> ${p.rating || '5.0'}</span>
-                            <span>${p.salesCount || 0} Sold</span>
+                            <span><i class="fa-solid fa-bolt" style="color:var(--gold); font-size:10px;"></i> ${p.salesCount || 0} Sold</span>
                         </div>
+                        
                         <h3 class="nx-card-title">${p.title}</h3>
+                        
                         <div class="nx-card-price-row">
-                            ${oldPrice}
+                            ${oldPriceHtml}
                             <span class="nx-card-price">Rs. ${price}</span>
                         </div>
+                        
                         <div class="nx-card-actions">
-                            <button class="nx-card-btn-icon" onclick="event.stopPropagation(); alert('Added to cart')"><i class="fa-solid fa-cart-plus"></i></button>
-                            <button class="nx-card-btn-main" onclick="event.stopPropagation(); window.location.href='checkout.html'">Buy Now</button>
+                            <button class="nx-card-btn-icon" aria-label="Add to Cart" onclick="event.stopPropagation(); NX_SHOP.addToCart('${p.id}', '${safeTitle}', ${p.price}, '${p.image}', '${p.type}')">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </button>
+                            <button class="nx-card-btn-main" onclick="event.stopPropagation(); NX_SHOP.buyNow('${p.id}', '${safeTitle}', ${p.price}, '${p.image}', '${p.type}')">
+                                Buy Now
+                            </button>
                         </div>
                     </div>
                 `;
             },
 
+            /* --- 5. USER ACTIONS --- */
             viewProduct: function(id) {
-                // Save to local storage for personalization
+                // Personalization Tracking
                 let views = this.state.viewedIds;
                 if(!views.includes(id)) {
                     views.push(id);
-                    if(views.length > 10) views.shift(); // keep last 10
+                    if(views.length > 15) views.shift();
                     localStorage.setItem('nx_viewed_products', JSON.stringify(views));
                 }
                 
-                // Route
+                // Deep Link Route
                 const url = window.NexraRoutes ? window.NexraRoutes.generateURL('product', `?id=${id}`) : `product-detail.html?id=${id}`;
                 window.location.href = url;
             },
 
-            parseParams: function() {
-                const p = new URLSearchParams(window.location.search);
-                if(p.has('q')) { document.getElementById('market-search').value = p.get('q'); this.state.filters.search = p.get('q'); }
-                if(p.has('cat')) this.state.filters.category = p.get('cat');
+            addToCart: function(id, title, price, image, type) {
+                if (window.Nexra && typeof Nexra.showToast === 'function') {
+                    Nexra.showToast(`${title} added to cart!`, 'success');
+                } else {
+                    alert(`${title} added to cart`);
+                }
+                // Centralized cart logic injection point
+                // window.NexraCart.add({ id, title, price, image, type });
+            },
+
+            buyNow: function(id, title, price, image, type) {
+                this.addToCart(id, title, price, image, type);
+                const checkoutUrl = window.NexraRoutes ? window.NexraRoutes.generateURL('checkout') : 'checkout.html';
+                window.location.href = checkoutUrl;
+            },
+
+            addToWishlist: async function(id) {
+                if (!window.auth || !auth.currentUser) {
+                    if (window.Nexra && typeof Nexra.showToast === 'function') {
+                        Nexra.showToast("Please login to save items", "error");
+                    }
+                    return;
+                }
+                try {
+                    await window.db.collection('users').doc(auth.currentUser.uid).collection('wishlist').doc(id).set({ addedAt: Date.now() });
+                    if (window.Nexra) Nexra.showToast("Saved to your Vault Wishlist", "success");
+                } catch(e) { console.error("Wishlist error:", e); }
+            },
+
+            toggleMobileFilters: function() {
+                const sidebar = document.getElementById('filter-sidebar');
+                const bg = document.getElementById('mobile-filter-bg');
+                const header = document.getElementById('mobile-filter-header');
+                
+                sidebar.classList.toggle('active');
+                bg.classList.toggle('active');
+                if(window.innerWidth < 1024) header.style.display = 'flex';
             }
         };
 
-        // Ignite
+        // Ignition
         window.addEventListener('DOMContentLoaded', () => NX_SHOP.init());
     </script>
 </body>
