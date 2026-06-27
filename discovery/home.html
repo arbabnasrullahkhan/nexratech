@@ -2,94 +2,74 @@
 <html lang="en" data-theme="light">
 <head>
     <!-- ==========================================================================
-         1. ENTERPRISE-LEVEL SEO & META ARCHITECTURE
+         1. ENTERPRISE SEO & META ARCHITECTURE (GOOGLE INDEX READY)
          ========================================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Nexra Tech PK | Pakistan's Elite Digital Ecosystem</title>
     
-    <!-- Dynamic Site Title (Updated by Branding Engine) -->
-    <title>Nexra Tech PK | Elite Digital Ecosystem — Software & SaaS</title>
-    
-    <!-- Technical SEO -->
-    <meta name="description" content="Pakistan's #1 digital marketplace for premium software licenses, SaaS tools, and elite creative assets. Instant automated delivery, 24/7 support.">
-    <meta name="keywords" content="digital tools, software licenses, nexra pk, premium assets, saas tools, reseller agency, pakistan digital marketplace, automated delivery">
+    <meta name="description" content="Pakistan's premium marketplace for automated software licensing, SaaS tools, and elite reseller portals. Instant delivery, 24/7 support.">
+    <meta name="keywords" content="digital assets, software license, saas tools, reseller portal, pakistan tech, premium tools, Nexra PK">
     <meta name="author" content="Nexra Tech PK">
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
-    <link rel="canonical" href="https://nexratechpk.com/discovery/home.html">
-    
-    <!-- Open Graph (Facebook, Instagram, LinkedIn) -->
+    <link rel="canonical" href="https://nexratech.vercel.app/home">
+
+    <!-- Open Graph / Facebook / TikTok -->
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Nexra Tech PK">
+    <meta property="og:url" content="https://nexratech.vercel.app/">
     <meta property="og:title" content="Nexra Tech PK | Elite Digital Ecosystem">
-    <meta property="og:description" content="Explore Pakistan's most trusted marketplace for premium software and digital assets. Delivered instantly.">
-    <meta property="og:url" content="https://nexratechpk.com/discovery/home.html">
-    <meta property="og:image" id="og-image-meta" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
-    
-    <!-- Twitter (X) Card -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Nexra Tech PK | Digital Marketplace">
-    <meta name="twitter:description" content="Automated software licensing and elite SaaS tools for creators and agencies.">
-    <meta name="twitter:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
+    <meta property="og:description" content="Access premium digital tools and the ultimate reseller network in Pakistan.">
+    <meta property="og:image" id="meta-og-image" content="https://uploads.onecompiler.io/42yatf6fu/1782533768745/logo_orange%20y.png">
 
-    <!-- Theme Control -->
-    <meta name="theme-color" id="meta-theme-color" content="#ffffff">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Nexra Tech PK | Digital Marketplace">
+    <meta property="twitter:image" content="https://uploads.onecompiler.io/42yatf6fu/1782533768745/logo_orange%20y.png">
 
-    <!-- JSON-LD Structured Data for Google Indexing -->
+    <!-- JSON-LD Schema for Google -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "WebPage",
-      "name": "Nexra Tech PK Home",
-      "description": "Pakistan's premium digital ecosystem.",
-      "publisher": {
-        "@type": "Organization",
-        "name": "Nexra Tech PK",
-        "logo": "https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png"
+      "@type": "WebSite",
+      "name": "Nexra Tech PK",
+      "url": "https://nexratech.vercel.app/",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://nexratech.vercel.app/shop?q={search_term_string}",
+        "query-input": "required name=search_term_string"
       }
     }
     </script>
 
-    <!-- 2. RESOURCE PRECONNECTS -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800;900&display=swap" rel="stylesheet">
-
-    <!-- 3. EXTERNAL CORE CONFIGS -->
-    <script src="../firebaseconfig.js"></script>
-
-    <!-- 4. MASTER INTEGRATED CSS (ALL IN ONE) -->
+    <!-- ==========================================================================
+         2. CORE STYLING ENGINE (PREMIUM WHITE & DYNAMIC BRANDING)
+         ========================================================================== -->
     <style>
-        /* ==========================================================================
-           NEXRA HOME CORE STYLING (V4.0 - ENTERPRISE)
-           ========================================================================== */
         :root {
-            /* BRAND COLORS (Injected from Firebase, Fallback here) */
-            --brand-main: #FF4A17; 
+            /* GLOBAL TOKENS */
+            --brand-main: #FF4A17; /* Default Beta Orange */
             --brand-glow: rgba(255, 74, 23, 0.2);
-            --brand-soft: rgba(255, 74, 23, 0.08);
+            --brand-soft: rgba(255, 74, 23, 0.05);
             
-            /* PREMIUM WHITE SCHEME (APPLE STYLE) */
-            --bg-base: #f8fafc;
-            --bg-surface: #ffffff;
+            --bg-base: #ffffff;
+            --bg-surface: #f8fafc;
             --bg-elevated: #f1f5f9;
+            
             --text-100: #0f172a;
             --text-200: #475569;
             --text-300: #94a3b8;
+            
             --glass-border: rgba(0, 0, 0, 0.06);
-            --shadow-soft: 0 10px 30px -10px rgba(0,0,0,0.05);
-            --shadow-float: 0 25px 60px -15px rgba(0,0,0,0.1);
+            --shadow-premium: 0 20px 50px -12px rgba(0,0,0,0.08);
             
             --radius-md: 24px;
             --radius-lg: 40px;
-            --transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            
-            --success: #10b981;
-            --warning: #f59e0b;
-            --danger: #ef4444;
+            --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-edition="alpha"] {
+            --brand-main: #a855f7; /* Alpha Purple */
+            --brand-glow: rgba(168, 85, 247, 0.2);
+            --brand-soft: rgba(168, 85, 247, 0.05);
         }
 
         [data-theme="dark"] {
@@ -100,521 +80,367 @@
             --text-200: #a1a1aa;
             --text-300: #52525b;
             --glass-border: rgba(255, 255, 255, 0.06);
-            --shadow-soft: 0 20px 40px rgba(0,0,0,0.4);
         }
 
-        /* ---------------------------------------------------------
-           BASE UX & ANIMATIONS
-           --------------------------------------------------------- */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        /* RESET */
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
         body { 
-            background-color: var(--bg-base); color: var(--text-100); 
-            font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden;
-            line-height: 1.6; -webkit-font-smoothing: antialiased;
+            background-color: var(--bg-base); 
+            color: var(--text-100); 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            line-height: 1.6;
+            overflow-x: hidden;
         }
-        
+
+        .container { max-width: 1350px; margin: 0 auto; padding: 0 6%; }
         .tech-font { font-family: 'Space Grotesk', sans-serif; }
-        .container { max-width: 1400px; margin: 0 auto; padding: 0 5%; width: 100%; }
         .text-gradient { background: linear-gradient(135deg, var(--brand-main) 0%, #ff8a00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .flex-between { display: flex; align-items: center; justify-content: space-between; }
 
-        /* Smooth View Loader */
-        .home-main-view { opacity: 0; transform: translateY(15px); transition: opacity 0.8s var(--transition), transform 0.8s var(--transition); }
-        .home-main-view.ready { opacity: 1; transform: translateY(0); }
-
-        /* ---------------------------------------------------------
-           PREMIUM HERO SYSTEM (ULTRA CLEAN)
-           --------------------------------------------------------- */
-        .nx-hero {
-            position: relative; min-height: 90svh; display: flex; align-items: center; 
-            justify-content: center; text-align: center; overflow: hidden;
-            margin-top: -120px; padding-top: 150px; padding-bottom: 80px;
-            border-radius: 0 0 60px 60px; z-index: 5;
+        /* ==========================================
+           A. HERO SECTION (ULTRA PREMIUM)
+           ========================================== */
+        .hero-section {
+            position: relative;
+            min-height: 85vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            overflow: hidden;
+            padding-top: 100px;
+            background: var(--bg-base);
         }
 
-        .hero-bg-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0.7; filter: blur(35px) brightness(0.6); }
-        .hero-overlay { position: absolute; inset: 0; z-index: 1; background: radial-gradient(circle at center, rgba(0,0,0,0) 0%, var(--bg-base) 95%); }
+        .hero-bg-media {
+            position: absolute;
+            inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            opacity: 0.8;
+            filter: blur(40px) brightness(0.9);
+            z-index: 0;
+        }
 
-        .hero-content { position: relative; z-index: 10; max-width: 900px; width: 100%; padding: 0 25px; }
+        .hero-content { position: relative; z-index: 5; max-width: 900px; padding: 0 20px; }
+
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: var(--bg-surface); border: 1px solid var(--glass-border);
+            padding: 8px 18px; border-radius: 50px; font-size: 10px; font-weight: 800;
+            color: var(--brand-main); letter-spacing: 1.5px; text-transform: uppercase;
+            margin-bottom: 25px; box-shadow: var(--shadow-premium);
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900; line-height: 1.05; letter-spacing: -3px;
+            color: var(--text-100); margin-bottom: 20px;
+        }
+
+        .hero-desc {
+            font-size: clamp(16px, 2.5vw, 19px);
+            color: var(--text-200); font-weight: 500;
+            max-width: 650px; margin: 0 auto 40px;
+        }
+
+        .hero-btns { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+
+        .btn {
+            padding: 20px 40px; border-radius: 50px; font-weight: 800; font-size: 14px;
+            cursor: pointer; transition: var(--transition); display: inline-flex;
+            align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .btn-primary { background: var(--brand-main); color: #fff; border: none; box-shadow: 0 10px 30px var(--brand-glow); }
+        .btn-primary:hover { transform: translateY(-5px); box-shadow: 0 15px 40px var(--brand-glow); }
         
-        .hero-badge { 
-            display: inline-flex; align-items: center; gap: 8px; background: var(--bg-surface); 
-            border: 1px solid var(--glass-border); padding: 8px 18px; border-radius: 50px;
-            font-size: 11px; font-weight: 800; color: var(--brand-main); letter-spacing: 2px;
-            text-transform: uppercase; margin-bottom: 30px; box-shadow: var(--shadow-soft);
+        .btn-outline { background: var(--bg-base); color: var(--text-100); border: 1px solid var(--glass-border); }
+        .btn-outline:hover { background: var(--bg-elevated); border-color: var(--brand-main); }
+
+        /* ==========================================
+           B. SMART SEARCH & CATEGORIES
+           ========================================== */
+        .search-area { margin-top: -40px; position: relative; z-index: 10; padding: 0 5%; }
+        .search-island {
+            max-width: 800px; margin: 0 auto; background: var(--bg-base);
+            border: 1px solid var(--glass-border); padding: 10px 10px 10px 25px;
+            border-radius: 60px; display: flex; align-items: center; gap: 15px;
+            box-shadow: var(--shadow-premium);
         }
+        .search-island input { flex: 1; border: none; background: transparent; font-size: 16px; font-family: inherit; font-weight: 600; color: var(--text-100); }
+        .search-island svg { color: var(--text-300); }
 
-        .hero-headline { font-family: 'Space Grotesk'; font-size: clamp(38px, 9vw, 84px); font-weight: 900; line-height: 1; letter-spacing: -4px; margin-bottom: 25px; }
-        .hero-rotor { color: var(--brand-main); display: inline-block; min-width: 280px; }
+        .cat-row {
+            display: flex; gap: 12px; overflow-x: auto; padding: 40px 0 10px;
+            scrollbar-width: none; justify-content: center;
+        }
+        .cat-row::-webkit-scrollbar { display: none; }
+        .cat-pill {
+            flex: 0 0 auto; background: var(--bg-surface); border: 1px solid var(--glass-border);
+            padding: 12px 24px; border-radius: 50px; font-size: 13px; font-weight: 700;
+            color: var(--text-200); cursor: pointer; transition: 0.3s;
+        }
+        .cat-pill:hover { border-color: var(--brand-main); color: var(--brand-main); transform: translateY(-3px); }
 
-        .hero-desc { font-size: clamp(16px, 2.5vw, 19px); color: var(--text-200); font-weight: 600; line-height: 1.7; max-width: 650px; margin: 0 auto 45px; }
+        /* ==========================================
+           C. PRODUCT GRID (ALPHA/BETA SYNCED)
+           ========================================== */
+        .section-title-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+        .grid-main {
+            display: grid; gap: 20px;
+            grid-template-columns: repeat(2, 1fr);
+        }
+        @media (min-width: 768px) { .grid-main { grid-template-columns: repeat(3, 1fr); } }
+        @media (min-width: 1024px) { .grid-main { grid-template-columns: repeat(4, 1fr); } }
+        @media (min-width: 1400px) { .grid-main { grid-template-columns: repeat(5, 1fr); } }
 
-        .hero-ctas { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-bottom: 60px; }
-        .btn { padding: 18px 40px; border-radius: 50px; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; display: inline-flex; align-items: center; gap: 10px; border: none; }
-        .btn-primary { background: var(--brand-main); color: #fff; box-shadow: 0 15px 35px var(--brand-glow); }
-        .btn-primary:hover { transform: translateY(-5px); box-shadow: 0 20px 45px var(--brand-glow); }
-        .btn-outline { background: transparent; border: 2px solid var(--brand-main); color: var(--brand-main); }
-        .btn-outline:hover { background: var(--brand-main); color: #fff; }
-
-        /* Trust Stats Bar */
-        .hero-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; }
-        @media (min-width: 600px) { .hero-stats { grid-template-columns: repeat(4, 1fr); } }
-        .stat-item { background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 20px 10px; border-radius: 20px; box-shadow: var(--shadow-soft); }
-        .stat-val { font-family: 'Space Grotesk'; font-size: 24px; font-weight: 800; color: var(--text-100); line-height: 1; }
-        .stat-lbl { font-size: 10px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1px; margin-top: 5px; }
-
-        /* ---------------------------------------------------------
-           DYNAMIC SEARCH & CATEGORIES
-           --------------------------------------------------------- */
-        .search-section { position: relative; z-index: 20; margin-top: -35px; padding: 0 20px; }
-        .search-bar { max-width: 800px; margin: 0 auto; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 60px; padding: 10px 10px 10px 25px; display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-float); }
-        .search-bar input { flex: 1; border: none; background: transparent; font-size: 16px; font-weight: 600; color: var(--text-100); outline: none; }
-        .search-bar input::placeholder { color: var(--text-300); }
-        .search-btn { width: 50px; height: 50px; border-radius: 50%; background: var(--brand-main); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; }
-
-        .cat-scroll { display: flex; gap: 12px; overflow-x: auto; padding: 40px 20px 10px; scrollbar-width: none; }
-        .cat-scroll::-webkit-scrollbar { display: none; }
-        .cat-pill { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 12px 24px; border-radius: 50px; font-size: 14px; font-weight: 700; color: var(--text-200); cursor: pointer; transition: 0.3s; box-shadow: var(--shadow-soft); }
-        .cat-pill:hover, .cat-pill.active { border-color: var(--brand-main); color: var(--brand-main); transform: translateY(-3px); }
-        .cat-icon { width: 30px; height: 30px; border-radius: 10px; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; font-size: 14px; color: var(--brand-main); }
-
-        /* ---------------------------------------------------------
-           TRENDING MARKETPLACE GRID
-           --------------------------------------------------------- */
-        .section-header { margin-bottom: 40px; }
-        .eyebrow { font-size: 11px; font-weight: 800; color: var(--brand-main); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 10px; display: block; }
-        .title-row { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 20px; }
-
-        .prod-grid { display: grid; gap: 20px; grid-template-columns: repeat(2, 1fr); }
-        @media(min-width: 768px){ .prod-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media(min-width: 1024px){ .prod-grid { grid-template-columns: repeat(5, 1fr); } }
-
-        .p-card { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 12px; position: relative; transition: 0.4s; display: flex; flex-direction: column; cursor: pointer; }
-        .p-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-float); border-color: var(--brand-main); }
-        .p-badge { position: absolute; top: 15px; left: 15px; background: var(--brand-main); color: #fff; padding: 4px 10px; border-radius: 8px; font-size: 9px; font-weight: 900; z-index: 5; letter-spacing: 1px; }
+        .p-card {
+            background: var(--bg-surface); border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md); padding: 15px; transition: 0.4s;
+            cursor: pointer; display: flex; flex-direction: column; position: relative;
+        }
+        .p-card:hover { transform: translateY(-10px); border-color: var(--brand-main); box-shadow: var(--shadow-premium); }
         
         .p-img-box { width: 100%; aspect-ratio: 1/1; border-radius: 18px; overflow: hidden; margin-bottom: 15px; background: var(--bg-elevated); }
-        .p-img-box img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
-        .p-card:hover .p-img-box img { transform: scale(1.1); }
+        .p-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
+        .p-card:hover .p-img { transform: scale(1.1); }
 
-        .p-title { font-size: 14px; font-weight: 700; line-height: 1.4; margin-bottom: 8px; height: 38px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-        .p-price-row { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 10px; border-top: 1px solid var(--glass-border); }
-        .p-price { font-family: 'Space Grotesk'; font-size: 18px; font-weight: 800; color: var(--text-100); }
-        .p-add-btn { width: 35px; height: 35px; border-radius: 10px; background: var(--bg-elevated); color: var(--text-100); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .p-card:hover .p-add-btn { background: var(--brand-main); color: #fff; }
-
-        /* ---------------------------------------------------------
-           B2B AGENCY BANNER
-           --------------------------------------------------------- */
-        .b2b-banner { 
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
-            border-radius: var(--radius-lg); padding: 60px 8%; display: flex; 
-            flex-wrap: wrap; gap: 50px; align-items: center; justify-content: space-between; 
-            color: #fff; position: relative; overflow: hidden; margin: 100px 0;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-        }
-        .b2b-banner::after { content: '\f201'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: -5%; bottom: -20%; font-size: 300px; opacity: 0.05; transform: rotate(-15deg); }
-
-        /* ---------------------------------------------------------
-           TESTIMONIALS SLOW MARQUEE
-           --------------------------------------------------------- */
-        .marq-wrap { overflow: hidden; padding: 40px 0; position: relative; }
-        .marq-wrap::before, .marq-wrap::after { content: ''; position: absolute; top: 0; width: 100px; height: 100%; z-index: 2; pointer-events: none; }
-        .marq-wrap::before { left: 0; background: linear-gradient(to right, var(--bg-base), transparent); }
-        .marq-wrap::after { right: 0; background: linear-gradient(to left, var(--bg-base), transparent); }
+        .p-badge { position: absolute; top: 25px; left: 25px; background: var(--brand-main); color: #fff; font-size: 9px; font-weight: 900; padding: 4px 10px; border-radius: 8px; z-index: 2; }
         
-        .marq-track { display: flex; gap: 20px; width: max-content; animation: marqueeScroll 60s linear infinite; }
-        @keyframes marqueeScroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-        .marq-card { width: 320px; background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 25px; border-radius: 24px; box-shadow: var(--shadow-soft); }
+        .p-info h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+        .p-price-row { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 15px; border-top: 1px solid var(--glass-border); }
+        .p-price { font-size: 18px; font-weight: 800; color: var(--text-100); }
 
-        /* ---------------------------------------------------------
-           FAQ ACCORDION
-           --------------------------------------------------------- */
-        .faq-list { max-width: 800px; margin: 0 auto; }
-        .faq-item { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 20px; margin-bottom: 12px; overflow: hidden; transition: 0.3s; }
-        .faq-item summary { padding: 20px 30px; font-weight: 700; font-size: 16px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
-        .faq-item summary::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 12px; color: var(--brand-main); transition: 0.3s; }
-        .faq-item[open] summary::after { transform: rotate(45deg); }
-        .faq-content { padding: 0 30px 20px; color: var(--text-200); font-size: 15px; }
+        /* ==========================================
+           D. B2B / AGENCY BANNER
+           ========================================== */
+        .b2b-island {
+            background: linear-gradient(135deg, var(--brand-main) 0%, #000 160%);
+            border-radius: var(--radius-lg); padding: 60px; display: flex;
+            align-items: center; justify-content: space-between; flex-wrap: wrap;
+            gap: 40px; margin: 80px 0; color: #fff; position: relative; overflow: hidden;
+        }
+        .b2b-island::after { content: '\f201'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: -5%; bottom: -20%; font-size: 250px; opacity: 0.1; transform: rotate(-15deg); }
+
+        /* ==========================================
+           E. TESTIMONIAL MARQUEE (SLOW MOTION)
+           ========================================== */
+        .marquee-container { overflow: hidden; padding: 40px 0; position: relative; }
+        .marquee-track { display: flex; gap: 20px; width: max-content; animation: scrollMarquee 60s linear infinite; }
+        .t-card { width: 300px; background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 25px; border-radius: var(--radius-md); box-shadow: var(--shadow-premium); }
+        @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-50% - 10px)); } }
 
     </style>
 </head>
 <body>
 
     <!-- ==========================================================================
-         MAIN HOME VIEW
+         MAIN DASHBOARD STRUCTURE
          ========================================================================== -->
-    <main class="home-main-view" id="home-module">
-        
-        <!-- 1. CINEMATIC HERO SECTION -->
-        <section class="nx-hero">
-            <video autoplay loop muted playsinline class="hero-bg-video" id="hero-vid">
-                <source src="https://www.pexels.com/download/video/8675553/" type="video/mp4">
-            </video>
-            <div class="hero-overlay"></div>
+    <main id="home-dashboard">
+
+        <!-- A. HERO SECTION -->
+        <section class="hero-section">
+            <div id="hero-media-mount">
+                 <!-- Dynamic Video/Image from Edition Config -->
+                 <video class="hero-bg-media" id="hero-video" autoplay loop muted playsinline>
+                    <source src="https://www.pexels.com/download/video/8675553/" type="video/mp4">
+                 </video>
+            </div>
             
             <div class="hero-content">
-                <div class="hero-badge">
+                <div class="hero-badge" id="hero-edition-badge">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    SECURED DIGITAL ECOSYSTEM
+                    <span id="edition-text">BETA EDITION</span>
                 </div>
                 
-                <h1 class="hero-headline">
-                    <span class="text-100">ELITE DIGITAL</span><br>
-                    <span class="hero-rotor text-gradient" id="hero-rotor">MARKETPLACE</span>
+                <h1 class="tech-font hero-title">
+                    <span id="hero-title-1">DIGITAL</span><br>
+                    <span class="text-gradient" id="hero-title-2">ECOSYSTEM</span>
                 </h1>
-                
-                <p class="hero-desc">Experience Pakistan's premium hub for automated software licenses, SaaS tools, and elite tech resources—delivered instantly to your vault.</p>
-                
-                <div class="hero-ctas">
+
+                <p class="hero-desc">Experience Pakistan's most trusted marketplace for premium software, SaaS tools, and elite reseller portals — delivered instantly.</p>
+
+                <div class="hero-btns">
                     <button class="btn btn-primary" onclick="Nexra.navTo('shop')">
-                        <i class="fa-solid fa-store"></i> EXPLORE MARKET
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                        EXPLORE MARKET
                     </button>
                     <button class="btn btn-outline" onclick="Nexra.navTo('freebies')">
-                        <i class="fa-solid fa-cloud-arrow-down"></i> FREE VAULT
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                        FREE VAULT
                     </button>
-                </div>
-
-                <!-- Live Data Trust Bar -->
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-val text-gradient" id="stat-users">1.7K+</div>
-                        <div class="stat-lbl">Active Users</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-val" id="stat-orders">52K+</div>
-                        <div class="stat-lbl">Deliveries</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-val" id="stat-trust">99.9%</div>
-                        <div class="stat-lbl">Trust Score</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-val" id="stat-support">15m</div>
-                        <div class="stat-lbl">Avg Response</div>
-                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 2. GLOBAL SEARCH & CATEGORIES -->
-        <div class="search-section">
-            <div class="search-bar">
-                <i class="fa-solid fa-magnifying-glass" style="color:var(--text-300)"></i>
-                <input type="text" id="global-search" placeholder="Search premium software, tools, or articles...">
-                <div class="search-btn" onclick="NexraHome.search()"><i class="fa-solid fa-arrow-right"></i></div>
+        <!-- B. SMART SEARCH AREA -->
+        <div class="search-area">
+            <div class="search-island">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                <input type="text" id="global-search-input" placeholder="Search apps, assets, or tutorials...">
+                <button class="btn btn-primary" style="padding: 15px 30px; border-radius: 40px;" onclick="NexraHome.handleSearch()">SEARCH</button>
             </div>
-            
-            <nav class="cat-scroll" id="category-row">
-                <!-- Categories injected dynamically -->
-                <div class="cat-pill active"><div class="cat-icon"><i class="fa-solid fa-layer-group"></i></div> All Assets</div>
-                <div class="cat-pill"><div class="cat-icon"><i class="fa-solid fa-code"></i></div> SaaS Tools</div>
-                <div class="cat-pill"><div class="cat-icon"><i class="fa-solid fa-palette"></i></div> Graphics</div>
-                <div class="cat-pill"><div class="cat-icon"><i class="fa-brands fa-wordpress"></i></div> Plugins</div>
-                <div class="cat-pill"><div class="cat-icon"><i class="fa-solid fa-graduation-cap"></i></div> Academy</div>
-            </nav>
+
+            <div class="cat-row" id="home-categories">
+                <!-- JS Injected Categories -->
+                <div class="cat-pill">SaaS Tools</div>
+                <div class="cat-pill">Graphic Assets</div>
+                <div class="cat-pill">License Keys</div>
+                <div class="cat-pill">Agency API</div>
+            </div>
         </div>
 
-        <!-- 3. TRENDING PRODUCTS GRID -->
+        <!-- C. TRENDING SECTION -->
         <section class="nx-section container">
-            <div class="section-header">
-                <span class="eyebrow">HOT RIGHT NOW</span>
-                <div class="title-row">
-                    <h2 class="tech-font" style="font-size:32px; font-weight:800;">TRENDING <span class="text-gradient">ASSETS</span></h2>
-                    <button class="btn btn-outline" style="padding:10px 25px; font-size:12px;" onclick="Nexra.navTo('shop')">VIEW ALL</button>
+            <div class="section-title-row">
+                <div>
+                    <div class="badge" style="background:var(--brand-soft); border-color:var(--brand-glow);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg> HOT RIGHT NOW</div>
+                    <h2 class="tech-font" style="font-size: 32px; margin-top: 10px;">TRENDING <span class="text-gradient">ASSETS</span></h2>
+                </div>
+                <button class="btn btn-outline" style="padding: 12px 25px; font-size: 12px;" onclick="Nexra.navTo('shop')">VIEW ALL</button>
+            </div>
+
+            <div class="grid-main" id="trending-grid">
+                <!-- Products Injected by Firebase -->
+            </div>
+        </section>
+
+        <!-- D. B2B AGENCY BANNER -->
+        <div class="container">
+            <div class="b2b-island">
+                <div style="position: relative; z-index: 2; max-width: 600px;">
+                    <div class="badge" style="background:rgba(255,255,255,0.1); color:#fff; border-color:rgba(255,255,255,0.2);">RESELLER PROGRAM</div>
+                    <h2 class="tech-font" style="font-size: clamp(2rem, 5vw, 3.5rem); margin: 20px 0;">Build Your <span style="color: #fff;">Agency Empire</span></h2>
+                    <p style="font-size: 17px; margin-bottom: 35px; opacity: 0.9;">Get wholesale API pricing, generate direct license keys, and manage your profit margins from one elite dashboard.</p>
+                    <button class="btn btn-primary" style="background: #fff; color: var(--brand-main);" onclick="Nexra.navTo('reseller')">JOIN PORTAL NOW</button>
+                </div>
+                <div style="position: relative; z-index: 2;">
+                    <img class="nx-brand-logo" src="" alt="Reseller Icon" style="max-width: 250px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));">
                 </div>
             </div>
-            
-            <div class="prod-grid" id="trending-grid">
-                <!-- Premium Skeletons while Firebase loads -->
-                <div class="p-card"><div class="p-img-box"><div class="skeleton" style="height:100%"></div></div></div>
-                <div class="p-card"><div class="p-img-box"><div class="skeleton" style="height:100%"></div></div></div>
-                <div class="p-card"><div class="p-img-box"><div class="skeleton" style="height:100%"></div></div></div>
-                <div class="p-card"><div class="p-img-box"><div class="skeleton" style="height:100%"></div></div></div>
-                <div class="p-card"><div class="p-img-box"><div class="skeleton" style="height:100%"></div></div></div>
-            </div>
-        </section>
+        </div>
 
-        <!-- 4. B2B AGENCY BANNER -->
-        <section class="container">
-            <div class="b2b-banner">
-                <div style="flex: 1.5; min-width: 300px;">
-                    <div class="badge" style="background:rgba(255,255,255,0.1); color:#fff; border:none; margin-bottom:20px;">ELITE PARTNERSHIP</div>
-                    <h2 class="tech-font" style="font-size: clamp(32px, 5vw, 54px); font-weight: 800; margin-bottom: 20px;">BUILD YOUR AGENCY EMPIRE</h2>
-                    <p style="font-size: 17px; margin-bottom: 40px; opacity:0.8;">Get wholesale API pricing, generate direct license keys, and manage your profit margins from one elite dashboard.</p>
-                    <button class="btn" style="background:#fff; color:#0f172a;" onclick="Nexra.navTo('reseller')">
-                        <i class="fa-solid fa-rocket"></i> JOIN PORTAL NOW
-                    </button>
-                </div>
-                <div style="flex: 1; text-align: center;">
-                    <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" style="max-width:300px; filter:drop-shadow(0 20px 40px rgba(0,0,0,0.4))" alt="Agency">
-                </div>
-            </div>
-        </section>
-
-        <!-- 5. COMMUNITY VAULT (FREEBIES) -->
-        <section class="nx-section container">
-            <div style="text-align: center; margin-bottom: 50px;">
-                <span class="eyebrow">COMMUNITY VAULT</span>
-                <h2 class="tech-font" style="font-size: 40px; font-weight: 800;">FREE <span class="text-gradient">RESOURCES</span></h2>
-                <p style="color:var(--text-200); max-width:500px; margin: 15px auto;">Premium assets locked for 14 days. Share 3 times to unlock permanently.</p>
-            </div>
-            
-            <div class="nh-freebies-grid" id="freebies-grid">
-                <!-- Injected via Firebase -->
-            </div>
-            
-            <div style="text-align: center; margin-top: 50px;">
-                <button class="btn btn-outline" onclick="Nexra.navTo('freebies')">BROWSE FULL VAULT</button>
-            </div>
-        </section>
-
-        <!-- 6. TECH INSIGHTS (BLOGS) -->
-        <section class="nx-section container">
-            <div class="title-row" style="margin-bottom:40px;">
-                <h2 class="tech-font" style="font-size:32px; font-weight:800;">TECH <span class="text-gradient">INSIGHTS</span></h2>
-                <button class="btn btn-outline" style="padding:10px 25px; font-size:12px;" onclick="Nexra.navTo('blog')">READ ALL</button>
-            </div>
-            <div class="nh-blogs-grid" id="blog-grid">
-                <!-- Injected via Firebase -->
-            </div>
-        </section>
-
-        <!-- 7. TESTIMONIALS SLOW-MOTION MARQUEE -->
+        <!-- E. COMMUNITY FEED (MARQUEE) -->
         <section class="nx-section">
-            <div class="container" style="text-align: center; margin-bottom: 40px;">
-                <h2 class="tech-font" style="font-size: 32px; font-weight: 800;">WHAT OUR <span class="text-gradient">COMMUNITY SAYS</span></h2>
+            <div class="container" style="text-align: center; margin-bottom: 30px;">
+                <h2 class="tech-font" style="font-size: 28px;">Trusted by <span class="text-gradient">10,000+</span> Users</h2>
             </div>
-            <div class="marq-wrap">
-                <div class="marq-track" id="marq-track">
-                    <!-- Cloned via JS for infinite loop -->
+            <div class="marquee-container">
+                <div class="marquee-track" id="testimonial-track">
+                    <!-- JS Injected Marquee -->
                 </div>
-            </div>
-        </section>
-
-        <!-- 8. FAQ SECTION -->
-        <section class="nx-section container">
-            <div style="text-align: center; margin-bottom: 50px;">
-                <span class="eyebrow">HELP CENTER</span>
-                <h2 class="tech-font" style="font-size: 32px; font-weight: 800;">FREQUENTLY <span class="text-gradient">ASKED</span></h2>
-            </div>
-            <div class="faq-list" id="faq-list">
-                <!-- Injected via Firebase -->
-            </div>
-        </section>
-
-        <!-- 9. ELITE NEWSLETTER -->
-        <section class="container" style="margin-bottom: 80px;">
-            <div style="background:var(--bg-elevated); border:1px solid var(--glass-border); padding:60px 40px; border-radius:var(--radius-lg); text-align:center; position:relative; overflow:hidden;">
-                <div style="position:absolute; top:-50px; left:50%; transform:translateX(-50%); width:200px; height:200px; background:var(--brand-main); filter:blur(100px); opacity:0.1;"></div>
-                <h3 class="tech-font" style="font-size:30px; font-weight:800; margin-bottom:15px;">Unlock <span class="text-gradient">Early Access</span></h3>
-                <p style="color:var(--text-200); margin-bottom:35px; max-width:500px; margin-left:auto; margin-right:auto;">Subscribe to get exclusive beta access to upcoming tools and automated flash sale alerts.</p>
-                <form onsubmit="NexraHome.subscribe(event)" style="display:flex; justify-content:center; gap:10px; max-width:450px; margin:0 auto; flex-wrap:wrap;">
-                    <input type="email" id="nl-email" placeholder="Enter your premium email..." style="flex:1; min-width:250px; background:var(--bg-surface); border:1px solid var(--glass-border); padding:18px 25px; border-radius:50px; outline:none; font-family:inherit;" required>
-                    <button type="submit" class="btn btn-primary">GET ACCESS</button>
-                </form>
             </div>
         </section>
 
     </main>
 
     <!-- ==========================================================================
-         HOME ENGINE (V4.0) - REAL-TIME FIREBASE HANDLER
+         3. HOME PAGE ENGINE (JS)
          ========================================================================== -->
     <script>
         /**
          * NEXRA HOME ENGINE
-         * High-Performance Data Sync + UI Animations
+         * Manages Data fetching, Dynamic Branding, and UX transitions.
          */
         window.NexraHome = {
-            db: null,
-            rotorWords: ['MARKETPLACE', 'ECOSYSTEM', 'PLATFORM', 'VAULT', 'NETWORK'],
-            rotorIdx: 0,
-
             init: function() {
-                console.log("🏠 Nexra Home Module Activated");
-                const checkDb = setInterval(() => {
-                    if(window.db) {
-                        clearInterval(checkDb);
-                        this.db = window.db;
-                        this.boot();
-                    }
-                }, 100);
+                this.applyBranding();
+                this.loadCategories();
+                this.loadTrendingProducts();
+                this.initMarquee();
+                console.log("🏠 Home Dashboard Ready");
             },
 
-            boot: function() {
-                // 1. Start Animations
-                this.startRotor();
-                this.initScrollReveal();
-
-                // 2. Fetch Data Modules
-                this.loadTrending();
-                this.loadFreebies();
-                this.loadBlogs();
-                this.loadFAQs();
-                this.loadTestimonials();
-                this.syncStats();
-
-                // 3. Finalize UI
-                setTimeout(() => document.getElementById('home-module').classList.add('ready'), 300);
-            },
-
-            // --- UI ANIMATIONS ---
-            startRotor: function() {
-                const el = document.getElementById('hero-rotor');
-                setInterval(() => {
-                    this.rotorIdx = (this.rotorIdx + 1) % this.rotorWords.length;
-                    el.style.opacity = '0';
-                    el.style.transform = 'translateY(10px)';
-                    setTimeout(() => {
-                        el.innerText = this.rotorWords[this.rotorIdx];
-                        el.style.opacity = '1';
-                        el.style.transform = 'translateY(0)';
-                    }, 400);
-                }, 3000);
-            },
-
-            initScrollReveal: function() {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if(entry.isIntersecting) {
-                            entry.target.style.opacity = '1';
-                            entry.target.style.transform = 'translateY(0)';
-                        }
-                    });
-                }, { threshold: 0.1 });
-
-                document.querySelectorAll('.nx-section').forEach(sec => {
-                    sec.style.opacity = '0';
-                    sec.style.transform = 'translateY(30px)';
-                    sec.style.transition = '1s var(--transition)';
-                    observer.observe(sec);
-                });
-            },
-
-            // --- DATA LOADERS (STAGGERED FOR PERFORMANCE) ---
-            loadTrending: async function() {
-                const grid = document.getElementById('trending-grid');
-                const snap = await this.db.collection('products').where('isTrending', '==', true).limit(5).get();
-                grid.innerHTML = '';
-                if(snap.empty) { grid.innerHTML = '<p style="color:var(--text-300)">No trending assets currently.</p>'; return; }
+            // 1. Apply Dynamic Assets from Edition Config
+            applyBranding: function() {
+                const edition = window.NexraBrand.activeEdition;
+                document.documentElement.setAttribute('data-edition', edition);
                 
-                snap.forEach(doc => {
-                    const p = doc.data();
-                    grid.innerHTML += `
-                        <div class="p-card" onclick="Nexra.navTo('product', '${doc.id}')">
-                            ${p.badge ? `<div class="p-badge">${p.badge}</div>` : ''}
-                            <div class="p-img-box"><img src="${p.image}" loading="lazy"></div>
-                            <h3 class="p-title">${p.title}</h3>
-                            <div class="p-price-row">
-                                <span class="p-price">Rs. ${p.price}</span>
-                                <div class="p-add-btn"><i class="fa-solid fa-plus"></i></div>
+                // Update Badge Text
+                document.getElementById('edition-text').innerText = `${edition.toUpperCase()} EDITION`;
+                
+                // Refresh DOM Images for this page
+                window.NexraBrand.refreshDOMAssets();
+            },
+
+            // 2. Fetch Categories (Real-time from Firestore)
+            loadCategories: function() {
+                const container = document.getElementById('home-categories');
+                window.db.collection('categories').limit(6).onSnapshot(snap => {
+                    if(snap.empty) return;
+                    container.innerHTML = '';
+                    snap.forEach(doc => {
+                        const c = doc.data();
+                        container.innerHTML += `<div class="cat-pill" onclick="Nexra.navTo('shop', '${doc.id}')">${c.name}</div>`;
+                    });
+                });
+            },
+
+            // 3. Load Trending Assets
+            loadTrendingProducts: function() {
+                const grid = document.getElementById('trending-grid');
+                // Skeletons
+                grid.innerHTML = Array(5).fill('<div class="p-card"><div class="skeleton" style="width:100%; aspect-ratio:1/1;"></div></div>').join('');
+
+                window.db.collection('products').where('isTrending', '==', true).limit(5).onSnapshot(snap => {
+                    grid.innerHTML = '';
+                    if(snap.empty) { grid.innerHTML = '<p>No items found.</p>'; return; }
+                    
+                    snap.forEach(doc => {
+                        const p = doc.data();
+                        grid.innerHTML += `
+                            <div class="p-card" onclick="Nexra.navTo('product', '${doc.id}')">
+                                ${p.badge ? `<div class="p-badge">${p.badge}</div>` : ''}
+                                <div class="p-img-box">
+                                    <img src="${p.image}" class="p-img" loading="lazy">
+                                </div>
+                                <div class="p-info">
+                                    <h3 class="tech-font">${p.title}</h3>
+                                    <div class="p-price-row">
+                                        <div class="p-price">Rs. ${p.price}</div>
+                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="color:var(--brand-main)"><path d="M12 5v14M5 12h14"></path></svg>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    `;
+                        `;
+                    });
                 });
             },
 
-            loadFreebies: async function() {
-                const grid = document.getElementById('freebies-grid');
-                const snap = await this.db.collection('freebies').orderBy('createdAt', 'desc').limit(3).get();
-                grid.innerHTML = '';
-                snap.forEach(doc => {
-                    const f = doc.data();
-                    grid.innerHTML += `
-                        <div class="nh-freebie" onclick="Nexra.navTo('freebie', '${doc.id}')">
-                            <img src="${f.image}" class="nh-freebie__img" loading="lazy">
-                            <div class="nh-freebie__overlay">
-                                <span class="nh-freebie__cat">${f.category || 'ASSET'}</span>
-                                <h3 class="nh-freebie__title">${f.title}</h3>
-                            </div>
-                        </div>
-                    `;
-                });
-            },
-
-            loadBlogs: async function() {
-                const grid = document.getElementById('blog-grid');
-                const snap = await this.db.collection('blogs').where('status', '==', 'published').limit(3).get();
-                grid.innerHTML = '';
-                snap.forEach(doc => {
-                    const b = doc.data();
-                    grid.innerHTML += `
-                        <div class="nh-blog" onclick="Nexra.navTo('article', '${doc.id}')">
-                            <div class="nh-blog__img-wrap"><img src="${b.image}" class="nh-blog__img" loading="lazy"></div>
-                            <div class="nh-blog__body">
-                                <span class="nh-blog__tag">${b.category || 'TECH'}</span>
-                                <h3 class="nh-blog__title">${b.title}</h3>
-                            </div>
-                        </div>
-                    `;
-                });
-            },
-
-            loadFAQs: async function() {
-                const list = document.getElementById('faq-list');
-                const snap = await this.db.collection('faqs').orderBy('displayOrder').get();
-                list.innerHTML = '';
-                snap.forEach(doc => {
-                    const f = doc.data();
-                    list.innerHTML += `
-                        <details class="faq-item">
-                            <summary>${f.question}</summary>
-                            <div class="faq-content">${f.answer}</div>
-                        </details>
-                    `;
-                });
-            },
-
-            loadTestimonials: function() {
-                const track = document.getElementById('marq-track');
-                // Static Fallback + Dynamic Merging
-                const items = [
-                    {n:'Ali K.', t:'Fast delivery, CapCut key worked instantly.'},
-                    {n:'Sara M.', t:'Best digital assets hub in Pakistan.'},
-                    {n:'Zain B.', t:'Awesome freebies, shared and unlocked in minutes.'},
-                    {n:'Omer T.', t:'The reseller portal is high-margin gold.'}
+            // 4. Testimonial Marquee
+            initMarquee: function() {
+                const track = document.getElementById('testimonial-track');
+                const users = [
+                    { name: "Ali Khan", text: "Instant delivery, best SaaS marketplace!", color: "#FF4A17" },
+                    { name: "Sara Malik", text: "The reseller dashboard is a game changer.", color: "#a855f7" },
+                    { name: "Hamza Dev", text: "Secure keys and great customer support.", color: "#10b981" },
+                    { name: "Zoya Graphics", text: "Free vault resources are high quality.", color: "#3b82f6" }
                 ];
+
                 let html = '';
-                items.forEach(r => {
+                users.forEach(u => {
                     html += `
-                        <div class="marq-card">
-                            <div style="font-weight:800; font-size:14px; margin-bottom:5px;">${r.n} <i class="fa-solid fa-circle-check" style="color:var(--success); font-size:10px;"></i></div>
-                            <p style="font-size:13px; color:var(--text-200);">${r.t}</p>
+                        <div class="t-card">
+                            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
+                                <div style="width:30px; height:30px; border-radius:50%; background:${u.color};"></div>
+                                <strong style="font-size:13px;">${u.name}</strong>
+                            </div>
+                            <p style="font-size:12px; color:var(--text-200);">${u.text}</p>
                         </div>
                     `;
                 });
-                track.innerHTML = html + html; // Clone for seamlessness
+                track.innerHTML = html + html; // Double for loop
             },
 
-            syncStats: function() {
-                this.db.collection('stats').doc('live').onSnapshot(doc => {
-                    if(doc.exists) {
-                        const d = doc.data();
-                        if(d.users) document.getElementById('stat-users').innerText = d.users + '+';
-                        if(d.orders) document.getElementById('stat-orders').innerText = d.orders + '+';
-                    }
-                });
-            },
-
-            search: function() {
-                const q = document.getElementById('global-search').value;
-                if(q) Nexra.navTo('shop', `q=${encodeURIComponent(q)}`);
-            },
-
-            subscribe: async function(e) {
-                e.preventDefault();
-                const email = document.getElementById('nl-email').value;
-                try {
-                    await this.db.collection('newsletter').add({ email, createdAt: Date.now() });
-                    Nexra.showToast("Welcome to Elite Access!", "success");
-                    e.target.reset();
-                } catch(e) { Nexra.showToast("System error, try again.", "danger"); }
+            handleSearch: function() {
+                const query = document.getElementById('global-search-input').value;
+                if(query) Nexra.navTo('shop', query);
             }
         };
 
-        // Fire Engine
-        NexraHome.init();
+        // Ignite the Module
+        document.addEventListener('DOMContentLoaded', () => NexraHome.init());
     </script>
+
 </body>
 </html>
