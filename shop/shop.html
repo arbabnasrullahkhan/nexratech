@@ -11,18 +11,8 @@
     <title>Digital & Physical Marketplace | Nexra Tech PK</title>
     <meta name="description" content="Browse Pakistan's elite collection of premium software licenses, SaaS tools, UI kits, and physical tech assets. Instant delivery and 256-bit encryption.">
     <meta name="robots" content="index, follow">
-    
     <meta name="theme-color" id="meta-theme-color" content="#ffffff">
-    
-    <!-- DYNAMIC BRANDING ASSETS (Injected by NexraBrand) -->
     <link rel="icon" id="dynamic-favicon" href="" type="image/png">
-    <link rel="apple-touch-icon" id="dynamic-apple-icon" href="">
-
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Elite Marketplace | Nexra Tech PK">
-    <meta property="og:description" content="Shop elite SaaS tools and software keys with instant automated delivery.">
-    <meta property="og:image" class="nx-brand-logo-meta" content="">
 
     <!-- ==========================================================================
          2. RESOURCE PRELOADING & TYPOGRAPHY
@@ -48,11 +38,12 @@
          ========================================================================== -->
     <style>
         :root {
-            /* Fallback Variables (Overridden dynamically by NexraBrand) */
+            /* Dynamic Brand Tokens (Will be updated by NexraBrand) */
             --brand-main: #FF4A17; 
             --brand-glow: rgba(255, 74, 23, 0.25);
             --brand-dim: rgba(255, 74, 23, 0.1);
             
+            /* Light Theme */
             --bg-base: #ffffff;
             --bg-surface: #f8fafc;
             --bg-elevated: #f1f5f9;
@@ -96,23 +87,21 @@
         .tech-font { font-family: 'Space Grotesk', sans-serif; }
         .text-gradient { background: linear-gradient(135deg, var(--brand-main) 0%, #ff8a00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* COMPONENT MOUNT POINTS */
-        .nx-mount-point { display: contents; }
-
         /* SKELETON LOADER */
         .skeleton {
             background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-surface) 50%, var(--bg-elevated) 75%);
             background-size: 400% 100%; animation: shimmer 1.5s infinite linear; border-radius: 16px;
         }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .nx-mount-point { display: contents; }
 
         /* ==========================================================================
            PROMO BANNERS (HORIZONTAL SCROLL)
            ========================================================================== */
-        .promo-section { padding: 110px 4% 20px; max-width: 1600px; margin: 0 auto; }
+        .promo-section { padding: 120px 5% 20px; max-width: 1500px; margin: 0 auto; }
         .banner-track { 
             display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory; 
-            scrollbar-width: none; padding-bottom: 15px;
+            scrollbar-width: none; padding-bottom: 10px;
         }
         .banner-track::-webkit-scrollbar { display: none; }
         
@@ -123,165 +112,199 @@
         }
         @media(min-width: 768px) { .promo-banner { flex: 0 0 60%; aspect-ratio: 21/6; } }
         
-        .promo-banner img { width: 100%; height: 100%; object-fit: cover; transition: 0.7s var(--transition); }
+        .promo-banner img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .promo-banner:hover img { transform: scale(1.05); }
         .promo-overlay {
             position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0,0,0,0.8) 0%, transparent 100%);
             display: flex; flex-direction: column; justify-content: center; padding: 40px; color: #fff; pointer-events: none;
         }
-        .promo-tag { background: var(--brand-main); padding: 5px 14px; border-radius: 8px; font-size: 10px; font-weight: 800; letter-spacing: 1px; width: max-content; margin-bottom: 12px; box-shadow: 0 4px 10px var(--brand-glow); }
-        .promo-title { font-size: clamp(22px, 4vw, 40px); font-family: 'Space Grotesk'; font-weight: 800; line-height: 1.1; margin-bottom: 10px; max-width: 450px; text-shadow: 0 4px 15px rgba(0,0,0,0.5); }
+        .promo-tag { background: var(--brand-main); padding: 4px 12px; border-radius: 6px; font-size: 10px; font-weight: 800; letter-spacing: 1px; width: max-content; margin-bottom: 10px; }
+        .promo-title { font-size: clamp(20px, 4vw, 36px); font-family: 'Space Grotesk'; font-weight: 800; line-height: 1.1; margin-bottom: 10px; max-width: 400px; }
 
         /* ==========================================================================
-           ADVANCED LIVE SEARCH & VOICE BAR
+           ADVANCED SEARCH, VOICE & LIVE DROPDOWN
            ========================================================================== */
-        .search-container { max-width: 1400px; margin: 0 auto; padding: 10px 4%; position: sticky; top: 75px; z-index: 100; background: var(--bg-base); }
-        .search-wrapper { position: relative; }
+        .search-container { max-width: 1400px; margin: 0 auto; padding: 10px 5% 30px; position: sticky; top: 75px; z-index: 100; background: var(--bg-base); transition: 0.3s; }
+        .search-box-wrap { position: relative; }
         .search-box {
-            display: flex; align-items: center; background: var(--bg-surface); border: 1px solid var(--glass-border);
-            border-radius: 50px; padding: 8px 15px 8px 25px; box-shadow: var(--shadow-soft); transition: 0.3s;
+            display: flex; align-items: center; background: var(--bg-surface); border: 2px solid var(--glass-border);
+            border-radius: 50px; padding: 8px 12px 8px 25px; box-shadow: var(--shadow-soft); transition: 0.3s;
         }
         .search-box:focus-within { border-color: var(--brand-main); box-shadow: 0 10px 30px var(--brand-glow); }
-        .search-box i.fa-magnifying-glass { color: var(--text-300); font-size: 18px; }
+        .search-box i.fa-search { color: var(--text-300); font-size: 18px; }
         .search-box input { flex: 1; border: none; background: transparent; padding: 0 15px; font-size: 15px; font-family: inherit; color: var(--text-100); outline: none; }
         
         .voice-btn {
             width: 44px; height: 44px; border-radius: 50%; background: var(--bg-elevated); color: var(--text-200);
-            border: 1px solid var(--glass-border); cursor: pointer; display: flex; align-items: center; justify-content: center;
-            transition: 0.3s; font-size: 16px; flex-shrink: 0;
+            border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            transition: 0.3s; font-size: 16px; position: relative; flex-shrink: 0;
         }
-        .voice-btn:hover { background: var(--brand-dim); color: var(--brand-main); border-color: var(--brand-main); }
-        .voice-btn.listening { background: var(--danger); color: #fff; animation: pulseVoice 1.5s infinite; border-color: var(--danger); }
+        .voice-btn:hover { background: var(--brand-dim); color: var(--brand-main); }
+        .voice-btn.listening { background: var(--danger); color: #fff; animation: pulseVoice 1.5s infinite; }
         @keyframes pulseVoice { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
 
-        .search-btn { background: var(--text-100); color: var(--bg-base); border: none; padding: 14px 32px; border-radius: 50px; font-weight: 800; cursor: pointer; margin-left: 10px; transition: 0.3s; letter-spacing: 0.5px; }
+        .search-btn { background: var(--text-100); color: var(--bg-base); border: none; padding: 14px 30px; border-radius: 50px; font-weight: 800; cursor: pointer; margin-left: 10px; transition: 0.3s; }
         .search-btn:hover { background: var(--brand-main); color: #fff; box-shadow: 0 8px 20px var(--brand-glow); }
 
         /* Live Search Dropdown */
-        .live-dropdown {
-            position: absolute; top: calc(100% + 10px); left: 0; right: 0;
-            background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 20px;
-            box-shadow: var(--shadow-float); z-index: 200; display: none; overflow: hidden; max-height: 400px; overflow-y: auto;
+        .live-search-results {
+            position: absolute; top: calc(100% + 10px); left: 0; width: 100%;
+            background: var(--bg-surface); border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md); box-shadow: var(--shadow-float);
+            max-height: 400px; overflow-y: auto; z-index: 101;
+            opacity: 0; visibility: hidden; transform: translateY(10px); transition: 0.3s;
         }
-        .live-dropdown.active { display: block; animation: slideDown 0.3s var(--transition); }
-        .live-item { display: flex; align-items: center; gap: 15px; padding: 15px 20px; border-bottom: 1px solid var(--glass-border); cursor: pointer; transition: 0.2s; }
-        .live-item:hover { background: var(--bg-elevated); }
-        .live-img { width: 50px; height: 50px; border-radius: 12px; object-fit: cover; background: var(--bg-elevated); }
-        .live-info h4 { font-size: 14px; font-weight: 700; color: var(--text-100); margin-bottom: 4px; }
-        .live-info span { font-size: 10px; font-weight: 800; color: var(--brand-main); text-transform: uppercase; background: var(--brand-dim); padding: 2px 8px; border-radius: 6px; }
-        @keyframes slideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+        .live-search-results.active { opacity: 1; visibility: visible; transform: translateY(0); }
+        .ls-item {
+            display: flex; align-items: center; gap: 15px; padding: 15px 20px;
+            border-bottom: 1px solid var(--glass-border); cursor: pointer; transition: 0.2s;
+        }
+        .ls-item:hover { background: var(--bg-elevated); }
+        .ls-img { width: 50px; height: 50px; border-radius: 10px; object-fit: cover; background: var(--bg-elevated); }
+        .ls-info { flex: 1; }
+        .ls-title { font-size: 14px; font-weight: 700; color: var(--text-100); margin-bottom: 4px; }
+        .ls-cat { font-size: 10px; font-weight: 800; color: var(--brand-main); text-transform: uppercase; }
+        .ls-price { font-family: 'Space Grotesk'; font-weight: 800; color: var(--text-100); }
 
         /* ==========================================================================
-           MARKET LAYOUT (SIDEBAR + CONTENT)
+           LAYOUT: FILTERS & SWIMLANES
            ========================================================================== */
-        .market-layout { max-width: 1440px; margin: 0 auto; padding: 20px 4% 100px; display: grid; gap: 40px; }
+        .market-layout { max-width: 1440px; margin: 0 auto; padding: 0 5% 100px; display: grid; gap: 30px; }
         @media(min-width: 1024px) { .market-layout { grid-template-columns: 280px 1fr; align-items: start; } }
 
-        /* Filter Sidebar */
-        .filter-sidebar { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 30px; position: sticky; top: 160px; display: none; box-shadow: var(--shadow-soft); }
-        @media(min-width: 1024px) { .filter-sidebar { display: block; } }
-        .filter-group { margin-bottom: 30px; }
-        .filter-group:last-child { margin-bottom: 0; }
-        .filter-title { font-size: 11px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; display: block; }
-        
-        .filter-radio { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--text-200); margin-bottom: 12px; cursor: pointer; transition: 0.3s; }
-        .filter-radio:hover { color: var(--brand-main); }
-        .filter-radio input { display: none; }
-        .custom-radio { width: 20px; height: 20px; border: 2px solid var(--text-300); border-radius: 6px; display: flex; align-items: center; justify-content: center; transition: 0.2s; }
-        .custom-radio::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 10px; color: #fff; opacity: 0; transform: scale(0); transition: 0.2s; }
-        .filter-radio input:checked + .custom-radio { background: var(--brand-main); border-color: var(--brand-main); box-shadow: 0 4px 10px var(--brand-glow); }
-        .filter-radio input:checked + .custom-radio::after { opacity: 1; transform: scale(1); }
-        .filter-radio input:checked ~ span { color: var(--text-100); font-weight: 800; }
-
         /* Mobile Filter Button */
-        .mobile-filter-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 18px; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 16px; font-weight: 800; font-size: 14px; color: var(--text-100); margin-bottom: 20px; cursor: pointer; box-shadow: var(--shadow-soft); }
+        .mobile-filter-btn {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            width: 100%; padding: 16px; background: var(--bg-surface); border: 2px solid var(--glass-border);
+            border-radius: 16px; font-weight: 800; font-size: 14px; color: var(--text-100);
+            margin-bottom: 20px; cursor: pointer; box-shadow: var(--shadow-soft); transition: 0.3s;
+        }
+        .mobile-filter-btn:active { transform: scale(0.98); }
         @media(min-width: 1024px) { .mobile-filter-btn { display: none; } }
+
+        /* Sidebar Filters */
+        .filter-sidebar {
+            background: var(--bg-surface); border: 1px solid var(--glass-border);
+            border-radius: var(--radius-md); padding: 30px 25px;
+            position: sticky; top: 160px;
+        }
         
-        /* Mobile Filter Drawer */
-        .mobile-filter-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 10000; opacity: 0; visibility: hidden; transition: 0.4s; }
+        /* Mobile Bottom Sheet Filter */
+        .mobile-filter-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);
+            z-index: 100000; opacity: 0; visibility: hidden; transition: 0.4s;
+        }
         .mobile-filter-overlay.active { opacity: 1; visibility: visible; }
+        
         @media(max-width: 1023px) {
-            .filter-sidebar { position: fixed; bottom: 0; left: 0; width: 100%; top: auto; border-radius: 30px 30px 0 0; z-index: 10001; transform: translateY(100%); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); max-height: 85vh; overflow-y: auto; padding: 30px 25px 100px; }
-            .filter-sidebar.active { transform: translateY(0); display: block; }
+            .filter-sidebar {
+                position: fixed; bottom: 0; left: 0; width: 100%; top: auto;
+                border-radius: 30px 30px 0 0; z-index: 100001;
+                transform: translateY(100%); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+                max-height: 85vh; overflow-y: auto; padding: 30px 25px 100px;
+            }
+            .filter-sidebar.active { transform: translateY(0); }
         }
 
+        .filter-group { margin-bottom: 30px; }
+        .filter-title { font-size: 11px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; display: block; }
+        
+        .filter-radio {
+            display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600;
+            color: var(--text-200); cursor: pointer; transition: 0.3s; margin-bottom: 12px;
+        }
+        .filter-radio:hover { color: var(--brand-main); }
+        .filter-radio input { display: none; }
+        .radio-custom {
+            width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--text-300);
+            display: flex; align-items: center; justify-content: center; transition: 0.3s;
+        }
+        .radio-custom::after {
+            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
+            font-size: 11px; color: #fff; opacity: 0; transform: scale(0); transition: 0.3s;
+        }
+        .filter-radio input:checked + .radio-custom { background: var(--brand-main); border-color: var(--brand-main); }
+        .filter-radio input:checked + .radio-custom::after { opacity: 1; transform: scale(1); }
+        .filter-radio input:checked ~ .label-text { color: var(--text-100); font-weight: 800; }
+
         /* ==========================================================================
-           SWIMLANES (CATEGORY ROWS)
+           SWIMLANES & PRODUCT CARDS (PREMIUM UI)
            ========================================================================== */
         .swimlane-section { margin-bottom: 60px; }
-        .swimlane-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 20px; }
-        .swimlane-title { font-family: 'Space Grotesk'; font-size: 26px; font-weight: 800; letter-spacing: -0.5px; }
-        .see-all-btn { background: var(--brand-dim); border: 1px solid rgba(255,74,23,0.2); color: var(--brand-main); padding: 8px 16px; border-radius: 50px; font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s; text-transform: uppercase; }
-        .see-all-btn:hover { background: var(--brand-main); color: #fff; transform: translateY(-2px); box-shadow: 0 5px 15px var(--brand-glow); }
+        .swimlane-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 25px; }
+        .swimlane-title { font-family: 'Space Grotesk'; font-size: 26px; font-weight: 800; color: var(--text-100); letter-spacing: -0.5px;}
+        .see-all-btn { background: var(--brand-dim); border: none; color: var(--brand-main); padding: 8px 16px; border-radius: 50px; font-size: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; gap: 5px; transition: 0.3s; text-transform: uppercase; }
+        .see-all-btn:hover { background: var(--brand-main); color: #fff; transform: translateX(5px); }
 
-        .swimlane-track { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; padding-top: 10px; scrollbar-width: none; scroll-snap-type: x mandatory; }
+        .swimlane-track { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 20px; scrollbar-width: none; scroll-snap-type: x mandatory; }
         .swimlane-track::-webkit-scrollbar { display: none; }
         
-        /* Master Grid (Used when searching/filtering) */
         .master-grid { display: none; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 25px; }
-        .master-grid.active { display: grid; animation: slideDown 0.4s var(--transition); }
+        .master-grid.active { display: grid; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* ==========================================================================
-           PREMIUM PRODUCT CARDS (WITH DYNAMIC WATERMARK)
-           ========================================================================== */
+        /* Premium Card */
         .nx-card {
             flex: 0 0 280px; scroll-snap-align: start;
             background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 24px;
-            padding: 15px; display: flex; flex-direction: column; cursor: pointer; transition: 0.4s var(--transition);
+            padding: 15px; display: flex; flex-direction: column; cursor: pointer; transition: 0.4s;
             box-shadow: var(--shadow-soft); position: relative; overflow: hidden;
         }
         .master-grid .nx-card { flex: auto; }
         .nx-card:hover { transform: translateY(-8px); border-color: var(--brand-main); box-shadow: var(--shadow-float); }
         
-        /* Card Watermark (Injected by JS) */
-        .card-watermark { position: absolute; bottom: 80px; right: 10px; width: 60px; opacity: 0.05; z-index: 0; pointer-events: none; }
-        [data-theme="dark"] .card-watermark { filter: invert(1); }
-
-        .nx-card-img-wrap { width: 100%; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--bg-elevated); margin-bottom: 15px; position: relative; z-index: 1; }
-        .nx-card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.7s var(--transition); }
+        /* Image & Watermark System */
+        .nx-card-img-wrap { width: 100%; aspect-ratio: 1; border-radius: 16px; overflow: hidden; background: var(--bg-elevated); margin-bottom: 15px; position: relative; }
+        .nx-card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .nx-card:hover .nx-card-img { transform: scale(1.1); }
         
-        .nx-card-badge { position: absolute; top: 12px; left: 12px; background: var(--brand-main); color: #fff; font-size: 10px; font-weight: 900; padding: 5px 12px; border-radius: 8px; letter-spacing: 1px; z-index: 2; box-shadow: 0 4px 15px var(--brand-glow); text-transform: uppercase; }
-        
-        .nx-card-wishlist { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.9); backdrop-filter: blur(5px); color: var(--text-200); display: flex; align-items: center; justify-content: center; font-size: 15px; z-index: 2; transition: 0.3s; border: 1px solid var(--glass-border); cursor: pointer; box-shadow: var(--shadow-sm); }
+        /* The Dynamic Watermark */
+        .nx-card-watermark { position: absolute; bottom: 10px; right: 10px; width: 60px; opacity: 0.4; z-index: 5; pointer-events: none; }
+
+        .nx-card-badge { position: absolute; top: 12px; left: 12px; background: var(--brand-main); color: #fff; font-size: 10px; font-weight: 900; padding: 5px 12px; border-radius: 8px; letter-spacing: 1px; z-index: 2; box-shadow: 0 4px 10px var(--brand-glow); }
+        .nx-card-wishlist { position: absolute; top: 12px; right: 12px; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.8); backdrop-filter: blur(5px); color: var(--text-200); display: flex; align-items: center; justify-content: center; font-size: 15px; z-index: 2; transition: 0.3s; border: 1px solid var(--glass-border); cursor: pointer; }
         [data-theme="dark"] .nx-card-wishlist { background: rgba(0,0,0,0.6); color: #fff; }
         .nx-card-wishlist:hover { background: var(--danger); color: #fff; border-color: var(--danger); transform: scale(1.1); }
 
-        .nx-card-meta { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-300); margin-bottom: 8px; position: relative; z-index: 1; }
+        .nx-card-meta { display: flex; justify-content: space-between; font-size: 12px; font-weight: 700; color: var(--text-300); margin-bottom: 10px; }
         .nx-card-stars i { color: var(--gold); }
         
-        .nx-card-title { font-size: 16px; font-weight: 800; color: var(--text-100); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 12px; min-height: 44px; position: relative; z-index: 1; }
+        .nx-card-title { font-size: 16px; font-weight: 800; color: var(--text-100); line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; margin-bottom: 15px; min-height: 44px; }
         
-        .nx-card-price-row { display: flex; flex-direction: column; margin-bottom: 20px; position: relative; z-index: 1; }
-        .nx-card-price { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 900; color: var(--brand-main); }
+        .nx-card-price-row { display: flex; flex-direction: column; margin-bottom: 20px; }
+        .nx-card-price-old { font-size: 12px; text-decoration: line-through; color: var(--text-300); font-weight: 600; margin-bottom: 2px; }
+        .nx-card-price { font-family: 'Space Grotesk', sans-serif; font-size: 22px; font-weight: 900; color: var(--text-100); }
 
-        .nx-card-actions { display: flex; gap: 10px; margin-top: auto; position: relative; z-index: 1; }
-        .nx-card-btn-icon { width: 44px; height: 44px; border-radius: 14px; background: var(--bg-elevated); border: 1px solid var(--glass-border); color: var(--text-100); display: flex; align-items: center; justify-content: center; font-size: 16px; transition: 0.3s; flex-shrink: 0; cursor: pointer; }
-        .nx-card-btn-icon:hover { background: var(--brand-main); color: #fff; border-color: var(--brand-main); transform: scale(1.05); box-shadow: 0 8px 20px var(--brand-glow); }
-        .nx-card-btn-main { flex: 1; background: var(--text-100); color: var(--bg-base); border: none; border-radius: 14px; font-size: 13px; font-weight: 800; transition: 0.3s; cursor: pointer; text-transform: uppercase; letter-spacing: 0.5px; }
-        .nx-card-btn-main:hover { background: var(--brand-main); color: #fff; box-shadow: 0 10px 25px var(--brand-glow); transform: translateY(-2px); }
+        .nx-card-actions { display: flex; gap: 10px; margin-top: auto; }
+        .nx-card-btn-icon { width: 45px; height: 45px; border-radius: 14px; background: var(--bg-elevated); border: 1px solid var(--glass-border); color: var(--text-100); display: flex; align-items: center; justify-content: center; font-size: 18px; transition: 0.3s; flex-shrink: 0; cursor: pointer; }
+        .nx-card-btn-icon:hover { background: var(--brand-main); color: #fff; border-color: var(--brand-main); transform: scale(1.05); }
+        .nx-card-btn-main { flex: 1; background: var(--text-100); color: var(--bg-base); border: none; border-radius: 14px; font-size: 13px; font-weight: 800; transition: 0.3s; cursor: pointer; text-transform: uppercase; letter-spacing: 1px; }
+        .nx-card-btn-main:hover { background: var(--brand-main); color: #fff; box-shadow: 0 10px 25px var(--brand-glow); }
 
         /* Empty State */
-        .nx-empty-state { grid-column: 1 / -1; padding: 80px 20px; text-align: center; border: 1px dashed var(--glass-border); border-radius: var(--radius-lg); background: var(--bg-surface); }
-        .nx-empty-state i { font-size: 50px; color: var(--brand-main); margin-bottom: 20px; opacity: 0.5; }
-        .nx-empty-state h2 { font-family: 'Space Grotesk'; font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+        .nx-empty-state { grid-column: 1 / -1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 100px 20px; text-align: center; background: var(--bg-surface); border: 2px dashed var(--glass-border); border-radius: var(--radius-lg); }
+        .nx-empty-icon { font-size: 60px; color: var(--text-300); margin-bottom: 25px; }
+        .nx-empty-title { font-family: 'Space Grotesk'; font-size: 28px; font-weight: 800; margin-bottom: 10px; color: var(--text-100); }
+        .nx-empty-desc { color: var(--text-200); font-size: 15px; font-weight: 500; max-width: 400px; margin-bottom: 25px; }
+
     </style>
 </head>
 <body>
 
-    <!-- 1. COMPONENT MOUNT POINTS (Safe Handling) -->
+    <!-- 1. COMPONENT MOUNT POINTS -->
     <div id="global-container" class="nx-mount-point"></div>
     <div id="header-container" class="nx-mount-point"></div>
     <div id="sidebar-container" class="nx-mount-point"></div>
     <div id="ui-notifications-container" class="nx-mount-point"></div>
     <div id="cart-container" class="nx-mount-point"></div>
 
+    <!-- 2. MAIN SHOP VIEWPORT -->
     <main id="spa-main">
         
         <!-- A. PROMO BANNERS CAROUSEL -->
         <section class="promo-section">
             <div class="banner-track" id="banner-track">
-                <!-- Skeletons -->
+                <!-- Skeletons until DB loads -->
                 <div class="promo-banner skeleton"></div>
                 <div class="promo-banner skeleton"></div>
             </div>
@@ -289,55 +312,60 @@
 
         <!-- B. ADVANCED SEARCH & VOICE BAR -->
         <div class="search-container">
-            <div class="search-wrapper">
+            <div class="search-box-wrap">
                 <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="market-search" placeholder="Search templates, software, UI kits..." autocomplete="off">
+                    <i class="fa-solid fa-search"></i>
+                    <input type="text" id="market-search" placeholder="Search Software, Gear, UI Kits..." onkeyup="NX_SHOP.handleSearchTyping(event)" autocomplete="off">
                     
                     <!-- Voice Search Button -->
-                    <button class="voice-btn" id="voice-btn" title="Search by Voice">
+                    <button class="voice-btn" id="voice-btn" onclick="NX_SHOP.startVoiceSearch()" title="Search by Voice">
                         <i class="fa-solid fa-microphone"></i>
                     </button>
                     
-                    <button class="search-btn" id="btn-execute-search">FIND</button>
+                    <button class="search-btn" onclick="NX_SHOP.executeSearch()">FIND</button>
                 </div>
-                <!-- Live Results Dropdown -->
-                <div class="live-dropdown" id="live-search-results"></div>
+                
+                <!-- Live Search Dropdown -->
+                <div class="live-search-results" id="live-search-dropdown">
+                    <!-- Injected by JS -->
+                </div>
             </div>
         </div>
 
         <section class="market-layout">
             
-            <!-- C. MOBILE FILTER TRIGGER -->
-            <button class="mobile-filter-btn" id="mobile-filter-btn">
-                <i class="fa-solid fa-sliders"></i> Filters & Sorting
+            <!-- Mobile Filter Trigger -->
+            <button class="mobile-filter-btn" onclick="NX_SHOP.toggleMobileFilters()">
+                <i class="fa-solid fa-sliders"></i> Filter & Sort Inventory
             </button>
-            <div class="mobile-filter-overlay" id="mobile-filter-bg"></div>
 
-            <!-- D. FILTER SIDEBAR -->
+            <!-- Overlay for Mobile Filters -->
+            <div class="mobile-filter-overlay" id="mobile-filter-bg" onclick="NX_SHOP.toggleMobileFilters()"></div>
+
+            <!-- C. DESKTOP FILTER SIDEBAR -->
             <aside class="filter-sidebar" id="filter-sidebar">
                 <div class="flex-between" style="margin-bottom: 25px; display: none;" id="mobile-filter-header">
-                    <h3 class="tech-font" style="font-size: 20px;">Filters</h3>
-                    <button style="background:none; border:none; font-size:22px; color:var(--text-100); cursor:pointer;" id="close-mobile-filter"><i class="fa-solid fa-xmark"></i></button>
+                    <h3 class="tech-font" style="font-size: 22px;">Filters</h3>
+                    <button style="background:var(--bg-elevated); border:none; width:35px; height:35px; border-radius:50%; font-size:16px; color:var(--text-100);" onclick="NX_SHOP.toggleMobileFilters()"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
                 <!-- Product Type Filter -->
                 <div class="filter-group">
-                    <span class="filter-title">Product Type</span>
+                    <span class="filter-title">Inventory Type</span>
                     <ul class="filter-list">
-                        <label class="filter-radio"><input type="radio" name="type" value="all" checked><div class="custom-radio"></div><span>All Items</span></label>
-                        <label class="filter-radio"><input type="radio" name="type" value="saas"><div class="custom-radio"></div><span>SaaS Tools</span></label>
-                        <label class="filter-radio"><input type="radio" name="type" value="digital"><div class="custom-radio"></div><span>Digital Assets</span></label>
-                        <label class="filter-radio"><input type="radio" name="type" value="physical"><div class="custom-radio"></div><span>Physical Gear</span></label>
+                        <label class="filter-radio"><input type="radio" name="type" value="all" checked onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span class="label-text">All Items</span></label>
+                        <label class="filter-radio"><input type="radio" name="type" value="digital" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span class="label-text">Digital Assets</span></label>
+                        <label class="filter-radio"><input type="radio" name="type" value="physical" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span class="label-text">Physical Gear</span></label>
+                        <label class="filter-radio"><input type="radio" name="type" value="saas" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span class="label-text">SaaS Subscriptions</span></label>
                     </ul>
                 </div>
 
-                <!-- Category Filter (Loaded Dynamically) -->
+                <!-- Category Filter (Loaded Dynamically from DB) -->
                 <div class="filter-group">
                     <span class="filter-title">Categories</span>
                     <ul class="filter-list" id="filter-categories-list">
-                        <div class="skeleton" style="height: 20px; width: 80%; margin-bottom: 12px;"></div>
-                        <div class="skeleton" style="height: 20px; width: 60%; margin-bottom: 12px;"></div>
+                        <div class="skeleton" style="height:20px; width:80%; margin-bottom:10px;"></div>
+                        <div class="skeleton" style="height:20px; width:60%;"></div>
                     </ul>
                 </div>
 
@@ -345,50 +373,50 @@
                 <div class="filter-group">
                     <span class="filter-title">Sort By</span>
                     <ul class="filter-list">
-                        <label class="filter-radio"><input type="radio" name="sort" value="newest" checked><div class="custom-radio"></div><span>Newest Arrivals</span></label>
-                        <label class="filter-radio"><input type="radio" name="sort" value="price_low"><div class="custom-radio"></div><span>Price: Low to High</span></label>
-                        <label class="filter-radio"><input type="radio" name="sort" value="price_high"><div class="custom-radio"></div><span>Price: High to Low</span></label>
+                        <label class="filter-radio"><input type="radio" name="sort" value="newest" checked onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span class="label-text">Newest Arrivals</span></label>
+                        <label class="filter-radio"><input type="radio" name="sort" value="price_low" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span class="label-text">Price: Low to High</span></label>
+                        <label class="filter-radio"><input type="radio" name="sort" value="price_high" onchange="NX_SHOP.applyFilters()"><div class="custom-radio"></div><span class="label-text">Price: High to Low</span></label>
                     </ul>
                 </div>
                 
-                <button class="search-btn" style="width:100%; margin:10px 0 0; background:var(--bg-elevated); color:var(--text-100); border:1px solid var(--glass-border);" id="btn-reset-filters">Clear Filters</button>
+                <button class="search-btn" style="width:100%; margin:0; background:var(--bg-elevated); color:var(--text-100);" onclick="NX_SHOP.resetFilters()">Clear Filters</button>
             </aside>
 
-            <!-- E. DYNAMIC CONTENT AREA -->
+            <!-- D. DYNAMIC CONTENT AREA -->
             <div id="content-area">
                 
-                <!-- DEFAULT VIEW: SWIMLANES -->
+                <!-- DEFAULT VIEW: SWIMLANES (Mixed Display) -->
                 <div id="swimlanes-view">
                     
-                    <!-- 1. SaaS Tools -->
-                    <div class="swimlane-section" id="section-saas">
-                        <div class="swimlane-header">
-                            <h2 class="swimlane-title">SaaS <span class="text-gradient">Licenses</span></h2>
-                            <button class="see-all-btn" data-filter-type="saas">See All <i class="fa-solid fa-arrow-right"></i></button>
-                        </div>
-                        <div class="swimlane-track" id="track-saas">
-                            <div class="skeleton nx-card"></div><div class="skeleton nx-card"></div><div class="skeleton nx-card"></div>
-                        </div>
-                    </div>
-
-                    <!-- 2. Digital Assets -->
+                    <!-- 1. Digital Assets -->
                     <div class="swimlane-section" id="section-digital">
                         <div class="swimlane-header">
                             <h2 class="swimlane-title">Digital <span class="text-gradient">Assets</span></h2>
-                            <button class="see-all-btn" data-filter-type="digital">See All <i class="fa-solid fa-arrow-right"></i></button>
+                            <button class="see-all-btn" onclick="NX_SHOP.setFilterAndSwitch('type', 'digital')">See All <i class="fa-solid fa-arrow-right"></i></button>
                         </div>
                         <div class="swimlane-track" id="track-digital">
                             <div class="skeleton nx-card"></div><div class="skeleton nx-card"></div><div class="skeleton nx-card"></div>
                         </div>
                     </div>
 
-                    <!-- 3. Physical Gear -->
+                    <!-- 2. Physical Goods -->
                     <div class="swimlane-section" id="section-physical">
                         <div class="swimlane-header">
-                            <h2 class="swimlane-title">Creator <span class="text-gradient">Gear</span></h2>
-                            <button class="see-all-btn" data-filter-type="physical">See All <i class="fa-solid fa-arrow-right"></i></button>
+                            <h2 class="swimlane-title">Physical <span class="text-gradient">Gear</span></h2>
+                            <button class="see-all-btn" onclick="NX_SHOP.setFilterAndSwitch('type', 'physical')">See All <i class="fa-solid fa-arrow-right"></i></button>
                         </div>
                         <div class="swimlane-track" id="track-physical">
+                            <div class="skeleton nx-card"></div><div class="skeleton nx-card"></div><div class="skeleton nx-card"></div>
+                        </div>
+                    </div>
+
+                    <!-- 3. SaaS Subscriptions -->
+                    <div class="swimlane-section" id="section-saas">
+                        <div class="swimlane-header">
+                            <h2 class="swimlane-title">SaaS <span class="text-gradient">Tools</span></h2>
+                            <button class="see-all-btn" onclick="NX_SHOP.setFilterAndSwitch('type', 'saas')">See All <i class="fa-solid fa-arrow-right"></i></button>
+                        </div>
+                        <div class="swimlane-track" id="track-saas">
                             <div class="skeleton nx-card"></div><div class="skeleton nx-card"></div><div class="skeleton nx-card"></div>
                         </div>
                     </div>
@@ -397,11 +425,9 @@
 
                 <!-- FILTERED VIEW: MASTER GRID (Hidden by default) -->
                 <div id="filtered-view" style="display: none;">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px;">
-                        <div style="font-size: 15px; color: var(--text-200); font-weight: 600;">
-                            Showing <span id="result-count" style="color: var(--text-100); font-weight: 800; font-size:18px;">0</span> results
-                        </div>
-                        <button class="see-all-btn" style="background:var(--bg-elevated); color:var(--text-100); border-color:var(--glass-border);" id="btn-back-swimlanes"><i class="fa-solid fa-arrow-left"></i> Back to Categories</button>
+                    <div style="margin-bottom: 25px; font-size: 15px; color: var(--text-200); font-weight: 600; display:flex; justify-content:space-between; align-items:center;">
+                        <span>Found <strong id="result-count" style="color: var(--brand-main); font-size:18px;">0</strong> assets</span>
+                        <div class="badge" style="background:var(--bg-elevated); padding:5px 12px; border-radius:8px; font-size:11px; border:1px solid var(--glass-border);"><i class="fa-solid fa-filter text-brand"></i> FILTERED</div>
                     </div>
                     <div class="master-grid" id="master-grid"></div>
                 </div>
@@ -410,53 +436,202 @@
         </section>
     </main>
 
+    <div id="navigation-container" class="nx-mount-point"></div>
     <div id="footer-container" class="nx-mount-point"></div>
 
     <!-- ==========================================================================
-         MARKETPLACE ENGINE (NO DUMMY DATA - HYBRID DB READY)
+         SHOP LOGIC ENGINE (100% DATABASE DRIVEN + BRANDING INJECTED)
          ========================================================================== -->
     <script>
         window.NX_SHOP = {
             state: {
                 allProducts: [],
-                filtered: [],
                 categories: [],
                 filters: { search: '', type: 'all', category: 'all', sort: 'newest' },
-                searchTimer: null
+                isFilteredView: false,
+                debounceTimer: null,
+                watermarkUrl: '' // Fetched from NexraBrand
             },
 
             init: async function() {
-                console.log("🛒 NX_SHOP Engine Booting...");
+                console.log("🛒 NX_SHOP Engine Initializing...");
                 
-                // 1. Branding Sync
-                if(window.NexraBrand) window.NexraBrand.refreshDOMAssets();
+                // 1. Safe UI Mounting
+                await this.safeLoadSharedUI();
 
-                // 2. Fetch Data (Strictly DB)
-                this.fetchBanners();
-                await this.fetchCategories();
-                await this.fetchProducts();
+                // 2. Wait for Backend
+                this.waitForBackend(async () => {
+                    // 3. Sync Branding & Get Watermark
+                    if(window.NexraBrand) {
+                        window.NexraBrand.refreshDOMAssets();
+                        this.state.watermarkUrl = window.NexraBrand.getAsset('watermark');
+                    }
 
-                // 3. Setup Listeners
-                this.setupEventListeners();
-                this.parseUrlParams();
+                    // 4. Parse URL Params for Deep-linking
+                    this.parseParams();
+
+                    // 5. Fetch Data from Real DBs (No Dummies)
+                    this.fetchBanners();
+                    this.fetchCategories();
+                    this.fetchProducts();
+
+                    // Close live search on outside click
+                    document.addEventListener('click', (e) => {
+                        const searchWrap = document.querySelector('.search-box-wrap');
+                        if (searchWrap && !searchWrap.contains(e.target)) {
+                            document.getElementById('live-search-dropdown').classList.remove('active');
+                        }
+                    });
+                });
             },
 
-            /* --- 1. DATA FETCHING (Supabase -> Firebase -> Empty State) --- */
-            
+            safeLoadSharedUI: async function() {
+                const components = [
+                    { id: 'global-container', path: '../global.html' },
+                    { id: 'header-container', path: '../components/header.html' },
+                    { id: 'sidebar-container', path: '../components/slider.html' },
+                    { id: 'cart-container', path: '../components/cart-drawer.html' },
+                    { id: 'navigation-container', path: '../components/navigation.html' },
+                    { id: 'footer-container', path: '../components/footer.html' },
+                    { id: 'ui-notifications-container', path: '../components/ui-notifications.html' }
+                ];
+                for (const comp of components) {
+                    try {
+                        const res = await fetch(comp.path);
+                        if (res.ok) {
+                            const mount = document.getElementById(comp.id);
+                            mount.innerHTML = await res.text();
+                            mount.querySelectorAll('script').forEach(s => {
+                                const ns = document.createElement('script');
+                                Array.from(s.attributes).forEach(attr => ns.setAttribute(attr.name, attr.value));
+                                if (s.src) ns.src = s.src; else ns.textContent = s.textContent;
+                                document.body.appendChild(ns);
+                            });
+                        }
+                    } catch (e) {}
+                }
+            },
+
+            waitForBackend: function(callback, tries = 0) {
+                if (tries > 50) {
+                    this.showEmptyState(document.getElementById('content-area'), "Database Offline", "Unable to connect to the cloud infrastructure.", "fa-solid fa-server");
+                    return;
+                }
+                // Need DB from firebaseconfig.js
+                if (window.db || window.supabaseClient) callback();
+                else setTimeout(() => this.waitForBackend(callback, tries + 1), 100);
+            },
+
+            /* --- URL DEEP LINKING --- */
+            parseParams: function() {
+                const params = new URLSearchParams(window.location.search);
+                if (params.has('q')) {
+                    this.state.filters.search = params.get('q').toLowerCase();
+                    document.getElementById('market-search').value = params.get('q');
+                }
+                if (params.has('cat')) this.state.filters.category = params.get('cat');
+                if (params.has('type')) this.state.filters.type = params.get('type');
+            },
+
+            /* --- VOICE SEARCH & LIVE DROPDOWN --- */
+            startVoiceSearch: function() {
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                const btn = document.getElementById('voice-btn');
+                
+                if (!SpeechRecognition) {
+                    if(window.Nexra) Nexra.showToast("Voice search not supported in this browser.", "error");
+                    return;
+                }
+
+                const recognition = new SpeechRecognition();
+                recognition.lang = 'en-US';
+                
+                recognition.onstart = () => {
+                    btn.classList.add('listening');
+                    btn.innerHTML = '<i class="fa-solid fa-microphone-lines"></i>';
+                };
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    document.getElementById('market-search').value = transcript;
+                    this.executeSearch();
+                };
+
+                recognition.onend = () => {
+                    btn.classList.remove('listening');
+                    btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
+                };
+
+                recognition.start();
+            },
+
+            handleSearchTyping: function(e) {
+                const query = e.target.value.toLowerCase().trim();
+                const dropdown = document.getElementById('live-search-dropdown');
+                
+                if(e.key === 'Enter') {
+                    dropdown.classList.remove('active');
+                    this.executeSearch();
+                    return;
+                }
+
+                clearTimeout(this.state.debounceTimer);
+                this.state.debounceTimer = setTimeout(() => {
+                    if(query.length > 1) {
+                        const results = this.state.allProducts.filter(p => p.title.toLowerCase().includes(query) || (p.category && p.category.toLowerCase().includes(query))).slice(0, 5);
+                        this.renderLiveDropdown(results, query);
+                    } else {
+                        dropdown.classList.remove('active');
+                    }
+                }, 300);
+            },
+
+            renderLiveDropdown: function(results, query) {
+                const dropdown = document.getElementById('live-search-dropdown');
+                if(results.length === 0) {
+                    dropdown.innerHTML = `<div style="padding:20px; text-align:center; color:var(--text-300); font-weight:600;">No exact matches for "${query}"</div>`;
+                } else {
+                    dropdown.innerHTML = results.map(p => {
+                        const url = window.NexraRoutes ? window.NexraRoutes.generateURL('product', `?id=${p.id}`) : `product-detail.html?id=${p.id}`;
+                        return `
+                        <div class="ls-item" onclick="window.location.href='${url}'">
+                            <img src="${p.image}" class="ls-img" onerror="this.src='https://via.placeholder.com/50'">
+                            <div class="ls-info">
+                                <div class="ls-title">${p.title}</div>
+                                <span class="ls-cat">${p.type.toUpperCase()} - ${p.category}</span>
+                            </div>
+                            <div class="ls-price">Rs. ${p.price}</div>
+                        </div>
+                    `}).join('');
+                    
+                    dropdown.innerHTML += `<div style="padding:15px; text-align:center; background:var(--bg-elevated); cursor:pointer; color:var(--brand-main); font-weight:800; font-size:12px;" onclick="NX_SHOP.executeSearch()">VIEW ALL RESULTS <i class="fa-solid fa-arrow-right"></i></div>`;
+                }
+                dropdown.classList.add('active');
+            },
+
+            executeSearch: function() {
+                const val = document.getElementById('market-search').value.toLowerCase().trim();
+                document.getElementById('live-search-dropdown').classList.remove('active');
+                this.state.filters.search = val;
+                this.applyFilters();
+            },
+
+            /* --- DATABASE FETCHING (Firebase & Supabase Hybrid) --- */
             fetchBanners: async function() {
                 const track = document.getElementById('banner-track');
                 try {
                     let banners = [];
+                    // Check Supabase first, fallback to Firestore
                     if (window.supabaseClient) {
                         const { data, error } = await window.supabaseClient.from('banners').select('*').eq('active', true);
                         if (!error && data.length) banners = data;
-                    }
+                    } 
                     if (banners.length === 0 && window.db) {
                         const snap = await window.db.collection('banners').where('active', '==', true).get();
                         banners = snap.docs.map(d => d.data());
                     }
 
-                    if (banners.length > 0) {
+                    if(banners.length > 0) {
                         track.innerHTML = banners.map(b => `
                             <div class="promo-banner" onclick="window.location.href='${b.link || '#'}'">
                                 <img src="${b.image}" alt="${b.title}">
@@ -477,266 +652,271 @@
                 try {
                     let cats = [];
                     if (window.supabaseClient) {
-                        const { data, error } = await window.supabaseClient.from('categories').select('*').eq('type', 'product');
+                        const { data, error } = await window.supabaseClient.from('categories').select('*').eq('type', 'product').order('name');
                         if (!error && data.length) cats = data;
-                    }
+                    } 
                     if (cats.length === 0 && window.db) {
                         const snap = await window.db.collection('categories').where('type', '==', 'product').get();
                         cats = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                     }
 
-                    let html = `<label class="filter-radio"><input type="radio" name="category" value="all" checked><div class="custom-radio"></div> <span class="label-text">All Categories</span></label>`;
+                    let html = `
+                        <label class="filter-radio">
+                            <input type="radio" name="category" value="all" ${this.state.filters.category === 'all' ? 'checked' : ''} onchange="NX_SHOP.applyFilters()">
+                            <div class="custom-radio"></div> <span class="label-text">All Categories</span>
+                        </label>
+                    `;
                     cats.forEach(c => {
-                        html += `<label class="filter-radio"><input type="radio" name="category" value="${c.name}"><div class="custom-radio"></div> <span class="label-text">${c.name}</span></label>`;
+                        const isChecked = this.state.filters.category === c.name || this.state.filters.category === c.id ? 'checked' : '';
+                        html += `
+                            <label class="filter-radio">
+                                <input type="radio" name="category" value="${c.name}" ${isChecked} onchange="NX_SHOP.applyFilters()">
+                                <div class="custom-radio"></div> <span class="label-text">${c.name}</span>
+                            </label>
+                        `;
                     });
                     list.innerHTML = html;
-                } catch(e) { list.innerHTML = `<p style="color:var(--danger); font-size:12px;">No categories found.</p>`; }
+                } catch (e) {
+                    list.innerHTML = `<span style="font-size:12px; color:var(--danger);">Error loading categories.</span>`;
+                }
             },
 
             fetchProducts: async function() {
                 try {
-                    let prods = [];
+                    let products = [];
                     if (window.supabaseClient) {
                         const { data, error } = await window.supabaseClient.from('products').select('*').eq('visible', true);
-                        if (!error && data.length) prods = data;
+                        if (!error && data.length) products = data;
                     }
-                    if (prods.length === 0 && window.db) {
+                    if (products.length === 0 && window.db) {
                         const snap = await window.db.collection('products').where('visible', '==', true).get();
-                        prods = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                        products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
                     }
-                    this.state.allProducts = prods;
+
+                    if(products.length === 0) {
+                        this.showEmptyState(document.getElementById('content-area'), "Inventory Empty", "No products are currently available in the database.", "fa-solid fa-box-open");
+                        return;
+                    }
+
+                    this.state.allProducts = products;
                     this.initRender();
-                } catch(e) {
-                    this.showError("Failed to fetch products. Check connection.");
+
+                } catch (e) {
+                    this.showEmptyState(document.getElementById('content-area'), "Server Error", "Failed to retrieve the catalog from the database.", "fa-solid fa-triangle-exclamation");
                 }
             },
 
-            /* --- 2. RENDER PIPELINE --- */
+            /* --- VIEW MANAGEMENT & RENDERING --- */
             initRender: function() {
+                // If URL has specific filters, skip swimlanes and go direct to Master Grid
                 if(this.state.filters.search || this.state.filters.type !== 'all' || this.state.filters.category !== 'all') {
-                    this.applyFilters();
+                    // Sync radio buttons to match URL state
+                    if(this.state.filters.type !== 'all') {
+                        const el = document.querySelector(`input[name="type"][value="${this.state.filters.type}"]`);
+                        if(el) el.checked = true;
+                    }
+                    this.applyFilters(); 
                 } else {
-                    this.renderSwimlanes();
+                    this.renderSwimlanes(); 
                 }
             },
 
             renderSwimlanes: function() {
                 document.getElementById('swimlanes-view').style.display = 'block';
                 document.getElementById('filtered-view').style.display = 'none';
+                this.state.isFilteredView = false;
 
                 const all = this.state.allProducts;
-                const saas = all.filter(p => p.type === 'saas');
+                
+                // Categorize for Swimlanes
                 const digital = all.filter(p => p.type === 'digital');
                 const physical = all.filter(p => p.type === 'physical');
+                const saas = all.filter(p => p.type === 'saas');
 
-                const renderTrack = (id, data, sectionId) => {
-                    const el = document.getElementById(id);
-                    if(data.length === 0) {
-                        document.getElementById(sectionId).style.display = 'none';
-                    } else {
-                        document.getElementById(sectionId).style.display = 'block';
-                        el.innerHTML = data.map(p => this.buildCard(p)).join('');
-                    }
-                };
+                this.populateSwimlane('track-digital', digital, 'section-digital');
+                this.populateSwimlane('track-physical', physical, 'section-physical');
+                this.populateSwimlane('track-saas', saas, 'section-saas');
+            },
 
-                renderTrack('track-saas', saas, 'section-saas');
-                renderTrack('track-digital', digital, 'section-digital');
-                renderTrack('track-physical', physical, 'section-physical');
+            populateSwimlane: function(trackId, products, sectionId) {
+                const track = document.getElementById(trackId);
+                const section = document.getElementById(sectionId);
+                
+                if(products.length === 0) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = 'block';
+                    track.innerHTML = products.map(p => this.buildCard(p)).join('');
+                }
+            },
+
+            /* --- FILTERING ENGINE --- */
+            setFilterAndSwitch: function(key, value) {
+                const radio = document.querySelector(`input[name="${key}"][value="${value}"]`);
+                if(radio) radio.checked = true;
+                this.applyFilters();
+                window.scrollTo({top: 0, behavior: 'smooth'});
             },
 
             applyFilters: function() {
-                const search = document.getElementById('market-search').value.toLowerCase().trim();
-                const type = document.querySelector('input[name="type"]:checked').value;
-                const cat = document.querySelector('input[name="category"]:checked').value;
-                const sort = document.querySelector('input[name="sort"]:checked').value;
-
-                this.state.filters = { search, type, category: cat, sort };
-
-                const isFiltering = search !== '' || type !== 'all' || cat !== 'all';
+                // 1. Read DOM States
+                const typeRadio = document.querySelector('input[name="type"]:checked');
+                if (typeRadio) this.state.filters.type = typeRadio.value;
                 
-                if (!isFiltering && sort === 'newest') {
+                const catRadio = document.querySelector('input[name="category"]:checked');
+                if (catRadio) this.state.filters.category = catRadio.value;
+
+                const sortRadio = document.querySelector('input[name="sort"]:checked');
+                if (sortRadio) this.state.filters.sort = sortRadio.value;
+
+                // 2. Check if we need grid
+                const isFiltering = this.state.filters.search !== '' || this.state.filters.type !== 'all' || this.state.filters.category !== 'all';
+                
+                if (!isFiltering && this.state.filters.sort === 'newest') {
                     this.renderSwimlanes();
+                    this.updateUrlSilently();
                     return;
                 }
 
+                // 3. Execute Filter
                 document.getElementById('swimlanes-view').style.display = 'none';
                 document.getElementById('filtered-view').style.display = 'block';
+                this.state.isFilteredView = true;
 
                 let result = [...this.state.allProducts];
 
-                if(search) result = result.filter(p => p.title.toLowerCase().includes(search) || (p.tags && p.tags.join(',').toLowerCase().includes(search)));
-                if(type !== 'all') result = result.filter(p => p.type === type);
-                if(cat !== 'all') result = result.filter(p => p.category === cat);
+                if (this.state.filters.search) {
+                    const query = this.state.filters.search;
+                    result = result.filter(p => 
+                        (p.title && p.title.toLowerCase().includes(query)) || 
+                        (p.sku && p.sku.toLowerCase().includes(query))
+                    );
+                }
 
-                if(sort === 'price_low') result.sort((a,b) => parseFloat(a.price) - parseFloat(b.price));
-                if(sort === 'price_high') result.sort((a,b) => parseFloat(b.price) - parseFloat(a.price));
-                if(sort === 'newest') result.sort((a,b) => (b.createdAt || 0) - (a.createdAt || 0));
+                if (this.state.filters.type !== 'all') {
+                    result = result.filter(p => p.type === this.state.filters.type);
+                }
+
+                if (this.state.filters.category !== 'all') {
+                    result = result.filter(p => p.category === this.state.filters.category);
+                }
+
+                if (this.state.filters.sort === 'price_low') {
+                    result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+                } else if (this.state.filters.sort === 'price_high') {
+                    result.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+                }
 
                 this.state.filtered = result;
-                this.updateUrl();
-                
+                this.updateUrlSilently();
+                this.renderMasterGrid(result);
+            },
+
+            renderMasterGrid: function(products) {
                 const grid = document.getElementById('master-grid');
-                document.getElementById('result-count').innerText = result.length;
+                document.getElementById('result-count').innerText = products.length;
 
-                if (result.length === 0) {
-                    grid.innerHTML = `<div class="nx-empty-state"><i class="fa-solid fa-ghost"></i><h2>No Matches Found</h2><p>Try clearing filters or searching for something else.</p></div>`;
-                } else {
-                    grid.innerHTML = result.map(p => this.buildCard(p)).join('');
-                    grid.classList.add('active');
+                if (products.length === 0) {
+                    this.showEmptyState(grid, "No Assets Found", "Try adjusting your filters to find what you're looking for.", "fa-solid fa-ghost");
+                    return;
                 }
-            },
 
-            /* --- 3. CARD BUILDER & DYNAMIC BRANDING --- */
-            buildCard: function(p) {
-                // Get dynamic watermark from NexraBrand (if available)
-                const watermarkUrl = window.NexraBrand ? window.NexraBrand.getAsset('watermark') : '';
-                const watermarkHtml = watermarkUrl ? `<img src="${watermarkUrl}" class="card-watermark" alt="">` : '';
-                
-                const badgeHtml = p.badge ? `<span class="nx-card-badge">${p.badge}</span>` : '';
-                const oldPrice = p.oldPrice ? `<span class="nx-card-price-old">Rs. ${parseFloat(p.oldPrice).toLocaleString()}</span>` : '';
-                
-                const url = window.NexraRoutes ? window.NexraRoutes.generateURL('product', `?id=${p.id}`) : `product-detail.html?id=${p.id}`;
-
-                return `
-                    <div class="nx-card" onclick="window.location.href='${url}'">
-                        ${watermarkHtml}
-                        <div class="nx-card-img-wrap">
-                            ${badgeHtml}
-                            <button class="nx-card-wishlist" onclick="event.stopPropagation(); alert('Added to wishlist')"><i class="fa-regular fa-heart"></i></button>
-                            <img src="${p.image}" class="nx-card-img" alt="${p.title}" loading="lazy">
-                        </div>
-                        <div class="nx-card-meta">
-                            <span class="nx-card-stars"><i class="fa-solid fa-star"></i> ${p.rating || '5.0'}</span>
-                            <span><i class="fa-solid fa-bolt" style="color:var(--gold); font-size:10px;"></i> ${p.salesCount || 0} Sold</span>
-                        </div>
-                        <h3 class="nx-card-title">${p.title}</h3>
-                        <div class="nx-card-price-row">
-                            ${oldPrice}
-                            <span class="nx-card-price">Rs. ${parseFloat(p.price).toLocaleString()}</span>
-                        </div>
-                        <div class="nx-card-actions">
-                            <button class="nx-card-btn-icon" onclick="event.stopPropagation();"><i class="fa-solid fa-cart-plus"></i></button>
-                            <button class="nx-card-btn-main" onclick="event.stopPropagation(); window.location.href='checkout.html'">Buy Now</button>
-                        </div>
-                    </div>
-                `;
-            },
-
-            /* --- 4. EVENT LISTENERS & UX --- */
-            setupEventListeners: function() {
-                // Search Input Live Dropdown
-                const searchInp = document.getElementById('market-search');
-                const dropdown = document.getElementById('live-search-results');
-
-                searchInp.addEventListener('input', (e) => {
-                    clearTimeout(this.state.searchTimer);
-                    const q = e.target.value.toLowerCase().trim();
-                    
-                    if(q.length < 2) { dropdown.classList.remove('active'); return; }
-
-                    this.state.searchTimer = setTimeout(() => {
-                        const results = this.state.allProducts.filter(p => p.title.toLowerCase().includes(q)).slice(0, 5);
-                        if(results.length > 0) {
-                            dropdown.innerHTML = results.map(p => `
-                                <div class="live-item" onclick="window.location.href='product-detail.html?id=${p.id}'">
-                                    <img src="${p.image}" class="live-img">
-                                    <div class="live-info"><h4>${p.title}</h4><span>${p.type}</span></div>
-                                    <div style="margin-left:auto; font-family:'Space Grotesk'; font-weight:800; color:var(--brand-main);">Rs. ${p.price}</div>
-                                </div>
-                            `).join('');
-                        } else {
-                            dropdown.innerHTML = `<div style="padding: 20px; text-align:center; color:var(--text-300);">No results for "${q}"</div>`;
-                        }
-                        dropdown.classList.add('active');
-                    }, 300);
-                });
-
-                // Close dropdown on click outside
-                document.addEventListener('click', (e) => {
-                    if(!e.target.closest('.search-wrapper')) dropdown.classList.remove('active');
-                });
-
-                // Voice Search Setup
-                document.getElementById('voice-btn').addEventListener('click', () => this.startVoiceSearch());
-                document.getElementById('btn-execute-search').addEventListener('click', () => {
-                    this.applyFilters();
-                    dropdown.classList.remove('active');
-                });
-
-                // Sidebar Radio listeners (Event Delegation)
-                document.getElementById('filter-sidebar').addEventListener('change', (e) => {
-                    if(e.target.tagName === 'INPUT' && e.target.type === 'radio') {
-                        this.applyFilters();
-                    }
-                });
-
-                // See All Buttons
-                document.querySelectorAll('.see-all-btn[data-filter-type]').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        const type = e.currentTarget.dataset.filterType;
-                        document.querySelector(`input[name="type"][value="${type}"]`).checked = true;
-                        this.applyFilters();
-                        window.scrollTo({top: 0, behavior: 'smooth'});
-                    });
-                });
-
-                // Mobile Filter Toggle
-                const toggleMobile = () => {
-                    document.getElementById('filter-sidebar').classList.toggle('active');
-                    document.getElementById('mobile-filter-bg').classList.toggle('active');
-                };
-                document.getElementById('mobile-filter-btn').addEventListener('click', toggleMobile);
-                document.getElementById('mobile-filter-bg').addEventListener('click', toggleMobile);
-                document.getElementById('close-mobile-filter').addEventListener('click', toggleMobile);
-
-                // Back to Swimlanes
-                document.getElementById('btn-back-swimlanes').addEventListener('click', () => this.resetFilters());
-                document.getElementById('btn-reset-filters').addEventListener('click', () => this.resetFilters());
-            },
-
-            startVoiceSearch: function() {
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                const btn = document.getElementById('voice-btn');
-                
-                if (!SpeechRecognition) { alert("Voice search not supported in this browser."); return; }
-
-                const recognition = new SpeechRecognition();
-                recognition.onstart = () => { btn.classList.add('listening'); btn.innerHTML = '<i class="fa-solid fa-microphone-lines"></i>'; };
-                recognition.onresult = (event) => {
-                    const transcript = event.results[0][0].transcript;
-                    document.getElementById('market-search').value = transcript;
-                    this.applyFilters();
-                };
-                recognition.onerror = recognition.onend = () => {
-                    btn.classList.remove('listening'); btn.innerHTML = '<i class="fa-solid fa-microphone"></i>';
-                };
-                recognition.start();
-            },
-
-            parseUrlParams: function() {
-                const p = new URLSearchParams(window.location.search);
-                if(p.has('q')) { document.getElementById('market-search').value = p.get('q'); this.state.filters.search = p.get('q'); }
-                if(p.has('cat')) this.state.filters.category = p.get('cat');
-            },
-
-            updateUrl: function() {
-                const params = new URLSearchParams();
-                if(this.state.filters.search) params.set('q', this.state.filters.search);
-                if(this.state.filters.category !== 'all') params.set('cat', this.state.filters.category);
-                const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
-                window.history.replaceState({}, '', newUrl);
+                grid.innerHTML = products.map(p => this.buildCard(p)).join('');
             },
 
             resetFilters: function() {
                 document.getElementById('market-search').value = '';
+                this.state.filters.search = '';
                 document.querySelector('input[name="type"][value="all"]').checked = true;
                 document.querySelector('input[name="category"][value="all"]').checked = true;
                 document.querySelector('input[name="sort"][value="newest"]').checked = true;
                 this.applyFilters();
             },
 
-            showError: function(msg) {
-                document.getElementById('swimlanes-view').innerHTML = `<div class="nx-empty-state"><i class="fa-solid fa-wifi" style="color:var(--danger)"></i><h2>Connection Error</h2><p>${msg}</p></div>`;
+            updateUrlSilently: function() {
+                const params = new URLSearchParams();
+                if(this.state.filters.search) params.set('q', this.state.filters.search);
+                if(this.state.filters.type !== 'all') params.set('type', this.state.filters.type);
+                if(this.state.filters.category !== 'all') params.set('cat', this.state.filters.category);
+                
+                const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
+                window.history.replaceState({}, '', newUrl);
+            },
+
+            /* --- UI BUILDERS & HELPERS --- */
+            buildCard: function(p) {
+                const price = parseFloat(p.price || 0).toLocaleString();
+                const oldPriceHtml = p.oldPrice ? `<span class="nx-card-price-old">Rs. ${parseFloat(p.oldPrice).toLocaleString()}</span>` : '';
+                const badgeHtml = p.badge ? `<span class="nx-card-badge">${p.badge}</span>` : '';
+                const safeTitle = (p.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                
+                // Dynamic Routing
+                const productUrl = window.NexraRoutes ? window.NexraRoutes.generateURL('product', `?id=${p.id}`) : `product-detail.html?id=${p.id}`;
+
+                // Dynamic Watermark Injector
+                const watermarkHtml = this.state.watermarkUrl ? `<img src="${this.state.watermarkUrl}" class="nx-card-watermark" alt="brand">` : '';
+
+                // Support for all Image extensions natively via <img> tag
+                return `
+                    <div class="nx-card" onclick="window.location.href='${productUrl}'">
+                        <div class="nx-card-img-wrap">
+                            ${badgeHtml}
+                            <button class="nx-card-wishlist" onclick="event.stopPropagation(); NX_SHOP.addToWishlist('${p.id}')">
+                                <i class="fa-regular fa-heart"></i>
+                            </button>
+                            <img src="${p.image}" class="nx-card-img" alt="${safeTitle}" loading="lazy" onerror="this.src='https://via.placeholder.com/300?text=Image+Not+Found'">
+                            ${watermarkHtml}
+                        </div>
+                        
+                        <div class="nx-card-meta">
+                            <span class="nx-card-stars"><i class="fa-solid fa-star"></i> ${p.rating || '5.0'}</span>
+                            <span style="background:var(--bg-elevated); padding:2px 8px; border-radius:6px; color:var(--brand-main);">${p.type.toUpperCase()}</span>
+                        </div>
+                        
+                        <h3 class="nx-card-title">${p.title}</h3>
+                        
+                        <div class="nx-card-price-row">
+                            ${oldPriceHtml}
+                            <span class="nx-card-price">Rs. ${price}</span>
+                        </div>
+                        
+                        <div class="nx-card-actions">
+                            <button class="nx-card-btn-icon" aria-label="Add to Cart" onclick="event.stopPropagation(); if(window.Nexra) Nexra.showToast('Added to Cart', 'success');">
+                                <i class="fa-solid fa-cart-plus"></i>
+                            </button>
+                            <button class="nx-card-btn-main" onclick="event.stopPropagation(); window.location.href='${window.NexraRoutes ? window.NexraRoutes.generateURL('checkout') : 'checkout.html'}'">
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+                `;
+            },
+
+            showEmptyState: function(container, title, desc, icon) {
+                container.innerHTML = `
+                    <div class="nx-empty-state">
+                        <i class="${icon} nx-empty-icon"></i>
+                        <h2 class="nx-empty-title">${title}</h2>
+                        <p class="nx-empty-desc">${desc}</p>
+                        ${title === 'No Assets Found' ? `<button class="search-btn" style="margin-top:20px;" onclick="NX_SHOP.resetFilters()">Clear Filters</button>` : ''}
+                    </div>
+                `;
+            },
+
+            toggleMobileFilters: function() {
+                document.getElementById('filter-sidebar').classList.toggle('active');
+                document.getElementById('mobile-filter-bg').classList.toggle('active');
+            },
+
+            addToWishlist: async function(id) {
+                if (!window.auth || !auth.currentUser) {
+                    if (window.Nexra) Nexra.showToast("Please login to save items", "error");
+                    return;
+                }
+                try {
+                    await db.collection('users').doc(auth.currentUser.uid).collection('wishlist').doc(id).set({ addedAt: Date.now() });
+                    if (window.Nexra) Nexra.showToast("Saved to your Wishlist", "success");
+                } catch(e) { console.error(e); }
             }
         };
 
