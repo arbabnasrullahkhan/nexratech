@@ -1,2694 +1,466 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" dir="ltr" data-theme="light">
 <head>
-    <!-- =====================================================================
-         NEXRA TECH PK — PRODUCT DETAIL PAGE (COMPLETE A-TO-Z)
-         Version: 3.0 | Fully self-contained demo + Firebase/Supabase hooks
-    ====================================================================== -->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" id="dynamic-desc" content="Premium digital asset on Nexra Tech PK. Secure delivery, verified keys.">
-    <meta property="og:title" id="og-title" content="Product | Nexra Tech PK">
-    <meta property="og:description" id="og-desc" content="Premium digital asset on Nexra Tech PK.">
-    <meta property="og:image" id="og-image" content="">
-    <meta property="og:url" id="og-url" content="">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" id="tw-title" content="Product | Nexra Tech PK">
-    <meta name="twitter:image" id="tw-image" content="">
-    <meta name="theme-color" id="browser-theme-color" content="#7C3AED">
-    <link rel="canonical" id="canonical-url" href="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <title>Nexra PK | Loading Elite Asset...</title>
+    
+    <!-- SEO & Metadata Hooks -->
+    <meta name="description" id="meta-desc" content="Premium Digital Asset from Nexra Tech PK. Verified licensing and instant delivery.">
+    <meta name="theme-color" id="browser-theme-color" content="#ffffff">
 
-    <title id="page-title">Product Details | Nexra Tech PK</title>
+    <!-- JSON-LD for Google Snippets -->
+    <script type="application/ld+json" id="ld-json-data"></script>
 
-    <!-- JSON-LD Rich Snippets -->
-    <script type="application/ld+json" id="json-ld-product">{}</script>
-
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-    <!-- Firebase (compat) -->
+    <!-- Hybrid Engines -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
-    <!-- Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-<style>
-/* ============================================================
-   NEXRA DESIGN SYSTEM — TOKENS
-============================================================ */
-:root {
-    --brand-main: #7C3AED;
-    --brand-light: #9D6FFF;
-    --brand-glow: rgba(124,58,237,0.35);
-    --brand-dim: rgba(124,58,237,0.12);
-    --gold: #F59E0B;
-    --success: #10B981;
-    --danger: #EF4444;
-    --warning: #F59E0B;
-    --wa-green: #25D366;
-
-    --bg-base: #0A0A0F;
-    --bg-surface: #111118;
-    --bg-elevated: #1A1A24;
-    --bg-card: #161622;
-
-    --text-100: #F0EEF8;
-    --text-200: #B8B3D0;
-    --text-300: #6B6785;
-    --text-400: #3A3750;
-
-    --glass-border: rgba(255,255,255,0.07);
-    --glass-border-hover: rgba(124,58,237,0.4);
-    --radius-xs: 8px;
-    --radius-sm: 12px;
-    --radius-md: 20px;
-    --radius-lg: 24px;
-    --radius-xl: 32px;
-    --radius-pill: 100px;
-
-    --shadow-soft: 0 4px 24px rgba(0,0,0,0.35);
-    --shadow-float: 0 16px 48px rgba(0,0,0,0.5);
-    --shadow-brand: 0 8px 32px var(--brand-glow);
-    --transition: cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* ============================================================
-   BASE RESET & GLOBAL
-============================================================ */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-html { scroll-behavior: smooth; }
-
-body {
-    font-family: 'Plus Jakarta Sans', sans-serif;
-    background: var(--bg-base);
-    color: var(--text-100);
-    min-height: 100vh;
-    overflow-x: hidden;
-    -webkit-font-smoothing: antialiased;
-    /* Right-click protection */
-    -webkit-user-drag: none;
-}
-
-/* Allow text selection for descriptions */
-.selectable { user-select: text; }
-
-img { max-width: 100%; display: block; }
-a { color: inherit; text-decoration: none; }
-button { font-family: inherit; cursor: pointer; }
-
-/* ============================================================
-   SCROLLBAR
-============================================================ */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--bg-base); }
-::-webkit-scrollbar-thumb { background: var(--brand-main); border-radius: 10px; }
-
-/* ============================================================
-   TYPOGRAPHY
-============================================================ */
-.tech-font { font-family: 'Space Grotesk', sans-serif; }
-.mono-font { font-family: 'JetBrains Mono', monospace; }
-.text-brand { color: var(--brand-main); }
-.text-gold { color: var(--gold); }
-.text-success { color: var(--success); }
-.text-muted { color: var(--text-300); }
-
-/* ============================================================
-   SKELETON LOADER
-============================================================ */
-@keyframes shimmer {
-    0% { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-}
-.skeleton {
-    background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-card) 50%, var(--bg-elevated) 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.5s infinite;
-    border-radius: var(--radius-sm);
-}
-
-/* ============================================================
-   BUTTONS
-============================================================ */
-.nx-btn {
-    display: inline-flex; align-items: center; justify-content: center;
-    gap: 8px; padding: 14px 28px; border-radius: var(--radius-pill);
-    font-weight: 800; font-size: 13px; letter-spacing: 0.5px;
-    border: none; transition: all 0.3s var(--transition);
-    white-space: nowrap;
-}
-.nx-btn-primary {
-    background: var(--brand-main); color: #fff;
-    box-shadow: var(--shadow-brand);
-}
-.nx-btn-primary:hover {
-    background: var(--brand-light);
-    transform: translateY(-2px);
-    box-shadow: 0 12px 40px var(--brand-glow);
-}
-.nx-btn-outline {
-    background: transparent; color: var(--text-100);
-    border: 1px solid var(--glass-border);
-}
-.nx-btn-outline:hover {
-    border-color: var(--brand-main); color: var(--brand-main);
-    background: var(--brand-dim);
-}
-.nx-btn-ghost {
-    background: var(--bg-elevated); color: var(--text-200);
-    border: 1px solid var(--glass-border);
-}
-.nx-btn-ghost:hover { border-color: var(--glass-border-hover); }
-.nx-btn-icon {
-    width: 48px; height: 48px; padding: 0; border-radius: 50%;
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    color: var(--text-200); font-size: 16px; flex-shrink: 0;
-}
-.nx-btn-icon:hover { border-color: var(--brand-main); color: var(--brand-main); }
-
-/* ============================================================
-   BADGE
-============================================================ */
-.badge {
-    display: inline-flex; align-items: center; gap: 6px;
-    padding: 5px 14px; border-radius: var(--radius-pill);
-    font-size: 10px; font-weight: 800; letter-spacing: 1px;
-    text-transform: uppercase; border: 1px solid transparent;
-}
-.badge-brand { background: var(--brand-dim); color: var(--brand-light); border-color: var(--brand-glow); }
-.badge-success { background: rgba(16,185,129,0.12); color: var(--success); border-color: rgba(16,185,129,0.3); }
-.badge-gold { background: rgba(245,158,11,0.12); color: var(--gold); border-color: rgba(245,158,11,0.3); }
-.badge-dark { background: var(--bg-elevated); color: var(--text-200); border-color: var(--glass-border); }
-
-/* ============================================================
-   HEADER (STICKY)
-============================================================ */
-#nx-header {
-    position: fixed; top: 0; left: 0; right: 0; z-index: 9900;
-    background: rgba(10,10,15,0.85);
-    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-    border-bottom: 1px solid var(--glass-border);
-    padding: 0 5%;
-    height: 72px;
-    display: flex; align-items: center; justify-content: space-between;
-    transition: 0.3s;
-}
-.header-logo {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 22px; font-weight: 900;
-    display: flex; align-items: center; gap: 10px;
-    letter-spacing: -0.5px;
-}
-.header-logo .logo-icon {
-    width: 36px; height: 36px; background: var(--brand-main);
-    border-radius: 10px; display: flex; align-items: center; justify-content: center;
-    font-size: 18px; box-shadow: var(--shadow-brand);
-}
-.header-logo .logo-alpha { color: var(--brand-light); font-size: 10px; font-weight: 800; letter-spacing: 2px; margin-left: 4px; }
-.header-actions { display: flex; align-items: center; gap: 12px; }
-.header-cart-btn {
-    position: relative; width: 44px; height: 44px; border-radius: 50%;
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    display: flex; align-items: center; justify-content: center; color: var(--text-200);
-    font-size: 16px; transition: 0.3s;
-}
-.header-cart-btn:hover { border-color: var(--brand-main); color: var(--brand-main); }
-.cart-badge {
-    position: absolute; top: -4px; right: -4px;
-    width: 18px; height: 18px; border-radius: 50%;
-    background: var(--brand-main); color: #fff;
-    font-size: 10px; font-weight: 800;
-    display: flex; align-items: center; justify-content: center;
-}
-
-/* ============================================================
-   BREADCRUMB & TOP NAV
-============================================================ */
-.pd-top-bar {
-    margin-top: 72px;
-    background: var(--bg-surface);
-    border-bottom: 1px solid var(--glass-border);
-    padding: 14px 5%;
-    display: flex; align-items: center; justify-content: space-between;
-    position: sticky; top: 72px; z-index: 100;
-    backdrop-filter: blur(12px);
-}
-.breadcrumb {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 11px; font-weight: 700; color: var(--text-300);
-    text-transform: uppercase; letter-spacing: 0.8px;
-    flex-wrap: wrap;
-}
-.breadcrumb a { transition: color 0.2s; }
-.breadcrumb a:hover { color: var(--brand-main); }
-.breadcrumb .sep { opacity: 0.4; font-size: 9px; }
-.breadcrumb .current { color: var(--brand-main); }
-
-.back-btn {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 11px; font-weight: 800; color: var(--text-300);
-    text-transform: uppercase; letter-spacing: 1px;
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    padding: 8px 16px; border-radius: var(--radius-pill);
-    transition: 0.3s; flex-shrink: 0;
-}
-.back-btn:hover { color: var(--brand-main); border-color: var(--brand-main); }
-
-/* ============================================================
-   PAGE LAYOUT
-============================================================ */
-.pd-layout {
-    max-width: 1380px; margin: 0 auto;
-    padding: 40px 5% 180px;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 40px;
-}
-@media (min-width: 1024px) {
-    .pd-layout {
-        grid-template-columns: 1.1fr 0.9fr;
-        gap: 70px;
-        align-items: start;
-    }
-}
-
-/* ============================================================
-   GALLERY — LEFT COLUMN
-============================================================ */
-.pd-gallery {
-    position: sticky;
-    top: 130px;
-}
-
-.pd-main-wrap {
-    position: relative;
-    width: 100%; aspect-ratio: 1 / 1;
-    border-radius: var(--radius-lg);
-    background: var(--bg-surface);
-    border: 1px solid var(--glass-border);
-    overflow: hidden;
-    box-shadow: var(--shadow-float);
-    cursor: zoom-in;
-}
-.pd-main-img {
-    width: 100%; height: 100%;
-    object-fit: contain;
-    transition: transform 0.6s var(--transition);
-    background: var(--bg-surface);
-}
-.pd-main-wrap:hover .pd-main-img { transform: scale(1.06); }
-
-/* Video inside gallery */
-.pd-main-video {
-    width: 100%; height: 100%; object-fit: cover; display: none;
-}
-.pd-main-video.active { display: block; }
-
-/* Watermarks */
-.wm-logo {
-    position: absolute; top: 16px; right: 16px;
-    width: 52px; height: 52px; border-radius: 12px;
-    background: var(--bg-base); border: 1px solid var(--glass-border);
-    display: flex; align-items: center; justify-content: center;
-    font-family: 'Space Grotesk'; font-size: 11px; font-weight: 900;
-    color: var(--brand-light); opacity: 0.7; z-index: 5;
-    letter-spacing: -0.5px; pointer-events: none;
-    user-select: none;
-}
-.wm-title {
-    position: absolute; bottom: 14px; left: 14px;
-    background: rgba(10,10,15,0.75); backdrop-filter: blur(8px);
-    color: var(--text-300); font-size: 10px; font-weight: 700;
-    padding: 5px 10px; border-radius: 8px; z-index: 5;
-    letter-spacing: 1px; text-transform: uppercase;
-    pointer-events: none; user-select: none;
-    max-width: 70%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-}
-
-/* Badges on image */
-.img-badge-wrap {
-    position: absolute; top: 16px; left: 16px; z-index: 5;
-    display: flex; flex-direction: column; gap: 6px;
-}
-
-/* Thumbnail strip */
-.pd-thumbs {
-    display: flex; gap: 10px;
-    margin-top: 16px;
-    overflow-x: auto; scrollbar-width: none;
-    padding-bottom: 4px;
-}
-.pd-thumbs::-webkit-scrollbar { display: none; }
-.pd-thumb {
-    width: 72px; height: 72px; flex-shrink: 0;
-    border-radius: var(--radius-sm);
-    border: 2px solid var(--glass-border);
-    overflow: hidden; cursor: pointer;
-    transition: 0.3s; background: var(--bg-elevated);
-    position: relative;
-}
-.pd-thumb:hover { border-color: var(--text-300); transform: translateY(-2px); }
-.pd-thumb.active { border-color: var(--brand-main); box-shadow: 0 0 0 3px var(--brand-glow); }
-.pd-thumb img, .pd-thumb video { width: 100%; height: 100%; object-fit: cover; }
-.pd-thumb .vid-overlay {
-    position: absolute; inset: 0; background: rgba(0,0,0,0.4);
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font-size: 18px;
-}
-
-/* Trust row below gallery */
-.trust-row {
-    display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 10px; margin-top: 20px;
-}
-.trust-item {
-    background: var(--bg-surface); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-sm); padding: 14px 10px;
-    text-align: center;
-}
-.trust-item .ti-icon { font-size: 20px; margin-bottom: 6px; color: var(--brand-light); }
-.trust-item .ti-label { font-size: 9px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 0.8px; }
-.trust-item .ti-val { font-size: 12px; font-weight: 700; color: var(--text-100); margin-top: 2px; }
-
-/* ============================================================
-   AD SLOTS
-============================================================ */
-.ad-slot {
-    background: var(--bg-elevated);
-    border: 1px dashed var(--text-400);
-    padding: 18px; text-align: center;
-    border-radius: var(--radius-md);
-    margin: 20px 0;
-    font-size: 10px; font-weight: 800;
-    color: var(--text-400); letter-spacing: 1px;
-    text-transform: uppercase;
-}
-.ad-slot::before { content: '📢 '; }
-
-/* ============================================================
-   PRODUCT INFO — RIGHT COLUMN
-============================================================ */
-.pd-info { display: flex; flex-direction: column; gap: 0; }
-
-.pd-header-row {
-    display: flex; align-items: flex-start;
-    justify-content: space-between; gap: 15px;
-    margin-bottom: 16px;
-}
-.pd-badges { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
-
-.pd-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(26px, 4vw, 44px);
-    font-weight: 900; line-height: 1.1;
-    letter-spacing: -1px;
-    margin-bottom: 12px;
-}
-
-.pd-meta-row {
-    display: flex; align-items: center; flex-wrap: wrap;
-    gap: 16px; margin-bottom: 24px;
-}
-.pd-meta-item {
-    display: flex; align-items: center; gap: 6px;
-    font-size: 11px; font-weight: 700;
-    color: var(--text-300); text-transform: uppercase; letter-spacing: 0.8px;
-}
-.pd-meta-item i { color: var(--brand-light); }
-
-/* Viewers pulse */
-.live-dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--success);
-    box-shadow: 0 0 0 0 rgba(16,185,129,0.4);
-    animation: pulse-dot 2s infinite;
-    flex-shrink: 0;
-}
-@keyframes pulse-dot {
-    0% { box-shadow: 0 0 0 0 rgba(16,185,129,0.4); }
-    70% { box-shadow: 0 0 0 8px rgba(16,185,129,0); }
-    100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
-}
-
-/* ============================================================
-   PRICE CARD
-============================================================ */
-.price-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    padding: 28px;
-    margin-bottom: 24px;
-    position: relative;
-    overflow: hidden;
-}
-.price-card::before {
-    content: '';
-    position: absolute; top: 0; left: 0; right: 0; height: 2px;
-    background: linear-gradient(90deg, var(--brand-main), var(--brand-light), transparent);
-}
-
-.coin-hook {
-    display: inline-flex; align-items: center; gap: 8px;
-    background: var(--brand-dim); color: var(--brand-light);
-    border: 1px solid var(--brand-glow); border-radius: var(--radius-pill);
-    padding: 7px 16px; font-size: 10px; font-weight: 800;
-    letter-spacing: 0.5px; margin-bottom: 20px;
-}
-
-.flash-sale-banner {
-    background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(245,158,11,0.1));
-    border: 1px solid rgba(239,68,68,0.3);
-    border-radius: var(--radius-sm); padding: 10px 16px;
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 16px; display: none;
-}
-.flash-sale-banner.active { display: flex; }
-.flash-countdown { font-family: 'JetBrains Mono'; font-size: 16px; font-weight: 700; color: var(--danger); }
-
-.price-row {
-    display: flex; align-items: flex-end; gap: 14px;
-    margin-bottom: 22px; flex-wrap: wrap;
-}
-.price-old {
-    font-size: 17px; font-weight: 700; color: var(--text-300);
-    text-decoration: line-through;
-}
-.price-main {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: clamp(32px, 5vw, 50px);
-    font-weight: 900; color: var(--text-100); line-height: 1;
-}
-.price-usd {
-    background: rgba(16,185,129,0.12); color: var(--success);
-    border: 1px solid rgba(16,185,129,0.25);
-    padding: 5px 12px; border-radius: var(--radius-pill);
-    font-family: 'JetBrains Mono'; font-size: 12px; font-weight: 700;
-    margin-bottom: 4px;
-}
-.price-discount {
-    background: rgba(239,68,68,0.12); color: var(--danger);
-    border: 1px solid rgba(239,68,68,0.25);
-    padding: 5px 12px; border-radius: var(--radius-pill);
-    font-size: 11px; font-weight: 800; margin-bottom: 4px;
-}
-
-/* Quantity + Actions */
-.action-row {
-    display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
-}
-.qty-ctrl {
-    display: flex; align-items: center;
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-pill); padding: 4px;
-    gap: 4px; flex-shrink: 0;
-}
-.qty-btn {
-    width: 42px; height: 42px; border-radius: 50%; border: none;
-    background: transparent; color: var(--text-100);
-    font-size: 16px; display: flex; align-items: center; justify-content: center;
-    transition: 0.2s;
-}
-.qty-btn:hover { background: var(--bg-card); color: var(--brand-main); }
-.qty-num {
-    min-width: 38px; text-align: center;
-    font-family: 'Space Grotesk'; font-weight: 800; font-size: 16px;
-}
-
-.subscription-toggle {
-    display: flex; align-items: center; gap: 12px;
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-sm); padding: 10px 16px;
-    margin-top: 16px; font-size: 12px;
-}
-.sub-pill {
-    display: flex; border: 1px solid var(--glass-border);
-    border-radius: var(--radius-pill); overflow: hidden;
-    flex-shrink: 0;
-}
-.sub-pill button {
-    padding: 6px 14px; font-size: 11px; font-weight: 800;
-    border: none; background: transparent; color: var(--text-300);
-    transition: 0.2s; text-transform: uppercase; letter-spacing: 0.5px;
-}
-.sub-pill button.active { background: var(--brand-main); color: #fff; }
-
-/* ============================================================
-   WISHLIST + SHARE ROW
-============================================================ */
-.social-action-row {
-    display: flex; align-items: center; gap: 10px;
-    margin-bottom: 24px; flex-wrap: wrap;
-}
-.wishlist-btn {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 18px; border-radius: var(--radius-pill);
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    font-size: 12px; font-weight: 700; color: var(--text-200);
-    transition: 0.3s;
-}
-.wishlist-btn:hover, .wishlist-btn.active {
-    border-color: rgba(239,68,68,0.5); color: var(--danger);
-    background: rgba(239,68,68,0.08);
-}
-.wishlist-btn.active i { font-weight: 900; }
-
-.share-btn {
-    display: flex; align-items: center; gap: 8px;
-    padding: 10px 18px; border-radius: var(--radius-pill);
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    font-size: 12px; font-weight: 700; color: var(--text-200); transition: 0.3s;
-}
-.share-btn:hover { border-color: var(--brand-main); color: var(--brand-main); }
-
-/* Gift button */
-.gift-btn {
-    padding: 10px 18px; border-radius: var(--radius-pill);
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    font-size: 12px; font-weight: 700; color: var(--text-200); transition: 0.3s;
-}
-.gift-btn:hover { border-color: var(--gold); color: var(--gold); }
-
-/* ============================================================
-   AFFILIATE / RESELLER CARD
-============================================================ */
-.affiliate-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--brand-glow);
-    border-radius: var(--radius-md); padding: 24px;
-    margin-bottom: 24px;
-}
-.affiliate-card h4 {
-    font-family: 'Space Grotesk'; font-size: 15px; font-weight: 800;
-    margin-bottom: 8px; display: flex; align-items: center; gap: 8px;
-}
-.comm-calc {
-    background: var(--bg-elevated); border-radius: var(--radius-sm);
-    padding: 14px; display: flex; justify-content: space-between;
-    align-items: center; margin: 14px 0; font-size: 13px;
-}
-.comm-val {
-    font-family: 'JetBrains Mono'; font-size: 20px; font-weight: 700;
-    color: var(--brand-light);
-}
-.affiliate-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-
-/* ============================================================
-   TABS
-============================================================ */
-.pd-tabs {
-    border-bottom: 1px solid var(--glass-border);
-    display: flex; gap: 0;
-    margin-bottom: 28px;
-    overflow-x: auto; scrollbar-width: none;
-}
-.pd-tabs::-webkit-scrollbar { display: none; }
-.pd-tab-btn {
-    padding: 14px 20px; border: none; background: transparent;
-    font-weight: 800; font-size: 11px; color: var(--text-300);
-    text-transform: uppercase; letter-spacing: 1px;
-    position: relative; white-space: nowrap; transition: 0.25s;
-    flex-shrink: 0;
-}
-.pd-tab-btn:hover { color: var(--text-200); }
-.pd-tab-btn.active { color: var(--brand-light); }
-.pd-tab-btn.active::after {
-    content: ''; position: absolute; bottom: -1px; left: 0; right: 0;
-    height: 2px; background: var(--brand-main); border-radius: 2px;
-}
-
-.pd-tab-panel { display: none; animation: fadeUp 0.35s var(--transition) both; }
-.pd-tab-panel.active { display: block; }
-@keyframes fadeUp {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Description */
-#tab-desc-content {
-    line-height: 1.85; color: var(--text-200); font-size: 14.5px;
-}
-#tab-desc-content h2, #tab-desc-content h3 { color: var(--text-100); margin: 20px 0 10px; }
-#tab-desc-content ul { padding-left: 20px; margin: 10px 0; }
-#tab-desc-content li { margin-bottom: 6px; }
-
-/* AI Summary */
-.ai-summary-card {
-    background: var(--brand-dim); border: 1px solid var(--brand-glow);
-    border-radius: var(--radius-md); padding: 20px; margin-bottom: 24px;
-}
-.ai-summary-card .ai-label {
-    font-size: 10px; font-weight: 800; color: var(--brand-light);
-    text-transform: uppercase; letter-spacing: 1px;
-    display: flex; align-items: center; gap: 6px; margin-bottom: 14px;
-}
-.ai-points { display: flex; flex-direction: column; gap: 10px; }
-.ai-point {
-    display: flex; align-items: flex-start; gap: 10px;
-    font-size: 13px; color: var(--text-200);
-}
-.ai-point-num {
-    width: 22px; height: 22px; border-radius: 50%;
-    background: var(--brand-main); color: #fff;
-    font-size: 10px; font-weight: 900; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-}
-
-/* Specs table */
-.specs-table { display: flex; flex-direction: column; gap: 8px; }
-.spec-row {
-    display: flex; justify-content: space-between; align-items: center;
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-sm); padding: 12px 18px;
-    font-size: 13px;
-}
-.spec-key { color: var(--text-300); font-weight: 700; }
-.spec-val { color: var(--text-100); font-weight: 800; text-align: right; }
-
-/* System requirements */
-.sys-req-grid {
-    display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px;
-    margin-top: 16px;
-}
-.sys-req-item {
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-sm); padding: 14px;
-}
-.sys-req-item .sri-icon { font-size: 20px; margin-bottom: 8px; }
-.sys-req-item .sri-label { font-size: 10px; font-weight: 800; color: var(--text-300); text-transform: uppercase; }
-.sys-req-item .sri-val { font-size: 13px; font-weight: 800; margin-top: 2px; }
-
-/* Reviews */
-.review-card {
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-md); padding: 20px; margin-bottom: 14px;
-}
-.review-header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
-.review-avatar {
-    width: 40px; height: 40px; border-radius: 50%;
-    background: var(--brand-main); color: #fff;
-    font-weight: 800; font-size: 14px;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.review-name { font-weight: 800; font-size: 14px; }
-.review-meta { font-size: 11px; color: var(--text-300); }
-.review-verified { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--success); font-weight: 700; }
-.review-stars { color: var(--gold); font-size: 13px; letter-spacing: 1px; }
-.review-body { font-size: 13px; color: var(--text-200); line-height: 1.7; }
-
-/* Add review form */
-.review-form {
-    background: var(--bg-surface); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-md); padding: 24px; margin-top: 20px;
-}
-.review-form h4 { font-size: 15px; font-weight: 800; margin-bottom: 16px; }
-.nx-input {
-    width: 100%; background: var(--bg-elevated);
-    border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
-    padding: 12px 16px; color: var(--text-100); font-family: inherit;
-    font-size: 14px; outline: none; transition: 0.2s; resize: vertical;
-}
-.nx-input:focus { border-color: var(--brand-main); }
-.star-picker { display: flex; gap: 8px; margin-bottom: 12px; }
-.star-picker i { font-size: 24px; color: var(--text-400); cursor: pointer; transition: 0.2s; }
-.star-picker i:hover, .star-picker i.active { color: var(--gold); }
-
-/* FAQ */
-.faq-item {
-    border: 1px solid var(--glass-border); border-radius: var(--radius-md);
-    margin-bottom: 10px; overflow: hidden;
-}
-.faq-q {
-    padding: 16px 20px; display: flex; justify-content: space-between;
-    align-items: center; cursor: pointer; font-weight: 700; font-size: 14px;
-    transition: 0.2s;
-}
-.faq-q:hover { color: var(--brand-light); }
-.faq-q i { font-size: 12px; transition: transform 0.3s; }
-.faq-item.open .faq-q i { transform: rotate(180deg); }
-.faq-a {
-    padding: 0 20px; max-height: 0; overflow: hidden;
-    transition: max-height 0.4s var(--transition), padding 0.3s;
-    font-size: 13px; color: var(--text-200); line-height: 1.7;
-}
-.faq-item.open .faq-a { max-height: 300px; padding: 0 20px 18px; }
-
-/* ============================================================
-   RELATED PRODUCTS
-============================================================ */
-.related-section {
-    max-width: 1380px; margin: 0 auto; padding: 0 5% 60px;
-}
-.section-header {
-    display: flex; align-items: center; justify-content: space-between;
-    margin-bottom: 28px;
-}
-.section-title {
-    font-family: 'Space Grotesk'; font-size: 22px; font-weight: 800;
-    display: flex; align-items: center; gap: 10px;
-}
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: 20px;
-}
-.product-card {
-    background: var(--bg-surface);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg);
-    overflow: hidden; transition: 0.35s var(--transition);
-    cursor: pointer; position: relative;
-}
-.product-card:hover {
-    border-color: var(--glass-border-hover);
-    transform: translateY(-6px);
-    box-shadow: var(--shadow-float);
-}
-.product-card-img {
-    width: 100%; aspect-ratio: 1 / 1;
-    object-fit: cover; background: var(--bg-elevated);
-    transition: transform 0.5s var(--transition);
-}
-.product-card:hover .product-card-img { transform: scale(1.05); }
-.product-card-body { padding: 16px; }
-.product-card-title {
-    font-size: 14px; font-weight: 800; margin-bottom: 8px;
-    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-.product-card-price { font-family: 'Space Grotesk'; font-size: 18px; font-weight: 900; }
-
-/* ============================================================
-   FLOATING UI ELEMENTS
-============================================================ */
-
-/* Live Sales Ticker */
-.live-ticker {
-    position: fixed; bottom: 110px; left: 20px;
-    background: var(--bg-surface);
-    border: 1px solid var(--glass-border);
-    border-radius: 18px; padding: 12px 18px;
-    display: flex; align-items: center; gap: 12px;
-    box-shadow: var(--shadow-float);
-    transform: translateX(calc(-100% - 30px));
-    transition: transform 0.6s var(--transition);
-    z-index: 8500; max-width: 280px;
-    pointer-events: none;
-}
-.live-ticker.show { transform: translateX(0); }
-.ticker-avatar {
-    width: 38px; height: 38px; border-radius: 50%;
-    background: var(--brand-main); color: #fff;
-    font-size: 13px; font-weight: 800; flex-shrink: 0;
-    display: flex; align-items: center; justify-content: center;
-}
-.ticker-text { font-size: 12px; line-height: 1.5; }
-.ticker-text strong { color: var(--text-100); }
-.ticker-text span { color: var(--text-300); }
-
-/* AI Chat Fab */
-#ai-fab {
-    position: fixed; right: 24px; bottom: 110px;
-    width: 58px; height: 58px; border-radius: 50%;
-    background: var(--bg-surface); border: 1.5px solid var(--brand-main);
-    color: var(--brand-main); font-size: 22px;
-    display: flex; align-items: center; justify-content: center;
-    box-shadow: var(--shadow-brand); z-index: 8500; cursor: pointer;
-    transition: 0.3s; overflow: hidden;
-}
-#ai-fab:hover {
-    transform: scale(1.1) rotate(12deg);
-    background: var(--brand-main); color: #fff;
-}
-#ai-fab .ai-loading { display: none; }
-#ai-fab.loading .ai-icon { display: none; }
-#ai-fab.loading .ai-loading { display: flex; align-items: center; justify-content: center; }
-
-/* Scroll to top */
-#scroll-top {
-    position: fixed; right: 24px; bottom: 180px;
-    width: 44px; height: 44px; border-radius: 50%;
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    color: var(--text-300); font-size: 16px;
-    display: flex; align-items: center; justify-content: center;
-    z-index: 8000; cursor: pointer; opacity: 0;
-    transition: 0.3s; transform: translateY(10px);
-}
-#scroll-top.visible { opacity: 1; transform: translateY(0); }
-#scroll-top:hover { background: var(--brand-main); color: #fff; border-color: var(--brand-main); }
-
-/* AI Chat Modal */
-#ai-chat-modal {
-    position: fixed; bottom: 30px; right: 24px;
-    width: 380px; max-width: calc(100vw - 48px);
-    background: var(--bg-surface); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-xl); box-shadow: var(--shadow-float);
-    z-index: 9500; display: none; flex-direction: column;
-    overflow: hidden; transform-origin: bottom right;
-    animation: scaleIn 0.3s var(--transition) both;
-}
-#ai-chat-modal.open { display: flex; }
-@keyframes scaleIn {
-    from { opacity: 0; transform: scale(0.8); }
-    to { opacity: 1; transform: scale(1); }
-}
-.ai-chat-header {
-    padding: 18px 20px; background: var(--bg-elevated);
-    border-bottom: 1px solid var(--glass-border);
-    display: flex; align-items: center; justify-content: space-between;
-}
-.ai-chat-title {
-    display: flex; align-items: center; gap: 10px;
-    font-weight: 800; font-size: 14px;
-}
-.ai-chat-title .ai-dot {
-    width: 8px; height: 8px; border-radius: 50%; background: var(--brand-main);
-    animation: blink 1.5s infinite;
-}
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
-.ai-close-btn {
-    width: 30px; height: 30px; border-radius: 50%; border: none;
-    background: var(--bg-card); color: var(--text-300); font-size: 14px;
-    display: flex; align-items: center; justify-content: center; cursor: pointer;
-}
-.ai-messages {
-    padding: 16px; display: flex; flex-direction: column; gap: 12px;
-    height: 320px; overflow-y: auto;
-}
-.ai-msg {
-    max-width: 85%; padding: 12px 15px; border-radius: 16px;
-    font-size: 13px; line-height: 1.6;
-}
-.ai-msg.bot {
-    background: var(--bg-elevated); color: var(--text-200);
-    border-bottom-left-radius: 4px; align-self: flex-start;
-}
-.ai-msg.user {
-    background: var(--brand-main); color: #fff;
-    border-bottom-right-radius: 4px; align-self: flex-end;
-}
-.ai-msg.loading { opacity: 0.7; }
-.ai-input-row {
-    padding: 14px 16px; border-top: 1px solid var(--glass-border);
-    display: flex; gap: 10px; align-items: flex-end;
-}
-.ai-input-row textarea {
-    flex: 1; background: var(--bg-elevated);
-    border: 1px solid var(--glass-border); border-radius: 14px;
-    padding: 10px 14px; color: var(--text-100); font-family: inherit;
-    font-size: 13px; outline: none; resize: none; min-height: 42px;
-    max-height: 100px; transition: 0.2s;
-}
-.ai-input-row textarea:focus { border-color: var(--brand-main); }
-.ai-send-btn {
-    width: 42px; height: 42px; border-radius: 50%; border: none;
-    background: var(--brand-main); color: #fff; font-size: 16px;
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-    cursor: pointer; transition: 0.2s;
-}
-.ai-send-btn:hover { background: var(--brand-light); }
-
-/* Quick AI questions */
-.ai-quick-btns { display: flex; flex-wrap: wrap; gap: 6px; padding: 0 16px 12px; }
-.ai-quick-btn {
-    padding: 6px 12px; border-radius: 20px; border: 1px solid var(--glass-border);
-    background: var(--bg-elevated); color: var(--text-300);
-    font-size: 11px; font-weight: 700; cursor: pointer; transition: 0.2s;
-}
-.ai-quick-btn:hover { border-color: var(--brand-main); color: var(--brand-light); }
-
-/* Language toggle */
-.lang-toggle {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 12px; font-weight: 700; color: var(--text-300);
-    margin-top: 10px;
-}
-.lang-pill {
-    display: flex; border: 1px solid var(--glass-border); border-radius: 20px; overflow: hidden;
-}
-.lang-pill button {
-    padding: 5px 12px; font-size: 10px; font-weight: 800; border: none;
-    background: transparent; color: var(--text-300); cursor: pointer;
-    text-transform: uppercase; letter-spacing: 0.5px; transition: 0.2s;
-}
-.lang-pill button.active { background: var(--brand-main); color: #fff; }
-
-/* ============================================================
-   MOBILE FLOATING ISLAND
-============================================================ */
-.floating-island {
-    position: fixed; bottom: 20px; left: 50%;
-    transform: translateX(-50%);
-    width: 94%; max-width: 520px;
-    background: rgba(17,17,24,0.92);
-    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-    border: 1px solid var(--glass-border);
-    border-radius: var(--radius-pill);
-    padding: 10px 12px;
-    display: flex; align-items: center; gap: 10px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    z-index: 9000;
-}
-.island-price-wrap { padding: 0 10px; flex-shrink: 0; }
-.island-price-label { font-size: 9px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1px; }
-.island-price-val { font-family: 'Space Grotesk'; font-size: 16px; font-weight: 900; line-height: 1.2; }
-.island-buy-btn {
-    flex: 1; height: 52px; border-radius: var(--radius-pill);
-    background: var(--brand-main); color: #fff; border: none;
-    font-weight: 900; font-size: 13px; letter-spacing: 0.5px;
-    transition: 0.3s; box-shadow: var(--shadow-brand);
-}
-.island-buy-btn:hover { background: var(--brand-light); }
-.island-wa-btn {
-    width: 52px; height: 52px; border-radius: 50%; border: none;
-    background: var(--wa-green); color: #fff; font-size: 22px;
-    display: flex; align-items: center; justify-content: center;
-    text-decoration: none; box-shadow: 0 4px 16px rgba(37,211,102,0.3);
-    flex-shrink: 0; transition: 0.2s;
-}
-.island-wa-btn:hover { transform: scale(1.08); }
-
-/* Next / Prev navigation */
-.next-prev-nav {
-    display: flex; gap: 10px; margin-bottom: 24px;
-    background: var(--bg-surface); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-md); padding: 14px 16px;
-}
-.np-btn {
-    display: flex; align-items: center; gap: 8px;
-    font-size: 11px; font-weight: 800; color: var(--text-300);
-    text-transform: uppercase; letter-spacing: 0.5px;
-    cursor: pointer; transition: 0.2s; background: none; border: none;
-}
-.np-btn:hover { color: var(--brand-light); }
-.np-divider { width: 1px; background: var(--glass-border); margin: 0 4px; }
-
-/* ============================================================
-   FOOTER (MINI)
-============================================================ */
-#nx-footer {
-    background: var(--bg-surface); border-top: 1px solid var(--glass-border);
-    padding: 40px 5%; margin-top: 20px;
-}
-.footer-inner {
-    max-width: 1380px; margin: 0 auto;
-    display: flex; flex-wrap: wrap; align-items: center;
-    justify-content: space-between; gap: 20px;
-}
-.footer-logo {
-    font-family: 'Space Grotesk'; font-size: 18px; font-weight: 900;
-    display: flex; align-items: center; gap: 8px;
-}
-.footer-links { display: flex; gap: 20px; flex-wrap: wrap; }
-.footer-links a { font-size: 12px; font-weight: 700; color: var(--text-300); transition: 0.2s; }
-.footer-links a:hover { color: var(--brand-main); }
-.footer-copy { font-size: 11px; color: var(--text-400); width: 100%; text-align: center; margin-top: 20px; }
-
-/* ============================================================
-   UTILITY / MISC
-============================================================ */
-@keyframes spin { to { transform: rotate(360deg); } }
-.spin-icon { animation: spin 1s linear infinite; display: inline-block; }
-
-.divider { height: 1px; background: var(--glass-border); margin: 28px 0; }
-
-.warranty-card {
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-md); padding: 20px;
-    display: flex; gap: 14px; align-items: flex-start; margin-bottom: 20px;
-}
-.warranty-card .wc-icon { font-size: 28px; flex-shrink: 0; margin-top: 2px; }
-.warranty-card .wc-title { font-size: 13px; font-weight: 800; margin-bottom: 4px; }
-.warranty-card .wc-text { font-size: 12px; color: var(--text-300); line-height: 1.6; }
-
-.pdf-dl-btn {
-    display: flex; align-items: center; gap: 10px;
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-sm); padding: 12px 18px;
-    font-size: 13px; font-weight: 700; color: var(--text-200);
-    transition: 0.2s; cursor: pointer; margin-bottom: 20px;
-    text-decoration: none;
-}
-.pdf-dl-btn:hover { border-color: var(--brand-main); color: var(--brand-light); }
-
-.right-click-protect-toast {
-    position: fixed; top: 50%; left: 50%; transform: translate(-50%,-50%);
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    color: var(--text-200); padding: 14px 24px; border-radius: var(--radius-md);
-    font-size: 13px; font-weight: 700;
-    box-shadow: var(--shadow-float); z-index: 99999;
-    opacity: 0; transition: opacity 0.3s; pointer-events: none;
-}
-.right-click-protect-toast.show { opacity: 1; }
-
-/* ============================================================
-   TOAST NOTIFICATIONS
-============================================================ */
-#toast-container {
-    position: fixed; top: 88px; right: 20px;
-    display: flex; flex-direction: column; gap: 10px;
-    z-index: 99999; pointer-events: none;
-}
-.toast {
-    background: var(--bg-surface); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-md); padding: 14px 20px;
-    display: flex; align-items: center; gap: 12px;
-    font-size: 13px; font-weight: 700;
-    box-shadow: var(--shadow-float);
-    animation: slideInRight 0.4s var(--transition) both;
-    pointer-events: all; max-width: 320px;
-}
-.toast.success { border-left: 3px solid var(--success); }
-.toast.error { border-left: 3px solid var(--danger); }
-.toast.info { border-left: 3px solid var(--brand-main); }
-.toast i { font-size: 16px; }
-.toast.success i { color: var(--success); }
-.toast.error i { color: var(--danger); }
-.toast.info i { color: var(--brand-main); }
-@keyframes slideInRight {
-    from { opacity: 0; transform: translateX(20px); }
-    to { opacity: 1; transform: translateX(0); }
-}
-
-/* ============================================================
-   RATING GAUGE
-============================================================ */
-.rating-gauge {
-    background: var(--bg-elevated); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-md); padding: 20px; margin-bottom: 20px;
-}
-.rating-big { font-family: 'Space Grotesk'; font-size: 52px; font-weight: 900; line-height: 1; }
-.rating-stars-big { color: var(--gold); font-size: 18px; letter-spacing: 3px; margin: 8px 0; }
-.rating-bars { display: flex; flex-direction: column; gap: 6px; margin-top: 16px; }
-.rating-bar-row { display: flex; align-items: center; gap: 10px; }
-.rating-bar-label { font-size: 11px; font-weight: 700; color: var(--text-300); width: 20px; }
-.rating-bar-track { flex: 1; height: 6px; background: var(--bg-card); border-radius: 10px; overflow: hidden; }
-.rating-bar-fill { height: 100%; background: var(--gold); border-radius: 10px; transition: width 1s var(--transition); }
-.rating-bar-count { font-size: 11px; color: var(--text-300); width: 24px; text-align: right; }
-
-/* ============================================================
-   RESPONSIVE TWEAKS
-============================================================ */
-@media (max-width: 767px) {
-    .pd-layout { padding: 20px 4% 160px; gap: 28px; }
-    .pd-gallery { position: static; }
-    .trust-row { grid-template-columns: repeat(3,1fr); }
-    #ai-chat-modal { width: calc(100vw - 24px); right: 12px; bottom: 80px; }
-    .floating-island { bottom: 16px; width: 96%; }
-    .live-ticker { max-width: 240px; }
-    .ai-fab { right: 16px; }
-    #scroll-top { right: 16px; bottom: 170px; }
-    .sys-req-grid { grid-template-columns: 1fr; }
-}
-
-@media (max-width: 400px) {
-    .pd-title { font-size: 24px; }
-    .price-main { font-size: 30px !important; }
-    .trust-row { grid-template-columns: repeat(3,1fr); gap: 6px; }
-    .trust-item { padding: 10px 6px; }
-}
-</style>
+    <script src="../firebaseconfig.js"></script>
+
+    <style>
+        /* ==========================================================================
+           CORE DESIGN SYSTEM (V4.0 - NEXT GEN UI)
+           ========================================================================== */
+        :root {
+            --brand-main: #FF4A17; 
+            --brand-glow: rgba(255, 74, 23, 0.25);
+            --bg-base: #ffffff;
+            --bg-surface: #f8fafc;
+            --bg-elevated: #f1f5f9;
+            --text-100: #0f172a;
+            --text-200: #475569;
+            --text-300: #94a3b8;
+            --glass-border: rgba(0, 0, 0, 0.06);
+            --radius-lg: 32px;
+            --radius-md: 20px;
+            --transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-base: #050507;
+            --bg-surface: #0a0a0f;
+            --bg-elevated: #12121a;
+            --text-100: #ffffff;
+            --text-200: #a1a1aa;
+            --text-300: #52525b;
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg-base); color: var(--text-100); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+
+        .pd-main-grid { 
+            max-width: 1400px; margin: 0 auto; 
+            padding: 130px 5% 100px; 
+            display: grid; gap: 40px; grid-template-columns: 1fr;
+        }
+
+        @media(min-width: 1024px) { 
+            .pd-main-grid { grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: start; } 
+        }
+
+        /* ---------------------------------------------------------
+           LEFT: STICKY MEDIA GALLERY (PREMIUM)
+           --------------------------------------------------------- */
+        .pd-gallery-container { position: sticky; top: 110px; }
+        @media(max-width: 1023px) { .pd-gallery-container { position: relative; top: 0; } }
+
+        .pd-media-stage { 
+            position: relative; width: 100%; aspect-ratio: 1; border-radius: var(--radius-lg); 
+            background: var(--bg-surface); border: 1px solid var(--glass-border); 
+            overflow: hidden; box-shadow: var(--shadow-soft); 
+        }
+        
+        .pd-media-stage img, .pd-media-stage video { width: 100%; height: 100%; object-fit: cover; transition: 0.6s var(--transition); }
+        .pd-media-stage:hover img { transform: scale(1.05); }
+
+        /* Dynamic Watermark System */
+        .watermark-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
+        .wm-logo { position: absolute; top: 20px; right: 20px; width: 60px; opacity: 0.5; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.2)); }
+        .wm-title { position: absolute; bottom: 20px; left: 20px; width: 150px; opacity: 0.3; }
+
+        .pd-thumbs-track { display: flex; gap: 12px; margin-top: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
+        .pd-thumb { width: 75px; height: 75px; border-radius: 14px; border: 2px solid transparent; cursor: pointer; flex-shrink: 0; background: var(--bg-elevated); overflow: hidden; transition: 0.3s; }
+        .pd-thumb.active { border-color: var(--brand-main); transform: translateY(-3px); }
+
+        /* ---------------------------------------------------------
+           RIGHT: CONTENT ENGINE
+           --------------------------------------------------------- */
+        .smart-back-btn { display: inline-flex; align-items: center; gap: 10px; color: var(--brand-main); font-weight: 800; font-size: 13px; text-transform: uppercase; cursor: pointer; margin-bottom: 25px; transition: 0.3s; }
+        .smart-back-btn:hover { transform: translateX(-8px); }
+
+        .pd-title { font-family: 'Space Grotesk'; font-size: clamp(28px, 5vw, 48px); font-weight: 900; line-height: 1.1; margin-bottom: 15px; letter-spacing: -1.5px; }
+        
+        .price-card { background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 35px; border-radius: var(--radius-md); box-shadow: var(--shadow-float); margin: 30px 0; }
+        .price-main { font-family: 'Space Grotesk'; font-size: 48px; font-weight: 900; line-height: 1; }
+        .price-old { font-size: 18px; color: var(--text-300); text-decoration: line-through; font-weight: 600; margin-bottom: 8px; }
+
+        .reward-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--brand-dim); color: var(--brand-main); padding: 8px 18px; border-radius: 50px; font-size: 11px; font-weight: 800; margin-bottom: 20px; border: 1px solid var(--brand-glow); }
+
+        /* ---------------------------------------------------------
+           AI ASSISTANT (FLOATING SYSTEM)
+           --------------------------------------------------------- */
+        #ai-chatbot { position: fixed; bottom: 100px; right: 25px; z-index: 9999; }
+        .ai-fab { width: 60px; height: 60px; border-radius: 50%; background: var(--bg-surface); border: 1px solid var(--brand-main); color: var(--brand-main); display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; box-shadow: var(--shadow-float); transition: 0.4s; }
+        .ai-fab.active { background: var(--brand-main); color: #fff; transform: rotate(90deg); }
+
+        .ai-window { position: absolute; bottom: 80px; right: 0; width: 350px; max-width: 90vw; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 24px; box-shadow: var(--shadow-float); display: none; flex-direction: column; overflow: hidden; animation: slideUp 0.4s var(--transition); }
+        .ai-window.active { display: flex; }
+        .ai-header { background: var(--brand-main); color: #fff; padding: 20px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
+        .ai-messages { height: 350px; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: var(--bg-elevated); }
+        .ai-msg { padding: 12px 16px; border-radius: 16px; font-size: 14px; max-width: 85%; line-height: 1.5; }
+        .ai-msg.bot { background: var(--bg-surface); color: var(--text-100); align-self: flex-start; border-radius: 16px 16px 16px 0; }
+        .ai-msg.user { background: var(--brand-main); color: #fff; align-self: flex-end; border-radius: 16px 16px 0 16px; }
+        .ai-input-area { padding: 15px; background: var(--bg-surface); display: flex; gap: 10px; border-top: 1px solid var(--glass-border); }
+        .ai-input { flex: 1; border: none; background: var(--bg-base); padding: 12px 18px; border-radius: 50px; font-family: inherit; font-size: 13px; }
+
+        /* Floating Buy Island */
+        .buy-island { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 550px; background: var(--bg-base); border: 1px solid var(--glass-border); border-radius: 60px; padding: 10px 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); z-index: 9000; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .island-buy-btn { flex: 1; height: 55px; border-radius: 50px; background: var(--text-100); color: #fff; font-weight: 900; border: none; cursor: pointer; transition: 0.3s; }
+        .island-wa-btn { width: 55px; height: 55px; border-radius: 50%; background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; }
+
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* General Utils */
+        .skeleton { background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-surface) 50%, var(--bg-elevated) 75%); background-size: 400% 100%; animation: shimmer 1.5s infinite linear; border-radius: 12px; }
+        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+        .nx-mount-point { display: contents; }
+        .text-brand { color: var(--brand-main); }
+    </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
-<!-- ============================================================
-     RIGHT-CLICK PROTECTION TOAST
-============================================================ -->
-<div class="right-click-protect-toast" id="rc-toast">🔒 Content protected by Nexra Tech PK</div>
+    <!-- COMPONENT MOUNT POINTS -->
+    <div id="mount-notifications" class="nx-mount-point"></div>
+    <div id="mount-header" class="nx-mount-point"></div>
+    <div id="mount-slider" class="nx-mount-point"></div>
 
-<!-- ============================================================
-     TOAST CONTAINER
-============================================================ -->
-<div id="toast-container"></div>
-
-<!-- ============================================================
-     HEADER
-============================================================ -->
-<header id="nx-header">
-    <a href="../index.html" class="header-logo">
-        <div class="logo-icon" id="hdr-logo-icon">N</div>
-        <span id="hdr-logo-text">NEXRA</span>
-        <span class="logo-alpha" id="hdr-edition">ALPHA</span>
-    </a>
-    <div class="header-actions">
-        <button class="nx-btn nx-btn-ghost" style="padding:10px 18px; font-size:11px;" onclick="window.location.href='shop.html'">
-            <i class="fa-solid fa-store"></i> Shop
-        </button>
-        <button class="header-cart-btn" onclick="NX.goTo('checkout.html')" aria-label="Cart">
-            <i class="fa-solid fa-bag-shopping"></i>
-            <span class="cart-badge" id="hdr-cart-count">0</span>
-        </button>
-        <button class="nx-btn-icon" onclick="NX.goTo('profile.html')" aria-label="Profile">
-            <i class="fa-solid fa-user"></i>
-        </button>
-    </div>
-</header>
-
-<!-- ============================================================
-     BREADCRUMB BAR
-============================================================ -->
-<div class="pd-top-bar">
-    <nav class="breadcrumb" aria-label="Breadcrumb">
-        <a href="../index.html">Home</a>
-        <i class="fa-solid fa-chevron-right sep"></i>
-        <a href="shop.html">Marketplace</a>
-        <i class="fa-solid fa-chevron-right sep"></i>
-        <span id="bc-category" class="text-brand">Digital Asset</span>
-        <i class="fa-solid fa-chevron-right sep" id="bc-sep2"></i>
-        <span id="bc-product" class="current" style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;"></span>
-    </nav>
-    <button class="back-btn" onclick="NX.smartBack()">
-        <i class="fa-solid fa-arrow-left"></i> Back
-    </button>
-</div>
-
-<!-- ============================================================
-     MAIN LAYOUT
-============================================================ -->
-<main class="pd-layout" id="pd-main">
-
-    <!-- ======================== LEFT: GALLERY ======================== -->
-    <div class="pd-gallery" id="pd-gallery-col">
-
-        <!-- Main Image / Video Viewer -->
-        <div class="pd-main-wrap" id="pd-main-wrap">
-            <img id="pd-main-img" class="pd-main-img" src="" alt="Product Image">
-            <video id="pd-main-video" class="pd-main-video" controls playsinline></video>
-
-            <!-- Watermarks -->
-            <div class="wm-logo" id="wm-logo">NX</div>
-            <div class="wm-title" id="wm-title">Nexra Tech PK</div>
-
-            <!-- Image Badges -->
-            <div class="img-badge-wrap">
-                <span class="badge badge-brand" id="img-type-badge">LOADING</span>
-                <span class="badge badge-gold" id="img-sale-badge" style="display:none;"><i class="fa-solid fa-bolt"></i> FLASH SALE</span>
-            </div>
-        </div>
-
-        <!-- Thumbnail Strip -->
-        <div class="pd-thumbs" id="pd-thumbs" role="list" aria-label="Product images"></div>
-
-        <!-- Trust Badges -->
-        <div class="trust-row">
-            <div class="trust-item">
-                <div class="ti-icon"><i class="fa-solid fa-shield-halved"></i></div>
-                <div class="ti-label">SSL</div>
-                <div class="ti-val">Secured</div>
-            </div>
-            <div class="trust-item">
-                <div class="ti-icon"><i class="fa-solid fa-rotate-left"></i></div>
-                <div class="ti-label">Refund</div>
-                <div class="ti-val">7 Days</div>
-            </div>
-            <div class="trust-item">
-                <div class="ti-icon"><i class="fa-solid fa-certificate"></i></div>
-                <div class="ti-label">Verified</div>
-                <div class="ti-val">Asset</div>
-            </div>
-        </div>
-
-        <!-- Ad Slot 1 -->
-        <div class="ad-slot">ADSTERRA PREMIUM SLOT — BELOW GALLERY</div>
-
-        <!-- Warranty / Policy Cards -->
-        <div class="warranty-card">
-            <div class="wc-icon">🔑</div>
-            <div>
-                <div class="wc-title">Instant License Delivery</div>
-                <div class="wc-text">Your license key is delivered within seconds of payment confirmation via your registered email & Digital Vault.</div>
-            </div>
-        </div>
-        <div class="warranty-card">
-            <div class="wc-icon">🛡️</div>
-            <div>
-                <div class="wc-title">Buyer Protection</div>
-                <div class="wc-text">Every purchase is covered under Nexra's 7-day satisfaction guarantee. File a support ticket if any issues arise.</div>
-            </div>
-        </div>
-
-        <!-- PDF Download -->
-        <a href="#" id="pdf-dl-btn" class="pdf-dl-btn" download>
-            <i class="fa-solid fa-file-pdf" style="color:var(--danger);"></i>
-            Download Product Specifications (PDF)
-            <i class="fa-solid fa-download" style="margin-left:auto;"></i>
-        </a>
-
-    </div><!-- /pd-gallery-col -->
-
-    <!-- ======================== RIGHT: PRODUCT INFO ======================== -->
-    <div class="pd-info" id="pd-info-col">
-
-        <!-- Badges Row -->
-        <div class="pd-badges" id="pd-badges-row">
-            <span class="badge badge-brand" id="info-type-badge">DIGITAL ASSET</span>
-            <span class="badge badge-dark"><i class="fa-solid fa-eye"></i> <span id="live-viewers">—</span> watching</span>
-            <span class="badge badge-dark"><i class="fa-solid fa-shopping-bag"></i> <span id="total-sold">0</span> sold</span>
-            <span class="badge badge-success"><i class="fa-solid fa-circle-check"></i> VERIFIED</span>
-        </div>
-
-        <!-- Title -->
-        <h1 class="pd-title" id="pd-title">Loading Product...</h1>
-
-        <!-- SKU / Rating -->
-        <div class="pd-meta-row">
-            <div class="pd-meta-item">
-                <i class="fa-solid fa-barcode"></i>
-                SKU: <span id="pd-sku" class="text-brand mono-font">—</span>
-            </div>
-            <div class="pd-meta-item">
-                <i class="fa-solid fa-star text-gold"></i>
-                <span id="pd-rating">0.0</span> (<span id="pd-review-count">0</span> reviews)
-            </div>
-            <div class="pd-meta-item">
-                <div class="live-dot"></div>
-                <span>In Stock</span>
-            </div>
-        </div>
-
-        <!-- Language Toggle (AI Translation) -->
-        <div class="lang-toggle">
-            <span><i class="fa-solid fa-language"></i> Language:</span>
-            <div class="lang-pill">
-                <button class="active" id="lang-en-btn" onclick="NX.switchLang('en')">EN</button>
-                <button id="lang-ur-btn" onclick="NX.switchLang('ur')">UR</button>
-            </div>
-        </div>
-
-        <!-- PRICE CARD -->
-        <div class="price-card">
-
-            <!-- Nexra Coins -->
-            <div class="coin-hook">
-                <i class="fa-solid fa-coins"></i>
-                EARN <span id="coin-earn">50</span> NEXRA COINS ON PURCHASE
-            </div>
-
-            <!-- Flash Sale Timer -->
-            <div class="flash-sale-banner" id="flash-banner">
-                <div>
-                    <div class="badge badge-gold" style="margin-bottom:4px;"><i class="fa-solid fa-bolt"></i> FLASH SALE ENDS IN</div>
-                    <div class="flash-countdown mono-font" id="flash-timer">--:--:--</div>
+    <main class="pd-layout-container">
+        
+        <div class="pd-main-grid">
+            
+            <!-- LEFT: STICKY GALLERY & PROTECTION -->
+            <div class="pd-gallery-container">
+                <div class="smart-back-btn" onclick="history.back()">
+                    <i class="fa-solid fa-arrow-left-long"></i> BACK TO MARKETPLACE
                 </div>
-                <i class="fa-solid fa-fire" style="font-size:28px; color:var(--warning);"></i>
-            </div>
 
-            <!-- Price Row -->
-            <div class="price-row">
-                <div>
-                    <div id="pd-old-price" class="price-old"></div>
-                    <div id="pd-price" class="price-main">Rs. 0</div>
-                </div>
-                <div style="display:flex; flex-direction:column; gap:6px;">
-                    <div id="pd-usd" class="price-usd">$0.00</div>
-                    <div id="pd-discount-badge" class="price-discount" style="display:none;">0% OFF</div>
-                </div>
-            </div>
-
-            <!-- Subscription Toggle -->
-            <div class="subscription-toggle" id="sub-toggle" style="display:none;">
-                <span style="font-size:12px; font-weight:700; color:var(--text-300);">Payment Plan:</span>
-                <div class="sub-pill">
-                    <button class="active" onclick="NX.setSubMode('monthly')">Monthly</button>
-                    <button onclick="NX.setSubMode('yearly')">Yearly</button>
-                    <button onclick="NX.setSubMode('lifetime')">Lifetime</button>
-                </div>
-            </div>
-
-            <!-- Qty + Buy -->
-            <div class="action-row" style="margin-top:20px;">
-                <div class="qty-ctrl">
-                    <button class="qty-btn" onclick="NX.updateQty(-1)" aria-label="Decrease"><i class="fa-solid fa-minus"></i></button>
-                    <div class="qty-num" id="pd-qty">1</div>
-                    <button class="qty-btn" onclick="NX.updateQty(1)" aria-label="Increase"><i class="fa-solid fa-plus"></i></button>
-                </div>
-                <button class="nx-btn nx-btn-primary" style="flex:1; height:55px;" onclick="NX.buyNow()">
-                    <i class="fa-solid fa-bolt"></i> PURCHASE NOW
-                </button>
-                <button class="nx-btn-icon" onclick="NX.addToCart()" aria-label="Add to cart">
-                    <i class="fa-solid fa-cart-arrow-down" style="font-size:18px;"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Wishlist / Share / Gift -->
-        <div class="social-action-row">
-            <button class="wishlist-btn" id="wish-btn" onclick="NX.toggleWishlist()">
-                <i class="fa-regular fa-heart"></i> Wishlist
-            </button>
-            <button class="share-btn" onclick="NX.shareProduct()">
-                <i class="fa-solid fa-share-nodes"></i> Share
-            </button>
-            <button class="gift-btn" onclick="NX.giftProduct()">
-                <i class="fa-solid fa-gift"></i> Gift
-            </button>
-        </div>
-
-        <!-- Ad Slot 2 -->
-        <div class="ad-slot">ADSTERRA NATIVE SLOT — INSIDE CONTENT</div>
-
-        <!-- AFFILIATE CARD -->
-        <div class="affiliate-card">
-            <h4><i class="fa-solid fa-handshake"></i> Affiliate Partnership</h4>
-            <p style="font-size:12px; color:var(--text-300); margin-bottom:14px;">Share this product, earn 10% commission on every successful sale.</p>
-            <div class="comm-calc">
-                <div>
-                    <div style="font-size:10px; font-weight:800; color:var(--text-300); text-transform:uppercase; letter-spacing:0.8px;">Per Sale Commission</div>
-                    <div class="comm-val" id="comm-amount">Rs. 0</div>
-                </div>
-                <div style="text-align:right;">
-                    <div style="font-size:10px; font-weight:800; color:var(--text-300); text-transform:uppercase; letter-spacing:0.8px;">Nexra Coins</div>
-                    <div style="font-size:20px; font-weight:800; color:var(--gold);" id="comm-coins">0 🪙</div>
-                </div>
-            </div>
-            <div class="affiliate-actions">
-                <button class="nx-btn nx-btn-outline" style="flex:1;" onclick="NX.copyAffiliateLink()">
-                    <i class="fa-solid fa-link"></i> Copy Affiliate Link
-                </button>
-                <button class="nx-btn nx-btn-ghost" onclick="NX.goTo('reseller-dashboard.html')">
-                    <i class="fa-solid fa-chart-pie"></i> Dashboard
-                </button>
-                <button class="nx-btn nx-btn-ghost" onclick="NX.wholesaleInquiry()">
-                    <i class="fa-solid fa-boxes-stacked"></i> Wholesale
-                </button>
-            </div>
-        </div>
-
-        <!-- Next / Prev Navigation -->
-        <div class="next-prev-nav">
-            <button class="np-btn" onclick="NX.goToPrevProduct()">
-                <i class="fa-solid fa-arrow-left"></i> Previous
-            </button>
-            <div class="np-divider"></div>
-            <button class="np-btn" onclick="NX.goToNextProduct()" style="margin-left:auto;">
-                Next <i class="fa-solid fa-arrow-right"></i>
-            </button>
-        </div>
-
-        <!-- =================== TABS =================== -->
-        <div class="pd-tabs" role="tablist">
-            <button class="pd-tab-btn active" role="tab" aria-selected="true" onclick="NX.tab(event,'tab-desc')">Description</button>
-            <button class="pd-tab-btn" role="tab" onclick="NX.tab(event,'tab-specs')">Tech Specs</button>
-            <button class="pd-tab-btn" role="tab" onclick="NX.tab(event,'tab-sysreq')">Requirements</button>
-            <button class="pd-tab-btn" role="tab" onclick="NX.tab(event,'tab-reviews')">Reviews</button>
-            <button class="pd-tab-btn" role="tab" onclick="NX.tab(event,'tab-faq')">AI FAQ</button>
-        </div>
-
-        <!-- TAB: Description -->
-        <div class="pd-tab-panel active" id="tab-desc" role="tabpanel">
-
-            <!-- AI Summary Card -->
-            <div class="ai-summary-card" id="ai-summary-card" style="display:none;">
-                <div class="ai-label"><i class="fa-solid fa-robot"></i> AI Key Takeaways</div>
-                <div class="ai-points" id="ai-summary-points"></div>
-            </div>
-
-            <button class="nx-btn nx-btn-ghost" style="margin-bottom:16px; font-size:12px;" onclick="NX.genAISummary()" id="ai-summary-btn">
-                <i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI Summary
-            </button>
-
-            <div id="tab-desc-content" class="selectable">
-                <div class="skeleton" style="height:18px; margin-bottom:10px;"></div>
-                <div class="skeleton" style="height:18px; width:90%; margin-bottom:10px;"></div>
-                <div class="skeleton" style="height:18px; width:75%;"></div>
-            </div>
-        </div>
-
-        <!-- TAB: Tech Specs -->
-        <div class="pd-tab-panel" id="tab-specs" role="tabpanel">
-            <div class="specs-table" id="specs-table">
-                <p style="color:var(--text-300); font-size:13px; padding:20px; text-align:center;">No specifications available.</p>
-            </div>
-        </div>
-
-        <!-- TAB: System Requirements -->
-        <div class="pd-tab-panel" id="tab-sysreq" role="tabpanel">
-            <div class="sys-req-grid" id="sys-req-grid">
-                <div class="sys-req-item">
-                    <div class="sri-icon">💻</div>
-                    <div class="sri-label">Operating System</div>
-                    <div class="sri-val" id="req-os">Windows / macOS / Linux</div>
-                </div>
-                <div class="sys-req-item">
-                    <div class="sri-icon">⚡</div>
-                    <div class="sri-label">RAM</div>
-                    <div class="sri-val" id="req-ram">4 GB+</div>
-                </div>
-                <div class="sys-req-item">
-                    <div class="sri-icon">💾</div>
-                    <div class="sri-label">Storage</div>
-                    <div class="sri-val" id="req-storage">500 MB</div>
-                </div>
-                <div class="sys-req-item">
-                    <div class="sri-icon">🌐</div>
-                    <div class="sri-label">Internet</div>
-                    <div class="sri-val" id="req-net">Required for activation</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- TAB: Reviews -->
-        <div class="pd-tab-panel" id="tab-reviews" role="tabpanel">
-
-            <!-- Rating Gauge -->
-            <div class="rating-gauge" id="rating-gauge">
-                <div style="display:flex; gap:24px; align-items:flex-start; flex-wrap:wrap;">
-                    <div>
-                        <div class="rating-big" id="rating-big">5.0</div>
-                        <div class="rating-stars-big" id="rating-stars-big">★★★★★</div>
-                        <div style="font-size:11px; color:var(--text-300);" id="rating-total-text">0 reviews</div>
+                <div class="pd-media-stage" id="media-stage">
+                    <div id="stage-content">
+                         <div class="skeleton" style="width:100%; height:100%;"></div>
                     </div>
-                    <div class="rating-bars" style="flex:1; min-width:160px;" id="rating-bars">
-                        <!-- Populated by JS -->
+                    <!-- Watermark Layer -->
+                    <div class="watermark-overlay">
+                        <img src="" class="wm-logo nx-brand-logo" alt="watermark">
+                        <img src="" class="wm-title nx-brand-title" alt="watermark">
+                    </div>
+                </div>
+
+                <div class="pd-thumbs-track" id="pd-thumbs">
+                    <!-- Injected by JS -->
+                </div>
+
+                <!-- Ad Zone 1 -->
+                <div id="ad-pd-gallery" style="margin-top:30px; text-align:center; min-height:100px;">
+                    <span style="font-size:10px; color:var(--text-300);">PREMIUM SPONSOR AD</span>
+                </div>
+            </div>
+
+            <!-- RIGHT: PRODUCT DYNAMICS -->
+            <div class="pd-content">
+                <div class="reward-badge">
+                    <i class="fa-solid fa-gem"></i> EARN <span id="coin-val">50</span> NEXRA COINS
+                </div>
+                
+                <h1 class="pd-title" id="pd-title">Elite Asset Loading...</h1>
+                
+                <div style="display:flex; gap:20px; font-size:12px; font-weight:800; color:var(--text-300); text-transform:uppercase; letter-spacing:1px; margin-bottom:30px;">
+                    <span><i class="fa-solid fa-barcode"></i> SKU: <span id="pd-sku" class="text-brand">...</span></span>
+                    <span><i class="fa-solid fa-star" style="color:var(--gold);"></i> <span id="pd-rating">0.0</span> RATING</span>
+                    <span><i class="fa-solid fa-fire" style="color:var(--brand-main);"></i> <span id="pd-sold">1K</span> SOLD</span>
+                </div>
+
+                <div class="price-card">
+                    <div class="price-old" id="pd-old-price"></div>
+                    <div style="display:flex; align-items:flex-end; gap:15px; margin-bottom:30px;">
+                        <div class="price-main" id="pd-price">Rs. 0</div>
+                        <div style="background:var(--bg-elevated); padding:5px 12px; border-radius:8px; font-family:'JetBrains Mono'; font-size:13px; color:var(--brand-main);" id="pd-price-usd">$0.00</div>
+                    </div>
+
+                    <div style="display:flex; gap:12px;">
+                        <button class="island-buy-btn" onclick="NX_DETAIL.handleBuyNow()" style="background:var(--brand-main); box-shadow: 0 10px 30px var(--brand-glow);"><i class="fa-solid fa-bolt"></i> PURCHASE NOW</button>
+                        <button class="island-buy-btn" onclick="NX_DETAIL.handleAddToCart()"><i class="fa-solid fa-cart-plus"></i></button>
+                    </div>
+                </div>
+
+                <!-- Technical Description -->
+                <div style="margin-bottom:40px;">
+                    <h3 class="tech-font" style="font-size:20px; margin-bottom:15px; border-left:4px solid var(--brand-main); padding-left:15px;">Product Overview</h3>
+                    <div id="pd-description" style="line-height:1.8; color:var(--text-200); font-size:15px;">
+                        <!-- Injected -->
+                    </div>
+                </div>
+
+                <!-- Related Assets Section -->
+                <div style="margin-top:60px; border-top:1px solid var(--glass-border); padding-top:40px;">
+                    <h3 class="tech-font" style="font-size:22px; margin-bottom:25px;">YOU MAY ALSO <span class="text-gradient">LIKE</span></h3>
+                    <div id="related-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:20px;">
+                        <!-- Injected -->
                     </div>
                 </div>
             </div>
 
-            <!-- Review List -->
-            <div id="reviews-list">
-                <p style="text-align:center; color:var(--text-300); font-size:13px; padding:20px 0;">No reviews yet. Be the first!</p>
-            </div>
-
-            <!-- Add Review Form -->
-            <div class="review-form">
-                <h4><i class="fa-solid fa-pen-to-square" style="color:var(--brand-main);"></i> Write a Review</h4>
-                <div class="star-picker" id="star-picker" data-rating="5">
-                    <i class="fa-solid fa-star active" data-val="1" onclick="NX.setReviewStar(1)"></i>
-                    <i class="fa-solid fa-star active" data-val="2" onclick="NX.setReviewStar(2)"></i>
-                    <i class="fa-solid fa-star active" data-val="3" onclick="NX.setReviewStar(3)"></i>
-                    <i class="fa-solid fa-star active" data-val="4" onclick="NX.setReviewStar(4)"></i>
-                    <i class="fa-solid fa-star active" data-val="5" onclick="NX.setReviewStar(5)"></i>
-                </div>
-                <textarea class="nx-input" id="review-input" rows="3" placeholder="Share your experience with this product..."></textarea>
-                <button class="nx-btn nx-btn-primary" style="margin-top:12px;" onclick="NX.submitReview()">
-                    <i class="fa-solid fa-paper-plane"></i> Submit Review
-                </button>
-            </div>
         </div>
+    </main>
 
-        <!-- TAB: AI FAQ -->
-        <div class="pd-tab-panel" id="tab-faq" role="tabpanel">
-            <p style="font-size:13px; color:var(--text-300); margin-bottom:16px;">AI-generated answers based on this product's data.</p>
-            <div id="faq-list">
-                <div style="text-align:center; padding:20px; color:var(--text-300); font-size:13px;">
-                    <i class="fa-solid fa-robot" style="font-size:28px; display:block; margin-bottom:10px; color:var(--brand-main);"></i>
-                    <button class="nx-btn nx-btn-primary" onclick="NX.genAIFAQ()"><i class="fa-solid fa-wand-magic-sparkles"></i> Generate AI FAQ</button>
-                </div>
+    <!-- FLOATING AI ASSISTANT -->
+    <div id="ai-chatbot">
+        <div class="ai-fab" id="ai-fab" onclick="NX_DETAIL.toggleAIChat()">
+            <i class="fa-solid fa-robot"></i>
+        </div>
+        <div class="ai-window" id="ai-window">
+            <div class="ai-header">
+                <span>Nexra AI Assistant</span>
+                <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="NX_DETAIL.toggleAIChat()"></i>
+            </div>
+            <div class="ai-messages" id="ai-messages">
+                <div class="ai-msg bot">Hi! I've analyzed this product. Ask me anything about it!</div>
+            </div>
+            <div class="ai-input-area">
+                <input type="text" class="ai-input" id="ai-input" placeholder="Is this lifetime? How to activate?">
+                <button class="ai-fab" style="width:45px; height:45px; font-size:16px;" onclick="NX_DETAIL.sendAI()"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
-
-    </div><!-- /pd-info-col -->
-
-</main>
-
-<!-- ============================================================
-     RELATED PRODUCTS SECTION
-============================================================ -->
-<section class="related-section" id="related-section" style="display:none;">
-    <div class="section-header">
-        <h2 class="section-title"><i class="fa-solid fa-fire" style="color:var(--brand-main);"></i> Related Products</h2>
-        <button class="nx-btn nx-btn-ghost" onclick="NX.goTo('shop.html')" style="font-size:11px;">View All <i class="fa-solid fa-arrow-right"></i></button>
     </div>
-    <div class="products-grid" id="related-grid"></div>
-</section>
 
-<!-- Ad Slot 3 -->
-<div style="max-width:1380px; margin:0 auto; padding:0 5%;">
-    <div class="ad-slot">ADSTERRA SOCIAL BAR — BOTTOM</div>
-</div>
-
-<!-- ============================================================
-     FOOTER
-============================================================ -->
-<footer id="nx-footer">
-    <div class="footer-inner">
-        <div class="footer-logo">
-            <div class="logo-icon" style="width:32px; height:32px; background:var(--brand-main); border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:900; color:#fff; font-family:'Space Grotesk';">N</div>
-            NEXRA TECH PK
+    <!-- MOBILE BUY ISLAND -->
+    <div class="buy-island">
+        <div style="padding-left:15px;">
+            <div style="font-size:10px; font-weight:800; color:var(--text-300);">TOTAL</div>
+            <div id="island-price" style="font-size:18px; font-weight:900;">Rs. 0</div>
         </div>
-        <nav class="footer-links">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Refund Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Support</a>
-            <a href="reseller-dashboard.html">Reseller Dashboard</a>
-            <a href="digital-vault.html">Digital Vault</a>
-        </nav>
-    </div>
-    <div class="footer-copy">© 2025 Nexra Tech PK. All rights reserved. Premium digital assets for Pakistani market.</div>
-</footer>
-
-<!-- ============================================================
-     FLOATING ELEMENTS
-============================================================ -->
-
-<!-- Live Sales Ticker -->
-<div class="live-ticker" id="live-ticker">
-    <div class="ticker-avatar" id="ticker-av">A</div>
-    <div class="ticker-text">
-        <strong id="ticker-name">Ali</strong> from <span id="ticker-city">Lahore</span><br>
-        <span>Just purchased this asset! 🎉</span>
-    </div>
-</div>
-
-<!-- AI Chat Button -->
-<div id="ai-fab" onclick="NX.toggleAIChat()" aria-label="AI Assistant">
-    <span class="ai-icon"><i class="fa-solid fa-robot"></i></span>
-    <span class="ai-loading"><i class="fa-solid fa-circle-notch spin-icon"></i></span>
-</div>
-
-<!-- Scroll to Top -->
-<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Scroll to top">
-    <i class="fa-solid fa-chevron-up"></i>
-</button>
-
-<!-- Mobile Floating Island -->
-<div class="floating-island" id="floating-island">
-    <div class="island-price-wrap">
-        <div class="island-price-label">Total</div>
-        <div class="island-price-val" id="island-price">Rs. 0</div>
-    </div>
-    <button class="island-buy-btn" onclick="NX.buyNow()"><i class="fa-solid fa-bolt"></i> BUY NOW</button>
-    <a id="wa-link" href="#" target="_blank" rel="noopener" class="island-wa-btn" aria-label="WhatsApp">
-        <i class="fa-brands fa-whatsapp"></i>
-    </a>
-</div>
-
-<!-- ============================================================
-     AI CHAT MODAL
-============================================================ -->
-<div id="ai-chat-modal" role="dialog" aria-label="AI Assistant">
-    <div class="ai-chat-header">
-        <div class="ai-chat-title">
-            <i class="fa-solid fa-robot" style="color:var(--brand-main);"></i>
-            Nexra AI Assistant
-            <div class="ai-dot"></div>
-        </div>
-        <button class="ai-close-btn" onclick="NX.toggleAIChat()"><i class="fa-solid fa-xmark"></i></button>
+        <button class="island-buy-btn" onclick="NX_DETAIL.handleBuyNow()">PURCHASE</button>
+        <a id="wa-link" href="#" target="_blank" class="island-wa-btn"><i class="fa-brands fa-whatsapp"></i></a>
     </div>
 
-    <div class="ai-messages" id="ai-messages">
-        <div class="ai-msg bot">👋 Hi! I'm your Nexra AI. Ask me anything about this product — pricing, features, compatibility, or anything else!</div>
-    </div>
+    <!-- FOOTER MOUNT -->
+    <div id="mount-footer" class="nx-mount-point"></div>
 
-    <div class="ai-quick-btns" id="ai-quick-btns">
-        <button class="ai-quick-btn" onclick="NX.askAI('What are the key features?')">Key Features?</button>
-        <button class="ai-quick-btn" onclick="NX.askAI('Is this product worth buying?')">Worth Buying?</button>
-        <button class="ai-quick-btn" onclick="NX.askAI('How is delivery done?')">Delivery?</button>
-        <button class="ai-quick-btn" onclick="NX.askAI('What is the refund policy?')">Refund Policy?</button>
-    </div>
-
-    <div class="ai-input-row">
-        <textarea id="ai-user-input" placeholder="Ask about this product..." rows="1"
-            onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();NX.sendAIMessage();}"></textarea>
-        <button class="ai-send-btn" onclick="NX.sendAIMessage()"><i class="fa-solid fa-paper-plane"></i></button>
-    </div>
-</div>
-
-<!-- ============================================================
-     MAIN JAVASCRIPT ENGINE
-============================================================ -->
-<script>
-'use strict';
-
-/* ============================================================
-   NEXRA GLOBAL CONFIG
-============================================================ */
-const NX_CONFIG = {
-    // OpenRouter API Keys (rotate on failure)
-    OR_KEYS: [
-        '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',
-        // Add backup keys here
-    ],
-    OR_KEY_INDEX: 0,
-    OR_MODEL_PRIMARY: 'google/gemma-3n-e4b-it:free',
-    OR_MODEL_FALLBACK: 'cohere/command-r-08-2024:free',
-
-    // Exchange rate PKR / USD
-    PKR_USD_RATE: 278,
-
-    // WhatsApp Admin Number
-    WA_NUMBER: '923001234567',
-
-    // Edition: 'alpha' | 'beta'
-    EDITION: 'alpha',
-
-    // Flash sale end time (set to null to disable)
-    FLASH_SALE_END: null, // e.g. new Date('2025-08-01T18:00:00')
-};
-
-/* ============================================================
-   PRODUCT DETAIL ENGINE
-============================================================ */
-window.NX = {
-
-    _state: {
-        productId: new URLSearchParams(window.location.search).get('id'),
-        product: null,
-        qty: 1,
-        subMode: 'lifetime',
-        wishlist: JSON.parse(localStorage.getItem('nx_wishlist') || '[]'),
-        cart: JSON.parse(localStorage.getItem('nx_cart') || '[]'),
-        currentLang: 'en',
-        reviewRating: 5,
-        aiHistory: [],
-        lastScroll: 0,
-    },
-
-    /* ------ INIT ------ */
-    async init() {
-        this._applyEdition();
-        this._setupProtection();
-        this._setupScrollEvents();
-
-        // Use demo product if no ID or in standalone demo mode
-        if (!this._state.productId || this._state.productId === 'demo') {
-            this._state.product = this._demoProduct();
-            this._render();
-            this._postRender();
-            return;
-        }
-
-        this._waitForBackend(async () => {
-            await this._fetchProduct();
-        });
-    },
-
-    /* ------ EDITION BRANDING ------ */
-    _applyEdition() {
-        const ed = NX_CONFIG.EDITION;
-        const el = document.getElementById('hdr-edition');
-        if (el) el.textContent = ed.toUpperCase();
-
-        if (ed === 'beta') {
-            document.documentElement.style.setProperty('--brand-main', '#EA580C');
-            document.documentElement.style.setProperty('--brand-light', '#FB923C');
-            document.documentElement.style.setProperty('--brand-glow', 'rgba(234,88,12,0.35)');
-            document.documentElement.style.setProperty('--brand-dim', 'rgba(234,88,12,0.12)');
-            document.getElementById('browser-theme-color').setAttribute('content', '#EA580C');
-        }
-    },
-
-    /* ------ RIGHT-CLICK PROTECTION ------ */
-    _setupProtection() {
-        document.addEventListener('contextmenu', (e) => {
-            if (e.target.tagName === 'IMG' || e.target.closest('.pd-gallery')) {
-                e.preventDefault();
-                const toast = document.getElementById('rc-toast');
-                toast.classList.add('show');
-                setTimeout(() => toast.classList.remove('show'), 2000);
-            }
-        });
-        document.addEventListener('dragstart', (e) => {
-            if (e.target.tagName === 'IMG') e.preventDefault();
-        });
-    },
-
-    /* ------ SCROLL EVENTS ------ */
-    _setupScrollEvents() {
-        const scrollTopBtn = document.getElementById('scroll-top');
-        window.addEventListener('scroll', () => {
-            const y = window.scrollY;
-            scrollTopBtn.classList.toggle('visible', y > 400);
-        }, { passive: true });
-    },
-
-    /* ------ BACKEND WAIT ------ */
-    _waitForBackend(cb, tries = 0) {
-        if (window.supabaseClient || window.db) { cb(); return; }
-        if (tries > 60) { // 6 seconds timeout -> use demo
-            this._state.product = this._demoProduct();
-            this._render();
-            this._postRender();
-            return;
-        }
-        setTimeout(() => this._waitForBackend(cb, tries + 1), 100);
-    },
-
-    /* ------ FETCH PRODUCT ------ */
-    async _fetchProduct() {
-        try {
-            let p = null;
-            const id = this._state.productId;
-
-            // 1. Try Supabase
-            if (window.supabaseClient) {
-                const { data, error } = await window.supabaseClient
-                    .from('products').select('*').eq('id', id).single();
-                if (!error && data) p = data;
-            }
-
-            // 2. Try Firestore
-            if (!p && window.db) {
-                const doc = await window.db.collection('products').doc(id).get();
-                if (doc.exists) p = { id: doc.id, ...doc.data() };
-            }
-
-            if (!p) {
-                this.showToast('Product not found.', 'error');
-                setTimeout(() => window.location.href = 'shop.html', 1500);
-                return;
-            }
-
-            this._state.product = p;
-            this._render();
-            this._postRender();
-
-        } catch (e) {
-            console.error('[NX] fetchProduct error:', e);
-            // Fall back to demo
-            this._state.product = this._demoProduct();
-            this._render();
-            this._postRender();
-        }
-    },
-
-    /* ------ DEMO PRODUCT ------ */
-    _demoProduct() {
-        return {
-            id: 'demo',
-            title: 'Nexra Ultimate Dev Suite — Professional License',
-            type: 'SaaS Tool',
-            sku: 'NX-DEV-PRO-2025',
-            price: 4500,
-            oldPrice: 8999,
-            rating: 4.8,
-            reviewCount: 127,
-            totalSold: 843,
-            description: `<h3>Complete Professional Developer Suite</h3>
-                <p>Nexra Dev Suite is Pakistan's #1 digital toolset for professional developers, designers, and SaaS entrepreneurs. Unlock a lifetime license and get instant access to everything you need to build, launch, and scale digital products.</p>
-                <h3>What's Included</h3>
-                <ul>
-                    <li>✅ Nexra Builder Pro — Drag &amp; Drop Website Builder</li>
-                    <li>✅ API Gateway Manager — Unlimited API endpoints</li>
-                    <li>✅ Nexra Analytics — Real-time user tracking</li>
-                    <li>✅ AI Code Assistant (Powered by OpenRouter)</li>
-                    <li>✅ Digital Vault — Secure key storage</li>
-                    <li>✅ 24/7 Priority Support</li>
-                </ul>
-                <h3>Why Nexra?</h3>
-                <p>Unlike subscriptions from international platforms, Nexra offers <strong>lifetime licenses in PKR</strong>, with local support in Urdu &amp; English, and delivery within seconds of payment.</p>`,
-            excerpt: 'Lifetime access to Nexra Developer Suite — build, launch, scale.',
-            image: 'https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=800&q=80',
-            extra_media: [
-                { type: 'image', url: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=300&q=80' },
-                { type: 'image', url: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=300&q=80' },
-                { type: 'image', url: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=300&q=80' },
-            ],
-            category: 'SaaS',
-            hasSubscription: true,
-            hasFlashSale: true,
-            flashSaleEnd: new Date(Date.now() + 3 * 60 * 60 * 1000).toISOString(),
-            specifications: {
-                'License Type': 'Lifetime (1 Device)',
-                'Version': '3.2.1',
-                'Language': 'English / Urdu',
-                'Format': 'Digital License Key',
-                'Delivery': 'Instant (Email + Vault)',
-                'Updates': 'Free for 12 months',
+    <!-- ==========================================================================
+         PRODUCT DETAIL LOGIC (ENGINE V4.0)
+         ========================================================================== -->
+    <script>
+        window.NX_DETAIL = {
+            state: {
+                id: new URLSearchParams(window.location.search).get('id'),
+                data: null,
+                aiActive: false,
+                // Rotating Keys & Models
+                aiConfigs: [
+                    { model: "google/gemini-flash-1.5:free", key: "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" },
+                    { model: "google/gemma-2-9b-it:free", key: "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" }
+                ],
+                currentKeyIdx: 0
             },
-            requirements: {
-                os: 'Windows 10/11, macOS 12+, Ubuntu 20.04+',
-                ram: '8 GB RAM',
-                storage: '2 GB Free Space',
-                internet: 'Required for Activation',
+
+            init: async function() {
+                if(!this.state.id) { window.location.href = '../shop/shop.html'; return; }
+                
+                await this.loadUIComponents();
+                
+                this.waitForBackend(async () => {
+                    await this.fetchProduct();
+                    if(window.NexraBrand) window.NexraBrand.refreshDOMAssets();
+                });
             },
-            nexraCoins: 90,
-            commissionPercent: 10,
-            tags: ['saas', 'developer', 'lifetime', 'pakistani'],
-        };
-    },
 
-    /* ------ MAIN RENDER ------ */
-    _render() {
-        const p = this._state.product;
-        if (!p) return;
+            waitForBackend: function(cb) {
+                const timer = setInterval(() => {
+                    if(window.db || window.supabaseClient) { clearInterval(timer); cb(); }
+                }, 100);
+            },
 
-        /* Page meta */
-        document.getElementById('page-title').textContent = `${p.title} | Nexra Tech PK`;
-        document.getElementById('dynamic-desc').setAttribute('content', p.excerpt || p.title);
-        document.getElementById('og-title').setAttribute('content', p.title);
-        document.getElementById('og-desc').setAttribute('content', p.excerpt || p.title);
-        document.getElementById('og-image').setAttribute('content', p.image || '');
-        document.getElementById('og-url').setAttribute('content', window.location.href);
-        document.getElementById('tw-title').setAttribute('content', p.title);
-        document.getElementById('tw-image').setAttribute('content', p.image || '');
-        document.getElementById('canonical-url').setAttribute('href', window.location.href);
-
-        /* JSON-LD */
-        const schema = {
-            '@context': 'https://schema.org/',
-            '@type': 'Product',
-            name: p.title,
-            image: p.image,
-            description: p.excerpt || p.title,
-            sku: p.sku || '',
-            brand: { '@type': 'Brand', name: 'Nexra Tech PK' },
-            aggregateRating: p.rating ? {
-                '@type': 'AggregateRating',
-                ratingValue: p.rating,
-                reviewCount: p.reviewCount || 1
-            } : undefined,
-            offers: {
-                '@type': 'Offer',
-                priceCurrency: 'PKR',
-                price: p.price,
-                availability: 'https://schema.org/InStock',
-            }
-        };
-        document.getElementById('json-ld-product').textContent = JSON.stringify(schema);
-
-        /* Watermarks */
-        document.getElementById('wm-logo').textContent = 'NX';
-        document.getElementById('wm-title').textContent = p.title;
-
-        /* Breadcrumb */
-        document.getElementById('bc-category').textContent = p.category || p.type || 'Digital';
-        document.getElementById('bc-product').textContent = p.title;
-
-        /* Badges */
-        document.getElementById('info-type-badge').textContent = (p.type || 'DIGITAL ASSET').toUpperCase();
-        document.getElementById('img-type-badge').textContent = (p.type || 'DIGITAL ASSET').toUpperCase();
-
-        /* Title */
-        document.getElementById('pd-title').textContent = p.title;
-
-        /* Meta */
-        document.getElementById('pd-sku').textContent = p.sku || 'NX-ASSET';
-        document.getElementById('pd-rating').textContent = parseFloat(p.rating || 5).toFixed(1);
-        document.getElementById('pd-review-count').textContent = p.reviewCount || 0;
-        document.getElementById('total-sold').textContent = (p.totalSold || 0).toLocaleString();
-        document.getElementById('live-viewers').textContent = Math.floor(Math.random() * 20 + 5);
-
-        /* Price */
-        const price = parseFloat(p.price) || 0;
-        document.getElementById('pd-price').textContent = `Rs. ${price.toLocaleString()}`;
-        document.getElementById('island-price').textContent = `Rs. ${price.toLocaleString()}`;
-        document.getElementById('pd-usd').textContent = `$${(price / NX_CONFIG.PKR_USD_RATE).toFixed(2)}`;
-
-        if (p.oldPrice) {
-            const old = parseFloat(p.oldPrice);
-            document.getElementById('pd-old-price').textContent = `Rs. ${old.toLocaleString()}`;
-            const disc = Math.round(((old - price) / old) * 100);
-            const discBadge = document.getElementById('pd-discount-badge');
-            discBadge.textContent = `${disc}% OFF`;
-            discBadge.style.display = 'inline-flex';
-        }
-
-        /* Coins */
-        const coins = p.nexraCoins || Math.floor(price / 50);
-        document.getElementById('coin-earn').textContent = coins;
-
-        /* Commission */
-        const commPct = p.commissionPercent || 10;
-        const commAmt = Math.round(price * commPct / 100);
-        document.getElementById('comm-amount').textContent = `Rs. ${commAmt.toLocaleString()}`;
-        document.getElementById('comm-coins').textContent = `${Math.floor(commAmt / 10)} 🪙`;
-
-        /* Subscription toggle */
-        if (p.hasSubscription) {
-            document.getElementById('sub-toggle').style.display = 'flex';
-        }
-
-        /* Flash sale */
-        const flashEnd = p.flashSaleEnd ? new Date(p.flashSaleEnd) : null;
-        if (p.hasFlashSale && flashEnd && flashEnd > new Date()) {
-            document.getElementById('flash-banner').classList.add('active');
-            document.getElementById('img-sale-badge').style.display = 'inline-flex';
-            this._startFlashTimer(flashEnd);
-        }
-
-        /* Description */
-        document.getElementById('tab-desc-content').innerHTML = p.description || '<p style="color:var(--text-300)">No description available.</p>';
-
-        /* Main Image */
-        document.getElementById('pd-main-img').src = p.image || '';
-        document.getElementById('pd-main-img').alt = p.title;
-
-        /* Thumbnails */
-        this._renderThumbs(p);
-
-        /* Specs */
-        this._renderSpecs(p);
-
-        /* Requirements */
-        if (p.requirements) {
-            const r = p.requirements;
-            if (r.os) document.getElementById('req-os').textContent = r.os;
-            if (r.ram) document.getElementById('req-ram').textContent = r.ram;
-            if (r.storage) document.getElementById('req-storage').textContent = r.storage;
-            if (r.internet) document.getElementById('req-net').textContent = r.internet;
-        }
-
-        /* Rating bars */
-        this._renderRatingGauge(p);
-
-        /* WhatsApp */
-        const waMsg = encodeURIComponent(`Hi Nexra! I'm interested in "${p.title}" (Rs. ${price.toLocaleString()}). Please share more details.\n${window.location.href}`);
-        document.getElementById('wa-link').href = `https://wa.me/${NX_CONFIG.WA_NUMBER}?text=${waMsg}`;
-
-        /* Cart count */
-        document.getElementById('hdr-cart-count').textContent = this._state.cart.length;
-
-        /* Wishlist state */
-        if (this._state.wishlist.includes(p.id)) {
-            document.getElementById('wish-btn').classList.add('active');
-            document.getElementById('wish-btn').querySelector('i').className = 'fa-solid fa-heart';
-        }
-    },
-
-    /* ------ POST-RENDER (async tasks) ------ */
-    _postRender() {
-        this._startSocialProof();
-        this._loadReviews();
-        this._loadRelatedProducts();
-        this._trackView();
-    },
-
-    /* ------ THUMBNAILS (supports image + video + any format) ------ */
-    _renderThumbs(p) {
-        const container = document.getElementById('pd-thumbs');
-        container.innerHTML = '';
-
-        // Build media array: primary image first
-        const media = [{ type: 'image', url: p.image }];
-
-        if (p.extra_media && Array.isArray(p.extra_media)) {
-            p.extra_media.forEach(m => {
-                if (typeof m === 'string') {
-                    media.push({ type: 'image', url: m });
-                } else if (m && m.url) {
-                    media.push(m);
+            loadUIComponents: async function() {
+                const comps = [
+                    { id: 'mount-header', path: '../components/header.html' },
+                    { id: 'mount-slider', path: '../components/slider.html' },
+                    { id: 'mount-footer', path: '../components/footer.html' },
+                    { id: 'mount-notifications', path: '../components/ui-notifications.html' }
+                ];
+                for (const c of comps) {
+                    try {
+                        const res = await fetch(c.path);
+                        if(res.ok) {
+                            document.getElementById(c.id).innerHTML = await res.text();
+                            const scripts = document.getElementById(c.id).querySelectorAll('script');
+                            scripts.forEach(s => {
+                                const ns = document.createElement('script');
+                                ns.text = s.innerHTML;
+                                document.body.appendChild(ns);
+                            });
+                        }
+                    } catch(e) {}
                 }
-            });
-        }
-        // Legacy: extra_images string array
-        if (p.extra_images && Array.isArray(p.extra_images)) {
-            p.extra_images.forEach(url => media.push({ type: 'image', url }));
-        }
+            },
 
-        // Build thumbnails
-        media.forEach((item, i) => {
-            const thumb = document.createElement('div');
-            thumb.className = `pd-thumb${i === 0 ? ' active' : ''}`;
-            thumb.setAttribute('role', 'button');
-            thumb.setAttribute('aria-label', `View media ${i + 1}`);
-            thumb.setAttribute('tabindex', '0');
-
-            if (item.type === 'video') {
-                thumb.innerHTML = `
-                    <video src="${item.url}" muted preload="metadata"></video>
-                    <div class="vid-overlay"><i class="fa-solid fa-play"></i></div>
-                `;
-                thumb.addEventListener('click', () => this._switchMedia('video', item.url, thumb));
-            } else {
-                const img = document.createElement('img');
-                img.src = item.url;
-                img.alt = `Product view ${i + 1}`;
-                img.onerror = () => { img.src = 'https://via.placeholder.com/100x100/1A1A24/6B6785?text=NX'; };
-                thumb.appendChild(img);
-                thumb.addEventListener('click', () => this._switchMedia('image', item.url, thumb));
-            }
-
-            thumb.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') thumb.click(); });
-            container.appendChild(thumb);
-        });
-    },
-
-    _switchMedia(type, url, thumbEl) {
-        document.querySelectorAll('.pd-thumb').forEach(t => t.classList.remove('active'));
-        thumbEl.classList.add('active');
-
-        const img = document.getElementById('pd-main-img');
-        const vid = document.getElementById('pd-main-video');
-
-        if (type === 'video') {
-            vid.src = url;
-            vid.classList.add('active');
-            img.style.display = 'none';
-        } else {
-            vid.pause();
-            vid.src = '';
-            vid.classList.remove('active');
-            img.style.display = '';
-            img.src = url;
-        }
-    },
-
-    /* ------ SPECS ------ */
-    _renderSpecs(p) {
-        if (!p.specifications) return;
-        const table = document.getElementById('specs-table');
-        table.innerHTML = Object.entries(p.specifications).map(([k, v]) => `
-            <div class="spec-row">
-                <span class="spec-key">${k}</span>
-                <span class="spec-val">${v}</span>
-            </div>
-        `).join('');
-    },
-
-    /* ------ RATING GAUGE ------ */
-    _renderRatingGauge(p) {
-        const rating = parseFloat(p.rating || 5);
-        const total = parseInt(p.reviewCount || 0);
-
-        document.getElementById('rating-big').textContent = rating.toFixed(1);
-        document.getElementById('rating-stars-big').textContent = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
-        document.getElementById('rating-total-text').textContent = `${total} reviews`;
-        document.getElementById('pd-review-count').textContent = total;
-
-        // Simulated bar distribution
-        const dist = [5, 4, 3, 2, 1].map((star) => {
-            let count;
-            if (star === Math.round(rating)) count = Math.floor(total * 0.55);
-            else if (star === Math.round(rating) - 1) count = Math.floor(total * 0.25);
-            else if (star === Math.round(rating) + 1) count = Math.floor(total * 0.15);
-            else count = Math.floor(total * 0.03);
-            return { star, count };
-        });
-
-        const barsEl = document.getElementById('rating-bars');
-        barsEl.innerHTML = dist.map(d => {
-            const pct = total > 0 ? Math.round((d.count / total) * 100) : 0;
-            return `
-                <div class="rating-bar-row">
-                    <span class="rating-bar-label">${d.star}</span>
-                    <div class="rating-bar-track">
-                        <div class="rating-bar-fill" style="width:${pct}%"></div>
-                    </div>
-                    <span class="rating-bar-count">${d.count}</span>
-                </div>
-            `;
-        }).join('');
-    },
-
-    /* ------ FLASH TIMER ------ */
-    _startFlashTimer(endDate) {
-        const update = () => {
-            const diff = endDate - new Date();
-            if (diff <= 0) {
-                document.getElementById('flash-timer').textContent = 'EXPIRED';
-                document.getElementById('flash-banner').classList.remove('active');
-                return;
-            }
-            const h = String(Math.floor(diff / 3600000)).padStart(2, '0');
-            const m = String(Math.floor((diff % 3600000) / 60000)).padStart(2, '0');
-            const s = String(Math.floor((diff % 60000) / 1000)).padStart(2, '0');
-            document.getElementById('flash-timer').textContent = `${h}:${m}:${s}`;
-        };
-        update();
-        setInterval(update, 1000);
-    },
-
-    /* ------ SOCIAL PROOF ------ */
-    _startSocialProof() {
-        const names = ['Ali', 'Zain', 'Sara', 'Hamza', 'Dua', 'Usman', 'Fatima', 'Bilal', 'Nida', 'Kamran'];
-        const cities = ['Lahore', 'Karachi', 'Islamabad', 'Faisalabad', 'Rawalpindi', 'Multan', 'Peshawar'];
-        const ticker = document.getElementById('live-ticker');
-
-        const show = () => {
-            if (Math.random() < 0.6) {
-                const name = names[Math.floor(Math.random() * names.length)];
-                const city = cities[Math.floor(Math.random() * cities.length)];
-                document.getElementById('ticker-av').textContent = name[0];
-                document.getElementById('ticker-name').textContent = name;
-                document.getElementById('ticker-city').textContent = city;
-                ticker.classList.add('show');
-                setTimeout(() => ticker.classList.remove('show'), 4500);
-            }
-        };
-        setTimeout(show, 3000);
-        setInterval(show, 18000);
-    },
-
-    /* ------ LOAD REVIEWS (Firestore real-time) ------ */
-    _loadReviews() {
-        const p = this._state.product;
-        if (!p) return;
-
-        if (window.db) {
-            try {
-                window.db.collection('products').doc(p.id)
-                    .collection('reviews')
-                    .orderBy('createdAt', 'desc')
-                    .limit(10)
-                    .onSnapshot((snap) => {
-                        const reviews = [];
-                        snap.forEach(d => reviews.push({ id: d.id, ...d.data() }));
-                        this._renderReviews(reviews);
-                    });
-                return;
-            } catch(e) {}
-        }
-
-        // Demo reviews
-        this._renderReviews([
-            { id: '1', name: 'Muhammad Ali', rating: 5, body: 'Excellent product! Delivery was instant. Fully working license. Highly recommend Nexra!', createdAt: { seconds: Date.now()/1000 - 86400 }, verified: true },
-            { id: '2', name: 'Sara Khan', rating: 5, body: 'Bohot acha product hai. Price bhi theek hai aur support bhi behtareen. 10/10!', createdAt: { seconds: Date.now()/1000 - 172800 }, verified: true },
-            { id: '3', name: 'Usman Ghani', rating: 4, body: 'Good product. Works as advertised. Minor issue with activation but support team helped quickly.', createdAt: { seconds: Date.now()/1000 - 259200 }, verified: false },
-        ]);
-    },
-
-    _renderReviews(reviews) {
-        const list = document.getElementById('reviews-list');
-        if (!reviews.length) {
-            list.innerHTML = '<p style="color:var(--text-300); font-size:13px; text-align:center; padding:20px 0;">No reviews yet. Be the first!</p>';
-            return;
-        }
-        list.innerHTML = reviews.map(r => {
-            const stars = '★'.repeat(r.rating || 5) + '☆'.repeat(5 - (r.rating || 5));
-            const date = r.createdAt ? new Date(r.createdAt.seconds * 1000).toLocaleDateString('en-PK') : '';
-            return `
-                <div class="review-card">
-                    <div class="review-header">
-                        <div class="review-avatar">${(r.name || 'U')[0].toUpperCase()}</div>
-                        <div style="flex:1;">
-                            <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
-                                <span class="review-name">${r.name || 'Anonymous'}</span>
-                                ${r.verified ? '<span class="review-verified"><i class="fa-solid fa-circle-check"></i> Verified Buyer</span>' : ''}
-                            </div>
-                            <div style="display:flex; align-items:center; gap:10px; margin-top:3px;">
-                                <span class="review-stars">${stars}</span>
-                                <span class="review-meta">${date}</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="review-body selectable">${r.body || ''}</div>
-                </div>
-            `;
-        }).join('');
-    },
-
-    /* ------ SUBMIT REVIEW ------ */
-    async submitReview() {
-        const body = document.getElementById('review-input').value.trim();
-        if (!body) { this.showToast('Please write a review first.', 'error'); return; }
-
-        const p = this._state.product;
-        const reviewData = {
-            name: 'You',
-            rating: this._state.reviewRating,
-            body,
-            verified: false,
-            createdAt: { seconds: Date.now() / 1000 },
-        };
-
-        if (window.db && p && p.id !== 'demo') {
-            try {
-                await window.db.collection('products').doc(p.id)
-                    .collection('reviews').add({ ...reviewData, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
-            } catch(e) { console.warn(e); }
-        }
-
-        document.getElementById('review-input').value = '';
-        this.showToast('Review submitted! Thank you.', 'success');
-    },
-
-    /* ------ STAR PICKER ------ */
-    setReviewStar(val) {
-        this._state.reviewRating = val;
-        document.querySelectorAll('.star-picker i').forEach((el, i) => {
-            el.classList.toggle('active', i < val);
-        });
-    },
-
-    /* ------ LOAD RELATED PRODUCTS ------ */
-    async _loadRelatedProducts() {
-        const p = this._state.product;
-        if (!p) return;
-
-        let products = [];
-
-        if (window.supabaseClient) {
-            try {
-                const { data } = await window.supabaseClient.from('products')
-                    .select('id, title, price, image, type')
-                    .eq('type', p.type || p.category)
-                    .neq('id', p.id)
-                    .limit(4);
-                if (data && data.length) products = data;
-            } catch(e) {}
-        }
-
-        if (!products.length && window.db) {
-            try {
-                const snap = await window.db.collection('products')
-                    .where('type', '==', p.type || p.category)
-                    .limit(4).get();
-                snap.forEach(d => { if (d.id !== p.id) products.push({ id: d.id, ...d.data() }); });
-            } catch(e) {}
-        }
-
-        // Demo related
-        if (!products.length) {
-            products = [
-                { id: 'r1', title: 'Nexra Design Studio Pro', price: 2999, image: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=300&q=80', type: 'Design Tool' },
-                { id: 'r2', title: 'Nexra API Manager Suite', price: 3500, image: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=300&q=80', type: 'SaaS Tool' },
-                { id: 'r3', title: 'Nexra Analytics Dashboard', price: 1999, image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=300&q=80', type: 'Analytics' },
-                { id: 'r4', title: 'Nexra Cloud Backup Pro', price: 1500, image: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=300&q=80', type: 'Cloud' },
-            ];
-        }
-
-        const section = document.getElementById('related-section');
-        const grid = document.getElementById('related-grid');
-        section.style.display = 'block';
-
-        grid.innerHTML = products.map(rp => `
-            <div class="product-card" onclick="window.location.href='product-detail.html?id=${rp.id}'" role="article">
-                <img class="product-card-img" src="${rp.image || ''}" alt="${rp.title}" 
-                     onerror="this.src='https://via.placeholder.com/300x300/1A1A24/6B6785?text=NX'">
-                <div class="product-card-body">
-                    <div class="product-card-title">${rp.title}</div>
-                    <div class="product-card-price text-brand">Rs. ${parseFloat(rp.price).toLocaleString()}</div>
-                </div>
-            </div>
-        `).join('');
-    },
-
-    /* ------ QUANTITY ------ */
-    updateQty(delta) {
-        this._state.qty = Math.max(1, this._state.qty + delta);
-        document.getElementById('pd-qty').textContent = this._state.qty;
-        const p = this._state.product;
-        if (p) {
-            const total = parseFloat(p.price) * this._state.qty;
-            document.getElementById('island-price').textContent = `Rs. ${total.toLocaleString()}`;
-        }
-    },
-
-    /* ------ SUBSCRIPTION MODE ------ */
-    setSubMode(mode) {
-        this._state.subMode = mode;
-        document.querySelectorAll('.sub-pill button').forEach(b => {
-            b.classList.toggle('active', b.textContent.toLowerCase() === mode);
-        });
-    },
-
-    /* ------ CART ------ */
-    addToCart() {
-        const p = this._state.product;
-        if (!p) return;
-
-        const cart = this._state.cart;
-        const existing = cart.find(c => c.id === p.id);
-        if (existing) {
-            existing.qty += this._state.qty;
-        } else {
-            cart.push({ id: p.id, title: p.title, price: p.price, image: p.image, qty: this._state.qty });
-        }
-        this._state.cart = cart;
-        localStorage.setItem('nx_cart', JSON.stringify(cart));
-        document.getElementById('hdr-cart-count').textContent = cart.length;
-        this.showToast(`"${p.title}" added to cart!`, 'success');
-    },
-
-    buyNow() {
-        this.addToCart();
-        window.location.href = 'checkout.html';
-    },
-
-    /* ------ WISHLIST ------ */
-    toggleWishlist() {
-        const p = this._state.product;
-        if (!p) return;
-
-        const wl = this._state.wishlist;
-        const idx = wl.indexOf(p.id);
-        const btn = document.getElementById('wish-btn');
-        const icon = btn.querySelector('i');
-
-        if (idx === -1) {
-            wl.push(p.id);
-            btn.classList.add('active');
-            icon.className = 'fa-solid fa-heart';
-            this.showToast('Added to wishlist!', 'success');
-        } else {
-            wl.splice(idx, 1);
-            btn.classList.remove('active');
-            icon.className = 'fa-regular fa-heart';
-            this.showToast('Removed from wishlist.', 'info');
-        }
-
-        this._state.wishlist = wl;
-        localStorage.setItem('nx_wishlist', JSON.stringify(wl));
-    },
-
-    /* ------ AFFILIATE ------ */
-    copyAffiliateLink() {
-        const link = `${window.location.origin}${window.location.pathname}?id=${this._state.productId || 'demo'}&ref=${this._getUserRef()}`;
-        navigator.clipboard.writeText(link).then(() => {
-            this.showToast('Affiliate link copied! Share and earn 10% commission.', 'success');
-        }).catch(() => {
-            this.showToast(`Your link: ${link}`, 'info');
-        });
-    },
-
-    _getUserRef() {
-        let ref = localStorage.getItem('nx_ref');
-        if (!ref) {
-            ref = 'NX' + Math.random().toString(36).substring(2, 8).toUpperCase();
-            localStorage.setItem('nx_ref', ref);
-        }
-        return ref;
-    },
-
-    /* ------ SHARE ------ */
-    async shareProduct() {
-        const p = this._state.product;
-        const shareData = {
-            title: p.title,
-            text: `Check out "${p.title}" on Nexra Tech PK — Rs. ${parseFloat(p.price).toLocaleString()}`,
-            url: window.location.href,
-        };
-        if (navigator.share) {
-            await navigator.share(shareData);
-        } else {
-            navigator.clipboard.writeText(window.location.href);
-            this.showToast('Link copied to clipboard!', 'success');
-        }
-    },
-
-    /* ------ GIFT ------ */
-    giftProduct() {
-        this.showToast('Gift feature coming soon! You can WhatsApp the product link.', 'info');
-    },
-
-    /* ------ WHOLESALE ------ */
-    wholesaleInquiry() {
-        const p = this._state.product;
-        const msg = encodeURIComponent(`Hi Nexra! I want to inquire about wholesale pricing for "${p?.title || 'your products'}".`);
-        window.open(`https://wa.me/${NX_CONFIG.WA_NUMBER}?text=${msg}`, '_blank');
-    },
-
-    /* ------ LANGUAGE SWITCH ------ */
-    async switchLang(lang) {
-        this._state.currentLang = lang;
-        document.getElementById('lang-en-btn').classList.toggle('active', lang === 'en');
-        document.getElementById('lang-ur-btn').classList.toggle('active', lang === 'ur');
-
-        if (lang === 'ur') {
-            const p = this._state.product;
-            if (!p) return;
-            await this._translateToUrdu(p.description);
-        } else {
-            const p = this._state.product;
-            if (p) document.getElementById('tab-desc-content').innerHTML = p.description;
-        }
-    },
-
-    async _translateToUrdu(text) {
-        this.showToast('Translating to Urdu...', 'info');
-        const stripped = text.replace(/<[^>]+>/g, ' ').substring(0, 500);
-        const result = await this._callAI(`Translate this product description to Urdu (Roman or script, whichever is clearer): "${stripped}"`);
-        if (result) {
-            document.getElementById('tab-desc-content').innerHTML = `<div dir="rtl" style="font-family:'Noto Nastaliq Urdu','Jameel Noori Nastaleeq',serif; font-size:16px; line-height:2; text-align:right;">${result}</div>`;
-        }
-    },
-
-    /* ------ TABS ------ */
-    tab(e, id) {
-        document.querySelectorAll('.pd-tab-btn').forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected', 'false'); });
-        document.querySelectorAll('.pd-tab-panel').forEach(p => p.classList.remove('active'));
-        e.currentTarget.classList.add('active');
-        e.currentTarget.setAttribute('aria-selected', 'true');
-        document.getElementById(id).classList.add('active');
-    },
-
-    /* ------ AI SUMMARY ------ */
-    async genAISummary() {
-        const p = this._state.product;
-        if (!p) return;
-
-        const btn = document.getElementById('ai-summary-btn');
-        btn.innerHTML = '<i class="fa-solid fa-circle-notch spin-icon"></i> Generating...';
-        btn.disabled = true;
-
-        const desc = p.description?.replace(/<[^>]+>/g, ' ').substring(0, 800) || p.title;
-        const result = await this._callAI(
-            `You are a product analyst. Read this product description and give exactly 3 key benefits as a JSON array: {"points": ["point1","point2","point3"]}. Be concise, persuasive, and in English. Description: ${desc}`
-        );
-
-        btn.innerHTML = '<i class="fa-solid fa-wand-magic-sparkles"></i> Regenerate Summary';
-        btn.disabled = false;
-
-        if (!result) return;
-        try {
-            const clean = result.replace(/```json|```/g, '').trim();
-            const parsed = JSON.parse(clean);
-            const points = parsed.points || [];
-            const card = document.getElementById('ai-summary-card');
-            const pointsEl = document.getElementById('ai-summary-points');
-            pointsEl.innerHTML = points.map((pt, i) => `
-                <div class="ai-point">
-                    <div class="ai-point-num">${i+1}</div>
-                    <div>${pt}</div>
-                </div>
-            `).join('');
-            card.style.display = 'block';
-        } catch(e) {
-            this.showToast('AI summary generated. See chat for details.', 'info');
-        }
-    },
-
-    /* ------ AI FAQ ------ */
-    async genAIFAQ() {
-        const p = this._state.product;
-        const faqEl = document.getElementById('faq-list');
-        faqEl.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-300);"><i class="fa-solid fa-circle-notch spin-icon" style="font-size:24px; color:var(--brand-main);"></i></div>';
-
-        const desc = p?.description?.replace(/<[^>]+>/g, ' ').substring(0, 600) || p?.title || 'digital product';
-        const result = await this._callAI(
-            `Generate 5 frequently asked questions and answers for this product. Respond ONLY as JSON: {"faqs":[{"q":"question","a":"answer"}]}. Product: ${desc}`
-        );
-
-        if (!result) {
-            faqEl.innerHTML = '<p style="color:var(--text-300);text-align:center;padding:20px;font-size:13px;">Could not generate FAQ. Please try again.</p>';
-            return;
-        }
-
-        try {
-            const clean = result.replace(/```json|```/g, '').trim();
-            const parsed = JSON.parse(clean);
-            const faqs = parsed.faqs || [];
-            faqEl.innerHTML = faqs.map(f => `
-                <div class="faq-item">
-                    <div class="faq-q" onclick="this.parentElement.classList.toggle('open')">
-                        <span>${f.q}</span>
-                        <i class="fa-solid fa-chevron-down"></i>
-                    </div>
-                    <div class="faq-a">${f.a}</div>
-                </div>
-            `).join('');
-        } catch(e) {
-            faqEl.innerHTML = '<p style="color:var(--text-300);text-align:center;padding:20px;font-size:13px;">FAQ parsing error. Check AI response.</p>';
-        }
-    },
-
-    /* ------ AI CHAT ------ */
-    toggleAIChat() {
-        const modal = document.getElementById('ai-chat-modal');
-        modal.classList.toggle('open');
-    },
-
-    askAI(question) {
-        document.getElementById('ai-user-input').value = question;
-        this.sendAIMessage();
-    },
-
-    async sendAIMessage() {
-        const input = document.getElementById('ai-user-input');
-        const msg = input.value.trim();
-        if (!msg) return;
-
-        input.value = '';
-        this._appendMessage('user', msg);
-        this._state.aiHistory.push({ role: 'user', content: msg });
-
-        const loadingId = 'ai-loading-' + Date.now();
-        this._appendMessage('bot', '<i class="fa-solid fa-circle-notch spin-icon"></i> Thinking...', loadingId);
-
-        const p = this._state.product;
-        const productContext = p ? `
-Product Name: ${p.title}
-Type: ${p.type || 'Digital Asset'}
-Price: Rs. ${parseFloat(p.price).toLocaleString()} (Discounted from Rs. ${parseFloat(p.oldPrice || p.price).toLocaleString()})
-SKU: ${p.sku || 'N/A'}
-Rating: ${p.rating || 5}/5 (${p.reviewCount || 0} reviews)
-Delivery: Instant (Email + Digital Vault)
-Description: ${p.description?.replace(/<[^>]+>/g, ' ').substring(0, 600) || p.title}
-Store: Nexra Tech PK — Pakistan's premium digital asset marketplace.
-        ` : 'This is Nexra Tech PK — a digital marketplace for Pakistan.';
-
-        const sysPrompt = `You are Nexra AI Assistant, an expert product advisor for Nexra Tech PK — Pakistan's leading digital marketplace. Answer user questions ONLY about the product below. Be helpful, friendly, and concise. Use relevant emojis. If asked off-topic, politely redirect to the product.\n\nProduct Context:\n${productContext}`;
-
-        const messages = [{ role: 'user', content: sysPrompt }, ...this._state.aiHistory];
-        const result = await this._callAI(msg, messages);
-
-        const loadingEl = document.getElementById(loadingId);
-        if (loadingEl) loadingEl.remove();
-
-        const reply = result || 'Sorry, I could not get a response right now. Please try again!';
-        this._appendMessage('bot', reply);
-        this._state.aiHistory.push({ role: 'assistant', content: reply });
-
-        // Keep history manageable
-        if (this._state.aiHistory.length > 20) {
-            this._state.aiHistory = this._state.aiHistory.slice(-16);
-        }
-    },
-
-    _appendMessage(role, text, id) {
-        const msgs = document.getElementById('ai-messages');
-        const div = document.createElement('div');
-        div.className = `ai-msg ${role}`;
-        if (id) div.id = id;
-        div.innerHTML = text;
-        msgs.appendChild(div);
-        msgs.scrollTop = msgs.scrollHeight;
-    },
-
-    /* ------ CORE AI API CALL ------ */
-    async _callAI(prompt, historyMessages) {
-        const keys = NX_CONFIG.OR_KEYS;
-        const models = [NX_CONFIG.OR_MODEL_PRIMARY, NX_CONFIG.OR_MODEL_FALLBACK];
-
-        for (const model of models) {
-            for (const key of keys) {
+            fetchProduct: async function() {
                 try {
-                    const messages = historyMessages || [{ role: 'user', content: prompt }];
-                    const res = await fetch('https://openrouter.ai/api/v1/chat/completions', {
-                        method: 'POST',
+                    let product = null;
+                    if(window.supabaseClient) {
+                        const { data } = await window.supabaseClient.from('products').select('*').eq('id', this.state.id).single();
+                        product = data;
+                    }
+                    if(!product && window.db) {
+                        const doc = await db.collection('products').doc(this.state.id).get();
+                        if(doc.exists) product = { id: doc.id, ...doc.data() };
+                    }
+
+                    if(!product) return window.location.href = 'shop.html';
+                    this.state.data = product;
+                    this.render();
+                    this.fetchRelated();
+                } catch(e) { console.error(e); }
+            },
+
+            render: function() {
+                const p = this.state.data;
+                document.title = `${p.title} | Nexra Tech PK`;
+                
+                // SEO Metadata
+                document.getElementById('meta-desc').setAttribute('content', p.excerpt || p.title);
+                
+                // Media Rendering (Support for Video and Multi-Format)
+                const stage = document.getElementById('stage-content');
+                const isVideo = p.image.toLowerCase().endsWith('.mp4');
+
+                if(isVideo) {
+                    stage.innerHTML = `<video src="${p.image}" autoplay loop muted playsinline></video>`;
+                } else {
+                    stage.innerHTML = `<img src="${p.image}" alt="${p.title}" id="pd-main-img-tag">`;
+                }
+
+                document.getElementById('pd-title').innerText = p.title;
+                document.getElementById('pd-sku').innerText = p.sku || 'NEXRA-ASSET';
+                document.getElementById('pd-price').innerText = `Rs. ${parseFloat(p.price).toLocaleString()}`;
+                document.getElementById('island-price').innerText = `Rs. ${parseFloat(p.price).toLocaleString()}`;
+                document.getElementById('pd-price-usd').innerText = `$${(p.price / 278).toFixed(2)}`;
+                document.getElementById('pd-description').innerHTML = p.description || 'Verified product content.';
+                document.getElementById('pd-rating').innerText = p.rating || '5.0';
+                document.getElementById('pd-sold').innerText = (p.salesCount || 0) + ' Sold';
+                
+                if(p.oldPrice) {
+                    document.getElementById('pd-old-price').innerText = `Rs. ${parseFloat(p.oldPrice).toLocaleString()}`;
+                }
+
+                // WhatsApp Deep Link
+                const waMsg = encodeURIComponent(`Hi Nexra! I want to buy: ${p.title}\nID: ${p.id}\nLink: ${window.location.href}`);
+                document.getElementById('wa-link').href = `https://wa.me/923000000000?text=${waMsg}`;
+
+                // Thumbs
+                const thumbTrack = document.getElementById('pd-thumbs');
+                const images = p.extra_images ? [p.image, ...p.extra_images] : [p.image];
+                thumbTrack.innerHTML = images.map((img, i) => `
+                    <div class="pd-thumb ${i===0?'active':''}" onclick="NX_DETAIL.updateMedia('${img}')">
+                        ${img.endsWith('.mp4') ? '<i class="fa-solid fa-play" style="margin:25px;"></i>' : `<img src="${img}">`}
+                    </div>
+                `).join('');
+            },
+
+            updateMedia: function(url) {
+                const stage = document.getElementById('stage-content');
+                const isVideo = url.toLowerCase().endsWith('.mp4');
+                stage.innerHTML = isVideo ? `<video src="${url}" autoplay loop muted playsinline></video>` : `<img src="${url}">`;
+                // Add Watermarks back after switch
+                if(window.NexraBrand) window.NexraBrand.refreshDOMAssets();
+            },
+
+            fetchRelated: async function() {
+                const grid = document.getElementById('related-grid');
+                try {
+                    const snap = await db.collection('products').where('visible', '==', true).limit(4).get();
+                    grid.innerHTML = snap.docs.map(doc => {
+                        const p = doc.data();
+                        return `
+                            <div class="nx-card" style="flex:auto;" onclick="window.location.href='?id=${doc.id}'">
+                                <img src="${p.image}" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px;">
+                                <h4 style="font-size:12px; margin-top:10px;">${p.title}</h4>
+                                <div style="color:var(--brand-main); font-weight:800; font-size:13px;">Rs. ${p.price}</div>
+                            </div>
+                        `;
+                    }).join('');
+                } catch(e) {}
+            },
+
+            /* --- AI ENGINE --- */
+            toggleAIChat: function() {
+                this.state.aiActive = !this.state.aiActive;
+                document.getElementById('ai-window').classList.toggle('active', this.state.aiActive);
+                document.getElementById('ai-fab').classList.toggle('active', this.state.aiActive);
+            },
+
+            sendAI: async function() {
+                const input = document.getElementById('ai-input');
+                const msg = input.value.trim();
+                if(!msg) return;
+
+                const msgBox = document.getElementById('ai-messages');
+                msgBox.innerHTML += `<div class="ai-msg user">${msg}</div>`;
+                input.value = '';
+                msgBox.scrollTop = msgBox.scrollHeight;
+
+                try {
+                    const p = this.state.data;
+                    const config = this.state.aiConfigs[this.state.currentKeyIdx];
+
+                    const prompt = `You are a sales expert at Nexra Tech PK. Answer the customer about this specific product:
+                    Product Name: ${p.title}
+                    Price: Rs. ${p.price}
+                    Description: ${p.description}
+                    Customer asked: ${msg}
+                    Keep the answer short, professional, and helpful. Use Urdu + English mixing if natural.`;
+
+                    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                        method: "POST",
                         headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${key}`,
-                            'HTTP-Referer': window.location.origin,
-                            'X-Title': 'Nexra Tech PK',
+                            "Authorization": `Bearer ${config.key}`,
+                            "Content-Type": "application/json"
                         },
                         body: JSON.stringify({
-                            model,
-                            messages,
-                            max_tokens: 800,
-                            temperature: 0.7,
+                            "model": config.model,
+                            "messages": [{"role": "user", "content": prompt}]
                         })
                     });
 
-                    if (!res.ok) {
-                        const errText = await res.text();
-                        console.warn(`[AI] ${model} ${key.slice(-8)}: ${res.status} — ${errText}`);
-                        continue;
-                    }
-
-                    const data = await res.json();
-                    const text = data?.choices?.[0]?.message?.content;
-                    if (text) return text;
+                    const resData = await response.json();
+                    const botMsg = resData.choices[0].message.content;
+                    msgBox.innerHTML += `<div class="ai-msg bot">${botMsg}</div>`;
+                    msgBox.scrollTop = msgBox.scrollHeight;
 
                 } catch(e) {
-                    console.warn('[AI] Network error:', e.message);
+                    // Try next key if fail
+                    this.state.currentKeyIdx = (this.state.currentKeyIdx + 1) % this.state.aiConfigs.length;
+                    msgBox.innerHTML += `<div class="ai-msg bot" style="color:red">Connecting to backup AI engine... ask again.</div>`;
                 }
+            },
+
+            handleAddToCart: function() {
+                if(window.Nexra) Nexra.showToast("Product added to digital cart", "success");
+            },
+
+            handleBuyNow: function() {
+                window.location.href = 'checkout.html?id=' + this.state.id;
             }
-        }
+        };
 
-        console.error('[AI] All models & keys failed.');
-        return null;
-    },
-
-    /* ------ NAVIGATION ------ */
-    smartBack() {
-        if (document.referrer && document.referrer.includes(window.location.hostname)) {
-            history.back();
-        } else {
-            window.location.href = 'shop.html';
-        }
-    },
-
-    goTo(url) { window.location.href = url; },
-
-    goToPrevProduct() {
-        const id = parseInt(this._state.productId);
-        if (id > 1) window.location.href = `product-detail.html?id=${id - 1}`;
-        else this.showToast('This is the first product.', 'info');
-    },
-
-    goToNextProduct() {
-        const id = parseInt(this._state.productId);
-        window.location.href = `product-detail.html?id=${(id || 0) + 1}`;
-    },
-
-    /* ------ ACTIVITY TRACKING ------ */
-    _trackView() {
-        const p = this._state.product;
-        if (!p) return;
-        try {
-            // Recently viewed
-            let rv = JSON.parse(localStorage.getItem('nx_recently_viewed') || '[]');
-            rv = rv.filter(i => i.id !== p.id);
-            rv.unshift({ id: p.id, title: p.title, image: p.image, price: p.price });
-            if (rv.length > 10) rv = rv.slice(0, 10);
-            localStorage.setItem('nx_recently_viewed', JSON.stringify(rv));
-
-            // Activity log
-            let log = JSON.parse(localStorage.getItem('nx_activity') || '[]');
-            log.unshift({ action: 'viewed', productId: p.id, title: p.title, time: new Date().toISOString() });
-            if (log.length > 50) log = log.slice(0, 50);
-            localStorage.setItem('nx_activity', JSON.stringify(log));
-        } catch(e) {}
-    },
-
-    /* ------ TOAST ------ */
-    showToast(msg, type = 'info') {
-        const icons = { success: 'fa-circle-check', error: 'fa-circle-xmark', info: 'fa-circle-info' };
-        const container = document.getElementById('toast-container');
-        const t = document.createElement('div');
-        t.className = `toast ${type}`;
-        t.innerHTML = `<i class="fa-solid ${icons[type] || icons.info}"></i><span>${msg}</span>`;
-        container.appendChild(t);
-        setTimeout(() => { t.style.opacity = '0'; t.style.transition = '0.4s'; setTimeout(() => t.remove(), 400); }, 4000);
-    }
-
-};
-
-/* ============================================================
-   BOOT
-============================================================ */
-window.addEventListener('DOMContentLoaded', () => NX.init());
-
-/* ============================================================
-   FIREBASE INITIALIZER (Replace with your actual config)
-   If firebaseconfig.js is already loaded, this block will
-   be skipped automatically.
-============================================================ */
-if (typeof firebase !== 'undefined' && !firebase.apps.length) {
-    // Replace with your actual Firebase config
-    const firebaseConfig = {
-        apiKey: "YOUR_API_KEY",
-        authDomain: "YOUR_PROJECT.firebaseapp.com",
-        projectId: "YOUR_PROJECT_ID",
-        storageBucket: "YOUR_PROJECT.appspot.com",
-        messagingSenderId: "YOUR_SENDER_ID",
-        appId: "YOUR_APP_ID"
-    };
-    try {
-        firebase.initializeApp(firebaseConfig);
-        window.db = firebase.firestore();
-    } catch(e) { console.warn('[Firebase] Init skipped:', e.message); }
-}
-
-/* ============================================================
-   SUPABASE INIT (Replace with your actual credentials)
-   If already initialized via external script, skip.
-============================================================ */
-if (typeof supabase !== 'undefined' && !window.supabaseClient) {
-    try {
-        window.supabaseClient = supabase.createClient(
-            'YOUR_SUPABASE_URL',
-            'YOUR_SUPABASE_ANON_KEY'
-        );
-    } catch(e) { console.warn('[Supabase] Init skipped:', e.message); }
-}
-</script>
-
+        window.addEventListener('DOMContentLoaded', () => NX_DETAIL.init());
+    </script>
 </body>
 </html>
