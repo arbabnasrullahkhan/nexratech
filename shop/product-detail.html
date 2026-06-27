@@ -7,8 +7,7 @@
     
     <title>Nexra PK | Loading Elite Asset...</title>
     
-    <!-- SEO & Metadata Hooks -->
-    <meta name="description" id="meta-desc" content="Premium Digital Asset from Nexra Tech PK. Verified licensing and instant delivery.">
+    <meta name="description" id="meta-desc" content="Premium Digital Asset from Nexra Tech PK. Secure delivery and verified keys.">
     <meta name="theme-color" id="browser-theme-color" content="#ffffff">
 
     <!-- JSON-LD for Google Snippets -->
@@ -23,12 +22,11 @@
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- External Master Config -->
     <script src="../firebaseconfig.js"></script>
 
     <style>
-        /* ==========================================================================
-           CORE DESIGN SYSTEM (V4.0 - NEXT GEN UI)
-           ========================================================================== */
         :root {
             --brand-main: #FF4A17; 
             --brand-glow: rgba(255, 74, 23, 0.25);
@@ -55,23 +53,26 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg-base); color: var(--text-100); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
+        body { background: var(--bg-base); color: var(--text-100); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; user-select: none; }
 
+        /* ---------------------------------------------------------
+           PREMIUM LAYOUT
+           --------------------------------------------------------- */
         .pd-main-grid { 
             max-width: 1400px; margin: 0 auto; 
-            padding: 130px 5% 100px; 
+            padding: 130px 5% 120px; 
             display: grid; gap: 40px; grid-template-columns: 1fr;
         }
 
         @media(min-width: 1024px) { 
-            .pd-main-grid { grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: start; } 
+            .pd-main-grid { grid-template-columns: 1fr 0.8fr; gap: 80px; align-items: start; } 
         }
 
         /* ---------------------------------------------------------
-           LEFT: STICKY MEDIA GALLERY (PREMIUM)
+           STICKY MEDIA STAGE (TikTok Inspired)
            --------------------------------------------------------- */
         .pd-gallery-container { position: sticky; top: 110px; }
-        @media(max-width: 1023px) { .pd-gallery-container { position: relative; top: 0; } }
+        @media(max-width: 1023px) { .pd-gallery-container { position: relative; top: 0; margin-bottom: 30px; } }
 
         .pd-media-stage { 
             position: relative; width: 100%; aspect-ratio: 1; border-radius: var(--radius-lg); 
@@ -82,231 +83,193 @@
         .pd-media-stage img, .pd-media-stage video { width: 100%; height: 100%; object-fit: cover; transition: 0.6s var(--transition); }
         .pd-media-stage:hover img { transform: scale(1.05); }
 
-        /* Dynamic Watermark System */
-        .watermark-overlay { position: absolute; inset: 0; pointer-events: none; z-index: 5; }
-        .wm-logo { position: absolute; top: 20px; right: 20px; width: 60px; opacity: 0.5; filter: drop-shadow(0 2px 10px rgba(0,0,0,0.2)); }
-        .wm-title { position: absolute; bottom: 20px; left: 20px; width: 150px; opacity: 0.3; }
-
-        .pd-thumbs-track { display: flex; gap: 12px; margin-top: 20px; overflow-x: auto; scrollbar-width: none; padding-bottom: 5px; }
-        .pd-thumb { width: 75px; height: 75px; border-radius: 14px; border: 2px solid transparent; cursor: pointer; flex-shrink: 0; background: var(--bg-elevated); overflow: hidden; transition: 0.3s; }
+        .pd-thumbs-track { display: flex; gap: 12px; margin-top: 20px; overflow-x: auto; scrollbar-width: none; }
+        .pd-thumb { width: 70px; height: 70px; border-radius: 12px; border: 2px solid transparent; cursor: pointer; flex-shrink: 0; background: var(--bg-elevated); overflow: hidden; transition: 0.3s; }
         .pd-thumb.active { border-color: var(--brand-main); transform: translateY(-3px); }
 
         /* ---------------------------------------------------------
-           RIGHT: CONTENT ENGINE
+           CONTENT & PRICING
            --------------------------------------------------------- */
         .smart-back-btn { display: inline-flex; align-items: center; gap: 10px; color: var(--brand-main); font-weight: 800; font-size: 13px; text-transform: uppercase; cursor: pointer; margin-bottom: 25px; transition: 0.3s; }
         .smart-back-btn:hover { transform: translateX(-8px); }
 
-        .pd-title { font-family: 'Space Grotesk'; font-size: clamp(28px, 5vw, 48px); font-weight: 900; line-height: 1.1; margin-bottom: 15px; letter-spacing: -1.5px; }
+        .pd-title { font-family: 'Space Grotesk'; font-size: clamp(24px, 5vw, 42px); font-weight: 900; line-height: 1.1; margin-bottom: 15px; letter-spacing: -1px; }
         
-        .price-card { background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 35px; border-radius: var(--radius-md); box-shadow: var(--shadow-float); margin: 30px 0; }
-        .price-main { font-family: 'Space Grotesk'; font-size: 48px; font-weight: 900; line-height: 1; }
-        .price-old { font-size: 18px; color: var(--text-300); text-decoration: line-through; font-weight: 600; margin-bottom: 8px; }
-
-        .reward-badge { display: inline-flex; align-items: center; gap: 8px; background: var(--brand-dim); color: var(--brand-main); padding: 8px 18px; border-radius: 50px; font-size: 11px; font-weight: 800; margin-bottom: 20px; border: 1px solid var(--brand-glow); }
+        .price-card { background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 30px; border-radius: 24px; box-shadow: var(--shadow-float); margin: 25px 0; }
+        .price-main { font-family: 'Space Grotesk'; font-size: 38px; font-weight: 900; line-height: 1; color: var(--brand-main); }
+        .price-old { font-size: 16px; color: var(--text-300); text-decoration: line-through; font-weight: 600; margin-bottom: 5px; }
 
         /* ---------------------------------------------------------
-           AI ASSISTANT (FLOATING SYSTEM)
+           AI CHAT UI
            --------------------------------------------------------- */
         #ai-chatbot { position: fixed; bottom: 100px; right: 25px; z-index: 9999; }
-        .ai-fab { width: 60px; height: 60px; border-radius: 50%; background: var(--bg-surface); border: 1px solid var(--brand-main); color: var(--brand-main); display: flex; align-items: center; justify-content: center; font-size: 26px; cursor: pointer; box-shadow: var(--shadow-float); transition: 0.4s; }
+        .ai-fab { width: 60px; height: 60px; border-radius: 50%; background: var(--bg-surface); border: 1.5px solid var(--brand-main); color: var(--brand-main); display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; box-shadow: var(--shadow-float); transition: 0.4s; }
         .ai-fab.active { background: var(--brand-main); color: #fff; transform: rotate(90deg); }
 
-        .ai-window { position: absolute; bottom: 80px; right: 0; width: 350px; max-width: 90vw; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 24px; box-shadow: var(--shadow-float); display: none; flex-direction: column; overflow: hidden; animation: slideUp 0.4s var(--transition); }
-        .ai-window.active { display: flex; }
-        .ai-header { background: var(--brand-main); color: #fff; padding: 20px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; }
-        .ai-messages { height: 350px; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: var(--bg-elevated); }
-        .ai-msg { padding: 12px 16px; border-radius: 16px; font-size: 14px; max-width: 85%; line-height: 1.5; }
-        .ai-msg.bot { background: var(--bg-surface); color: var(--text-100); align-self: flex-start; border-radius: 16px 16px 16px 0; }
-        .ai-msg.user { background: var(--brand-main); color: #fff; align-self: flex-end; border-radius: 16px 16px 0 16px; }
-        .ai-input-area { padding: 15px; background: var(--bg-surface); display: flex; gap: 10px; border-top: 1px solid var(--glass-border); }
-        .ai-input { flex: 1; border: none; background: var(--bg-base); padding: 12px 18px; border-radius: 50px; font-family: inherit; font-size: 13px; }
+        .ai-window { position: absolute; bottom: 80px; right: 0; width: 350px; max-width: 88vw; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 24px; box-shadow: var(--shadow-float); display: none; flex-direction: column; overflow: hidden; }
+        .ai-window.active { display: flex; animation: slideUp 0.4s var(--transition); }
+        .ai-header { background: var(--brand-main); color: #fff; padding: 18px; font-weight: 800; display: flex; justify-content: space-between; align-items: center; font-size: 14px; }
+        .ai-messages { height: 320px; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 12px; background: var(--bg-elevated); }
+        .ai-msg { padding: 10px 14px; border-radius: 14px; font-size: 13px; max-width: 85%; line-height: 1.5; }
+        .ai-msg.bot { background: var(--bg-surface); color: var(--text-100); align-self: flex-start; border-radius: 14px 14px 14px 0; border: 1px solid var(--glass-border); }
+        .ai-msg.user { background: var(--brand-main); color: #fff; align-self: flex-end; border-radius: 14px 14px 0 14px; }
 
         /* Floating Buy Island */
-        .buy-island { position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 550px; background: var(--bg-base); border: 1px solid var(--glass-border); border-radius: 60px; padding: 10px 15px; display: flex; align-items: center; gap: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); z-index: 9000; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
-        .island-buy-btn { flex: 1; height: 55px; border-radius: 50px; background: var(--text-100); color: #fff; font-weight: 900; border: none; cursor: pointer; transition: 0.3s; }
-        .island-wa-btn { width: 55px; height: 55px; border-radius: 50%; background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none; }
+        .buy-island { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); width: 92%; max-width: 500px; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 50px; padding: 8px 12px; display: flex; align-items: center; gap: 12px; box-shadow: 0 15px 40px rgba(0,0,0,0.15); z-index: 9000; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .island-buy-btn { flex: 1; height: 50px; border-radius: 50px; background: var(--text-100); color: #fff; font-weight: 900; border: none; cursor: pointer; transition: 0.3s; font-size: 13px; letter-spacing: 1px; }
+        .island-buy-btn:hover { background: var(--brand-main); transform: scale(1.02); }
+        .island-wa-btn { width: 50px; height: 50px; border-radius: 50%; background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 22px; text-decoration: none; box-shadow: 0 5px 15px rgba(37,211,102,0.3); }
 
         @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Hidden canvas for TikTok Watermark logic */
+        #watermark-canvas { display: none; }
 
-        /* General Utils */
-        .skeleton { background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-surface) 50%, var(--bg-elevated) 75%); background-size: 400% 100%; animation: shimmer 1.5s infinite linear; border-radius: 12px; }
-        @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-        .nx-mount-point { display: contents; }
-        .text-brand { color: var(--brand-main); }
+        .badge-premium { display: inline-flex; align-items: center; gap: 6px; background: var(--brand-dim); color: var(--brand-main); padding: 5px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 15px; border: 1px solid var(--brand-glow); }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <!-- COMPONENT MOUNT POINTS -->
-    <div id="mount-notifications" class="nx-mount-point"></div>
-    <div id="mount-header" class="nx-mount-point"></div>
-    <div id="mount-slider" class="nx-mount-point"></div>
+    <!-- MOUNT POINTS -->
+    <div id="mount-header"></div>
+    <div id="mount-slider"></div>
 
-    <main class="pd-layout-container">
+    <!-- Hidden Canvas for Watermark Generation -->
+    <canvas id="watermark-canvas"></canvas>
+
+    <main class="pd-main-grid">
         
-        <div class="pd-main-grid">
+        <!-- LEFT: MEDIA -->
+        <div class="pd-gallery-container">
+            <div class="smart-back-btn" onclick="NX_DETAIL.goBack()">
+                <i class="fa-solid fa-chevron-left"></i> Market Inventory
+            </div>
+
+            <div class="pd-media-stage" id="media-stage">
+                <!-- Content injected via JS -->
+            </div>
+
+            <div class="pd-thumbs-track" id="pd-thumbs"></div>
             
-            <!-- LEFT: STICKY GALLERY & PROTECTION -->
-            <div class="pd-gallery-container">
-                <div class="smart-back-btn" onclick="history.back()">
-                    <i class="fa-solid fa-arrow-left-long"></i> BACK TO MARKETPLACE
-                </div>
-
-                <div class="pd-media-stage" id="media-stage">
-                    <div id="stage-content">
-                         <div class="skeleton" style="width:100%; height:100%;"></div>
-                    </div>
-                    <!-- Watermark Layer -->
-                    <div class="watermark-overlay">
-                        <img src="" class="wm-logo nx-brand-logo" alt="watermark">
-                        <img src="" class="wm-title nx-brand-title" alt="watermark">
-                    </div>
-                </div>
-
-                <div class="pd-thumbs-track" id="pd-thumbs">
-                    <!-- Injected by JS -->
-                </div>
-
-                <!-- Ad Zone 1 -->
-                <div id="ad-pd-gallery" style="margin-top:30px; text-align:center; min-height:100px;">
-                    <span style="font-size:10px; color:var(--text-300);">PREMIUM SPONSOR AD</span>
-                </div>
+            <div style="margin-top:40px; display:flex; gap:15px;">
+                <button class="btn btn-outline" style="flex:1; padding:15px; border-radius:15px;" onclick="NX_DETAIL.downloadWithWatermark()">
+                    <i class="fa-solid fa-cloud-arrow-down"></i> SAVE PHOTO
+                </button>
+                <button class="btn btn-outline" style="flex:1; padding:15px; border-radius:15px;" onclick="NX_DETAIL.shareProduct()">
+                    <i class="fa-solid fa-share-nodes"></i> SHARE ASSET
+                </button>
             </div>
-
-            <!-- RIGHT: PRODUCT DYNAMICS -->
-            <div class="pd-content">
-                <div class="reward-badge">
-                    <i class="fa-solid fa-gem"></i> EARN <span id="coin-val">50</span> NEXRA COINS
-                </div>
-                
-                <h1 class="pd-title" id="pd-title">Elite Asset Loading...</h1>
-                
-                <div style="display:flex; gap:20px; font-size:12px; font-weight:800; color:var(--text-300); text-transform:uppercase; letter-spacing:1px; margin-bottom:30px;">
-                    <span><i class="fa-solid fa-barcode"></i> SKU: <span id="pd-sku" class="text-brand">...</span></span>
-                    <span><i class="fa-solid fa-star" style="color:var(--gold);"></i> <span id="pd-rating">0.0</span> RATING</span>
-                    <span><i class="fa-solid fa-fire" style="color:var(--brand-main);"></i> <span id="pd-sold">1K</span> SOLD</span>
-                </div>
-
-                <div class="price-card">
-                    <div class="price-old" id="pd-old-price"></div>
-                    <div style="display:flex; align-items:flex-end; gap:15px; margin-bottom:30px;">
-                        <div class="price-main" id="pd-price">Rs. 0</div>
-                        <div style="background:var(--bg-elevated); padding:5px 12px; border-radius:8px; font-family:'JetBrains Mono'; font-size:13px; color:var(--brand-main);" id="pd-price-usd">$0.00</div>
-                    </div>
-
-                    <div style="display:flex; gap:12px;">
-                        <button class="island-buy-btn" onclick="NX_DETAIL.handleBuyNow()" style="background:var(--brand-main); box-shadow: 0 10px 30px var(--brand-glow);"><i class="fa-solid fa-bolt"></i> PURCHASE NOW</button>
-                        <button class="island-buy-btn" onclick="NX_DETAIL.handleAddToCart()"><i class="fa-solid fa-cart-plus"></i></button>
-                    </div>
-                </div>
-
-                <!-- Technical Description -->
-                <div style="margin-bottom:40px;">
-                    <h3 class="tech-font" style="font-size:20px; margin-bottom:15px; border-left:4px solid var(--brand-main); padding-left:15px;">Product Overview</h3>
-                    <div id="pd-description" style="line-height:1.8; color:var(--text-200); font-size:15px;">
-                        <!-- Injected -->
-                    </div>
-                </div>
-
-                <!-- Related Assets Section -->
-                <div style="margin-top:60px; border-top:1px solid var(--glass-border); padding-top:40px;">
-                    <h3 class="tech-font" style="font-size:22px; margin-bottom:25px;">YOU MAY ALSO <span class="text-gradient">LIKE</span></h3>
-                    <div id="related-grid" style="display:grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap:20px;">
-                        <!-- Injected -->
-                    </div>
-                </div>
-            </div>
-
         </div>
+
+        <!-- RIGHT: SPECS -->
+        <div class="pd-info">
+            <div class="badge-premium" id="pd-cat-badge">SaaS Ecosystem</div>
+            <h1 class="pd-title tech-font" id="pd-title">Elite Software License</h1>
+            
+            <div style="display:flex; gap:15px; font-size:12px; font-weight:800; color:var(--text-300); text-transform:uppercase; margin-bottom:25px;">
+                <span><i class="fa-solid fa-barcode"></i> <span id="pd-sku">...</span></span>
+                <span><i class="fa-solid fa-eye"></i> <span id="live-users">...</span> WATCHING</span>
+            </div>
+
+            <div class="price-card">
+                <div class="price-old" id="pd-old-price"></div>
+                <div style="display:flex; align-items:flex-end; gap:15px; margin-bottom:25px;">
+                    <div class="price-main" id="pd-price">Rs. 0</div>
+                    <div id="pd-usd" style="font-size:14px; font-weight:800; color:var(--success); font-family:'JetBrains Mono'; margin-bottom:8px;">$0.00</div>
+                </div>
+
+                <div style="display:flex; gap:10px;">
+                    <button class="island-buy-btn" onclick="NX_DETAIL.buyNow()" style="background:var(--brand-main); box-shadow:0 10px 25px var(--brand-glow);">
+                        <i class="fa-solid fa-bolt-lightning"></i> BUY SECURELY
+                    </button>
+                    <button class="island-buy-btn" style="width:60px; flex:none; background:var(--bg-elevated); color:var(--text-100); border:1px solid var(--glass-border);" onclick="NX_DETAIL.addToCart()">
+                        <i class="fa-solid fa-cart-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div style="border-top:1px solid var(--glass-border); padding-top:30px;">
+                <h3 class="tech-font" style="font-size:18px; margin-bottom:15px; color:var(--brand-main);">DESCRIPTION</h3>
+                <div id="pd-desc" style="line-height:1.8; color:var(--text-200); font-size:15px;"></div>
+            </div>
+
+            <!-- Related -->
+            <div style="margin-top:50px; border-top:1px solid var(--glass-border); padding-top:40px;">
+                <h3 class="tech-font" style="font-size:20px; margin-bottom:20px;">RELATED <span class="text-gradient">ASSETS</span></h3>
+                <div id="related-assets" style="display:grid; grid-template-columns:1fr 1fr; gap:15px;"></div>
+            </div>
+        </div>
+
     </main>
 
-    <!-- FLOATING AI ASSISTANT -->
+    <!-- FLOATING ELEMENTS -->
     <div id="ai-chatbot">
-        <div class="ai-fab" id="ai-fab" onclick="NX_DETAIL.toggleAIChat()">
+        <div class="ai-fab" id="ai-fab" onclick="NX_DETAIL.toggleAI()">
             <i class="fa-solid fa-robot"></i>
         </div>
         <div class="ai-window" id="ai-window">
             <div class="ai-header">
                 <span>Nexra AI Assistant</span>
-                <i class="fa-solid fa-xmark" style="cursor:pointer;" onclick="NX_DETAIL.toggleAIChat()"></i>
+                <i class="fa-solid fa-xmark" onclick="NX_DETAIL.toggleAI()" style="cursor:pointer;"></i>
             </div>
-            <div class="ai-messages" id="ai-messages">
-                <div class="ai-msg bot">Hi! I've analyzed this product. Ask me anything about it!</div>
+            <div class="ai-messages" id="ai-msg-box">
+                <div class="ai-msg bot">Hi! I am the Nexra AI. I have analyzed this asset. Ask me anything!</div>
             </div>
             <div class="ai-input-area">
-                <input type="text" class="ai-input" id="ai-input" placeholder="Is this lifetime? How to activate?">
-                <button class="ai-fab" style="width:45px; height:45px; font-size:16px;" onclick="NX_DETAIL.sendAI()"><i class="fa-solid fa-paper-plane"></i></button>
+                <input type="text" class="ai-input" id="ai-input" placeholder="Is this a lifetime key?">
+                <button class="ai-fab" style="width:40px; height:40px; font-size:14px;" onclick="NX_DETAIL.askAI()"><i class="fa-solid fa-paper-plane"></i></button>
             </div>
         </div>
     </div>
 
-    <!-- MOBILE BUY ISLAND -->
     <div class="buy-island">
-        <div style="padding-left:15px;">
-            <div style="font-size:10px; font-weight:800; color:var(--text-300);">TOTAL</div>
-            <div id="island-price" style="font-size:18px; font-weight:900;">Rs. 0</div>
+        <div style="padding-left:10px;">
+            <div style="font-size:9px; font-weight:800; color:var(--text-300);">TOTAL</div>
+            <div id="island-price" style="font-size:15px; font-weight:900;">Rs. 0</div>
         </div>
-        <button class="island-buy-btn" onclick="NX_DETAIL.handleBuyNow()">PURCHASE</button>
-        <a id="wa-link" href="#" target="_blank" class="island-wa-btn"><i class="fa-brands fa-whatsapp"></i></a>
+        <button class="island-buy-btn" onclick="NX_DETAIL.buyNow()">BUY NOW</button>
+        <a id="island-wa-link" href="#" target="_blank" class="island-wa-btn"><i class="fa-brands fa-whatsapp"></i></a>
     </div>
 
-    <!-- FOOTER MOUNT -->
-    <div id="mount-footer" class="nx-mount-point"></div>
-
-    <!-- ==========================================================================
-         PRODUCT DETAIL LOGIC (ENGINE V4.0)
-         ========================================================================== -->
     <script>
         window.NX_DETAIL = {
             state: {
                 id: new URLSearchParams(window.location.search).get('id'),
                 data: null,
-                aiActive: false,
-                // Rotating Keys & Models
+                aiOpen: false,
                 aiConfigs: [
                     { model: "google/gemini-flash-1.5:free", key: "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" },
-                    { model: "google/gemma-2-9b-it:free", key: "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" }
+                    { model: "cohere/command-r-plus-08-2024:free", key: "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" }
                 ],
-                currentKeyIdx: 0
+                keyIdx: 0
             },
 
             init: async function() {
-                if(!this.state.id) { window.location.href = '../shop/shop.html'; return; }
+                if(!this.state.id) return window.location.href = '../shop/shop.html';
                 
-                await this.loadUIComponents();
-                
+                await this.loadUI();
                 this.waitForBackend(async () => {
                     await this.fetchProduct();
+                    this.simulateLiveActivity();
                     if(window.NexraBrand) window.NexraBrand.refreshDOMAssets();
                 });
             },
 
             waitForBackend: function(cb) {
-                const timer = setInterval(() => {
-                    if(window.db || window.supabaseClient) { clearInterval(timer); cb(); }
+                const check = setInterval(() => {
+                    if(window.db || window.supabaseClient) { clearInterval(check); cb(); }
                 }, 100);
             },
 
-            loadUIComponents: async function() {
-                const comps = [
+            loadUI: async function() {
+                const mods = [
                     { id: 'mount-header', path: '../components/header.html' },
-                    { id: 'mount-slider', path: '../components/slider.html' },
-                    { id: 'mount-footer', path: '../components/footer.html' },
-                    { id: 'mount-notifications', path: '../components/ui-notifications.html' }
+                    { id: 'mount-slider', path: '../components/slider.html' }
                 ];
-                for (const c of comps) {
+                for(const m of mods) {
                     try {
-                        const res = await fetch(c.path);
-                        if(res.ok) {
-                            document.getElementById(c.id).innerHTML = await res.text();
-                            const scripts = document.getElementById(c.id).querySelectorAll('script');
-                            scripts.forEach(s => {
-                                const ns = document.createElement('script');
-                                ns.text = s.innerHTML;
-                                document.body.appendChild(ns);
-                            });
-                        }
+                        const res = await fetch(m.path);
+                        if(res.ok) document.getElementById(m.id).innerHTML = await res.text();
                     } catch(e) {}
                 }
             },
@@ -314,9 +277,10 @@
             fetchProduct: async function() {
                 try {
                     let product = null;
+                    // Fix: Correct Supabase Table query
                     if(window.supabaseClient) {
-                        const { data } = await window.supabaseClient.from('products').select('*').eq('id', this.state.id).single();
-                        product = data;
+                        const { data, error } = await window.supabaseClient.from('products').select('*').eq('id', this.state.id).maybeSingle();
+                        if(data) product = data;
                     }
                     if(!product && window.db) {
                         const doc = await db.collection('products').doc(this.state.id).get();
@@ -326,138 +290,160 @@
                     if(!product) return window.location.href = 'shop.html';
                     this.state.data = product;
                     this.render();
-                    this.fetchRelated();
-                } catch(e) { console.error(e); }
+                } catch(e) { console.error("Fetch Error:", e); }
             },
 
             render: function() {
                 const p = this.state.data;
-                document.title = `${p.title} | Nexra Tech PK`;
-                
-                // SEO Metadata
-                document.getElementById('meta-desc').setAttribute('content', p.excerpt || p.title);
-                
-                // Media Rendering (Support for Video and Multi-Format)
-                const stage = document.getElementById('stage-content');
-                const isVideo = p.image.toLowerCase().endsWith('.mp4');
-
-                if(isVideo) {
-                    stage.innerHTML = `<video src="${p.image}" autoplay loop muted playsinline></video>`;
-                } else {
-                    stage.innerHTML = `<img src="${p.image}" alt="${p.title}" id="pd-main-img-tag">`;
-                }
-
+                document.title = `${p.title} | Nexra PK`;
                 document.getElementById('pd-title').innerText = p.title;
-                document.getElementById('pd-sku').innerText = p.sku || 'NEXRA-ASSET';
-                document.getElementById('pd-price').innerText = `Rs. ${parseFloat(p.price).toLocaleString()}`;
-                document.getElementById('island-price').innerText = `Rs. ${parseFloat(p.price).toLocaleString()}`;
-                document.getElementById('pd-price-usd').innerText = `$${(p.price / 278).toFixed(2)}`;
-                document.getElementById('pd-description').innerHTML = p.description || 'Verified product content.';
+                document.getElementById('pd-sku').innerText = p.sku || 'NEX-GEN-ASSET';
+                document.getElementById('pd-price').innerText = `Rs. ${p.price.toLocaleString()}`;
+                document.getElementById('island-price').innerText = `Rs. ${p.price.toLocaleString()}`;
+                document.getElementById('pd-usd').innerText = `$${(p.price / 278).toFixed(2)}`;
+                document.getElementById('pd-desc').innerHTML = p.description || 'Verified Nexra Tool.';
                 document.getElementById('pd-rating').innerText = p.rating || '5.0';
-                document.getElementById('pd-sold').innerText = (p.salesCount || 0) + ' Sold';
+                document.getElementById('pd-cat-badge').innerText = p.category || 'Digital';
+
+                if(p.oldPrice) document.getElementById('pd-old-price').innerText = `Rs. ${p.oldPrice.toLocaleString()}`;
+
+                const stage = document.getElementById('media-stage');
+                const isVid = p.image.endsWith('.mp4');
+                stage.innerHTML = isVid ? `<video src="${p.image}" autoplay loop muted playsinline></video>` : `<img id="main-image" src="${p.image}" crossOrigin="anonymous">`;
+
+                // WhatsApp
+                const msg = encodeURIComponent(`I want to buy: ${p.title}\nPrice: Rs. ${p.price}\nLink: ${window.location.href}`);
+                document.getElementById('island-wa-link').href = `https://wa.me/923000000000?text=${msg}`;
+
+                this.fetchRelated(p.category);
+            },
+
+            /* --- TikTok Style Watermark Engine --- */
+            downloadWithWatermark: function() {
+                const img = document.getElementById('main-image');
+                if(!img || img.tagName === 'VIDEO') return alert("Saving video not supported yet.");
+
+                const canvas = document.getElementById('watermark-canvas');
+                const ctx = canvas.getContext('2d');
                 
-                if(p.oldPrice) {
-                    document.getElementById('pd-old-price').innerText = `Rs. ${parseFloat(p.oldPrice).toLocaleString()}`;
+                canvas.width = img.naturalWidth;
+                canvas.height = img.naturalHeight;
+
+                // Draw Base Image
+                ctx.drawImage(img, 0, 0);
+
+                // 1. Center Large Watermark (20% Opacity)
+                ctx.save();
+                ctx.globalAlpha = 0.2;
+                ctx.font = `bold ${canvas.width / 10}px Space Grotesk`;
+                ctx.fillStyle = "white";
+                ctx.textAlign = "center";
+                ctx.translate(canvas.width/2, canvas.height/2);
+                ctx.rotate(-Math.PI / 4);
+                ctx.fillText("NEXRA TECH PK", 0, 0);
+                ctx.restore();
+
+                // 2. Corner Logo (Alpha/Beta Sync)
+                const brandLogo = new Image();
+                brandLogo.crossOrigin = "anonymous";
+                brandLogo.src = window.NexraBrand ? window.NexraBrand.getAsset('logo') : '';
+                
+                brandLogo.onload = () => {
+                    ctx.globalAlpha = 0.6;
+                    const lw = canvas.width * 0.15;
+                    ctx.drawImage(brandLogo, canvas.width - lw - 20, 20, lw, lw);
+                    
+                    // Final Export
+                    const link = document.createElement('a');
+                    link.download = `Nexra_${this.state.data.title}.png`;
+                    link.href = canvas.toDataURL('image/png');
+                    link.click();
+                    if(window.Nexra) Nexra.showToast("Branded Image Saved!", "success");
+                };
+            },
+
+            shareProduct: function() {
+                const p = this.state.data;
+                const shareText = `🔥 Check out this Elite Asset on Nexra PK!\n📦 ${p.title}\n💰 Rs. ${p.price}\n\nLink: ${window.location.href}`;
+                if(navigator.share) {
+                    navigator.share({ title: p.title, text: shareText, url: window.location.href });
+                } else {
+                    navigator.clipboard.writeText(window.location.href);
+                    alert("Link copied to clipboard!");
                 }
-
-                // WhatsApp Deep Link
-                const waMsg = encodeURIComponent(`Hi Nexra! I want to buy: ${p.title}\nID: ${p.id}\nLink: ${window.location.href}`);
-                document.getElementById('wa-link').href = `https://wa.me/923000000000?text=${waMsg}`;
-
-                // Thumbs
-                const thumbTrack = document.getElementById('pd-thumbs');
-                const images = p.extra_images ? [p.image, ...p.extra_images] : [p.image];
-                thumbTrack.innerHTML = images.map((img, i) => `
-                    <div class="pd-thumb ${i===0?'active':''}" onclick="NX_DETAIL.updateMedia('${img}')">
-                        ${img.endsWith('.mp4') ? '<i class="fa-solid fa-play" style="margin:25px;"></i>' : `<img src="${img}">`}
-                    </div>
-                `).join('');
             },
 
-            updateMedia: function(url) {
-                const stage = document.getElementById('stage-content');
-                const isVideo = url.toLowerCase().endsWith('.mp4');
-                stage.innerHTML = isVideo ? `<video src="${url}" autoplay loop muted playsinline></video>` : `<img src="${url}">`;
-                // Add Watermarks back after switch
-                if(window.NexraBrand) window.NexraBrand.refreshDOMAssets();
-            },
+            /* --- Triple-AI Engine (Fixed 404) --- */
+            askAI: async function() {
+                const input = document.getElementById('ai-input');
+                const box = document.getElementById('ai-msg-box');
+                const q = input.value.trim();
+                if(!q) return;
 
-            fetchRelated: async function() {
-                const grid = document.getElementById('related-grid');
+                box.innerHTML += `<div class="ai-msg user">${q}</div>`;
+                input.value = '';
+                box.scrollTop = box.scrollHeight;
+
                 try {
-                    const snap = await db.collection('products').where('visible', '==', true).limit(4).get();
+                    const p = this.state.data;
+                    const config = this.state.aiConfigs[this.state.keyIdx];
+                    
+                    const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${config.key}`,
+                            "Content-Type": "application/json",
+                            "HTTP-Referer": "https://nexrapk.com",
+                            "X-Title": "Nexra PK AI"
+                        },
+                        body: JSON.stringify({
+                            "model": config.model,
+                            "messages": [
+                                { "role": "system", "content": `You are a professional assistant for Nexra Tech PK. Product: ${p.title}, Price: Rs. ${p.price}, Description: ${p.description}. Keep answers very short and helpful.` },
+                                { "role": "user", "content": q }
+                            ]
+                        })
+                    });
+
+                    if(!res.ok) throw new Error("API Error");
+
+                    const data = await res.json();
+                    const reply = data.choices[0].message.content;
+                    box.innerHTML += `<div class="ai-msg bot">${reply}</div>`;
+                } catch(e) {
+                    this.state.keyIdx = (this.state.keyIdx + 1) % this.state.aiConfigs.length;
+                    box.innerHTML += `<div class="ai-msg bot" style="color:red">Switching to backup model... Please re-send.</div>`;
+                }
+                box.scrollTop = box.scrollHeight;
+            },
+
+            toggleAI: function() {
+                this.state.aiOpen = !this.state.aiOpen;
+                document.getElementById('ai-window').classList.toggle('active', this.state.aiOpen);
+                document.getElementById('ai-fab').classList.toggle('active', this.state.aiOpen);
+            },
+
+            simulateLiveActivity: function() {
+                document.getElementById('live-users').innerText = Math.floor(Math.random() * 25 + 5);
+            },
+
+            fetchRelated: async function(cat) {
+                const grid = document.getElementById('related-assets');
+                try {
+                    const snap = await db.collection('products').where('category', '==', cat).limit(4).get();
                     grid.innerHTML = snap.docs.map(doc => {
-                        const p = doc.data();
-                        return `
-                            <div class="nx-card" style="flex:auto;" onclick="window.location.href='?id=${doc.id}'">
-                                <img src="${p.image}" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px;">
-                                <h4 style="font-size:12px; margin-top:10px;">${p.title}</h4>
-                                <div style="color:var(--brand-main); font-weight:800; font-size:13px;">Rs. ${p.price}</div>
-                            </div>
-                        `;
+                        const d = doc.data();
+                        return `<div class="pd-thumb" style="width:100%; height:120px;" onclick="window.location.href='?id=${doc.id}'">
+                            <img src="${d.image}">
+                            <div style="font-size:10px; font-weight:800; padding:5px;">Rs. ${d.price}</div>
+                        </div>`;
                     }).join('');
                 } catch(e) {}
             },
 
-            /* --- AI ENGINE --- */
-            toggleAIChat: function() {
-                this.state.aiActive = !this.state.aiActive;
-                document.getElementById('ai-window').classList.toggle('active', this.state.aiActive);
-                document.getElementById('ai-fab').classList.toggle('active', this.state.aiActive);
-            },
-
-            sendAI: async function() {
-                const input = document.getElementById('ai-input');
-                const msg = input.value.trim();
-                if(!msg) return;
-
-                const msgBox = document.getElementById('ai-messages');
-                msgBox.innerHTML += `<div class="ai-msg user">${msg}</div>`;
-                input.value = '';
-                msgBox.scrollTop = msgBox.scrollHeight;
-
-                try {
-                    const p = this.state.data;
-                    const config = this.state.aiConfigs[this.state.currentKeyIdx];
-
-                    const prompt = `You are a sales expert at Nexra Tech PK. Answer the customer about this specific product:
-                    Product Name: ${p.title}
-                    Price: Rs. ${p.price}
-                    Description: ${p.description}
-                    Customer asked: ${msg}
-                    Keep the answer short, professional, and helpful. Use Urdu + English mixing if natural.`;
-
-                    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                        method: "POST",
-                        headers: {
-                            "Authorization": `Bearer ${config.key}`,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            "model": config.model,
-                            "messages": [{"role": "user", "content": prompt}]
-                        })
-                    });
-
-                    const resData = await response.json();
-                    const botMsg = resData.choices[0].message.content;
-                    msgBox.innerHTML += `<div class="ai-msg bot">${botMsg}</div>`;
-                    msgBox.scrollTop = msgBox.scrollHeight;
-
-                } catch(e) {
-                    // Try next key if fail
-                    this.state.currentKeyIdx = (this.state.currentKeyIdx + 1) % this.state.aiConfigs.length;
-                    msgBox.innerHTML += `<div class="ai-msg bot" style="color:red">Connecting to backup AI engine... ask again.</div>`;
-                }
-            },
-
-            handleAddToCart: function() {
-                if(window.Nexra) Nexra.showToast("Product added to digital cart", "success");
-            },
-
-            handleBuyNow: function() {
-                window.location.href = 'checkout.html?id=' + this.state.id;
-            }
+            goBack: function() { window.location.href = '../shop/shop.html'; },
+            buyNow: function() { window.location.href = '../shop/checkout.html?id=' + this.state.id; },
+            addToCart: function() { if(window.Nexra) Nexra.showToast("Added to Cart", "success"); }
         };
 
         window.addEventListener('DOMContentLoaded', () => NX_DETAIL.init());
