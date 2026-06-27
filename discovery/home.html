@@ -1,446 +1,2716 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" dir="ltr">
 <head>
-    <!-- ==========================================================================
-         1. ENTERPRISE SEO & META ARCHITECTURE (GOOGLE INDEX READY)
-         ========================================================================== -->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-    <title>Nexra Tech PK | Pakistan's Elite Digital Ecosystem</title>
-    
-    <meta name="description" content="Pakistan's premium marketplace for automated software licensing, SaaS tools, and elite reseller portals. Instant delivery, 24/7 support.">
-    <meta name="keywords" content="digital assets, software license, saas tools, reseller portal, pakistan tech, premium tools, Nexra PK">
-    <meta name="author" content="Nexra Tech PK">
-    <link rel="canonical" href="https://nexratech.vercel.app/home">
-
-    <!-- Open Graph / Facebook / TikTok -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://nexratech.vercel.app/">
-    <meta property="og:title" content="Nexra Tech PK | Elite Digital Ecosystem">
-    <meta property="og:description" content="Access premium digital tools and the ultimate reseller network in Pakistan.">
-    <meta property="og:image" id="meta-og-image" content="https://uploads.onecompiler.io/42yatf6fu/1782533768745/logo_orange%20y.png">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="Nexra Tech PK | Digital Marketplace">
-    <meta property="twitter:image" content="https://uploads.onecompiler.io/42yatf6fu/1782533768745/logo_orange%20y.png">
-
-    <!-- JSON-LD Schema for Google -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Nexra Tech PK",
-      "url": "https://nexratech.vercel.app/",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "https://nexratech.vercel.app/shop?q={search_term_string}",
-        "query-input": "required name=search_term_string"
+  <!-- ========================================================
+       SEO & META STACK — NEXRA PK DIGITAL ECOSYSTEM
+       ======================================================== -->
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <!-- Primary SEO -->
+  <title id="nx-meta-title">Nexra PK — Pakistan's Elite Digital Ecosystem</title>
+  <meta id="nx-meta-desc" name="description" content="Nexra PK is Pakistan's most trusted marketplace for premium SaaS tools, software keys, UI kits, courses, and free digital resources — delivered instantly."/>
+  <meta name="keywords" content="digital marketplace pakistan, saas tools, software keys, canva pro, chatgpt plus, capcut pro, premium software, nexra pk"/>
+  <meta name="robots" content="index, follow"/>
+  <meta name="author" content="Nexra PK"/>
+  <link id="nx-canonical" rel="canonical" href="https://nexrapk.com/"/>
+  <!-- Open Graph -->
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Nexra PK"/>
+  <meta id="og-title" property="og:title" content="Nexra PK — Pakistan's Elite Digital Ecosystem"/>
+  <meta id="og-desc" property="og:description" content="Premium SaaS tools, software licenses, and free digital resources for creators, agencies, and founders across Pakistan."/>
+  <meta id="og-image" property="og:image" content=""/>
+  <meta id="og-url" property="og:url" content="https://nexrapk.com/"/>
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta id="tw-title" name="twitter:title" content="Nexra PK — Elite Digital Ecosystem"/>
+  <meta id="tw-desc" name="twitter:description" content="Pakistan's most trusted digital marketplace."/>
+  <meta id="tw-image" name="twitter:image" content=""/>
+  <!-- Favicon (dynamic) -->
+  <link id="nx-favicon" rel="icon" type="image/png" href=""/>
+  <link id="nx-favicon-apple" rel="apple-touch-icon" href=""/>
+  <!-- Theme -->
+  <meta name="theme-color" id="nx-theme-color" content="#f8fafc"/>
+  <!-- JSON-LD Structured Data -->
+  <script type="application/ld+json" id="nx-schema-org">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"ProfessionalService",
+        "name":"Nexra PK",
+        "url":"https://nexrapk.com/",
+        "logo":"",
+        "description":"Pakistan's elite digital marketplace for premium SaaS tools, software keys, and creative resources.",
+        "areaServed":"PK",
+        "priceRange":"Rs. 200 – Rs. 5,000",
+        "sameAs":["https://instagram.com/nexrapk","https://t.me/nexrapk"]
+      },
+      {
+        "@type":"SoftwareApplication",
+        "name":"Nexra Platform",
+        "operatingSystem":"Web",
+        "applicationCategory":"Marketplace",
+        "offers":{
+          "@type":"Offer",
+          "priceCurrency":"PKR",
+          "price":"200"
+        }
       }
+    ]
+  }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Space+Grotesk:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet"/>
+
+  <style>
+    /* ============================================================
+       ROOT DESIGN TOKENS
+       ============================================================ */
+    :root {
+      /* Brand */
+      --brand:       #FF4A17;
+      --brand-2:     #FF8C00;
+      --brand-dim:   rgba(255,74,23,.10);
+      --brand-glow:  rgba(255,74,23,.28);
+      --brand-grad:  linear-gradient(135deg,#FF4A17 0%,#FF8C00 100%);
+      /* Surfaces — Light */
+      --bg-base:     #f8fafc;
+      --bg-surf:     #ffffff;
+      --bg-elev:     #f1f5f9;
+      --bg-glass:    rgba(255,255,255,.72);
+      --border:      rgba(0,0,0,.07);
+      --border-2:    rgba(0,0,0,.04);
+      /* Text — Light */
+      --t1: #0f172a;
+      --t2: #475569;
+      --t3: #94a3b8;
+      /* Nav */
+      --nav-bg: rgba(255,255,255,.88);
+      /* Shadows */
+      --s-soft:  0 8px 28px -8px rgba(0,0,0,.08);
+      --s-float: 0 24px 56px -12px rgba(0,0,0,.14);
+      --s-brand: 0 10px 30px var(--brand-glow);
+      /* Radius */
+      --r-xs: 8px;
+      --r-sm: 14px;
+      --r-md: 22px;
+      --r-lg: 32px;
+      --r-xl: 48px;
+      /* Transitions */
+      --ease: cubic-bezier(.16,1,.3,1);
+      --ease-fast: cubic-bezier(.4,0,.2,1);
+      --t-std: .32s var(--ease);
+      /* Utility */
+      --success: #10b981;
+      --danger:  #ef4444;
+      --gold:    #f59e0b;
     }
-    </script>
 
-    <!-- ==========================================================================
-         2. CORE STYLING ENGINE (PREMIUM WHITE & DYNAMIC BRANDING)
-         ========================================================================== -->
-    <style>
-        :root {
-            /* GLOBAL TOKENS */
-            --brand-main: #FF4A17; /* Default Beta Orange */
-            --brand-glow: rgba(255, 74, 23, 0.2);
-            --brand-soft: rgba(255, 74, 23, 0.05);
-            
-            --bg-base: #ffffff;
-            --bg-surface: #f8fafc;
-            --bg-elevated: #f1f5f9;
-            
-            --text-100: #0f172a;
-            --text-200: #475569;
-            --text-300: #94a3b8;
-            
-            --glass-border: rgba(0, 0, 0, 0.06);
-            --shadow-premium: 0 20px 50px -12px rgba(0,0,0,0.08);
-            
-            --radius-md: 24px;
-            --radius-lg: 40px;
-            --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+    [data-theme="dark"] {
+      --bg-base:   #030303;
+      --bg-surf:   #0c0c0c;
+      --bg-elev:   #161616;
+      --bg-glass:  rgba(255,255,255,.03);
+      --border:    rgba(255,255,255,.07);
+      --border-2:  rgba(255,255,255,.03);
+      --t1: #f8fafc;
+      --t2: #94a3b8;
+      --t3: #3f3f46;
+      --nav-bg: rgba(3,3,3,.90);
+      --s-soft:  0 8px 28px rgba(0,0,0,.5);
+      --s-float: 0 24px 56px rgba(0,0,0,.8);
+    }
 
-        [data-edition="alpha"] {
-            --brand-main: #a855f7; /* Alpha Purple */
-            --brand-glow: rgba(168, 85, 247, 0.2);
-            --brand-soft: rgba(168, 85, 247, 0.05);
-        }
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *,*::before,*::after { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+    html { scroll-behavior:smooth; font-size:16px; }
+    body {
+      font-family:'Plus Jakarta Sans',system-ui,sans-serif;
+      background:var(--bg-base);
+      color:var(--t1);
+      overflow-x:hidden;
+      transition:background .4s,color .4s;
+      -webkit-font-smoothing:antialiased;
+    }
+    a { text-decoration:none; color:inherit; }
+    ul { list-style:none; }
+    img,video { display:block; max-width:100%; }
+    button { font-family:inherit; cursor:pointer; }
+    input,button { outline:none; }
 
-        [data-theme="dark"] {
-            --bg-base: #050507;
-            --bg-surface: #0c0c12;
-            --bg-elevated: #16161e;
-            --text-100: #ffffff;
-            --text-200: #a1a1aa;
-            --text-300: #52525b;
-            --glass-border: rgba(255, 255, 255, 0.06);
-        }
+    /* ============================================================
+       UTILITY CLASSES
+       ============================================================ */
+    .sr-only { position:absolute; width:1px; height:1px; clip:rect(0,0,0,0); overflow:hidden; }
+    .tech-font { font-family:'Space Grotesk',sans-serif; }
+    .mono-font { font-family:'JetBrains Mono',monospace; }
+    .flex-c  { display:flex; align-items:center; }
+    .flex-cc { display:flex; align-items:center; justify-content:center; }
+    .flex-sb { display:flex; align-items:center; justify-content:space-between; }
+    .text-grad { background:var(--brand-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .will-change-transform { will-change:transform; }
 
-        /* RESET */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        body { 
-            background-color: var(--bg-base); 
-            color: var(--text-100); 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            line-height: 1.6;
-            overflow-x: hidden;
-        }
+    /* ============================================================
+       SCROLL ANIMATIONS (IntersectionObserver hooks)
+       ============================================================ */
+    .nx-reveal {
+      opacity:0;
+      transform:translateY(28px);
+      transition:opacity .7s var(--ease), transform .7s var(--ease);
+    }
+    .nx-reveal.nx-visible { opacity:1; transform:translateY(0); }
+    .nx-reveal-scale {
+      opacity:0;
+      transform:scale(.94);
+      transition:opacity .6s var(--ease), transform .6s var(--ease);
+    }
+    .nx-reveal-scale.nx-visible { opacity:1; transform:scale(1); }
+    .nx-reveal-left {
+      opacity:0;
+      transform:translateX(-30px);
+      transition:opacity .65s var(--ease), transform .65s var(--ease);
+    }
+    .nx-reveal-left.nx-visible { opacity:1; transform:translateX(0); }
+    .nx-delay-1 { transition-delay:.08s; }
+    .nx-delay-2 { transition-delay:.16s; }
+    .nx-delay-3 { transition-delay:.24s; }
+    .nx-delay-4 { transition-delay:.32s; }
+    .nx-delay-5 { transition-delay:.40s; }
 
-        .container { max-width: 1350px; margin: 0 auto; padding: 0 6%; }
-        .tech-font { font-family: 'Space Grotesk', sans-serif; }
-        .text-gradient { background: linear-gradient(135deg, var(--brand-main) 0%, #ff8a00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn {
+      display:inline-flex; align-items:center; justify-content:center; gap:9px;
+      padding:14px 28px; border-radius:50px; border:none;
+      font-size:13px; font-weight:800; letter-spacing:.3px;
+      transition:var(--t-std); position:relative; overflow:hidden;
+    }
+    .btn::after {
+      content:''; position:absolute; inset:0;
+      background:rgba(255,255,255,0); transition:.3s;
+      border-radius:inherit;
+    }
+    .btn:hover::after { background:rgba(255,255,255,.08); }
+    .btn:active { transform:scale(.97); }
+    .btn-primary {
+      background:var(--brand-grad);
+      color:#fff;
+      box-shadow:var(--s-brand);
+    }
+    .btn-primary:hover { transform:translateY(-3px); box-shadow:0 18px 40px var(--brand-glow); }
+    .btn-ghost {
+      background:transparent;
+      color:var(--t1);
+      border:1.5px solid var(--border);
+      box-shadow:var(--s-soft);
+    }
+    .btn-ghost:hover { border-color:var(--brand); color:var(--brand); transform:translateY(-2px); }
+    .btn-white {
+      background:#fff;
+      color:var(--brand);
+      font-weight:800;
+      box-shadow:0 8px 30px rgba(0,0,0,.15);
+    }
+    .btn-white:hover { transform:translateY(-3px); box-shadow:0 16px 40px rgba(0,0,0,.2); }
+    .btn-sm { padding:10px 20px; font-size:12px; }
+    .btn-icon {
+      width:44px; height:44px; padding:0;
+      border-radius:12px;
+      background:var(--bg-elev);
+      border:1px solid var(--border);
+      color:var(--t2);
+      transition:var(--t-std);
+    }
+    .btn-icon:hover { background:var(--brand); color:#fff; border-color:var(--brand); transform:scale(1.06); }
 
-        /* ==========================================
-           A. HERO SECTION (ULTRA PREMIUM)
-           ========================================== */
-        .hero-section {
-            position: relative;
-            min-height: 85vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            overflow: hidden;
-            padding-top: 100px;
-            background: var(--bg-base);
-        }
+    /* ============================================================
+       SCROLLBAR
+       ============================================================ */
+    ::-webkit-scrollbar { width:5px; height:5px; }
+    ::-webkit-scrollbar-track { background:transparent; }
+    ::-webkit-scrollbar-thumb { background:var(--t3); border-radius:8px; }
 
-        .hero-bg-media {
-            position: absolute;
-            inset: 0;
-            width: 100%; height: 100%;
-            object-fit: cover;
-            opacity: 0.8;
-            filter: blur(40px) brightness(0.9);
-            z-index: 0;
-        }
+    /* ============================================================
+       ANNOUNCEMENT STRIP
+       ============================================================ */
+    #nx-announce {
+      position:relative; z-index:9100;
+      background:var(--brand-grad);
+      color:#fff;
+      padding:11px 20px;
+      text-align:center;
+      font-size:12px; font-weight:700;
+      display:flex; align-items:center; justify-content:center; gap:12px;
+      overflow:hidden;
+    }
+    #nx-announce .announce-ticker {
+      display:flex; gap:6px; align-items:center;
+    }
+    #nx-announce .announce-link {
+      color:#fff; font-weight:900; text-decoration:underline;
+      text-underline-offset:2px; cursor:pointer;
+    }
+    #nx-announce .announce-close {
+      position:absolute; right:14px;
+      background:rgba(255,255,255,.2);
+      border:none; color:#fff; width:24px; height:24px;
+      border-radius:50%; cursor:pointer; font-size:11px;
+      display:flex; align-items:center; justify-content:center;
+      transition:.25s;
+    }
+    #nx-announce .announce-close:hover { background:rgba(255,255,255,.35); }
 
-        .hero-content { position: relative; z-index: 5; max-width: 900px; padding: 0 20px; }
+    /* ============================================================
+       ISLAND HEADER
+       ============================================================ */
+    #nx-header-wrap {
+      position:fixed; top:12px; left:0; width:100%;
+      z-index:9000; padding:0 4%;
+      pointer-events:none;
+    }
+    .nx-island {
+      max-width:1400px; margin:0 auto;
+      background:var(--nav-bg);
+      backdrop-filter:blur(40px) saturate(180%);
+      -webkit-backdrop-filter:blur(40px) saturate(180%);
+      border:1px solid var(--border);
+      border-radius:50px;
+      padding:10px 18px;
+      display:flex; justify-content:space-between; align-items:center;
+      box-shadow:var(--s-soft);
+      pointer-events:auto;
+      transition:box-shadow .4s, background .4s;
+    }
+    .nx-island.scrolled { box-shadow:var(--s-float); }
 
-        .hero-badge {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: var(--bg-surface); border: 1px solid var(--glass-border);
-            padding: 8px 18px; border-radius: 50px; font-size: 10px; font-weight: 800;
-            color: var(--brand-main); letter-spacing: 1.5px; text-transform: uppercase;
-            margin-bottom: 25px; box-shadow: var(--shadow-premium);
-        }
+    /* Logo */
+    .nx-logo-area { display:flex; align-items:center; gap:12px; cursor:pointer; }
+    .nx-logo-icon {
+      width:40px; height:40px; border-radius:50%;
+      background:var(--bg-surf);
+      border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      overflow:hidden;
+      box-shadow:var(--s-brand);
+      flex-shrink:0;
+    }
+    .nx-logo-icon img { width:28px; height:28px; object-fit:contain; }
+    .nx-wordmark { height:15px; object-fit:contain; }
 
-        .hero-title {
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 900; line-height: 1.05; letter-spacing: -3px;
-            color: var(--text-100); margin-bottom: 20px;
-        }
+    /* Desktop Nav Links */
+    .nx-desktop-nav {
+      display:none;
+      align-items:center; gap:4px;
+      background:var(--bg-elev);
+      padding:8px 20px; border-radius:50px;
+      border:1px solid var(--border);
+    }
+    @media(min-width:992px){ .nx-desktop-nav { display:flex; } }
+    .nx-nav-link {
+      font-size:13px; font-weight:700; color:var(--t2);
+      padding:7px 16px; border-radius:50px;
+      cursor:pointer; transition:.25s; position:relative;
+      white-space:nowrap;
+    }
+    .nx-nav-link:hover { color:var(--brand); background:var(--brand-dim); }
+    .nx-nav-link.active { color:var(--t1); background:var(--bg-surf); box-shadow:var(--s-soft); }
 
-        .hero-desc {
-            font-size: clamp(16px, 2.5vw, 19px);
-            color: var(--text-200); font-weight: 500;
-            max-width: 650px; margin: 0 auto 40px;
-        }
+    /* Header Actions */
+    .nx-header-actions { display:flex; align-items:center; gap:8px; }
+    .nx-hdr-btn {
+      width:42px; height:42px; border-radius:50%;
+      background:var(--bg-surf); border:1px solid var(--border);
+      color:var(--t1); font-size:15px;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; transition:var(--t-std); position:relative;
+    }
+    .nx-hdr-btn:hover { background:var(--bg-elev); color:var(--brand); transform:scale(1.05); }
+    .nx-cart-badge {
+      position:absolute; top:-4px; right:-4px;
+      background:var(--brand); color:#fff;
+      font-size:9px; font-weight:900;
+      width:18px; height:18px; border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      border:2px solid var(--bg-surf);
+      pointer-events:none;
+    }
+    @media(min-width:992px){ .nx-mobile-menu-btn { display:none !important; } }
 
-        .hero-btns { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
+    /* ============================================================
+       MOBILE BOTTOM DOCK
+       ============================================================ */
+    #nx-dock-wrap {
+      position:fixed; bottom:16px; left:0; width:100%;
+      display:flex; justify-content:center;
+      z-index:8500; pointer-events:none;
+    }
+    @media(min-width:992px){ #nx-dock-wrap { display:none !important; } }
+    .nx-dock {
+      background:var(--nav-bg);
+      backdrop-filter:blur(40px) saturate(180%);
+      -webkit-backdrop-filter:blur(40px) saturate(180%);
+      border:1px solid var(--border);
+      border-radius:36px;
+      height:70px;
+      display:flex; align-items:center; justify-content:space-around;
+      padding:0 8px;
+      box-shadow:var(--s-float);
+      pointer-events:auto;
+      width:92%; max-width:430px;
+    }
+    .nx-dock-item {
+      display:flex; flex-direction:column; align-items:center;
+      gap:4px; color:var(--t3); cursor:pointer;
+      transition:.38s var(--ease); flex:1;
+      padding:8px 4px; border-radius:20px; position:relative;
+    }
+    .nx-dock-item i { font-size:20px; transition:.38s var(--ease); }
+    .nx-dock-item span {
+      font-size:9px; font-weight:800; text-transform:uppercase;
+      letter-spacing:.5px;
+      opacity:0; transform:translateY(5px);
+      transition:.38s var(--ease); line-height:1;
+    }
+    .nx-dock-item.active { color:var(--brand); }
+    .nx-dock-item.active i { transform:scale(1.18); filter:drop-shadow(0 4px 14px var(--brand-glow)); }
+    .nx-dock-item.active span { opacity:1; transform:translateY(0); color:var(--t1); }
+    .nx-dock-pip {
+      position:absolute; bottom:4px;
+      width:4px; height:4px; border-radius:50%;
+      background:var(--brand);
+      box-shadow:0 0 8px var(--brand);
+      opacity:0; transition:.3s;
+    }
+    .nx-dock-item.active .nx-dock-pip { opacity:1; }
 
-        .btn {
-            padding: 20px 40px; border-radius: 50px; font-weight: 800; font-size: 14px;
-            cursor: pointer; transition: var(--transition); display: inline-flex;
-            align-items: center; gap: 12px; text-transform: uppercase; letter-spacing: 1px;
-        }
-        .btn-primary { background: var(--brand-main); color: #fff; border: none; box-shadow: 0 10px 30px var(--brand-glow); }
-        .btn-primary:hover { transform: translateY(-5px); box-shadow: 0 15px 40px var(--brand-glow); }
-        
-        .btn-outline { background: var(--bg-base); color: var(--text-100); border: 1px solid var(--glass-border); }
-        .btn-outline:hover { background: var(--bg-elevated); border-color: var(--brand-main); }
+    /* ============================================================
+       SIDE DRAWER (Off-Canvas Power Drawer)
+       ============================================================ */
+    .nx-drawer-backdrop {
+      position:fixed; inset:0;
+      background:rgba(0,0,0,.5);
+      backdrop-filter:blur(6px);
+      z-index:9800;
+      opacity:0; visibility:hidden;
+      transition:.38s;
+    }
+    .nx-drawer-backdrop.open { opacity:1; visibility:visible; }
 
-        /* ==========================================
-           B. SMART SEARCH & CATEGORIES
-           ========================================== */
-        .search-area { margin-top: -40px; position: relative; z-index: 10; padding: 0 5%; }
-        .search-island {
-            max-width: 800px; margin: 0 auto; background: var(--bg-base);
-            border: 1px solid var(--glass-border); padding: 10px 10px 10px 25px;
-            border-radius: 60px; display: flex; align-items: center; gap: 15px;
-            box-shadow: var(--shadow-premium);
-        }
-        .search-island input { flex: 1; border: none; background: transparent; font-size: 16px; font-family: inherit; font-weight: 600; color: var(--text-100); }
-        .search-island svg { color: var(--text-300); }
+    #nx-slider {
+      position:fixed; top:0; right:-100%; height:100%;
+      width:340px; max-width:88%;
+      background:var(--bg-surf);
+      border-left:1px solid var(--border);
+      z-index:9900;
+      display:flex; flex-direction:column;
+      padding:28px 22px 36px;
+      overflow-y:auto;
+      transition:.44s var(--ease);
+      box-shadow:-20px 0 60px rgba(0,0,0,.25);
+    }
+    #nx-slider.open { right:0; }
 
-        .cat-row {
-            display: flex; gap: 12px; overflow-x: auto; padding: 40px 0 10px;
-            scrollbar-width: none; justify-content: center;
-        }
-        .cat-row::-webkit-scrollbar { display: none; }
-        .cat-pill {
-            flex: 0 0 auto; background: var(--bg-surface); border: 1px solid var(--glass-border);
-            padding: 12px 24px; border-radius: 50px; font-size: 13px; font-weight: 700;
-            color: var(--text-200); cursor: pointer; transition: 0.3s;
-        }
-        .cat-pill:hover { border-color: var(--brand-main); color: var(--brand-main); transform: translateY(-3px); }
+    .nx-slider-head { display:flex; justify-content:space-between; align-items:center; margin-bottom:32px; }
+    .nx-slider-badge {
+      background:var(--brand-dim); color:var(--brand);
+      font-size:11px; font-weight:800;
+      padding:7px 14px; border-radius:50px;
+      border:1px solid rgba(255,74,23,.2);
+      display:flex; align-items:center; gap:7px;
+    }
 
-        /* ==========================================
-           C. PRODUCT GRID (ALPHA/BETA SYNCED)
-           ========================================== */
-        .section-title-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
-        .grid-main {
-            display: grid; gap: 20px;
-            grid-template-columns: repeat(2, 1fr);
-        }
-        @media (min-width: 768px) { .grid-main { grid-template-columns: repeat(3, 1fr); } }
-        @media (min-width: 1024px) { .grid-main { grid-template-columns: repeat(4, 1fr); } }
-        @media (min-width: 1400px) { .grid-main { grid-template-columns: repeat(5, 1fr); } }
+    .nx-slider-section { margin-bottom:28px; }
+    .nx-slider-label {
+      font-size:10px; font-weight:800; color:var(--t3);
+      text-transform:uppercase; letter-spacing:1.8px;
+      display:block; margin-bottom:12px; padding-left:4px;
+    }
+    .nx-slide-link {
+      display:flex; align-items:center; gap:14px;
+      padding:14px 16px; border-radius:var(--r-sm);
+      background:var(--bg-base); border:1px solid transparent;
+      font-size:14px; font-weight:600; color:var(--t1);
+      margin-bottom:7px; cursor:pointer;
+      transition:var(--t-std);
+    }
+    .nx-slide-link .sl-icon {
+      width:36px; height:36px; border-radius:10px;
+      display:flex; align-items:center; justify-content:center;
+      background:var(--bg-elev); font-size:16px; color:var(--t3);
+      transition:.3s; flex-shrink:0;
+    }
+    .nx-slide-link:hover { background:var(--bg-elev); border-color:var(--border); transform:translateX(5px); }
+    .nx-slide-link:hover .sl-icon { background:var(--brand-dim); color:var(--brand); }
+    .nx-slide-link .sl-badge {
+      margin-left:auto;
+      font-size:9px; font-weight:800;
+      padding:3px 9px; border-radius:20px;
+      background:var(--brand-dim); color:var(--brand);
+    }
 
-        .p-card {
-            background: var(--bg-surface); border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md); padding: 15px; transition: 0.4s;
-            cursor: pointer; display: flex; flex-direction: column; position: relative;
-        }
-        .p-card:hover { transform: translateY(-10px); border-color: var(--brand-main); box-shadow: var(--shadow-premium); }
-        
-        .p-img-box { width: 100%; aspect-ratio: 1/1; border-radius: 18px; overflow: hidden; margin-bottom: 15px; background: var(--bg-elevated); }
-        .p-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s; }
-        .p-card:hover .p-img { transform: scale(1.1); }
+    /* ============================================================
+       CART DRAWER
+       ============================================================ */
+    #nx-cart-drawer {
+      position:fixed; top:0; right:-100%; height:100%;
+      width:380px; max-width:92%;
+      background:var(--bg-surf);
+      border-left:1px solid var(--border);
+      z-index:9901;
+      display:flex; flex-direction:column;
+      padding:0;
+      transition:.44s var(--ease);
+      box-shadow:-20px 0 60px rgba(0,0,0,.25);
+    }
+    #nx-cart-drawer.open { right:0; }
+    .nx-cart-head {
+      padding:24px 24px 20px;
+      border-bottom:1px solid var(--border);
+      display:flex; justify-content:space-between; align-items:center;
+      flex-shrink:0;
+    }
+    .nx-cart-title { font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:800; display:flex; align-items:center; gap:10px; }
+    .nx-cart-title i { color:var(--brand); }
+    .nx-cart-items { flex:1; overflow-y:auto; padding:20px 24px; }
+    .nx-cart-item {
+      display:flex; align-items:center; gap:14px;
+      background:var(--bg-base); border:1px solid var(--border);
+      border-radius:var(--r-md); padding:14px;
+      margin-bottom:12px; transition:var(--t-std);
+    }
+    .nx-cart-item img { width:48px; height:48px; border-radius:10px; object-fit:cover; flex-shrink:0; }
+    .nx-cart-item-info { flex:1; min-width:0; }
+    .nx-cart-item-title { font-size:13px; font-weight:700; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .nx-cart-item-price { font-family:'Space Grotesk',sans-serif; font-size:13px; color:var(--brand); font-weight:800; margin-top:3px; }
+    .nx-cart-del {
+      width:30px; height:30px; border-radius:50%;
+      background:rgba(239,68,68,.1); border:none;
+      color:var(--danger); cursor:pointer;
+      display:flex; align-items:center; justify-content:center;
+      font-size:11px; transition:.25s; flex-shrink:0;
+    }
+    .nx-cart-del:hover { background:var(--danger); color:#fff; }
+    .nx-cart-foot {
+      padding:20px 24px 28px;
+      border-top:1px solid var(--border);
+      flex-shrink:0;
+    }
+    .nx-cart-subtotal { display:flex; justify-content:space-between; font-size:18px; font-weight:800; margin-bottom:16px; font-family:'Space Grotesk',sans-serif; }
+    .nx-cart-subtotal span:last-child { color:var(--brand); }
+    .nx-cart-empty { text-align:center; padding:50px 20px; color:var(--t3); }
+    .nx-cart-empty i { font-size:42px; margin-bottom:12px; display:block; }
+    .nx-cart-empty p { font-size:14px; font-weight:600; }
 
-        .p-badge { position: absolute; top: 25px; left: 25px; background: var(--brand-main); color: #fff; font-size: 9px; font-weight: 900; padding: 4px 10px; border-radius: 8px; z-index: 2; }
-        
-        .p-info h3 { font-size: 14px; font-weight: 700; margin-bottom: 8px; height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-        .p-price-row { display: flex; align-items: center; justify-content: space-between; margin-top: auto; padding-top: 15px; border-top: 1px solid var(--glass-border); }
-        .p-price { font-size: 18px; font-weight: 800; color: var(--text-100); }
+    /* ============================================================
+       TOAST NOTIFICATIONS
+       ============================================================ */
+    #nx-toast-wrap {
+      position:fixed; bottom:96px; left:50%;
+      transform:translateX(-50%);
+      z-index:99999; display:flex; flex-direction:column; gap:8px;
+      pointer-events:none; width:max-content; max-width:90vw;
+    }
+    .nx-toast {
+      background:var(--bg-surf);
+      border:1px solid var(--border);
+      border-radius:50px;
+      padding:13px 22px;
+      box-shadow:var(--s-float);
+      color:var(--t1);
+      font-size:13px; font-weight:700;
+      display:flex; align-items:center; gap:9px;
+      pointer-events:auto;
+      animation:toastIn .4s var(--ease) forwards;
+      white-space:nowrap;
+    }
+    .nx-toast.exit { animation:toastOut .35s var(--ease) forwards; }
+    .nx-toast i { color:var(--brand); font-size:15px; }
+    @keyframes toastIn  { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+    @keyframes toastOut { to   { opacity:0; transform:translateY(14px); } }
 
-        /* ==========================================
-           D. B2B / AGENCY BANNER
-           ========================================== */
-        .b2b-island {
-            background: linear-gradient(135deg, var(--brand-main) 0%, #000 160%);
-            border-radius: var(--radius-lg); padding: 60px; display: flex;
-            align-items: center; justify-content: space-between; flex-wrap: wrap;
-            gap: 40px; margin: 80px 0; color: #fff; position: relative; overflow: hidden;
-        }
-        .b2b-island::after { content: '\f201'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; right: -5%; bottom: -20%; font-size: 250px; opacity: 0.1; transform: rotate(-15deg); }
+    /* ============================================================
+       SKELETON LOADING
+       ============================================================ */
+    @keyframes shimmer {
+      0%   { background-position:-600px 0; }
+      100% { background-position:600px 0; }
+    }
+    .skeleton {
+      background:linear-gradient(90deg, var(--bg-elev) 0%, var(--bg-surf) 50%, var(--bg-elev) 100%);
+      background-size:1200px 100%;
+      animation:shimmer 1.6s linear infinite;
+      border-radius:8px;
+    }
+    .skel-card { height:280px; border-radius:var(--r-md); }
+    .skel-text { height:14px; margin-bottom:8px; }
+    .skel-text.sm { width:60%; }
 
-        /* ==========================================
-           E. TESTIMONIAL MARQUEE (SLOW MOTION)
-           ========================================== */
-        .marquee-container { overflow: hidden; padding: 40px 0; position: relative; }
-        .marquee-track { display: flex; gap: 20px; width: max-content; animation: scrollMarquee 60s linear infinite; }
-        .t-card { width: 300px; background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 25px; border-radius: var(--radius-md); box-shadow: var(--shadow-premium); }
-        @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(calc(-50% - 10px)); } }
+    /* ============================================================
+       PAGE CONTAINER
+       ============================================================ */
+    .nx-page { padding-top:0; }
 
-    </style>
+    /* ============================================================
+       SECTION COMMONS
+       ============================================================ */
+    .nx-sec { padding:80px 0; }
+    .nx-sec-sm { padding:50px 0; }
+    .nx-wrap { width:100%; max-width:1380px; margin:0 auto; padding:0 22px; }
+    @media(min-width:768px) { .nx-wrap { padding:0 36px; } }
+
+    .nx-eyebrow {
+      display:inline-flex; align-items:center; gap:7px;
+      font-size:11px; font-weight:800; letter-spacing:2px; text-transform:uppercase;
+      color:var(--brand); background:var(--brand-dim);
+      border:1px solid rgba(255,74,23,.2);
+      padding:5px 14px; border-radius:50px;
+      margin-bottom:14px;
+    }
+    .nx-sec-title {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(24px,4.5vw,42px);
+      font-weight:800; color:var(--t1);
+      letter-spacing:-1px; line-height:1.1;
+      margin:0 0 10px;
+    }
+    .nx-sec-sub {
+      font-size:15px; color:var(--t2); font-weight:500; line-height:1.7;
+    }
+    .nx-sec-head { display:flex; align-items:flex-end; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-bottom:32px; }
+    .nx-btn-ghost-text {
+      background:none; border:none; color:var(--brand);
+      font-size:13px; font-weight:700;
+      display:inline-flex; align-items:center; gap:6px; cursor:pointer;
+      transition:.25s;
+    }
+    .nx-btn-ghost-text:hover { gap:10px; }
+
+    /* ============================================================
+       HERO SECTION
+       ============================================================ */
+    #nx-hero {
+      position:relative;
+      min-height:100svh;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      overflow:hidden;
+      text-align:center;
+      background:#000;
+      margin-bottom:0;
+      border-radius:0 0 48px 48px;
+    }
+    .nx-hero-bg {
+      position:absolute; inset:0;
+      background:#000;
+      z-index:0;
+    }
+    .nx-hero-video {
+      width:100%; height:100%; object-fit:cover;
+      opacity:.9;
+      filter:blur(28px) brightness(.65) saturate(1.2);
+      transform:scale(1.05);
+    }
+    .nx-hero-overlay {
+      position:absolute; inset:0; z-index:1;
+      background:linear-gradient(180deg,rgba(0,0,0,.18) 0%,rgba(0,0,0,.05) 55%,rgba(0,0,0,.82) 100%);
+    }
+    .nx-hero-content {
+      position:relative; z-index:5;
+      width:100%; max-width:860px;
+      padding:130px 24px 60px;
+    }
+
+    /* Kinetic badge */
+    .nx-hero-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(255,255,255,.1);
+      border:1px solid rgba(255,255,255,.2);
+      backdrop-filter:blur(10px);
+      padding:7px 18px; border-radius:50px;
+      font-size:12px; font-weight:700; color:#fff;
+      margin-bottom:28px;
+    }
+    .nx-hero-badge .badge-dot {
+      width:7px; height:7px; border-radius:50%;
+      background:#10b981;
+      box-shadow:0 0 10px #10b981;
+      animation:pulse-dot 2s ease-in-out infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { box-shadow:0 0 6px #10b981; }
+      50% { box-shadow:0 0 18px #10b981; }
+    }
+
+    /* Headline */
+    .nx-hero-hl {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(36px,9vw,88px);
+      font-weight:900;
+      color:#fff;
+      letter-spacing:-3px; line-height:.95;
+      margin:0 0 22px;
+      text-shadow:0 4px 40px rgba(0,0,0,.3);
+    }
+    .nx-rotor-wrap {
+      display:inline-block;
+      min-width:220px;
+      height:1.05em; overflow:hidden;
+      vertical-align:bottom; position:relative;
+    }
+    .nx-rotor-item {
+      display:block;
+      color:#FF4A17;
+      text-shadow:0 0 40px rgba(255,74,23,.5);
+      position:absolute; left:0; width:100%;
+      text-align:center;
+      opacity:0; transform:translateY(40px);
+      transition:.55s var(--ease);
+    }
+    .nx-rotor-item.r-current { opacity:1; transform:translateY(0); }
+    .nx-rotor-item.r-exit    { opacity:0; transform:translateY(-40px); }
+
+    .nx-hero-desc {
+      font-size:clamp(15px,2.5vw,19px);
+      font-weight:600; color:rgba(255,255,255,.85);
+      line-height:1.65; max-width:580px; margin:0 auto 38px;
+    }
+    .nx-hero-ctas { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; margin-bottom:52px; }
+
+    /* Trust chips */
+    .nx-trust-grid {
+      display:grid; grid-template-columns:repeat(2,1fr); gap:10px;
+      width:100%;
+    }
+    @media(min-width:480px){ .nx-trust-grid { grid-template-columns:repeat(4,1fr); } }
+    .nx-trust-chip {
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.15);
+      backdrop-filter:blur(12px);
+      border-radius:18px; padding:16px 10px;
+      text-align:center;
+    }
+    .nx-trust-chip .tc-val {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(20px,4vw,28px); font-weight:900;
+      color:#fff; line-height:1;
+    }
+    .nx-trust-chip .tc-val.grad { background:var(--brand-grad); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+    .nx-trust-chip .tc-lbl {
+      font-size:10px; font-weight:800; color:rgba(255,255,255,.55);
+      text-transform:uppercase; letter-spacing:1px; margin-top:5px;
+    }
+
+    /* Scroll indicator */
+    .nx-scroll-hint {
+      position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+      z-index:6; display:flex; flex-direction:column; align-items:center; gap:6px;
+      color:rgba(255,255,255,.4); font-size:11px; font-weight:700;
+      text-transform:uppercase; letter-spacing:1.5px;
+      animation:bounceY 2.5s ease-in-out infinite;
+    }
+    @keyframes bounceY { 0%,100%{transform:translateX(-50%) translateY(0);} 50%{transform:translateX(-50%) translateY(8px);} }
+
+    /* ============================================================
+       SEARCH BAR
+       ============================================================ */
+    #nx-search-dock {
+      position:relative; z-index:8;
+      margin-top:-28px;
+      padding:0 22px;
+    }
+    .nx-searchbar {
+      max-width:740px; margin:0 auto;
+      background:var(--bg-surf);
+      border:1.5px solid var(--border);
+      border-radius:50px;
+      padding:8px 8px 8px 22px;
+      display:flex; align-items:center; gap:10px;
+      box-shadow:0 16px 48px rgba(0,0,0,.12);
+      transition:border-color .25s, box-shadow .25s;
+    }
+    .nx-searchbar:focus-within {
+      border-color:var(--brand);
+      box-shadow:0 16px 48px var(--brand-glow);
+    }
+    .nx-searchbar i { color:var(--t3); font-size:16px; flex-shrink:0; }
+    .nx-searchbar input {
+      flex:1; border:none; background:transparent;
+      font-family:inherit; font-size:15px; color:var(--t1);
+      min-height:42px;
+    }
+    .nx-searchbar input::placeholder { color:var(--t3); }
+    .nx-search-filter {
+      display:none; /* shown on tablet+ */
+      align-items:center; gap:6px;
+    }
+    @media(min-width:640px){ .nx-search-filter { display:flex; } }
+    .nx-search-chip {
+      font-size:11px; font-weight:800; color:var(--t2);
+      background:var(--bg-elev); border:1px solid var(--border);
+      padding:6px 12px; border-radius:20px; cursor:pointer; transition:.25s;
+      white-space:nowrap;
+    }
+    .nx-search-chip.active, .nx-search-chip:hover { background:var(--brand-dim); color:var(--brand); border-color:rgba(255,74,23,.25); }
+
+    /* ============================================================
+       CATEGORY PILLS
+       ============================================================ */
+    #nx-cats {
+      display:flex; gap:10px; overflow-x:auto;
+      padding:36px 22px 8px;
+      scrollbar-width:none;
+    }
+    #nx-cats::-webkit-scrollbar { display:none; }
+    .nx-cat-pill {
+      flex:0 0 auto; display:flex; align-items:center; gap:9px;
+      background:var(--bg-surf); border:1.5px solid var(--border);
+      padding:10px 20px; border-radius:50px;
+      font-size:13px; font-weight:700; color:var(--t2);
+      cursor:pointer; box-shadow:var(--s-soft);
+      transition:var(--t-std); white-space:nowrap;
+    }
+    .nx-cat-pill:hover, .nx-cat-pill.nx-cat-active {
+      border-color:var(--brand); color:var(--brand);
+      background:var(--brand-dim); transform:translateY(-2px);
+    }
+    .nx-cat-icon {
+      width:28px; height:28px; border-radius:8px;
+      display:flex; align-items:center; justify-content:center;
+      background:var(--bg-elev); font-size:13px; transition:.25s;
+    }
+    .nx-cat-pill:hover .nx-cat-icon, .nx-cat-pill.nx-cat-active .nx-cat-icon {
+      background:rgba(255,74,23,.15); color:var(--brand);
+    }
+
+    /* ============================================================
+       PRODUCT GRID (Trending Assets)
+       ============================================================ */
+    .nx-prod-grid {
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:14px;
+    }
+    @media(min-width:600px)  { .nx-prod-grid { grid-template-columns:repeat(3,1fr); } }
+    @media(min-width:860px)  { .nx-prod-grid { grid-template-columns:repeat(4,1fr); } }
+    @media(min-width:1100px) { .nx-prod-grid { grid-template-columns:repeat(5,1fr); } }
+
+    .nx-prod-card {
+      background:var(--bg-surf);
+      border:1.5px solid var(--border);
+      border-radius:var(--r-md);
+      padding:10px; display:flex; flex-direction:column;
+      cursor:pointer;
+      box-shadow:var(--s-soft);
+      transition:var(--t-std);
+      will-change:transform;
+      position:relative;
+    }
+    .nx-prod-card:hover {
+      transform:translateY(-7px);
+      box-shadow:var(--s-float);
+      border-color:var(--brand);
+    }
+    /* Edition glow variants */
+    .nx-prod-card:hover.glow-orange { box-shadow:0 20px 50px rgba(255,74,23,.22); }
+    .nx-prod-card:hover.glow-purple { box-shadow:0 20px 50px rgba(139,92,246,.22); }
+
+    .nx-prod-img-wrap {
+      width:100%; aspect-ratio:1;
+      border-radius:16px; overflow:hidden;
+      background:var(--bg-elev); margin-bottom:10px;
+      position:relative;
+    }
+    .nx-prod-img {
+      width:100%; height:100%; object-fit:cover;
+      transition:.5s var(--ease);
+    }
+    .nx-prod-card:hover .nx-prod-img { transform:scale(1.06); }
+    .nx-prod-badge {
+      position:absolute; top:9px; left:9px;
+      background:var(--brand-grad);
+      color:#fff; font-size:9px; font-weight:900;
+      padding:4px 10px; border-radius:6px;
+      letter-spacing:.5px;
+    }
+    .nx-prod-badge.badge-new { background:linear-gradient(135deg,#6366f1,#8b5cf6); }
+    .nx-prod-badge.badge-hot { background:linear-gradient(135deg,#10b981,#059669); }
+
+    .nx-prod-wishlist {
+      position:absolute; top:9px; right:9px;
+      width:30px; height:30px; border-radius:50%;
+      background:rgba(0,0,0,.35); border:none;
+      color:#fff; font-size:12px;
+      display:flex; align-items:center; justify-content:center;
+      cursor:pointer; opacity:0; transition:.25s;
+    }
+    .nx-prod-card:hover .nx-prod-wishlist { opacity:1; }
+    .nx-prod-wishlist:hover { background:var(--brand); }
+
+    .nx-prod-meta { display:flex; justify-content:space-between; font-size:11px; font-weight:700; color:var(--t3); margin-bottom:5px; }
+    .nx-prod-stars i { color:var(--gold); font-size:10px; }
+    .nx-prod-title {
+      font-size:13px; font-weight:700; color:var(--t1);
+      display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical;
+      overflow:hidden; margin-bottom:8px; min-height:34px; line-height:1.3;
+    }
+
+    /* Price row with USD converter */
+    .nx-prod-price-row { display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; }
+    .nx-prod-price { font-family:'Space Grotesk',sans-serif; font-size:18px; font-weight:900; color:var(--t1); }
+    .nx-prod-usd { font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--t3); font-weight:700; }
+
+    .nx-prod-actions { display:flex; gap:8px; margin-top:auto; }
+    .nx-prod-cart-btn {
+      width:40px; height:40px; border-radius:11px;
+      background:var(--bg-elev); border:1px solid var(--border);
+      color:var(--t1); display:flex; align-items:center; justify-content:center;
+      font-size:14px; cursor:pointer; transition:var(--t-std); flex-shrink:0;
+    }
+    .nx-prod-cart-btn:hover { background:var(--brand); color:#fff; border-color:var(--brand); transform:scale(1.05); }
+    .nx-prod-buy-btn {
+      flex:1; height:40px; border-radius:11px;
+      background:var(--t1); color:var(--bg-base);
+      font-size:11px; font-weight:900; border:none; cursor:pointer;
+      transition:var(--t-std); letter-spacing:.5px;
+    }
+    .nx-prod-buy-btn:hover { background:var(--brand); transform:scale(1.02); }
+
+    /* ============================================================
+       B2B AGENCY BANNER
+       ============================================================ */
+    #nx-b2b {
+      padding:0 22px;
+      margin:20px auto; max-width:1400px;
+    }
+    .nx-b2b-card {
+      background:linear-gradient(135deg,#FF4A17 0%,#D8380C 50%,#C23200 100%);
+      border-radius:40px;
+      padding:56px 6%;
+      display:flex; flex-wrap:wrap; gap:40px;
+      align-items:center; justify-content:space-between;
+      overflow:hidden; position:relative;
+    }
+    .nx-b2b-card::before {
+      content:'';
+      position:absolute; top:-80px; right:-80px;
+      width:300px; height:300px; border-radius:50%;
+      background:rgba(255,255,255,.05);
+    }
+    .nx-b2b-card::after {
+      content:'';
+      position:absolute; bottom:-60px; left:20%;
+      width:200px; height:200px; border-radius:50%;
+      background:rgba(255,255,255,.04);
+    }
+    .nx-b2b-text { flex:1.5; min-width:260px; position:relative; z-index:2; }
+    .nx-b2b-eyebrow {
+      display:inline-flex; align-items:center; gap:8px;
+      background:rgba(255,255,255,.18);
+      border:1px solid rgba(255,255,255,.25);
+      padding:7px 16px; border-radius:50px;
+      font-size:11px; font-weight:900; color:#fff;
+      margin-bottom:22px; letter-spacing:1.5px; text-transform:uppercase;
+    }
+    .nx-b2b-title {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:clamp(26px,5vw,52px);
+      font-weight:900; color:#fff; letter-spacing:-1.5px;
+      margin:0 0 16px; line-height:1;
+    }
+    .nx-b2b-desc { color:rgba(255,255,255,.8); font-size:16px; font-weight:500; margin-bottom:34px; line-height:1.6; }
+    .nx-b2b-perks { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:34px; }
+    .nx-b2b-perk {
+      display:flex; align-items:center; gap:7px;
+      background:rgba(255,255,255,.12); border:1px solid rgba(255,255,255,.2);
+      padding:8px 14px; border-radius:50px;
+      font-size:12px; font-weight:700; color:#fff;
+    }
+    .nx-b2b-perk i { font-size:12px; }
+    .nx-b2b-media { flex:1; min-width:200px; text-align:center; position:relative; z-index:2; }
+    .nx-b2b-logo-3d {
+      max-width:220px; margin:0 auto;
+      filter:drop-shadow(0 30px 60px rgba(0,0,0,.5)) drop-shadow(0 0 40px rgba(255,140,0,.4));
+      animation:float3d 5s ease-in-out infinite;
+      will-change:transform;
+    }
+    @keyframes float3d {
+      0%,100%{ transform:translateY(0) rotate(-3deg); }
+      50%{ transform:translateY(-18px) rotate(3deg); }
+    }
+
+    /* ============================================================
+       FREEBIES VAULT
+       ============================================================ */
+    .nx-vault-grid {
+      display:grid;
+      grid-template-columns:1fr;
+      gap:16px;
+    }
+    @media(min-width:580px)  { .nx-vault-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(min-width:960px)  { .nx-vault-grid { grid-template-columns:repeat(3,1fr); } }
+
+    .nx-vault-card {
+      position:relative; border-radius:var(--r-md); overflow:hidden;
+      aspect-ratio:4/3; cursor:pointer;
+      background:var(--bg-elev); border:1.5px solid var(--border);
+      transition:var(--t-std); will-change:transform;
+    }
+    .nx-vault-card:hover { transform:translateY(-6px); border-color:var(--brand); }
+    .nx-vault-card img {
+      position:absolute; inset:0; width:100%; height:100%;
+      object-fit:cover; z-index:1;
+      transition:transform .5s var(--ease);
+    }
+    .nx-vault-card:hover img { transform:scale(1.08); }
+    .nx-vault-overlay {
+      position:absolute; inset:0; z-index:2;
+      background:linear-gradient(180deg,rgba(0,0,0,0) 20%,rgba(0,0,0,.85) 100%);
+      display:flex; flex-direction:column; justify-content:flex-end; padding:20px;
+    }
+    .nx-vault-cat {
+      display:inline-block; background:var(--brand);
+      color:#fff; font-size:9px; font-weight:900;
+      padding:4px 11px; border-radius:6px;
+      text-transform:uppercase; letter-spacing:1px;
+      align-self:flex-start; margin-bottom:8px;
+    }
+    .nx-vault-name { color:#fff; font-weight:800; font-size:17px; margin-bottom:10px; line-height:1.2; }
+    .nx-vault-lock {
+      display:flex; align-items:center; gap:8px;
+      background:rgba(0,0,0,.55); border:1px solid rgba(255,255,255,.2);
+      padding:8px 14px; border-radius:50px;
+      color:rgba(255,255,255,.75); font-size:11px; font-weight:700;
+      backdrop-filter:blur(8px); align-self:flex-start;
+      cursor:pointer; transition:.25s;
+    }
+    .nx-vault-lock:hover { background:var(--brand); color:#fff; border-color:var(--brand); }
+    .nx-vault-lock.unlocked { background:rgba(16,185,129,.25); border-color:rgba(16,185,129,.4); color:#10b981; }
+
+    /* Share progress bar */
+    .nx-share-bar { width:100%; height:4px; background:rgba(255,255,255,.2); border-radius:4px; margin-top:10px; overflow:hidden; }
+    .nx-share-fill { height:100%; background:var(--brand-grad); border-radius:4px; transition:.5s var(--ease); }
+
+    /* ============================================================
+       BLOG / ACADEMY GRID
+       ============================================================ */
+    .nx-blog-grid {
+      display:grid; grid-template-columns:1fr; gap:16px;
+    }
+    @media(min-width:640px)  { .nx-blog-grid { grid-template-columns:repeat(2,1fr); } }
+    @media(min-width:960px)  { .nx-blog-grid { grid-template-columns:repeat(3,1fr); } }
+
+    .nx-blog-card {
+      background:#0a0a0a; border:1px solid rgba(255,255,255,.07);
+      border-radius:var(--r-md); overflow:hidden; cursor:pointer;
+      display:flex; flex-direction:column; transition:var(--t-std); will-change:transform;
+    }
+    .nx-blog-card:hover { transform:translateY(-6px); border-color:var(--brand); box-shadow:0 20px 50px rgba(0,0,0,.4); }
+    [data-theme="dark"] .nx-blog-card { background:var(--bg-elev); }
+    .nx-blog-img-wrap { width:100%; aspect-ratio:16/9; overflow:hidden; position:relative; }
+    .nx-blog-img { width:100%; height:100%; object-fit:cover; transition:.5s; }
+    .nx-blog-card:hover .nx-blog-img { transform:scale(1.06); }
+    .nx-blog-tag {
+      position:absolute; top:12px; left:12px; z-index:2;
+      background:var(--brand); color:#fff;
+      font-size:9px; font-weight:900; padding:4px 10px; border-radius:6px;
+      text-transform:uppercase; letter-spacing:1px;
+    }
+    .nx-blog-body { padding:22px; display:flex; flex-direction:column; flex:1; }
+    .nx-blog-meta { display:flex; gap:12px; font-size:11px; font-weight:700; color:rgba(255,255,255,.35); margin-bottom:10px; }
+    [data-theme="dark"] .nx-blog-meta { color:var(--t3); }
+    .nx-blog-title { font-family:'Space Grotesk',sans-serif; font-size:17px; font-weight:700; color:#fff; line-height:1.3; margin-bottom:12px; }
+    [data-theme="dark"] .nx-blog-title { color:var(--t1); }
+    .nx-blog-excerpt { font-size:13px; color:rgba(255,255,255,.5); line-height:1.65; flex:1; }
+    [data-theme="dark"] .nx-blog-excerpt { color:var(--t2); }
+    .nx-blog-read-more { display:inline-flex; align-items:center; gap:6px; color:var(--brand); font-size:12px; font-weight:800; margin-top:14px; transition:.25s; }
+    .nx-blog-read-more:hover { gap:10px; }
+
+    /* ============================================================
+       AMBASSADOR BUBBLE RING
+       ============================================================ */
+    #nx-ambassadors { padding:70px 22px; text-align:center; }
+    .nx-bubble-ring {
+      position:relative;
+      width:280px; height:280px;
+      margin:40px auto 0;
+    }
+    @media(min-width:640px){ .nx-bubble-ring { width:360px; height:360px; } }
+    .nx-bubble-ring .ring-center {
+      position:absolute; inset:0;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+    }
+    .nx-bubble-ring .ring-center img { width:60px; height:60px; border-radius:50%; object-fit:cover; border:3px solid var(--brand); }
+    .nx-bubble-ring .ring-center span { font-size:11px; font-weight:800; color:var(--brand); margin-top:6px; }
+    .nx-bubble-orbit {
+      position:absolute; inset:0;
+      animation:orbitSpin 18s linear infinite;
+    }
+    @keyframes orbitSpin { from{transform:rotate(0)} to{transform:rotate(360deg)} }
+    .nx-bubble {
+      position:absolute;
+      width:52px; height:52px;
+      border-radius:50%;
+      border:2.5px solid var(--border);
+      overflow:hidden;
+      top:50%; left:50%;
+      background:var(--bg-elev);
+      transition:.3s;
+    }
+    .nx-bubble img { width:100%; height:100%; object-fit:cover; border-radius:50%; }
+    .nx-bubble:hover { border-color:var(--brand); box-shadow:0 0 20px var(--brand-glow); z-index:10; }
+    /* Positions (8 bubbles) */
+    .nx-bubble:nth-child(1){ transform:rotate(0deg) translateX(130px) rotate(0deg) translate(-50%,-50%); }
+    .nx-bubble:nth-child(2){ transform:rotate(45deg) translateX(130px) rotate(-45deg) translate(-50%,-50%); }
+    .nx-bubble:nth-child(3){ transform:rotate(90deg) translateX(130px) rotate(-90deg) translate(-50%,-50%); }
+    .nx-bubble:nth-child(4){ transform:rotate(135deg) translateX(130px) rotate(-135deg) translate(-50%,-50%); }
+    .nx-bubble:nth-child(5){ transform:rotate(180deg) translateX(130px) rotate(-180deg) translate(-50%,-50%); }
+    .nx-bubble:nth-child(6){ transform:rotate(225deg) translateX(130px) rotate(-225deg) translate(-50%,-50%); }
+    .nx-bubble:nth-child(7){ transform:rotate(270deg) translateX(130px) rotate(-270deg) translate(-50%,-50%); }
+    .nx-bubble:nth-child(8){ transform:rotate(315deg) translateX(130px) rotate(-315deg) translate(-50%,-50%); }
+    @media(min-width:640px){
+      .nx-bubble:nth-child(1){ transform:rotate(0deg) translateX(165px) rotate(0deg) translate(-50%,-50%); }
+      .nx-bubble:nth-child(2){ transform:rotate(45deg) translateX(165px) rotate(-45deg) translate(-50%,-50%); }
+      .nx-bubble:nth-child(3){ transform:rotate(90deg) translateX(165px) rotate(-90deg) translate(-50%,-50%); }
+      .nx-bubble:nth-child(4){ transform:rotate(135deg) translateX(165px) rotate(-135deg) translate(-50%,-50%); }
+      .nx-bubble:nth-child(5){ transform:rotate(180deg) translateX(165px) rotate(-180deg) translate(-50%,-50%); }
+      .nx-bubble:nth-child(6){ transform:rotate(225deg) translateX(165px) rotate(-225deg) translate(-50%,-50%); }
+      .nx-bubble:nth-child(7){ transform:rotate(270deg) translateX(165px) rotate(-270deg) translate(-50%,-50%); }
+      .nx-bubble:nth-child(8){ transform:rotate(315deg) translateX(165px) rotate(-315deg) translate(-50%,-50%); }
+    }
+
+    /* ============================================================
+       TESTIMONIAL MARQUEE (Dual-Row, Ultra-Slow)
+       ============================================================ */
+    #nx-testimonials { overflow:hidden; padding:30px 0 0; }
+    .nx-marq-row { display:flex; gap:14px; width:max-content; padding-bottom:14px; }
+    .nx-marq-row.row-a { animation:marqueeA 160s linear infinite; }
+    .nx-marq-row.row-b { animation:marqueeB 190s linear infinite; }
+    @keyframes marqueeA { from{transform:translateX(0)} to{transform:translateX(calc(-50% - 7px))} }
+    @keyframes marqueeB { from{transform:translateX(calc(-50% - 7px))} to{transform:translateX(0)} }
+    #nx-testimonials:hover .nx-marq-row { animation-play-state:paused; }
+    .nx-review-card {
+      width:280px; flex-shrink:0;
+      background:var(--bg-surf); border:1.5px solid var(--border);
+      border-radius:var(--r-md); padding:18px;
+      box-shadow:var(--s-soft);
+    }
+    .nx-review-head { display:flex; align-items:center; gap:10px; margin-bottom:10px; }
+    .nx-review-ava {
+      width:38px; height:38px; border-radius:50%;
+      background:var(--brand-dim); display:flex; align-items:center; justify-content:center;
+      font-weight:900; font-size:14px; color:var(--brand); flex-shrink:0;
+    }
+    .nx-review-name { font-size:13px; font-weight:800; color:var(--t1); }
+    .nx-review-src { font-size:10px; font-weight:700; color:var(--t3); display:flex; align-items:center; gap:4px; margin-top:2px; }
+    .nx-review-stars i { color:var(--gold); font-size:11px; }
+    .nx-review-text { font-size:12px; color:var(--t2); line-height:1.7; }
+    .nx-review-verified { color:var(--success); font-size:10px; font-weight:700; display:flex; align-items:center; gap:4px; margin-top:8px; }
+
+    /* ============================================================
+       FAQ ACCORDION
+       ============================================================ */
+    #nx-faq { background:var(--bg-base); }
+    .nx-faq-wrap { max-width:760px; margin:0 auto; }
+    .nx-faq-item {
+      background:var(--bg-surf); border:1.5px solid var(--border);
+      border-radius:var(--r-md); margin-bottom:10px; overflow:hidden;
+      transition:border-color .3s;
+    }
+    .nx-faq-item.open { border-color:var(--brand); }
+    .nx-faq-q {
+      width:100%; background:none; border:none; text-align:left;
+      padding:20px 24px; cursor:pointer;
+      font-family:'Space Grotesk',sans-serif;
+      font-size:16px; font-weight:700; color:var(--t1);
+      display:flex; justify-content:space-between; align-items:center; gap:16px;
+      transition:.25s;
+    }
+    .nx-faq-q:hover { color:var(--brand); }
+    .nx-faq-icon { width:26px; height:26px; border-radius:50%; background:var(--bg-elev); display:flex; align-items:center; justify-content:center; font-size:12px; flex-shrink:0; transition:.35s; }
+    .nx-faq-item.open .nx-faq-icon { background:var(--brand-dim); color:var(--brand); transform:rotate(45deg); }
+    .nx-faq-a {
+      max-height:0; overflow:hidden;
+      transition:max-height .45s var(--ease), padding .3s;
+      padding:0 24px;
+    }
+    .nx-faq-item.open .nx-faq-a { max-height:400px; padding:0 24px 22px; }
+    .nx-faq-a p { color:var(--t2); font-size:14px; line-height:1.78; }
+
+    /* ============================================================
+       NEWSLETTER STRIP
+       ============================================================ */
+    .nx-nl-strip {
+      background:linear-gradient(135deg,var(--bg-surf),var(--bg-elev));
+      border:1.5px solid var(--border);
+      border-radius:36px; padding:54px 36px;
+      text-align:center;
+    }
+    .nx-nl-form { display:flex; gap:10px; justify-content:center; flex-wrap:wrap; margin-top:28px; }
+    .nx-nl-input {
+      background:var(--bg-base); border:1.5px solid var(--border);
+      padding:14px 24px; border-radius:50px;
+      color:var(--t1); font-family:inherit; font-size:15px;
+      min-width:260px; flex:1; max-width:320px;
+      transition:.25s;
+    }
+    .nx-nl-input:focus { border-color:var(--brand); outline:none; box-shadow:0 0 0 3px var(--brand-dim); }
+
+    /* ============================================================
+       RECENTLY VIEWED
+       ============================================================ */
+    #nx-recent-viewed { padding:50px 0; }
+    .nx-rv-scroll {
+      display:flex; gap:12px; overflow-x:auto;
+      padding:10px 22px; scrollbar-width:none;
+    }
+    .nx-rv-scroll::-webkit-scrollbar { display:none; }
+    .nx-rv-item {
+      flex:0 0 140px; background:var(--bg-surf);
+      border:1.5px solid var(--border); border-radius:var(--r-sm);
+      padding:10px; cursor:pointer; transition:var(--t-std);
+    }
+    .nx-rv-item:hover { border-color:var(--brand); transform:translateY(-3px); }
+    .nx-rv-img { width:100%; aspect-ratio:1; border-radius:10px; object-fit:cover; margin-bottom:8px; }
+    .nx-rv-title { font-size:12px; font-weight:700; color:var(--t1); line-height:1.3; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; }
+    .nx-rv-price { font-size:12px; font-weight:900; color:var(--brand); margin-top:4px; font-family:'Space Grotesk',sans-serif; }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    #nx-footer {
+      background:var(--bg-elev);
+      border-top:1px solid var(--border);
+      padding:100px 22px 50px;
+      margin-top:100px;
+    }
+    .nx-footer-grid {
+      display:grid; gap:60px;
+      grid-template-columns:1fr;
+      max-width:1380px; margin:0 auto;
+    }
+    @media(min-width:768px) { .nx-footer-grid { grid-template-columns:2.5fr 1fr 1fr 1.5fr; } }
+    .nx-footer-brand img { height:20px; margin-bottom:22px; }
+    .nx-footer-brand p { color:var(--t2); font-size:14px; line-height:1.7; max-width:320px; }
+    .nx-footer-socials { display:flex; gap:10px; margin-top:22px; }
+    .nx-soc-btn {
+      width:40px; height:40px; border-radius:50%;
+      background:var(--bg-surf); border:1px solid var(--border);
+      display:flex; align-items:center; justify-content:center;
+      color:var(--t2); font-size:14px; cursor:pointer; transition:.3s;
+    }
+    .nx-soc-btn:hover { background:var(--brand); color:#fff; border-color:var(--brand); transform:translateY(-3px); }
+    .nx-footer-col-title {
+      font-family:'Space Grotesk',sans-serif;
+      font-size:12px; font-weight:800; color:var(--t1);
+      text-transform:uppercase; letter-spacing:2px;
+      margin-bottom:28px; display:block;
+    }
+    .nx-footer-links { display:flex; flex-direction:column; gap:14px; }
+    .nx-footer-links li {
+      color:var(--t2); font-size:14px; font-weight:600;
+      cursor:pointer; transition:.25s;
+    }
+    .nx-footer-links li:hover { color:var(--brand); transform:translateX(6px); }
+    .nx-footer-bottom {
+      border-top:1px solid var(--border);
+      padding-top:32px; margin-top:60px;
+      display:flex; flex-wrap:wrap; gap:14px;
+      justify-content:space-between; align-items:center;
+      max-width:1380px; margin-left:auto; margin-right:auto;
+      padding-left:22px; padding-right:22px;
+    }
+    .nx-footer-copy { font-size:13px; color:var(--t3); font-weight:600; }
+    .nx-footer-legal { display:flex; gap:18px; }
+    .nx-footer-legal li { font-size:13px; color:var(--t3); font-weight:600; cursor:pointer; transition:.25s; }
+    .nx-footer-legal li:hover { color:var(--brand); }
+
+    /* ============================================================
+       REDUCED MOTION
+       ============================================================ */
+    @media(prefers-reduced-motion:reduce) {
+      *,*::before,*::after { animation-duration:.01ms !important; transition-duration:.01ms !important; }
+    }
+  </style>
 </head>
+
 <body>
+<!-- ================================================================
+     GLOBAL UI: TOAST CONTAINER
+     ================================================================ -->
+<div id="nx-toast-wrap" aria-live="assertive" aria-atomic="true"></div>
 
-    <!-- ==========================================================================
-         MAIN DASHBOARD STRUCTURE
-         ========================================================================== -->
-    <main id="home-dashboard">
+<!-- ================================================================
+     ANNOUNCEMENT STRIP
+     ================================================================ -->
+<div id="nx-announce" role="banner">
+  <div class="announce-ticker">
+    <i class="fa-solid fa-bolt" style="font-size:13px;"></i>
+    <span id="nx-announce-text">Flash Sale Live — Extra 20% off on all digital tools today!</span>
+    <span class="announce-link" onclick="NX.go('shop')">Shop Now &rarr;</span>
+  </div>
+  <button class="announce-close" onclick="NX.closeAnnounce()" aria-label="Close announcement">
+    <i class="fa-solid fa-xmark"></i>
+  </button>
+</div>
 
-        <!-- A. HERO SECTION -->
-        <section class="hero-section">
-            <div id="hero-media-mount">
-                 <!-- Dynamic Video/Image from Edition Config -->
-                 <video class="hero-bg-media" id="hero-video" autoplay loop muted playsinline>
-                    <source src="https://www.pexels.com/download/video/8675553/" type="video/mp4">
-                 </video>
-            </div>
-            
-            <div class="hero-content">
-                <div class="hero-badge" id="hero-edition-badge">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
-                    <span id="edition-text">BETA EDITION</span>
-                </div>
-                
-                <h1 class="tech-font hero-title">
-                    <span id="hero-title-1">DIGITAL</span><br>
-                    <span class="text-gradient" id="hero-title-2">ECOSYSTEM</span>
-                </h1>
+<!-- ================================================================
+     ISLAND HEADER
+     ================================================================ -->
+<div id="nx-header-wrap" role="navigation" aria-label="Main navigation">
+  <nav class="nx-island" id="nx-island">
+    <!-- Logo -->
+    <div class="nx-logo-area" onclick="NX.go('home')" aria-label="Nexra PK Home">
+      <div class="nx-logo-icon">
+        <img id="nx-logo-img" src="" alt="Nexra PK Logo" loading="eager"/>
+      </div>
+      <img id="nx-wordmark-img" class="nx-wordmark" src="" alt="Nexra PK"/>
+    </div>
 
-                <p class="hero-desc">Experience Pakistan's most trusted marketplace for premium software, SaaS tools, and elite reseller portals — delivered instantly.</p>
+    <!-- Desktop Nav -->
+    <div class="nx-desktop-nav">
+      <div class="nx-nav-link active" data-route="home"    onclick="NX.go('home')">Home</div>
+      <div class="nx-nav-link"        data-route="shop"    onclick="NX.go('shop')">Marketplace</div>
+      <div class="nx-nav-link"        data-route="freebies" onclick="NX.go('freebies')">Free Vault</div>
+      <div class="nx-nav-link"        data-route="blog"    onclick="NX.go('blog')">Academy</div>
+      <div class="nx-nav-link"        data-route="profile" onclick="NX.go('profile')">Profile</div>
+    </div>
 
-                <div class="hero-btns">
-                    <button class="btn btn-primary" onclick="Nexra.navTo('shop')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                        EXPLORE MARKET
-                    </button>
-                    <button class="btn btn-outline" onclick="Nexra.navTo('freebies')">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
-                        FREE VAULT
-                    </button>
-                </div>
-            </div>
-        </section>
+    <!-- Actions -->
+    <div class="nx-header-actions">
+      <button class="nx-hdr-btn" onclick="NX.toggleCart()" aria-label="Open cart">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="nx-cart-badge" id="nx-cart-count">0</span>
+      </button>
+      <button class="nx-hdr-btn" onclick="NX.toggleTheme()" aria-label="Toggle theme">
+        <i class="fa-solid fa-moon" id="nx-theme-icon"></i>
+      </button>
+      <button class="nx-hdr-btn nx-mobile-menu-btn" onclick="NX.toggleDrawer('slider')" aria-label="Open menu">
+        <i class="fa-solid fa-bars-staggered"></i>
+      </button>
+    </div>
+  </nav>
+</div>
 
-        <!-- B. SMART SEARCH AREA -->
-        <div class="search-area">
-            <div class="search-island">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                <input type="text" id="global-search-input" placeholder="Search apps, assets, or tutorials...">
-                <button class="btn btn-primary" style="padding: 15px 30px; border-radius: 40px;" onclick="NexraHome.handleSearch()">SEARCH</button>
-            </div>
+<!-- ================================================================
+     MOBILE BOTTOM DOCK (navigation.html mount)
+     ================================================================ -->
+<div id="nx-dock-wrap" role="navigation" aria-label="Mobile navigation">
+  <div class="nx-dock">
+    <div class="nx-dock-item active" onclick="NX.go('home')" data-route="home">
+      <i class="fa-solid fa-house-chimney"></i>
+      <span>Home</span>
+      <div class="nx-dock-pip"></div>
+    </div>
+    <div class="nx-dock-item" onclick="NX.go('shop')" data-route="shop">
+      <i class="fa-solid fa-store"></i>
+      <span>Market</span>
+      <div class="nx-dock-pip"></div>
+    </div>
+    <div class="nx-dock-item" onclick="NX.go('freebies')" data-route="freebies">
+      <i class="fa-solid fa-vault"></i>
+      <span>Vault</span>
+      <div class="nx-dock-pip"></div>
+    </div>
+    <div class="nx-dock-item" onclick="NX.go('blog')" data-route="blog">
+      <i class="fa-solid fa-graduation-cap"></i>
+      <span>Academy</span>
+      <div class="nx-dock-pip"></div>
+    </div>
+    <div class="nx-dock-item" onclick="NX.go('profile')" data-route="profile">
+      <i class="fa-solid fa-circle-user"></i>
+      <span>Profile</span>
+      <div class="nx-dock-pip"></div>
+    </div>
+  </div>
+</div>
 
-            <div class="cat-row" id="home-categories">
-                <!-- JS Injected Categories -->
-                <div class="cat-pill">SaaS Tools</div>
-                <div class="cat-pill">Graphic Assets</div>
-                <div class="cat-pill">License Keys</div>
-                <div class="cat-pill">Agency API</div>
-            </div>
+<!-- ================================================================
+     SIDE DRAWER / POWER SLIDER (slider.html mount)
+     ================================================================ -->
+<div class="nx-drawer-backdrop" id="nx-backdrop-slider" onclick="NX.toggleDrawer('slider')"></div>
+<aside id="nx-slider" role="dialog" aria-modal="true" aria-label="Navigation Drawer">
+  <div class="nx-slider-head">
+    <div class="nx-slider-badge">
+      <i class="fa-solid fa-compass"></i> NAVIGATION
+    </div>
+    <button class="nx-hdr-btn" onclick="NX.toggleDrawer('slider')" aria-label="Close drawer">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+
+  <div class="nx-slider-section">
+    <span class="nx-slider-label">Platform Features</span>
+    <div class="nx-slide-link" onclick="NX.go('reseller')">
+      <div class="sl-icon"><i class="fa-solid fa-users-gear"></i></div>
+      Agency Reseller Portal
+      <span class="sl-badge">B2B</span>
+    </div>
+    <div class="nx-slide-link" onclick="NX.go('vip')">
+      <div class="sl-icon"><i class="fa-solid fa-crown"></i></div>
+      VIP Diamond Membership
+      <span class="sl-badge">NEW</span>
+    </div>
+    <div class="nx-slide-link" onclick="NX.go('bundle')">
+      <div class="sl-icon"><i class="fa-solid fa-cubes"></i></div>
+      Custom Bundle Builder
+    </div>
+    <div class="nx-slide-link" onclick="NX.go('giveaway')">
+      <div class="sl-icon"><i class="fa-solid fa-gift"></i></div>
+      Live Weekly Giveaway
+    </div>
+  </div>
+
+  <div class="nx-slider-section">
+    <span class="nx-slider-label">Account</span>
+    <div class="nx-slide-link" onclick="NX.go('profile')">
+      <div class="sl-icon"><i class="fa-solid fa-circle-user"></i></div>
+      My Profile
+    </div>
+    <div class="nx-slide-link" onclick="NX.go('orders')">
+      <div class="sl-icon"><i class="fa-solid fa-receipt"></i></div>
+      Order History
+    </div>
+    <div class="nx-slide-link" onclick="NX.go('vault')">
+      <div class="sl-icon"><i class="fa-solid fa-vault"></i></div>
+      My Vault
+    </div>
+  </div>
+
+  <div class="nx-slider-section">
+    <span class="nx-slider-label">Support</span>
+    <div class="nx-slide-link" onclick="NX.go('support')">
+      <div class="sl-icon"><i class="fa-solid fa-headset"></i></div>
+      Live Support
+    </div>
+    <div class="nx-slide-link" onclick="NX.go('faq')">
+      <div class="sl-icon"><i class="fa-solid fa-circle-question"></i></div>
+      FAQ & Help Center
+    </div>
+  </div>
+
+  <!-- Slider footer -->
+  <div style="margin-top:auto; padding-top:20px; border-top:1px solid var(--border);">
+    <div style="display:flex; align-items:center; gap:10px; padding:14px 16px; background:var(--bg-base); border-radius:14px;">
+      <div style="width:36px;height:36px;border-radius:50%;background:var(--brand-dim);display:flex;align-items:center;justify-content:center;color:var(--brand);">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:800;color:var(--t1);">99.9% Trust Score</div>
+        <div style="font-size:11px;color:var(--t3);">All products verified</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ================================================================
+     CART DRAWER (cart-drawer.html mount)
+     ================================================================ -->
+<div class="nx-drawer-backdrop" id="nx-backdrop-cart" onclick="NX.toggleCart()"></div>
+<aside id="nx-cart-drawer" role="dialog" aria-modal="true" aria-label="Shopping Cart">
+  <div class="nx-cart-head">
+    <div class="nx-cart-title">
+      <i class="fa-solid fa-bag-shopping"></i>
+      <span class="tech-font">YOUR CART</span>
+    </div>
+    <button class="nx-hdr-btn" onclick="NX.toggleCart()" aria-label="Close cart">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+  </div>
+  <div class="nx-cart-items" id="nx-cart-items"></div>
+  <div class="nx-cart-foot">
+    <div class="nx-cart-subtotal">
+      <span>Subtotal</span>
+      <span id="nx-cart-total">Rs. 0</span>
+    </div>
+    <button class="btn btn-primary" style="width:100%;padding:18px;" onclick="NX.go('checkout')">
+      <i class="fa-solid fa-lock"></i> SECURE CHECKOUT
+    </button>
+    <div style="text-align:center;margin-top:12px;font-size:11px;color:var(--t3);font-weight:700;">
+      <i class="fa-solid fa-shield-halved" style="color:var(--success)"></i>
+      &nbsp;Instant delivery after payment
+    </div>
+  </div>
+</aside>
+
+<!-- ================================================================
+     MAIN PAGE
+     ================================================================ -->
+<main class="nx-page" id="nx-main">
+
+  <!-- ---- HERO ---- -->
+  <section id="nx-hero" aria-label="Hero section">
+    <div class="nx-hero-bg">
+      <video
+        autoplay loop muted playsinline
+        class="nx-hero-video"
+        aria-hidden="true"
+        preload="none"
+      >
+        <source src="https://www.pexels.com/download/video/8675553/" type="video/mp4"/>
+      </video>
+      <div class="nx-hero-overlay"></div>
+    </div>
+
+    <div class="nx-hero-content">
+      <!-- Badge -->
+      <div class="nx-hero-badge nx-reveal">
+        <div class="badge-dot"></div>
+        <span>Pakistan&rsquo;s #1 Digital Marketplace — Live Now</span>
+      </div>
+
+      <!-- Headline + Kinetic Rotor -->
+      <h1 class="nx-hero-hl nx-reveal nx-delay-1">
+        BUILT FOR<br/>
+        <div class="nx-rotor-wrap" id="nx-rotor" aria-live="polite">
+          <!-- JS injected -->
         </div>
+      </h1>
 
-        <!-- C. TRENDING SECTION -->
-        <section class="nx-section container">
-            <div class="section-title-row">
-                <div>
-                    <div class="badge" style="background:var(--brand-soft); border-color:var(--brand-glow);"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg> HOT RIGHT NOW</div>
-                    <h2 class="tech-font" style="font-size: 32px; margin-top: 10px;">TRENDING <span class="text-gradient">ASSETS</span></h2>
-                </div>
-                <button class="btn btn-outline" style="padding: 12px 25px; font-size: 12px;" onclick="Nexra.navTo('shop')">VIEW ALL</button>
-            </div>
+      <p class="nx-hero-desc nx-reveal nx-delay-2">
+        Premium software keys, SaaS tools, UI kits, and free resources &mdash; delivered instantly to your digital vault.
+      </p>
 
-            <div class="grid-main" id="trending-grid">
-                <!-- Products Injected by Firebase -->
-            </div>
-        </section>
+      <div class="nx-hero-ctas nx-reveal nx-delay-3">
+        <button class="btn btn-primary" onclick="NX.go('shop')">
+          <i class="fa-solid fa-store"></i> EXPLORE MARKET
+        </button>
+        <button class="btn btn-white" onclick="NX.go('freebies')">
+          <i class="fa-solid fa-vault"></i> FREE VAULT
+        </button>
+      </div>
 
-        <!-- D. B2B AGENCY BANNER -->
-        <div class="container">
-            <div class="b2b-island">
-                <div style="position: relative; z-index: 2; max-width: 600px;">
-                    <div class="badge" style="background:rgba(255,255,255,0.1); color:#fff; border-color:rgba(255,255,255,0.2);">RESELLER PROGRAM</div>
-                    <h2 class="tech-font" style="font-size: clamp(2rem, 5vw, 3.5rem); margin: 20px 0;">Build Your <span style="color: #fff;">Agency Empire</span></h2>
-                    <p style="font-size: 17px; margin-bottom: 35px; opacity: 0.9;">Get wholesale API pricing, generate direct license keys, and manage your profit margins from one elite dashboard.</p>
-                    <button class="btn btn-primary" style="background: #fff; color: var(--brand-main);" onclick="Nexra.navTo('reseller')">JOIN PORTAL NOW</button>
-                </div>
-                <div style="position: relative; z-index: 2;">
-                    <img class="nx-brand-logo" src="" alt="Reseller Icon" style="max-width: 250px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.5));">
-                </div>
-            </div>
+      <!-- Trust Grid -->
+      <div class="nx-trust-grid nx-reveal nx-delay-4">
+        <div class="nx-trust-chip">
+          <div class="tc-val grad" id="nx-stat-users">1,700+</div>
+          <div class="tc-lbl">Active Users</div>
         </div>
+        <div class="nx-trust-chip">
+          <div class="tc-val" id="nx-stat-deliveries">52,000+</div>
+          <div class="tc-lbl">Deliveries</div>
+        </div>
+        <div class="nx-trust-chip">
+          <div class="tc-val" id="nx-stat-trust">99.9%</div>
+          <div class="tc-lbl">Trust Score</div>
+        </div>
+        <div class="nx-trust-chip">
+          <div class="tc-val" id="nx-stat-support">15m</div>
+          <div class="tc-lbl">Avg. Support</div>
+        </div>
+      </div>
+    </div>
 
-        <!-- E. COMMUNITY FEED (MARQUEE) -->
-        <section class="nx-section">
-            <div class="container" style="text-align: center; margin-bottom: 30px;">
-                <h2 class="tech-font" style="font-size: 28px;">Trusted by <span class="text-gradient">10,000+</span> Users</h2>
+    <div class="nx-scroll-hint" aria-hidden="true">
+      <i class="fa-solid fa-chevron-down" style="font-size:18px;"></i>
+      <span>Scroll</span>
+    </div>
+  </section>
+
+  <!-- ---- SEARCH BAR ---- -->
+  <div id="nx-search-dock" role="search">
+    <div class="nx-searchbar">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input
+        id="nx-search-input"
+        type="search"
+        placeholder="Search products, tools, articles..."
+        autocomplete="off"
+        onkeydown="if(event.key==='Enter')NX.search()"
+        aria-label="Search the Nexra ecosystem"
+      />
+      <div class="nx-search-filter" role="group" aria-label="Filter by type">
+        <button class="nx-search-chip active" onclick="NX.setSearchFilter('all',this)">All</button>
+        <button class="nx-search-chip" onclick="NX.setSearchFilter('products',this)">Products</button>
+        <button class="nx-search-chip" onclick="NX.setSearchFilter('freebies',this)">Free</button>
+        <button class="nx-search-chip" onclick="NX.setSearchFilter('blog',this)">Articles</button>
+      </div>
+      <button class="btn btn-primary btn-sm" onclick="NX.search()" aria-label="Submit search">
+        <i class="fa-solid fa-search"></i>
+        <span style="display:none;" class="btn-search-label">Search</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ---- CATEGORY PILLS ---- -->
+  <nav id="nx-cats" aria-label="Product categories">
+    <!-- JS injected -->
+  </nav>
+
+  <!-- ---- TRENDING ASSETS ---- -->
+  <section class="nx-sec" aria-labelledby="nx-trending-title">
+    <div class="nx-wrap">
+      <div class="nx-sec-head">
+        <div>
+          <div class="nx-eyebrow"><i class="fa-solid fa-fire-flame-curved"></i> HOT RIGHT NOW</div>
+          <h2 class="nx-sec-title" id="nx-trending-title">
+            TRENDING <span class="text-grad">ASSETS</span>
+          </h2>
+          <p class="nx-sec-sub">Top-selling tools, updated in real-time.</p>
+        </div>
+        <button class="nx-btn-ghost-text" onclick="NX.go('shop')">
+          VIEW ALL <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+      <!-- Skeleton placeholders (shown while loading) -->
+      <div class="nx-prod-grid" id="nx-skel-trending" aria-label="Loading products">
+        <div class="skeleton skel-card"></div>
+        <div class="skeleton skel-card"></div>
+        <div class="skeleton skel-card"></div>
+        <div class="skeleton skel-card"></div>
+        <div class="skeleton skel-card"></div>
+      </div>
+      <!-- Real products (filled by JS) -->
+      <div class="nx-prod-grid" id="nx-trending-grid" style="display:none;"></div>
+    </div>
+  </section>
+
+  <!-- ---- B2B AGENCY BANNER ---- -->
+  <div id="nx-b2b" class="nx-reveal-scale">
+    <div class="nx-b2b-card">
+      <div class="nx-b2b-text">
+        <div class="nx-b2b-eyebrow">
+          <i class="fa-solid fa-briefcase"></i> ELITE PARTNERSHIP
+        </div>
+        <h2 class="nx-b2b-title">BUILD YOUR<br/>AGENCY EMPIRE</h2>
+        <p class="nx-b2b-desc">
+          Wholesale API pricing, auto license key generation, and full profit margin control — all in one reseller dashboard.
+        </p>
+        <div class="nx-b2b-perks">
+          <div class="nx-b2b-perk"><i class="fa-solid fa-bolt"></i> Instant Key Generation</div>
+          <div class="nx-b2b-perk"><i class="fa-solid fa-chart-line"></i> Real-time Margins</div>
+          <div class="nx-b2b-perk"><i class="fa-solid fa-headset"></i> Dedicated Support</div>
+          <div class="nx-b2b-perk"><i class="fa-solid fa-tag"></i> Wholesale Pricing</div>
+        </div>
+        <button class="btn btn-white" onclick="NX.go('reseller')">
+          <i class="fa-solid fa-rocket"></i> JOIN PORTAL NOW
+        </button>
+      </div>
+      <div class="nx-b2b-media">
+        <img class="nx-b2b-logo-3d" id="nx-b2b-logo" src="" alt="Nexra Agency Partner" loading="lazy"/>
+      </div>
+    </div>
+  </div>
+
+  <!-- ---- COMMUNITY VAULT (Freebies) ---- -->
+  <section class="nx-sec" aria-labelledby="nx-vault-title">
+    <div class="nx-wrap">
+      <div style="text-align:center; margin-bottom:36px;">
+        <div class="nx-eyebrow"><i class="fa-solid fa-vault"></i> COMMUNITY VAULT</div>
+        <h2 class="nx-sec-title nx-reveal" id="nx-vault-title">
+          FREE <span class="text-grad">RESOURCES</span>
+        </h2>
+        <p class="nx-sec-sub">Premium assets locked for 14 days &mdash; share 3 times to unlock permanently to your vault.</p>
+      </div>
+      <div class="nx-vault-grid" id="nx-vault-grid">
+        <!-- Skeletons -->
+        <div class="skeleton" style="aspect-ratio:4/3; border-radius:22px;"></div>
+        <div class="skeleton" style="aspect-ratio:4/3; border-radius:22px;"></div>
+        <div class="skeleton" style="aspect-ratio:4/3; border-radius:22px;"></div>
+      </div>
+      <div style="text-align:center;margin-top:30px;">
+        <button class="btn btn-ghost" onclick="NX.go('freebies')">
+          <i class="fa-solid fa-vault"></i> BROWSE FULL VAULT
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- LEARNING ACADEMY (Blogs) ---- -->
+  <section class="nx-sec" style="background:linear-gradient(180deg, var(--bg-base) 0%, #050505 100%);" aria-labelledby="nx-academy-title">
+    <div class="nx-wrap">
+      <div class="nx-sec-head nx-reveal">
+        <div>
+          <div class="nx-eyebrow" style="border-color:rgba(255,255,255,.15); background:rgba(255,255,255,.06); color:#fff;">
+            <i class="fa-solid fa-graduation-cap"></i> LEARNING ACADEMY
+          </div>
+          <h2 class="nx-sec-title" id="nx-academy-title" style="color:#fff;">
+            TECH <span class="text-grad">INSIGHTS</span>
+          </h2>
+          <p class="nx-sec-sub" style="color:rgba(255,255,255,.5);">In-depth guides for creators, agencies, and founders.</p>
+        </div>
+        <button class="nx-btn-ghost-text" onclick="NX.go('blog')" style="color:rgba(255,255,255,.6);">
+          READ ALL <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+      <div class="nx-blog-grid" id="nx-blog-grid">
+        <div class="skeleton" style="height:320px;border-radius:22px;"></div>
+        <div class="skeleton" style="height:320px;border-radius:22px;"></div>
+        <div class="skeleton" style="height:320px;border-radius:22px;"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- AMBASSADOR BUBBLE RING ---- -->
+  <section id="nx-ambassadors" aria-labelledby="nx-amb-title">
+    <div class="nx-eyebrow" style="display:inline-flex;"><i class="fa-solid fa-star"></i> BRAND AMBASSADORS</div>
+    <h2 class="nx-sec-title nx-reveal" id="nx-amb-title">
+      THE NEXRA <span class="text-grad">NETWORK</span>
+    </h2>
+    <p class="nx-sec-sub">Creators and agencies trusted by thousands.</p>
+    <div class="nx-bubble-ring" id="nx-bubble-ring" aria-hidden="true">
+      <div class="ring-center">
+        <img id="nx-ring-center-img" src="" alt="Nexra"/>
+        <span>NEXRA</span>
+      </div>
+      <div class="nx-bubble-orbit" id="nx-orbit">
+        <!-- JS injected bubbles -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- TESTIMONIALS MARQUEE ---- -->
+  <section id="nx-testimonials" aria-label="Customer testimonials">
+    <div class="nx-wrap" style="text-align:center; margin-bottom:32px;">
+      <div class="nx-eyebrow"><i class="fa-solid fa-comments"></i> SOCIAL PROOF</div>
+      <h2 class="nx-sec-title nx-reveal">WHAT OUR <span class="text-grad">COMMUNITY SAYS</span></h2>
+    </div>
+    <div class="nx-marq-row row-a" id="nx-marq-a"></div>
+    <div class="nx-marq-row row-b" id="nx-marq-b" style="margin-top:14px;"></div>
+  </section>
+
+  <!-- ---- FAQ ---- -->
+  <section id="nx-faq" class="nx-sec" aria-labelledby="nx-faq-title">
+    <div class="nx-wrap">
+      <div style="text-align:center; margin-bottom:40px;">
+        <div class="nx-eyebrow"><i class="fa-solid fa-circle-question"></i> FAQ</div>
+        <h2 class="nx-sec-title nx-reveal" id="nx-faq-title">
+          PLATFORM <span class="text-grad">HELP</span>
+        </h2>
+      </div>
+      <div class="nx-faq-wrap" id="nx-faq-list">
+        <!-- JS injected -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- NEWSLETTER ---- -->
+  <section class="nx-sec-sm" aria-label="Newsletter signup">
+    <div class="nx-wrap">
+      <div class="nx-nl-strip nx-reveal">
+        <div class="nx-eyebrow" style="display:inline-flex;"><i class="fa-solid fa-envelope"></i> INSIDER CIRCLE</div>
+        <h3 class="nx-sec-title" style="margin-top:10px;">
+          Unlock <span class="text-grad">Early Access</span>
+        </h3>
+        <p class="nx-sec-sub">Be first to know about flash sales, beta tools, and exclusive drops.</p>
+        <div class="nx-nl-form">
+          <input class="nx-nl-input" type="email" id="nx-nl-email" placeholder="your@email.com" aria-label="Email address"/>
+          <button class="btn btn-primary" onclick="NX.newsletterJoin()">
+            <i class="fa-solid fa-paper-plane"></i> JOIN
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ---- RECENTLY VIEWED ---- -->
+  <section id="nx-recent-viewed" aria-labelledby="nx-rv-title">
+    <div class="nx-wrap">
+      <div class="nx-sec-head" style="margin-bottom:18px;">
+        <h3 class="nx-sec-title" id="nx-rv-title" style="font-size:clamp(18px,3vw,26px);">
+          RECENTLY <span class="text-grad">VIEWED</span>
+        </h3>
+        <button class="nx-btn-ghost-text" onclick="NX.clearRecentViewed()">
+          <i class="fa-solid fa-trash"></i> Clear
+        </button>
+      </div>
+    </div>
+    <div class="nx-rv-scroll" id="nx-rv-scroll">
+      <div style="padding:30px 22px; color:var(--t3); font-size:13px; font-weight:600;">
+        <i class="fa-solid fa-clock"></i> &nbsp;No recently viewed items.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ================================================================
+     FOOTER (footer.html mount)
+     ================================================================ -->
+<footer id="nx-footer" role="contentinfo">
+  <div class="nx-footer-grid">
+    <!-- Brand Column -->
+    <div class="nx-footer-brand">
+      <img id="nx-footer-logo" src="" alt="Nexra PK" loading="lazy"/>
+      <p>Pakistan's elite digital ecosystem. Premium software keys, SaaS tools, and creative resources — delivered instantly.</p>
+      <div class="nx-footer-socials">
+        <div class="nx-soc-btn" onclick="NX.openExternal('https://instagram.com/nexrapk')" aria-label="Instagram">
+          <i class="fa-brands fa-instagram"></i>
+        </div>
+        <div class="nx-soc-btn" onclick="NX.openExternal('https://t.me/nexrapk')" aria-label="Telegram">
+          <i class="fa-brands fa-telegram"></i>
+        </div>
+        <div class="nx-soc-btn" onclick="NX.openExternal('https://wa.me/92xxxxxxxxxx')" aria-label="WhatsApp">
+          <i class="fa-brands fa-whatsapp"></i>
+        </div>
+        <div class="nx-soc-btn" onclick="NX.openExternal('https://youtube.com/@nexrapk')" aria-label="YouTube">
+          <i class="fa-brands fa-youtube"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ecosystem Column -->
+    <div>
+      <span class="nx-footer-col-title">Ecosystem</span>
+      <ul class="nx-footer-links">
+        <li onclick="NX.go('shop')">Digital Market</li>
+        <li onclick="NX.go('freebies')">Free Vault</li>
+        <li onclick="NX.go('bundle')">Smart Bundles</li>
+        <li onclick="NX.go('vip')">VIP Membership</li>
+        <li onclick="NX.go('reseller')">Agency Portal</li>
+      </ul>
+    </div>
+
+    <!-- Learn Column -->
+    <div>
+      <span class="nx-footer-col-title">Learn</span>
+      <ul class="nx-footer-links">
+        <li onclick="NX.go('blog')">Tech Academy</li>
+        <li onclick="NX.go('giveaway')">Weekly Giveaway</li>
+        <li onclick="NX.go('faq')">Help Center</li>
+        <li onclick="NX.go('support')">Live Support</li>
+      </ul>
+    </div>
+
+    <!-- Contact Column -->
+    <div>
+      <span class="nx-footer-col-title">Contact</span>
+      <div style="display:flex; flex-direction:column; gap:14px;">
+        <div style="display:flex; align-items:center; gap:10px; color:var(--t2); font-size:14px; font-weight:600;">
+          <i class="fa-solid fa-envelope" style="color:var(--brand);"></i>
+          support@nexrapk.com
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; color:var(--t2); font-size:14px; font-weight:600;">
+          <i class="fa-brands fa-whatsapp" style="color:var(--success);"></i>
+          +92 300 000 0000
+        </div>
+        <div style="display:flex; align-items:center; gap:10px; color:var(--t2); font-size:14px; font-weight:600;">
+          <i class="fa-solid fa-clock" style="color:var(--gold);"></i>
+          Support: 9am &ndash; 11pm PKT
+        </div>
+      </div>
+      <div style="margin-top:22px; background:var(--bg-elev); border:1px solid var(--border); border-radius:16px; padding:16px 18px;">
+        <div style="font-size:11px; font-weight:800; color:var(--brand); text-transform:uppercase; letter-spacing:1px; margin-bottom:6px;">
+          <i class="fa-solid fa-shield-halved"></i> &nbsp;Platform Status
+        </div>
+        <div style="display:flex; align-items:center; gap:8px; font-size:13px; font-weight:700; color:var(--success);">
+          <div style="width:8px;height:8px;border-radius:50%;background:var(--success);box-shadow:0 0 10px var(--success);"></div>
+          All systems operational
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Bar -->
+  <div class="nx-footer-bottom">
+    <p class="nx-footer-copy">
+      &copy; <span id="nx-year">2025</span> Nexra PK. All rights reserved.
+    </p>
+    <ul class="nx-footer-legal">
+      <li onclick="NX.go('privacy')">Privacy Policy</li>
+      <li onclick="NX.go('terms')">Terms of Service</li>
+      <li onclick="NX.go('refund')">Refund Policy</li>
+    </ul>
+  </div>
+</footer>
+
+<!-- ================================================================
+     FIREBASE CONFIG BRIDGE
+     (Assumes firebaseconfig.js loaded in index.html shell.
+      window.db = Firestore instance
+      window.supabaseClient = Supabase instance
+      window.NexraBrand = branding object
+      window.NexraRoutes = router object)
+     ================================================================ -->
+<script>
+"use strict";
+
+/* ================================================================
+   NX — GLOBAL APP CONTROLLER
+   Connects to firebaseconfig.js globals:
+     - window.db (Firestore)
+     - window.supabaseClient
+     - window.NexraBrand
+     - window.NexraRoutes
+   ================================================================ */
+const NX = (() => {
+
+  /* ------ INTERNAL STATE ------ */
+  const S = {
+    cart:        [],
+    theme:       'light',
+    edition:     'alpha',   // 'alpha'(purple) | 'beta'(orange)
+    searchFilter:'all',
+    recentViewed:[],
+    brand:       {},
+    usdRate:     278,       // fallback PKR→USD rate
+    cartOpen:    false,
+    drawerOpen:  {},
+    festivalMode:false,
+  };
+
+  /* ------ ROUTING (NexraRoutes bridge) ------ */
+  function go(route, id) {
+    // Try project-level router first
+    if (window.NexraRoutes && window.NexraRoutes.loadView) {
+      window.NexraRoutes.loadView(route, id);
+      return;
+    }
+    // Fallback path mapping
+    const paths = {
+      home:     '/index.html',
+      shop:     '/shop/shop.html',
+      freebies: '/freebies/freebies.html',
+      blog:     '/academy/blog.html',
+      profile:  '/profile/profile.html',
+      checkout: '/checkout/checkout.html',
+      reseller: '/reseller/reseller.html',
+      vip:      '/vip/vip.html',
+      bundle:   '/bundle/bundle.html',
+      giveaway: '/giveaway/giveaway.html',
+      orders:   '/profile/orders.html',
+      vault:    '/freebies/vault.html',
+      support:  '/support/support.html',
+      faq:      '/support/faq.html',
+      privacy:  '/legal/privacy.html',
+      terms:    '/legal/terms.html',
+      refund:   '/legal/refund.html',
+    };
+    if (id) {
+      const detailPaths = {
+        product:  '/shop/product.html?id=',
+        blog:     '/academy/article.html?id=',
+        freebie:  '/freebies/item.html?id=',
+      };
+      if (detailPaths[route]) { window.location.href = detailPaths[route] + id; return; }
+    }
+    if (paths[route]) { window.location.href = paths[route]; }
+  }
+
+  function openExternal(url) {
+    window.open(url, '_blank', 'noopener,noreferrer');
+  }
+
+  /* ------ TOAST SYSTEM (ui-notifications.html) ------ */
+  function toast(msg, icon = 'fa-solid fa-check', type = 'default') {
+    const wrap = document.getElementById('nx-toast-wrap');
+    if (!wrap) return;
+    const el = document.createElement('div');
+    el.className = 'nx-toast';
+    el.setAttribute('role', 'alert');
+    const colors = { default: 'var(--brand)', success: 'var(--success)', danger: 'var(--danger)', gold: 'var(--gold)' };
+    el.innerHTML = `<i class="${icon}" style="color:${colors[type] || colors.default};"></i> ${msg}`;
+    wrap.appendChild(el);
+    setTimeout(() => {
+      el.classList.add('exit');
+      setTimeout(() => el.remove(), 400);
+    }, 3500);
+  }
+
+  /* ------ THEME ENGINE ------ */
+  function toggleTheme() {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    document.body.setAttribute('data-theme', isDark ? 'light' : 'dark');
+    S.theme = isDark ? 'light' : 'dark';
+    localStorage.setItem('nx_theme', S.theme);
+    const icon = document.getElementById('nx-theme-icon');
+    if (icon) icon.className = isDark ? 'fa-solid fa-moon' : 'fa-solid fa-sun';
+    const metaColor = document.getElementById('nx-theme-color');
+    if (metaColor) metaColor.content = isDark ? '#f8fafc' : '#030303';
+  }
+
+  /* ------ DRAWER SYSTEM ------ */
+  function toggleDrawer(id) {
+    const drawer   = document.getElementById('nx-' + id);
+    const backdrop = document.getElementById('nx-backdrop-' + id);
+    if (!drawer) return;
+    const isOpen = drawer.classList.contains('open');
+    drawer.classList.toggle('open', !isOpen);
+    if (backdrop) backdrop.classList.toggle('open', !isOpen);
+    document.body.style.overflow = !isOpen ? 'hidden' : '';
+    S.drawerOpen[id] = !isOpen;
+  }
+
+  /* ------ CART DRAWER ------ */
+  function toggleCart() {
+    const drawer   = document.getElementById('nx-cart-drawer');
+    const backdrop = document.getElementById('nx-backdrop-cart');
+    if (!drawer) return;
+    const isOpen = drawer.classList.contains('open');
+    drawer.classList.toggle('open', !isOpen);
+    if (backdrop) backdrop.classList.toggle('open', !isOpen);
+    document.body.style.overflow = !isOpen ? 'hidden' : '';
+    if (!isOpen) _renderCart();
+  }
+
+  /* ------ CART LOGIC ------ */
+  function _loadCart() {
+    try { S.cart = JSON.parse(localStorage.getItem('nx_cart') || '[]'); } catch { S.cart = []; }
+    _updateCartBadge();
+  }
+
+  function _saveCart() {
+    localStorage.setItem('nx_cart', JSON.stringify(S.cart));
+    _updateCartBadge();
+    _syncCartFirestore();
+  }
+
+  function _updateCartBadge() {
+    const badge = document.getElementById('nx-cart-count');
+    if (badge) badge.textContent = S.cart.length;
+  }
+
+  function _syncCartFirestore() {
+    // Sync to Firestore if user is logged in and window.db is available
+    if (!window.db) return;
+    try {
+      const user = window.NexraAuth && window.NexraAuth.currentUser ? window.NexraAuth.currentUser : null;
+      if (!user) return;
+      window.db.collection('users').doc(user.uid).update({ cart: S.cart }).catch(() => {});
+    } catch (_) {}
+  }
+
+  function addToCart(e, id, title, price, image) {
+    if (e) { e.stopPropagation(); e.preventDefault(); }
+    S.cart.push({ id, title, price: Number(price), image, addedAt: Date.now() });
+    _saveCart();
+    toast(`${title} added to cart!`, 'fa-solid fa-cart-arrow-down');
+  }
+
+  function removeFromCart(idx) {
+    S.cart.splice(idx, 1);
+    _saveCart();
+    _renderCart();
+  }
+
+  function _renderCart() {
+    const container = document.getElementById('nx-cart-items');
+    const totalEl   = document.getElementById('nx-cart-total');
+    if (!container) return;
+
+    if (S.cart.length === 0) {
+      container.innerHTML = `
+        <div class="nx-cart-empty">
+          <i class="fa-solid fa-bag-shopping"></i>
+          <p>Your cart is empty</p>
+          <button class="btn btn-ghost btn-sm" style="margin-top:16px;" onclick="NX.toggleCart(); NX.go('shop');">
+            Browse Market
+          </button>
+        </div>`;
+      if (totalEl) totalEl.textContent = 'Rs. 0';
+      return;
+    }
+
+    let html = ''; let subtotal = 0;
+    S.cart.forEach((item, idx) => {
+      subtotal += Number(item.price);
+      html += `
+        <div class="nx-cart-item">
+          <img src="${item.image}" alt="${item.title}" loading="lazy"/>
+          <div class="nx-cart-item-info">
+            <div class="nx-cart-item-title">${item.title}</div>
+            <div class="nx-cart-item-price">Rs. ${item.price.toLocaleString()}</div>
+          </div>
+          <button class="nx-cart-del" onclick="NX.removeFromCart(${idx})" aria-label="Remove ${item.title}">
+            <i class="fa-solid fa-trash"></i>
+          </button>
+        </div>`;
+    });
+    container.innerHTML = html;
+    if (totalEl) totalEl.textContent = 'Rs. ' + subtotal.toLocaleString();
+  }
+
+  /* ------ BRANDING ENGINE (NexraBrand bridge) ------ */
+  async function _loadBranding() {
+    S.brand = window.NexraBrand || {};
+
+    // Attempt Firestore fetch for live branding + festival mode
+    if (window.db) {
+      try {
+        const snap = await window.db.collection('settings').doc('branding').get();
+        if (snap.exists) {
+          const data = snap.data();
+          S.festivalMode = !!data.festivalMode;
+          S.edition      = data.activeEdition || 'alpha';
+          // Merge live data into brand
+          Object.assign(S.brand, data);
+        }
+      } catch (_) {}
+    }
+
+    // Resolve assets
+    const edition = S.edition;
+    const brand   = S.brand;
+    const editionKey = edition === 'alpha' ? 'alpha' : 'beta';
+
+    const logo      = (S.festivalMode && brand.festivalLogo) ? brand.festivalLogo : (brand[editionKey + 'Logo'] || brand.logo || '');
+    const favicon   = brand.favicon || '';
+    const wordmark  = brand.textTitle || brand.wordmark || '';
+    const watermark = brand.watermark || '';
+
+    // Inject into DOM
+    _setImgSrc('nx-logo-img',     logo);
+    _setImgSrc('nx-wordmark-img', wordmark);
+    _setImgSrc('nx-footer-logo',  wordmark || logo);
+    _setImgSrc('nx-b2b-logo',     watermark || logo);
+    _setImgSrc('nx-ring-center-img', logo);
+
+    if (favicon) {
+      document.getElementById('nx-favicon').href = favicon;
+      const apple = document.getElementById('nx-favicon-apple');
+      if (apple) apple.href = favicon;
+    }
+
+    // OG / Twitter meta images
+    _setMetaContent('og-image', logo);
+    _setMetaContent('tw-image', logo);
+
+    // Update JSON-LD logo
+    try {
+      const ld = JSON.parse(document.getElementById('nx-schema-org').textContent);
+      ld['@graph'][0].logo = logo;
+      document.getElementById('nx-schema-org').textContent = JSON.stringify(ld);
+    } catch (_) {}
+
+    // Edition glow CSS var
+    const glowColor = edition === 'alpha'
+      ? 'rgba(139,92,246,.25)'
+      : 'rgba(255,74,23,.25)';
+    document.documentElement.style.setProperty('--edition-glow', glowColor);
+  }
+
+  function _setImgSrc(id, src) {
+    const el = document.getElementById(id);
+    if (el && src) el.src = src;
+  }
+  function _setMetaContent(id, content) {
+    const el = document.getElementById(id);
+    if (el && content) el.setAttribute('content', content);
+  }
+
+  /* ------ SEARCH ------ */
+  function setSearchFilter(filter, el) {
+    S.searchFilter = filter;
+    document.querySelectorAll('.nx-search-chip').forEach(c => c.classList.remove('active'));
+    if (el) el.classList.add('active');
+  }
+
+  function search() {
+    const q = (document.getElementById('nx-search-input') || {}).value || '';
+    if (!q.trim()) { toast('Please enter a search term', 'fa-solid fa-exclamation', 'danger'); return; }
+    const url = (window.NexraRoutes && window.NexraRoutes.generateURL)
+      ? window.NexraRoutes.generateURL('shop', { search: q, filter: S.searchFilter })
+      : `/shop/shop.html?search=${encodeURIComponent(q)}&filter=${S.searchFilter}`;
+    window.location.href = url;
+  }
+
+  /* ------ ANNOUNCE STRIP ------ */
+  function closeAnnounce() {
+    const el = document.getElementById('nx-announce');
+    if (el) { el.style.height = el.offsetHeight + 'px'; el.style.overflow = 'hidden'; el.style.transition = 'height .4s, opacity .4s, padding .4s'; requestAnimationFrame(() => { el.style.height = '0'; el.style.opacity = '0'; el.style.padding = '0'; }); setTimeout(() => el.remove(), 440); }
+    // Update header top offset
+    const hw = document.getElementById('nx-header-wrap');
+    if (hw) hw.style.top = '12px';
+  }
+
+  async function _loadAnnounce() {
+    if (!window.db) return;
+    try {
+      const snap = await window.db.collection('settings').doc('announce').get();
+      if (snap.exists) {
+        const d = snap.data();
+        const textEl = document.getElementById('nx-announce-text');
+        if (textEl && d.text) textEl.textContent = d.text;
+        if (!d.active) closeAnnounce();
+      }
+    } catch (_) {}
+  }
+
+  /* ------ STATS from Firestore ------ */
+  async function _loadStats() {
+    if (!window.db) return;
+    try {
+      const snap = await window.db.collection('settings').doc('stats').get();
+      if (snap.exists) {
+        const d = snap.data();
+        if (d.users)      _setTxt('nx-stat-users',      d.users);
+        if (d.deliveries) _setTxt('nx-stat-deliveries', d.deliveries);
+        if (d.trust)      _setTxt('nx-stat-trust',      d.trust);
+        if (d.support)    _setTxt('nx-stat-support',    d.support);
+      }
+    } catch (_) {}
+  }
+  function _setTxt(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
+
+  /* ------ USD RATE ------ */
+  async function _loadUSDRate() {
+    if (!window.db) return;
+    try {
+      const snap = await window.db.collection('settings').doc('currency').get();
+      if (snap.exists && snap.data().pkrToUsd) S.usdRate = snap.data().pkrToUsd;
+    } catch (_) {}
+  }
+  function _pricePKRtoUSD(pkr) { return '$' + (pkr / S.usdRate).toFixed(2); }
+
+  /* ------ RECENTLY VIEWED ------ */
+  function _loadRecentViewed() {
+    try { S.recentViewed = JSON.parse(localStorage.getItem('nx_recent') || '[]'); } catch { S.recentViewed = []; }
+    _renderRecentViewed();
+  }
+  function _trackView(product) {
+    S.recentViewed = S.recentViewed.filter(p => p.id !== product.id);
+    S.recentViewed.unshift(product);
+    if (S.recentViewed.length > 8) S.recentViewed = S.recentViewed.slice(0, 8);
+    localStorage.setItem('nx_recent', JSON.stringify(S.recentViewed));
+  }
+  function clearRecentViewed() {
+    S.recentViewed = [];
+    localStorage.removeItem('nx_recent');
+    _renderRecentViewed();
+    toast('Recently viewed cleared', 'fa-solid fa-trash');
+  }
+  function _renderRecentViewed() {
+    const wrap = document.getElementById('nx-rv-scroll');
+    if (!wrap) return;
+    if (!S.recentViewed.length) {
+      wrap.innerHTML = `<div style="padding:30px 22px;color:var(--t3);font-size:13px;font-weight:600;"><i class="fa-solid fa-clock"></i> &nbsp;No recently viewed items.</div>`;
+      return;
+    }
+    wrap.innerHTML = S.recentViewed.map(p => `
+      <div class="nx-rv-item" onclick="NX.go('product',${JSON.stringify(p.id)})">
+        <img class="nx-rv-img" src="${p.image}" alt="${p.title}" loading="lazy"/>
+        <div class="nx-rv-title">${p.title}</div>
+        <div class="nx-rv-price">Rs. ${Number(p.price).toLocaleString()}</div>
+      </div>
+    `).join('');
+  }
+
+  /* ------ NEWSLETTER ------ */
+  async function newsletterJoin() {
+    const email = (document.getElementById('nx-nl-email') || {}).value || '';
+    if (!email || !email.includes('@')) { toast('Please enter a valid email', 'fa-solid fa-exclamation', 'danger'); return; }
+
+    // Save to Firestore if available
+    if (window.db) {
+      try {
+        await window.db.collection('newsletter').add({ email, joinedAt: new Date().toISOString() });
+      } catch (_) {}
+    }
+    // Save to Supabase if available
+    if (window.supabaseClient) {
+      try {
+        await window.supabaseClient.from('newsletter').insert({ email });
+      } catch (_) {}
+    }
+    document.getElementById('nx-nl-email').value = '';
+    toast('You\'re on the list! Check your inbox.', 'fa-solid fa-envelope', 'success');
+  }
+
+  /* ------ SHARE-TO-UNLOCK (Freebies) ------ */
+  function shareToUnlock(itemId, el) {
+    const key      = `nx_shares_${itemId}`;
+    let   shares   = parseInt(localStorage.getItem(key) || '0');
+
+    if (navigator.share) {
+      navigator.share({ title: 'Nexra PK Free Resource', url: window.location.href })
+        .then(() => { _incrementShare(itemId, el); })
+        .catch(() => { toast('Share cancelled', 'fa-solid fa-xmark', 'danger'); });
+    } else {
+      navigator.clipboard.writeText(window.location.href).then(() => {
+        toast('Link copied! Share it to unlock.', 'fa-solid fa-copy', 'success');
+        _incrementShare(itemId, el);
+      });
+    }
+  }
+  function _incrementShare(itemId, el) {
+    const key    = `nx_shares_${itemId}`;
+    let   shares = parseInt(localStorage.getItem(key) || '0') + 1;
+    localStorage.setItem(key, shares);
+
+    const barFill = document.getElementById('nx-share-fill-' + itemId);
+    if (barFill) barFill.style.width = Math.min((shares / 3) * 100, 100) + '%';
+
+    if (shares >= 3) {
+      if (el) { el.innerHTML = '<i class="fa-solid fa-lock-open"></i> UNLOCKED'; el.classList.add('unlocked'); }
+      localStorage.setItem('nx_unlocked_' + itemId, '1');
+      toast('Resource unlocked! It\'s now in your vault.', 'fa-solid fa-vault', 'success');
+    } else {
+      toast(`Share ${3 - shares} more time${3 - shares === 1 ? '' : 's'} to unlock.`, 'fa-solid fa-share-nodes');
+    }
+  }
+  function _isUnlocked(id) { return localStorage.getItem('nx_unlocked_' + id) === '1'; }
+  function _getShares(id)  { return parseInt(localStorage.getItem('nx_shares_' + id) || '0'); }
+
+  /* ------ KINETIC ROTOR ------ */
+  function _initRotor() {
+    const words = ['CREATORS', 'AGENCIES', 'FOUNDERS', 'FREELANCERS', 'DREAMERS'];
+    const wrap  = document.getElementById('nx-rotor');
+    if (!wrap) return;
+
+    wrap.innerHTML = words.map((w, i) =>
+      `<span class="nx-rotor-item${i === 0 ? ' r-current' : ''}">${w}</span>`
+    ).join('');
+
+    let idx = 0;
+    setInterval(() => {
+      const items = wrap.querySelectorAll('.nx-rotor-item');
+      items[idx].classList.remove('r-current');
+      items[idx].classList.add('r-exit');
+      idx = (idx + 1) % items.length;
+      items[idx].classList.add('r-current');
+      items[idx].classList.remove('r-exit');
+      setTimeout(() => {
+        items.forEach(it => { if (!it.classList.contains('r-current')) it.classList.remove('r-exit'); });
+      }, 600);
+    }, 2400);
+  }
+
+  /* ------ INTERSECTION OBSERVER (Scroll Reveals) ------ */
+  function _initReveal() {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('nx-visible'); io.unobserve(e.target); } });
+    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    document.querySelectorAll('.nx-reveal, .nx-reveal-scale, .nx-reveal-left').forEach(el => io.observe(el));
+  }
+
+  /* ------ STICKY HEADER ------ */
+  function _initStickyHeader() {
+    const island = document.getElementById('nx-island');
+    const wrap   = document.getElementById('nx-header-wrap');
+    const announce = document.getElementById('nx-announce');
+
+    window.addEventListener('scroll', () => {
+      const annH = announce ? announce.offsetHeight : 0;
+      if (window.scrollY > 80) {
+        island && island.classList.add('scrolled');
+        if (wrap) wrap.style.top = '10px';
+      } else {
+        island && island.classList.remove('scrolled');
+        if (wrap) wrap.style.top = (12 + annH) + 'px';
+      }
+    }, { passive: true });
+
+    // Set initial top
+    if (announce && wrap) wrap.style.top = (12 + announce.offsetHeight) + 'px';
+  }
+
+  /* ------ CATEGORIES ------ */
+  async function _renderCategories() {
+    const container = document.getElementById('nx-cats');
+    if (!container) return;
+
+    // Default categories
+    let cats = [
+      { label:'All',        icon:'fa-solid fa-grid-2' },
+      { label:'SaaS Tools', icon:'fa-solid fa-cloud' },
+      { label:'WordPress',  icon:'fa-brands fa-wordpress' },
+      { label:'Graphics',   icon:'fa-solid fa-pen-nib' },
+      { label:'UI Kits',    icon:'fa-solid fa-layer-group' },
+      { label:'Courses',    icon:'fa-solid fa-graduation-cap' },
+      { label:'Plugins',    icon:'fa-solid fa-plug' },
+      { label:'SEO Tools',  icon:'fa-solid fa-magnifying-glass-chart' },
+    ];
+
+    // Try Firestore for dynamic categories
+    if (window.db) {
+      try {
+        const snap = await window.db.collection('categories').orderBy('order').get();
+        if (!snap.empty) {
+          cats = snap.docs.map(d => ({ label: d.data().name, icon: d.data().icon || 'fa-solid fa-tag', id: d.id }));
+        }
+      } catch (_) {}
+    }
+
+    container.innerHTML = cats.map((c, i) => `
+      <div class="nx-cat-pill${i === 0 ? ' nx-cat-active' : ''}" onclick="NX._filterByCategory(this,'${c.label}')">
+        <div class="nx-cat-icon"><i class="${c.icon}"></i></div>
+        ${c.label}
+      </div>
+    `).join('');
+  }
+
+  function _filterByCategory(el, label) {
+    document.querySelectorAll('.nx-cat-pill').forEach(p => p.classList.remove('nx-cat-active'));
+    el.classList.add('nx-cat-active');
+    const q = label === 'All' ? '' : label;
+    window.location.href = (window.NexraRoutes && window.NexraRoutes.generateURL)
+      ? window.NexraRoutes.generateURL('shop', { category: q })
+      : `/shop/shop.html?category=${encodeURIComponent(q)}`;
+  }
+
+  /* ------ PRODUCTS ------ */
+  async function _renderProducts() {
+    const skel = document.getElementById('nx-skel-trending');
+    const grid = document.getElementById('nx-trending-grid');
+    if (!grid) return;
+
+    // Fallback product data (always used if Firestore fails)
+    const fallback = [
+      { id:'capcut',    title:'CapCut Pro Lifetime',   price:950,  image:'https://i.postimg.cc/SNm7KsrH/images-(2).jpg', badge:'SALE', rating:5.0, sold:'1.2K' },
+      { id:'canva',     title:'Canva Pro 1 Year',       price:450,  image:'https://i.postimg.cc/Y25ZD1tW/images-(1).jpg', badge:'HOT',  rating:4.9, sold:'3.4K' },
+      { id:'chatgpt',   title:'ChatGPT Plus 1M',        price:1200, image:'https://i.postimg.cc/fTHXTvkj/images.jpg',     badge:'NEW',  rating:5.0, sold:'890' },
+      { id:'elementor', title:'Elementor Pro GPL',      price:500,  image:'https://i.postimg.cc/prR8yGDh/images-(3).jpg', badge:'SAAS', rating:4.8, sold:'2.1K' },
+      { id:'figma',     title:'Figma Pro 3 Months',     price:750,  image:'https://i.postimg.cc/Y25ZD1tW/images-(1).jpg', badge:'SALE', rating:4.9, sold:'670' },
+    ];
+
+    let products = fallback;
+
+    // Try Supabase for trending products
+    if (window.supabaseClient) {
+      try {
+        const { data, error } = await window.supabaseClient
+          .from('products')
+          .select('*')
+          .eq('trending', true)
+          .order('sold', { ascending: false })
+          .limit(10);
+        if (!error && data && data.length) products = data;
+      } catch (_) {}
+    }
+
+    // Hide skeleton, show grid
+    if (skel) skel.style.display = 'none';
+    grid.style.display = 'grid';
+
+    grid.innerHTML = products.map(p => {
+      const usd = _pricePKRtoUSD(p.price);
+      const badgeClass = p.badge === 'NEW' ? 'badge-new' : p.badge === 'HOT' ? 'badge-hot' : '';
+      const glowClass  = S.edition === 'alpha' ? 'glow-purple' : 'glow-orange';
+      const stars = Array(5).fill(0).map((_, i) => `<i class="fa-solid fa-star${i < Math.floor(p.rating || 5) ? '' : '-half-stroke'}"></i>`).join('');
+      return `
+        <article class="nx-prod-card ${glowClass} nx-reveal" onclick="NX._viewProduct('${p.id}','${p.title}','${p.price}','${p.image}')" tabindex="0" aria-label="${p.title} — Rs. ${p.price}">
+          <div class="nx-prod-img-wrap">
+            <img class="nx-prod-img" src="${p.image}" alt="${p.title}" loading="lazy"/>
+            <span class="nx-prod-badge ${badgeClass}">${p.badge || 'SALE'}</span>
+            <button class="nx-prod-wishlist" onclick="event.stopPropagation();NX._wishlist('${p.id}')" aria-label="Add to wishlist">
+              <i class="fa-regular fa-heart"></i>
+            </button>
+          </div>
+          <div class="nx-prod-meta">
+            <span class="nx-prod-stars">${stars} ${p.rating || '5.0'}</span>
+            <span><i class="fa-solid fa-bolt" style="color:var(--gold);font-size:9px;"></i> ${p.sold || '1K'}+ sold</span>
+          </div>
+          <h3 class="nx-prod-title">${p.title}</h3>
+          <div class="nx-prod-price-row">
+            <span class="nx-prod-price">Rs. ${Number(p.price).toLocaleString()}</span>
+            <span class="nx-prod-usd">${usd}</span>
+          </div>
+          <div class="nx-prod-actions">
+            <button class="nx-prod-cart-btn" onclick="NX.addToCart(event,'${p.id}','${p.title}',${p.price},'${p.image}')" aria-label="Add to cart">
+              <i class="fa-solid fa-cart-plus"></i>
+            </button>
+            <button class="nx-prod-buy-btn" onclick="event.stopPropagation();NX.go('checkout')" aria-label="Buy now">
+              BUY NOW
+            </button>
+          </div>
+        </article>
+      `;
+    }).join('');
+
+    // Reinit observer for newly injected cards
+    _initReveal();
+  }
+
+  function _viewProduct(id, title, price, image) {
+    _trackView({ id, title, price, image });
+    _renderRecentViewed();
+    go('product', id);
+  }
+  function _wishlist(id) { toast('Added to wishlist!', 'fa-solid fa-heart', 'gold'); }
+
+  /* ------ VAULT (Freebies) ------ */
+  async function _renderVault() {
+    const grid = document.getElementById('nx-vault-grid');
+    if (!grid) return;
+
+    const fallback = [
+      { id:'1', title:'Modern SaaS Dashboard UI Kit',    category:'UI KIT',  image:'https://i.postimg.cc/prR8yGDh/images-(3).jpg' },
+      { id:'2', title:'Cinematic Lightroom Presets Pack', category:'PRESETS', image:'https://i.postimg.cc/Y25ZD1tW/images-(1).jpg' },
+      { id:'3', title:'Figma E-commerce UI Components',  category:'FIGMA',   image:'https://i.postimg.cc/fTHXTvkj/images.jpg' },
+    ];
+
+    let items = fallback;
+    if (window.supabaseClient) {
+      try {
+        const { data, error } = await window.supabaseClient.from('freebies').select('*').limit(6);
+        if (!error && data && data.length) items = data;
+      } catch (_) {}
+    }
+
+    grid.innerHTML = items.map(item => {
+      const unlocked = _isUnlocked(item.id);
+      const shares   = _getShares(item.id);
+      const pct      = Math.min((shares / 3) * 100, 100);
+      return `
+        <div class="nx-vault-card nx-reveal" onclick="NX.go('freebie','${item.id}')" tabindex="0" aria-label="${item.title}">
+          <img src="${item.image}" alt="${item.title}" loading="lazy"/>
+          <div class="nx-vault-overlay" onclick="event.stopPropagation()">
+            <span class="nx-vault-cat">${item.category || 'RESOURCE'}</span>
+            <h3 class="nx-vault-name">${item.title}</h3>
+            ${unlocked ? `
+              <div class="nx-vault-lock unlocked" onclick="NX.go('freebie','${item.id}')">
+                <i class="fa-solid fa-lock-open"></i> DOWNLOAD FREE
+              </div>` : `
+              <div class="nx-vault-lock" id="nx-vl-${item.id}" onclick="NX.shareToUnlock('${item.id}',this)">
+                <i class="fa-solid fa-share-nodes"></i>
+                SHARE TO UNLOCK (${3 - shares} left)
+              </div>
+              <div class="nx-share-bar" style="margin-top:10px;">
+                <div class="nx-share-fill" id="nx-share-fill-${item.id}" style="width:${pct}%;"></div>
+              </div>`}
+          </div>
+        </div>
+      `;
+    }).join('');
+    _initReveal();
+  }
+
+  /* ------ BLOGS ------ */
+  async function _renderBlogs() {
+    const grid = document.getElementById('nx-blog-grid');
+    if (!grid) return;
+
+    const fallback = [
+      { id:'1', title:'How to Scale Your SaaS Agency in 2025', tag:'AGENCY', excerpt:'Step-by-step breakdown of the tools and systems top Pakistani agencies use to 10x their revenue.', readTime:'5 min', date:'Jun 2025', image:'https://i.postimg.cc/fTHXTvkj/images.jpg' },
+      { id:'2', title:'Top 10 Canva Pro Secrets Designers Miss', tag:'DESIGN', excerpt:'Unlock hidden Canva features that save hours on every project. Real workflows from 100+ designers.', readTime:'4 min', date:'May 2025', image:'https://i.postimg.cc/Y25ZD1tW/images-(1).jpg' },
+      { id:'3', title:'ChatGPT Prompts That Actually Work for Freelancers', tag:'AI',    excerpt:'A curated collection of high-converting prompts for proposals, content, and client communication.', readTime:'6 min', date:'Apr 2025', image:'https://i.postimg.cc/SNm7KsrH/images-(2).jpg' },
+    ];
+
+    let posts = fallback;
+    if (window.supabaseClient) {
+      try {
+        const { data, error } = await window.supabaseClient.from('posts').select('*').order('publishedAt', { ascending: false }).limit(3);
+        if (!error && data && data.length) posts = data;
+      } catch (_) {}
+    }
+
+    grid.innerHTML = posts.map(p => `
+      <article class="nx-blog-card nx-reveal" onclick="NX.go('blog','${p.id}')" tabindex="0" aria-label="${p.title}">
+        <div class="nx-blog-img-wrap">
+          <img class="nx-blog-img" src="${p.image}" alt="${p.title}" loading="lazy"/>
+          <span class="nx-blog-tag">${p.tag || 'GUIDE'}</span>
+        </div>
+        <div class="nx-blog-body">
+          <div class="nx-blog-meta">
+            <span><i class="fa-solid fa-clock"></i> ${p.readTime || '4 min'}</span>
+            <span>${p.date || ''}</span>
+          </div>
+          <h3 class="nx-blog-title">${p.title}</h3>
+          <p class="nx-blog-excerpt">${p.excerpt || ''}</p>
+          <span class="nx-blog-read-more">
+            READ ARTICLE <i class="fa-solid fa-arrow-right"></i>
+          </span>
+        </div>
+      </article>
+    `).join('');
+    _initReveal();
+  }
+
+  /* ------ AMBASSADOR BUBBLE RING ------ */
+  function _renderAmbassadors() {
+    const orbit = document.getElementById('nx-orbit');
+    if (!orbit) return;
+    // Avatar placeholder: colored initials
+    const ambassadors = [
+      { initials:'AK', color:'#6366f1' },
+      { initials:'SM', color:'#10b981' },
+      { initials:'ZB', color:'#f59e0b' },
+      { initials:'OT', color:'#8b5cf6' },
+      { initials:'RN', color:'#ec4899' },
+      { initials:'FA', color:'#14b8a6' },
+      { initials:'HQ', color:'#f97316' },
+      { initials:'MJ', color:'#3b82f6' },
+    ];
+    orbit.innerHTML = ambassadors.map(a => `
+      <div class="nx-bubble" title="${a.initials}">
+        <div style="width:100%;height:100%;border-radius:50%;background:${a.color};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;color:#fff;">${a.initials}</div>
+      </div>
+    `).join('');
+  }
+
+  /* ------ TESTIMONIALS MARQUEE ------ */
+  function _renderTestimonials() {
+    const rowA = document.getElementById('nx-marq-a');
+    const rowB = document.getElementById('nx-marq-b');
+    if (!rowA || !rowB) return;
+
+    const reviews = [
+      { name:'Ali Khan',     src:'whatsapp',  icon:'fa-brands fa-whatsapp',  color:'#25d366', text:'Fastest delivery I\'ve seen in Pakistan. CapCut Pro works perfectly!', verified:true },
+      { name:'Sara Mirza',   src:'instagram', icon:'fa-brands fa-instagram', color:'#e1306c', text:'Honestly the best digital marketplace for Pakistani creators. Love it!', verified:true },
+      { name:'Zain Butt',    src:'telegram',  icon:'fa-brands fa-telegram',  color:'#2aabee', text:'The freebies vault alone is worth it. Downloaded 12 assets this month.', verified:true },
+      { name:'Omer Tariq',   src:'whatsapp',  icon:'fa-brands fa-whatsapp',  color:'#25d366', text:'Agency portal changed my business. Margins are incredible.', verified:true },
+      { name:'Rida Noor',    src:'instagram', icon:'fa-brands fa-instagram', color:'#e1306c', text:'ChatGPT Plus for Rs. 1200 is a steal. Activated in 5 minutes.', verified:true },
+      { name:'Faisal Awan',  src:'telegram',  icon:'fa-brands fa-telegram',  color:'#2aabee', text:'Support team responded in under 10 minutes. Rare in Pakistan.', verified:true },
+      { name:'Hina Qamar',   src:'whatsapp',  icon:'fa-brands fa-whatsapp',  color:'#25d366', text:'Canva Pro subscription saved my design business. 100% legit.', verified:true },
+      { name:'Bilal Sheikh', src:'instagram', icon:'fa-brands fa-instagram', color:'#e1306c', text:'Refer a friend bonus is real. Got Rs. 500 cashback instantly.', verified:true },
+    ];
+
+    const card = r => `
+      <div class="nx-review-card">
+        <div class="nx-review-head">
+          <div class="nx-review-ava">${r.name[0]}</div>
+          <div>
+            <div class="nx-review-name">${r.name}</div>
+            <div class="nx-review-src">
+              <i class="${r.icon}" style="color:${r.color};"></i> via ${r.src}
             </div>
-            <div class="marquee-container">
-                <div class="marquee-track" id="testimonial-track">
-                    <!-- JS Injected Marquee -->
+          </div>
+          <div style="margin-left:auto;">
+            <div class="nx-review-stars">
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+            </div>
+          </div>
+        </div>
+        <p class="nx-review-text">${r.text}</p>
+        ${r.verified ? `<div class="nx-review-verified"><i class="fa-solid fa-circle-check"></i> Verified Purchase</div>` : ''}
+      </div>
+    `;
+
+    // Row A: reviews 0-4, Row B: reviews 4-7 (duplicated for infinite scroll)
+    const html = reviews.map(card).join('');
+    rowA.innerHTML = html + html;
+    rowB.innerHTML = html + html;
+  }
+
+  /* ------ FAQ ------ */
+  async function _renderFAQ() {
+    const list = document.getElementById('nx-faq-list');
+    if (!list) return;
+
+    const faqs = [
+      { q:'How fast is delivery after payment?', a:'All digital products are delivered instantly after payment confirmation — usually within 60 seconds. You\'ll receive your license key or download link directly in your Nexra Vault and via email.' },
+      { q:'Are all products genuine and safe to use?', a:'Yes. Every product on Nexra PK is manually verified by our technical team. We source directly from official vendors and authorized resellers, ensuring 100% authentic and functional licenses.' },
+      { q:'What payment methods are accepted?', a:'We accept EasyPaisa, JazzCash, bank transfer, and major debit/credit cards. Our payment page is SSL-secured and processes in PKR at live rates.' },
+      { q:'How does the Share-to-Unlock vault work?', a:'Free resources in the Community Vault require 3 shares to unlock permanently. After sharing (via any platform), the file is added to your personal vault forever — no payment required.' },
+      { q:'Can I resell Nexra products?', a:'Yes! Our Agency Reseller Portal gives you wholesale pricing, an auto key generator, and a custom branded panel. Apply via the Reseller section to get started.' },
+      { q:'What if my key doesn\'t work?', a:'Contact our live support within 24 hours of purchase. We have a 100% replacement guarantee for defective keys. Average response time is under 15 minutes during business hours.' },
+    ];
+
+    list.innerHTML = faqs.map((f, i) => `
+      <div class="nx-faq-item nx-reveal" id="nx-faq-${i}">
+        <button class="nx-faq-q" onclick="NX._toggleFAQ(${i})" aria-expanded="false" aria-controls="nx-faq-ans-${i}">
+          <span>${f.q}</span>
+          <div class="nx-faq-icon"><i class="fa-solid fa-plus"></i></div>
+        </button>
+        <div class="nx-faq-a" id="nx-faq-ans-${i}" role="region">
+          <p>${f.a}</p>
+        </div>
+      </div>
+    `).join('');
+
+    // Try Firestore for custom FAQs
+    if (window.db) {
+      try {
+        const snap = await window.db.collection('faq').orderBy('order').get();
+        if (!snap.empty) {
+          list.innerHTML = snap.docs.map((d, i) => {
+            const f = d.data();
+            return `
+              <div class="nx-faq-item nx-reveal" id="nx-faq-${i}">
+                <button class="nx-faq-q" onclick="NX._toggleFAQ(${i})" aria-expanded="false">
+                  <span>${f.question}</span>
+                  <div class="nx-faq-icon"><i class="fa-solid fa-plus"></i></div>
+                </button>
+                <div class="nx-faq-a" id="nx-faq-ans-${i}" role="region">
+                  <p>${f.answer}</p>
                 </div>
-            </div>
-        </section>
+              </div>
+            `;
+          }).join('');
+        }
+      } catch (_) {}
+    }
+    _initReveal();
+  }
 
-    </main>
+  function _toggleFAQ(idx) {
+    const item = document.getElementById('nx-faq-' + idx);
+    if (!item) return;
+    const isOpen = item.classList.contains('open');
+    // Close all
+    document.querySelectorAll('.nx-faq-item.open').forEach(el => { el.classList.remove('open'); el.querySelector('[aria-expanded]') && el.querySelector('[aria-expanded]').setAttribute('aria-expanded', 'false'); });
+    // Toggle clicked
+    if (!isOpen) { item.classList.add('open'); item.querySelector('[aria-expanded]') && item.querySelector('[aria-expanded]').setAttribute('aria-expanded', 'true'); }
+  }
 
-    <!-- ==========================================================================
-         3. HOME PAGE ENGINE (JS)
-         ========================================================================== -->
-    <script>
-        /**
-         * NEXRA HOME ENGINE
-         * Manages Data fetching, Dynamic Branding, and UX transitions.
-         */
-        window.NexraHome = {
-            init: function() {
-                this.applyBranding();
-                this.loadCategories();
-                this.loadTrendingProducts();
-                this.initMarquee();
-                console.log("🏠 Home Dashboard Ready");
-            },
+  /* ------ FOOTER YEAR ------ */
+  function _setYear() { const el = document.getElementById('nx-year'); if (el) el.textContent = new Date().getFullYear(); }
 
-            // 1. Apply Dynamic Assets from Edition Config
-            applyBranding: function() {
-                const edition = window.NexraBrand.activeEdition;
-                document.documentElement.setAttribute('data-edition', edition);
-                
-                // Update Badge Text
-                document.getElementById('edition-text').innerText = `${edition.toUpperCase()} EDITION`;
-                
-                // Refresh DOM Images for this page
-                window.NexraBrand.refreshDOMAssets();
-            },
+  /* ------ BOOT ------ */
+  async function init() {
+    // Theme
+    const saved = localStorage.getItem('nx_theme');
+    if (saved === 'dark') { document.body.setAttribute('data-theme', 'dark'); const icon = document.getElementById('nx-theme-icon'); if (icon) icon.className = 'fa-solid fa-sun'; }
 
-            // 2. Fetch Categories (Real-time from Firestore)
-            loadCategories: function() {
-                const container = document.getElementById('home-categories');
-                window.db.collection('categories').limit(6).onSnapshot(snap => {
-                    if(snap.empty) return;
-                    container.innerHTML = '';
-                    snap.forEach(doc => {
-                        const c = doc.data();
-                        container.innerHTML += `<div class="cat-pill" onclick="Nexra.navTo('shop', '${doc.id}')">${c.name}</div>`;
-                    });
-                });
-            },
+    // Core systems
+    _loadCart();
+    _setYear();
+    _initStickyHeader();
+    _initReveal();
+    _initRotor();
 
-            // 3. Load Trending Assets
-            loadTrendingProducts: function() {
-                const grid = document.getElementById('trending-grid');
-                // Skeletons
-                grid.innerHTML = Array(5).fill('<div class="p-card"><div class="skeleton" style="width:100%; aspect-ratio:1/1;"></div></div>').join('');
+    // Async data loading (non-blocking)
+    Promise.all([
+      _loadBranding(),
+      _loadAnnounce(),
+      _loadStats(),
+      _loadUSDRate(),
+      _loadRecentViewed(),
+    ]);
 
-                window.db.collection('products').where('isTrending', '==', true).limit(5).onSnapshot(snap => {
-                    grid.innerHTML = '';
-                    if(snap.empty) { grid.innerHTML = '<p>No items found.</p>'; return; }
-                    
-                    snap.forEach(doc => {
-                        const p = doc.data();
-                        grid.innerHTML += `
-                            <div class="p-card" onclick="Nexra.navTo('product', '${doc.id}')">
-                                ${p.badge ? `<div class="p-badge">${p.badge}</div>` : ''}
-                                <div class="p-img-box">
-                                    <img src="${p.image}" class="p-img" loading="lazy">
-                                </div>
-                                <div class="p-info">
-                                    <h3 class="tech-font">${p.title}</h3>
-                                    <div class="p-price-row">
-                                        <div class="p-price">Rs. ${p.price}</div>
-                                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" style="color:var(--brand-main)"><path d="M12 5v14M5 12h14"></path></svg>
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                });
-            },
+    // Render sections
+    _renderCategories();
+    _renderProducts();
+    _renderVault();
+    _renderBlogs();
+    _renderAmbassadors();
+    _renderTestimonials();
+    _renderFAQ();
+  }
 
-            // 4. Testimonial Marquee
-            initMarquee: function() {
-                const track = document.getElementById('testimonial-track');
-                const users = [
-                    { name: "Ali Khan", text: "Instant delivery, best SaaS marketplace!", color: "#FF4A17" },
-                    { name: "Sara Malik", text: "The reseller dashboard is a game changer.", color: "#a855f7" },
-                    { name: "Hamza Dev", text: "Secure keys and great customer support.", color: "#10b981" },
-                    { name: "Zoya Graphics", text: "Free vault resources are high quality.", color: "#3b82f6" }
-                ];
+  /* ------ PUBLIC API ------ */
+  return {
+    go, openExternal, toast, toggleTheme,
+    toggleDrawer, toggleCart,
+    addToCart, removeFromCart,
+    search, setSearchFilter,
+    closeAnnounce,
+    shareToUnlock,
+    newsletterJoin,
+    clearRecentViewed,
+    init,
+    // Internal (called from HTML) — exposed via underscore prefix
+    _viewProduct, _wishlist, _filterByCategory, _toggleFAQ,
+  };
+})();
 
-                let html = '';
-                users.forEach(u => {
-                    html += `
-                        <div class="t-card">
-                            <div style="display:flex; align-items:center; gap:10px; margin-bottom:10px;">
-                                <div style="width:30px; height:30px; border-radius:50%; background:${u.color};"></div>
-                                <strong style="font-size:13px;">${u.name}</strong>
-                            </div>
-                            <p style="font-size:12px; color:var(--text-200);">${u.text}</p>
-                        </div>
-                    `;
-                });
-                track.innerHTML = html + html; // Double for loop
-            },
+/* ================================================================
+   INIT ON DOM READY
+   ================================================================ */
+document.addEventListener('DOMContentLoaded', () => {
+  NX.init();
 
-            handleSearch: function() {
-                const query = document.getElementById('global-search-input').value;
-                if(query) Nexra.navTo('shop', query);
-            }
-        };
-
-        // Ignite the Module
-        document.addEventListener('DOMContentLoaded', () => NexraHome.init());
-    </script>
-
+  // Keyboard accessibility for drawer close
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      const cartDrawer = document.getElementById('nx-cart-drawer');
+      const slider = document.getElementById('nx-slider');
+      if (cartDrawer && cartDrawer.classList.contains('open')) NX.toggleCart();
+      if (slider && slider.classList.contains('open')) NX.toggleDrawer('slider');
+    }
+  });
+});
+</script>
 </body>
 </html>
