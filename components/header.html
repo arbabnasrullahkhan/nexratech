@@ -1,480 +1,131 @@
-<!-- ==========================================================================
-     NEXRA TECH PK - DYNAMIC ISLAND HEADER (V4.0 ENTERPRISE)
-     Dependency: firebaseconfig.js, index.html (Gateway)
-     ========================================================================== -->
-
 <style>
-    /* Header Scoped Styling */
+    /* ==========================================
+       ISLAND HEADER STYLING
+       ========================================== */
     .nx-header-wrapper {
-        position: fixed;
-        top: 15px; 
-        left: 0;
-        width: 100%;
-        z-index: 9000;
-        padding: 0 3%;
-        pointer-events: none; /* Let clicks pass through empty space */
-        animation: nxHeaderSlideDown 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        position: fixed; top: 15px; left: 0; width: 100%;
+        z-index: 9000; padding: 0 4%; pointer-events: none;
     }
 
     .nx-island-nav {
-        max-width: 1400px;
-        margin: 0 auto;
-        background: rgba(255, 255, 255, 0.85);
-        backdrop-filter: blur(30px);
-        -webkit-backdrop-filter: blur(30px);
+        max-width: 1400px; margin: 0 auto;
+        background: var(--nav-blur);
+        backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+        border: 1px solid var(--glass-border); border-radius: 50px;
+        padding: 10px 18px; display: flex; justify-content: space-between;
+        align-items: center; box-shadow: var(--shadow-sm);
+        pointer-events: auto; transition: var(--transition);
+    }
+
+    /* Logo Logic */
+    .h-logo-group { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+    .h-logo-icon {
+        width: 38px; height: 38px; background: #fff; border-radius: 50%;
+        display: flex; align-items: center; justify-content: center;
+        border: 1px solid var(--glass-border); padding: 5px;
+        box-shadow: 0 5px 15px var(--brand-glow); overflow: hidden;
+    }
+    .h-logo-icon img { width: 100%; height: 100%; object-fit: contain; }
+    .h-title-img { height: 16px; filter: brightness(0); opacity: 0.9; }
+    [data-theme="dark"] .h-title-img { filter: invert(1); }
+
+    /* Desktop Navigation (Center) */
+    .h-nav-links {
+        display: none; align-items: center; gap: 5px;
+        background: var(--bg-elevated); padding: 6px; border-radius: 50px;
         border: 1px solid var(--glass-border);
-        border-radius: 50px;
-        padding: 8px 12px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        box-shadow: var(--shadow-md);
-        pointer-events: auto; /* Re-enable clicks inside nav */
-        transition: background 0.4s, border-color 0.4s, box-shadow 0.4s;
+    }
+    .h-nav-item {
+        font-size: 11px; font-weight: 800; color: var(--text-200);
+        padding: 8px 18px; border-radius: 40px; text-transform: uppercase;
+        letter-spacing: 0.5px; transition: 0.3s; cursor: pointer;
+    }
+    .h-nav-item:hover { color: var(--brand-main); }
+    .h-nav-item.active { background: var(--brand-main); color: #fff; box-shadow: 0 4px 12px var(--brand-glow); }
+
+    /* Actions (Right) */
+    .h-actions { display: flex; align-items: center; gap: 8px; }
+    .h-btn {
+        width: 42px; height: 42px; border-radius: 50%;
+        background: var(--bg-surface); border: 1px solid var(--glass-border);
+        color: var(--text-100); display: flex; align-items: center;
+        justify-content: center; transition: 0.3s var(--ease); cursor: pointer;
         position: relative;
     }
+    .h-btn:hover { border-color: var(--brand-main); color: var(--brand-main); transform: scale(1.05); }
 
-    [data-theme="dark"] .nx-island-nav {
-        background: rgba(12, 12, 18, 0.85);
-    }
-
-    /* 1. Logo Section */
-    .nx-h-logo-sec {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        cursor: pointer;
-        padding: 4px 14px 4px 4px;
-        border-radius: 40px;
-        transition: background 0.3s ease, transform 0.2s ease;
-    }
-    .nx-h-logo-sec:hover { background: var(--brand-soft); }
-    .nx-h-logo-sec:active { transform: scale(0.96); }
-
-    .nx-h-logo-icon {
-        width: 40px; height: 40px;
-        background: #ffffff;
-        border-radius: 50%;
+    .h-cart-badge {
+        position: absolute; top: -3px; right: -3px;
+        background: var(--brand-main); color: #fff; font-size: 9px;
+        font-weight: 900; width: 18px; height: 18px; border-radius: 50%;
         display: flex; align-items: center; justify-content: center;
-        border: 1px solid var(--glass-border);
-        box-shadow: 0 4px 15px var(--brand-glow);
-        overflow: hidden;
-        flex-shrink: 0;
-    }
-    .nx-h-logo-icon img { width: 100%; height: 100%; object-fit: contain; padding: 4px; transition: 0.3s; }
-    .nx-h-title-img { height: 15px; filter: brightness(0); opacity: 0.9; transition: 0.3s; }
-    [data-theme="dark"] .nx-h-title-img { filter: invert(1); }
-
-    /* 2. Dynamic Desktop Navigation */
-    .nx-h-desktop-nav {
-        display: none; /* Mobile first: hidden */
-        align-items: center;
-        gap: 5px;
-        background: var(--bg-elevated);
-        padding: 6px;
-        border-radius: 50px;
-        border: 1px solid var(--glass-border);
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
+        border: 2px solid var(--bg-surface); box-shadow: 0 4px 10px var(--brand-glow);
     }
 
-    .nx-h-nav-item {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        font-size: 12px;
-        font-weight: 700;
-        color: var(--text-200);
-        cursor: pointer;
-        padding: 10px 20px;
-        border-radius: 40px;
-        transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        position: relative;
-        z-index: 1;
-        text-decoration: none;
-    }
-    .nx-h-nav-item svg { width: 14px; height: 14px; opacity: 0.7; transition: 0.3s; }
-    .nx-h-nav-item:hover { color: var(--brand-main); background: var(--bg-surface); }
-    .nx-h-nav-item:hover svg { opacity: 1; transform: scale(1.1); }
-    .nx-h-nav-item.active { color: #ffffff; background: var(--brand-main); box-shadow: 0 5px 15px var(--brand-glow); }
-    .nx-h-nav-item.active svg { opacity: 1; }
-
-    /* Nav Skeletons */
-    .nx-nav-skel { width: 80px; height: 36px; border-radius: 40px; background: var(--glass-border); animation: nxSkeletonPulse 1.5s infinite; }
-
-    /* 3. Actions Container */
-    .nx-h-actions { display: flex; align-items: center; gap: 8px; }
-
-    .nx-h-btn {
-        width: 44px; height: 44px;
-        border-radius: 50%;
-        background: var(--bg-surface);
-        border: 1px solid var(--glass-border);
-        color: var(--text-100);
-        display: flex; align-items: center; justify-content: center;
-        cursor: pointer;
-        transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        position: relative;
-    }
-    .nx-h-btn svg { width: 20px; height: 20px; transition: 0.3s; }
-    .nx-h-btn:hover { background: var(--brand-main); color: #ffffff; border-color: var(--brand-main); transform: translateY(-2px); box-shadow: 0 5px 15px var(--brand-glow); }
-
-    /* Profile Auth Avatar */
-    .nx-auth-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; display: none; }
-
-    /* Badges */
-    .nx-h-badge {
-        position: absolute; top: -2px; right: -2px;
-        background: var(--danger); color: #ffffff;
-        font-size: 9px; font-weight: 800;
-        width: 18px; height: 18px; border-radius: 50%;
-        display: flex; align-items: center; justify-content: center;
-        border: 2px solid var(--bg-surface);
-        box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3);
-        opacity: 0; transform: scale(0); transition: 0.3s;
-    }
-    .nx-h-badge.show { opacity: 1; transform: scale(1); }
-    .nx-h-badge-cart { background: var(--brand-main); box-shadow: 0 4px 10px var(--brand-glow); opacity: 1; transform: scale(1); }
-
-    /* 4. Theme Color Palette (Hold Trigger) */
-    .nx-theme-palette {
-        position: absolute; top: 70px; right: 60px; /* Offset from theme button */
-        background: var(--bg-surface);
-        border: 1px solid var(--glass-border);
-        padding: 15px; border-radius: 20px;
-        display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;
-        box-shadow: var(--shadow-md);
-        opacity: 0; visibility: hidden; transform: translateY(10px);
-        transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        z-index: 100;
-    }
-    .nx-theme-palette.active { opacity: 1; visibility: visible; transform: translateY(0); }
-    .nx-color-dot { width: 28px; height: 28px; border-radius: 50%; cursor: pointer; border: 2px solid transparent; transition: 0.2s; }
-    .nx-color-dot:hover { transform: scale(1.15); border-color: var(--text-100); }
-
-    /* Responsive Display Rules */
-    @media(min-width: 992px) {
-        .nx-h-desktop-nav { display: flex; }
-        .nx-mobile-only { display: none !important; }
-    }
-    @media(max-width: 991px) {
-        .nx-desktop-only { display: none !important; }
+    .h-auth-avatar {
+        width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
+        display: none; /* Shown via JS */
     }
 
-    /* Animations */
-    @keyframes nxHeaderSlideDown { from { transform: translateY(-50px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    @keyframes nxSkeletonPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 0.8; } }
+    @media(min-width: 992px) { .h-nav-links { display: flex; } }
 </style>
 
 <div class="nx-header-wrapper">
     <header class="nx-island-nav">
-        
-        <!-- 1. DYNAMIC BRAND LOGO (Asset Config Synced) -->
-        <!-- Clicking navigates to Home, defined by Route Registry -->
-        <a href="?view=home" class="nx-h-logo-sec" id="nx-h-logo-trigger">
-            <div class="nx-h-logo-icon">
-                <img class="nx-brand-logo" src="" alt="Nexra Logo">
+        <!-- Brand -->
+        <div class="h-logo-group" onclick="NexraRouter.loadView(NexraRoutes.generateURL('home'))">
+            <div class="h-logo-icon">
+                <img class="nx-brand-logo" src="" alt="N">
             </div>
-            <img class="nx-brand-title nx-desktop-only" src="" alt="Nexra Tech">
-        </a>
-        
-        <!-- 2. DYNAMIC NAVIGATION (Firebase Synced) -->
-        <nav class="nx-h-desktop-nav" id="nx-h-dynamic-nav">
-            <!-- Skeletons for Loading State -->
-            <div class="nx-nav-skel"></div>
-            <div class="nx-nav-skel"></div>
-            <div class="nx-nav-skel"></div>
-            <div class="nx-nav-skel"></div>
+            <img class="h-title-img nx-brand-title" src="" alt="Nexra">
+        </div>
+
+        <!-- Desktop Navigation -->
+        <nav class="h-nav-links">
+            <div class="h-nav-item active" onclick="NexraRouter.loadView(NexraRoutes.generateURL('home'))">Home</div>
+            <div class="h-nav-item" onclick="NexraRouter.loadView(NexraRoutes.generateURL('shop'))">Market</div>
+            <div class="h-nav-item" onclick="NexraRouter.loadView(NexraRoutes.generateURL('freebies'))">Vault</div>
+            <div class="h-nav-item" onclick="NexraRouter.loadView(NexraRoutes.generateURL('blog'))">Insights</div>
         </nav>
 
-        <!-- 3. ACTIONS & MODULE TRIGGERS -->
-        <div class="nx-h-actions">
-            
-            <!-- A. Theme Controller (Click: B&W, Hold: Color Palette) -->
-            <div style="position: relative;">
-                <button class="nx-h-btn nx-desktop-only" id="nx-h-theme-btn" aria-label="Theme Controller">
-                    <svg class="nx-theme-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                </button>
-                <!-- Long Press Palette -->
-                <div class="nx-theme-palette" id="nx-h-theme-palette">
-                    <div class="nx-color-dot" style="background: #FF4A17;" onclick="NexraHeaderEngine.setCustomColor('#FF4A17', 'beta')"></div>
-                    <div class="nx-color-dot" style="background: #a855f7;" onclick="NexraHeaderEngine.setCustomColor('#a855f7', 'alpha')"></div>
-                    <div class="nx-color-dot" style="background: #10b981;" onclick="NexraHeaderEngine.setCustomColor('#10b981')"></div>
-                    <div class="nx-color-dot" style="background: #3b82f6;" onclick="NexraHeaderEngine.setCustomColor('#3b82f6')"></div>
-                    <div class="nx-color-dot" style="background: #ec4899;" onclick="NexraHeaderEngine.setCustomColor('#ec4899')"></div>
-                    <div class="nx-color-dot" style="background: #f59e0b;" onclick="NexraHeaderEngine.setCustomColor('#f59e0b')"></div>
-                </div>
-            </div>
-
-            <!-- B. Notification Center -->
-            <a href="?view=notifications" class="nx-h-btn nx-desktop-only" aria-label="Notifications">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
-                <span class="nx-h-badge" id="nx-h-notif-badge">0</span>
-            </a>
-
-            <!-- C. Global Cart / Wallet -->
-            <button class="nx-h-btn" id="nx-h-cart-btn" aria-label="Cart">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
-                <span class="nx-h-badge nx-h-badge-cart" id="nx-h-cart-count">0</span>
+        <!-- Dynamic Actions -->
+        <div class="h-actions">
+            <!-- Cart Trigger -->
+            <button class="h-btn" onclick="NexraUI.toggleCart()" aria-label="Cart">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <span id="header-cart-count" class="h-cart-badge">0</span>
             </button>
 
-            <!-- D. Profile / Auth System -->
-            <a href="?view=profile" class="nx-h-btn nx-desktop-only" id="nx-h-profile-btn" aria-label="User Profile">
-                <svg id="nx-h-profile-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                <img id="nx-h-profile-avatar" class="nx-auth-avatar" src="" alt="User Avatar">
-            </a>
-
-            <!-- E. Off-Canvas Slider Trigger (Mobile/Tablet & Global Menu) -->
-            <button class="nx-h-btn nx-mobile-only" id="nx-h-menu-trigger" aria-label="Open Menu">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            <!-- User Auth Node -->
+            <button class="h-btn" id="h-auth-node" onclick="NexraRouter.loadView(NexraRoutes.generateURL('profile'))">
+                <i id="h-auth-icon" class="fa-solid fa-circle-user"></i>
+                <img id="h-auth-img" class="h-auth-avatar" src="" alt="User">
             </button>
 
+            <!-- Slider Toggle -->
+            <button class="h-btn" onclick="NexraUI.toggleSlider()" aria-label="Menu">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
         </div>
     </header>
 </div>
 
-<!-- ==========================================================================
-     HEADER COMPONENT SCRIPT (Self-Initializing)
-     ========================================================================== -->
 <script>
+    /**
+     * Header Logic: Monitor Auth State & Cart
+     */
     (function() {
-        window.NexraHeaderEngine = {
-            db: null,
-            auth: null,
-
-            init: function() {
-                console.log("[Header Engine] Initializing...");
-                
-                // Fetch dynamic assets from Brand Engine immediately
-                if(window.NexraBrand) {
-                    window.NexraBrand.refreshDOMAssets();
-                }
-
-                // Check for Firebase/Supabase Context
-                if (window.db && window.auth) {
-                    this.db = window.db;
-                    this.auth = window.auth;
-                    this.syncNavigation();
-                    this.monitorAuth();
-                    this.monitorNotifications();
-                } else {
-                    console.warn("[Header Engine] Firebase not detected. Retrying...");
-                    setTimeout(() => this.init(), 500);
-                }
-
-                this.initThemeController();
-                this.syncCart();
-                this.updateActiveState();
-
-                // Bind Cart Trigger (Will connect to cart-drawer.html later)
-                document.getElementById('nx-h-cart-btn').addEventListener('click', () => {
-                    if(window.NexraCartEngine) window.NexraCartEngine.openDrawer();
-                    else console.warn("Cart Drawer module not yet loaded.");
-                });
-
-                // Bind Sidebar Trigger (Will connect to slider.html later)
-                const menuTrigger = document.getElementById('nx-h-menu-trigger');
-                if (menuTrigger) {
-                    menuTrigger.addEventListener('click', () => {
-                        if(window.NexraSliderEngine) window.NexraSliderEngine.open();
-                        else console.warn("Slider module not yet loaded.");
-                    });
-                }
-            },
-
-            /* --- 1. DYNAMIC NAVIGATION FETCHING (FIRESTORE) --- */
-            syncNavigation: async function() {
-                const navContainer = document.getElementById('nx-h-dynamic-nav');
-                try {
-                    // Fetch header navigation config from settings
-                    const snap = await this.db.collection('settings').doc('header_nav').get();
-                    if(snap.exists && snap.data().items) {
-                        const items = snap.data().items;
-                        // Sort by order
-                        items.sort((a, b) => a.order - b.order);
-                        
-                        let html = '';
-                        items.forEach(item => {
-                            if(item.active) {
-                                // Uses NexraRoutes resolver
-                                const url = window.NexraRoutes ? window.NexraRoutes.generateURL(item.routeKey) : `?view=${item.routeKey}`;
-                                html += `
-                                    <a href="${url}" class="nx-h-nav-item" data-routekey="${item.routeKey}">
-                                        ${item.svgIcon}
-                                        <span>${item.label}</span>
-                                    </a>
-                                `;
-                            }
-                        });
-                        navContainer.innerHTML = html;
-                        this.updateActiveState();
-                    } else {
-                        // Fallback Default Nav
-                        navContainer.innerHTML = `
-                            <a href="?view=shop" class="nx-h-nav-item" data-routekey="shop"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path><line x1="3" y1="6" x2="21" y2="6"></line></svg><span>Market</span></a>
-                            <a href="?view=freebies" class="nx-h-nav-item" data-routekey="freebies"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg><span>Vault</span></a>
-                            <a href="?view=blog" class="nx-h-nav-item" data-routekey="blog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg><span>Academy</span></a>
-                        `;
-                    }
-                } catch (e) {
-                    console.error("[Header Engine] Nav sync failed:", e);
-                }
-            },
-
-            /* --- 2. AUTHENTICATION STATE MONITORING --- */
-            monitorAuth: function() {
-                const icon = document.getElementById('nx-h-profile-icon');
-                const avatar = document.getElementById('nx-h-profile-avatar');
-
-                this.auth.onAuthStateChanged(user => {
-                    if (user && user.photoURL) {
-                        icon.style.display = 'none';
-                        avatar.src = user.photoURL;
-                        avatar.style.display = 'block';
-                    } else {
-                        icon.style.display = 'block';
-                        avatar.style.display = 'none';
-                    }
-                });
-            },
-
-            /* --- 3. REAL-TIME NOTIFICATION BADGE --- */
-            monitorNotifications: function() {
-                const badge = document.getElementById('nx-h-notif-badge');
-                this.auth.onAuthStateChanged(user => {
-                    if(user) {
-                        // Assuming a subcollection for user notifications
-                        this.db.collection('users').doc(user.uid).collection('notifications')
-                            .where('read', '==', false)
-                            .onSnapshot(snap => {
-                                const count = snap.size;
-                                badge.innerText = count > 9 ? '9+' : count;
-                                badge.classList.toggle('show', count > 0);
-                            });
-                    } else {
-                        badge.classList.remove('show');
-                    }
-                });
-            },
-
-            /* --- 4. CART CACHE SYNC --- */
-            syncCart: function() {
-                const updateBadge = () => {
-                    const cart = JSON.parse(localStorage.getItem('nx_cart') || '[]');
-                    const count = cart.reduce((acc, item) => acc + (item.qty || 1), 0);
-                    document.getElementById('nx-h-cart-count').innerText = count;
-                };
-                
-                // Initial load
-                updateBadge();
-                // Listen for changes from other tabs/windows
-                window.addEventListener('storage', (e) => {
-                    if (e.key === 'nx_cart') updateBadge();
-                });
-                // Expose to global window so 'Add to Cart' buttons can trigger it instantly
-                window.updateHeaderCartBadge = updateBadge;
-            },
-
-            /* --- 5. THEME & BRANDING CONTROLLER (Long Press Logic) --- */
-            initThemeController: function() {
-                const btn = document.getElementById('nx-h-theme-btn');
-                const palette = document.getElementById('nx-h-theme-palette');
-                const icon = btn.querySelector('.nx-theme-icon');
-                let pressTimer;
-
-                // Sync Icon Initial State
-                this.updateThemeIcon(icon);
-
-                // Tap for Light/Dark
-                btn.onclick = () => {
-                    if(!window.isPaletteOpen) this.toggleBWTheme(icon);
-                };
-
-                // Hold for Custom Colors
-                const startPress = (e) => {
-                    e.preventDefault(); // prevent click firing immediately on touch
-                    pressTimer = setTimeout(() => {
-                        palette.classList.add('active');
-                        window.isPaletteOpen = true;
-                    }, 500); // 0.5s hold
-                };
-                
-                const endPress = () => {
-                    clearTimeout(pressTimer);
-                    setTimeout(() => window.isPaletteOpen = false, 200);
-                };
-
-                btn.addEventListener('mousedown', startPress);
-                btn.addEventListener('touchstart', startPress, {passive: false});
-                btn.addEventListener('mouseup', endPress);
-                btn.addEventListener('touchend', endPress);
-
-                // Close palette on outside click
-                document.addEventListener('click', (e) => {
-                    if(!btn.contains(e.target) && !palette.contains(e.target)) {
-                        palette.classList.remove('active');
-                    }
-                });
-
-                // Apply saved custom color
-                const savedColor = localStorage.getItem('custom-accent');
-                if(savedColor) {
-                    document.documentElement.style.setProperty('--brand-main', savedColor);
-                }
-            },
-
-            toggleBWTheme: function(icon) {
-                const current = document.documentElement.getAttribute('data-theme') || 'light';
-                const target = current === 'light' ? 'dark' : 'light';
-                document.documentElement.setAttribute('data-theme', target);
-                localStorage.setItem('theme', target);
-                this.updateThemeIcon(icon);
-            },
-
-            updateThemeIcon: function(icon) {
-                const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-                icon.innerHTML = isDark 
-                    ? `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>` 
-                    : `<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>`;
-            },
-
-            setCustomColor: function(color, editionKey = null) {
-                document.documentElement.style.setProperty('--brand-main', color);
-                localStorage.setItem('custom-accent', color);
-                
-                // If it's a primary brand color, switch the brand assets (Logos/Watermarks)
-                if(editionKey && window.NexraBrand) {
-                    window.NexraBrand.switchEdition(editionKey);
-                }
-
-                document.getElementById('nx-h-theme-palette').classList.remove('active');
-            },
-
-            /* --- 6. ROUTE STATE SYNC --- */
-            updateActiveState: function() {
-                const currentRoute = window.Nexra ? window.Nexra.currentRoute : (window.location.pathname.split('/')[1] || 'home');
-                const cleanRoute = currentRoute.replace('/', '') || 'home';
-
-                document.querySelectorAll('.nx-h-nav-item').forEach(item => {
-                    if(item.dataset.routekey === cleanRoute) {
-                        item.classList.add('active');
-                    } else {
-                        item.classList.remove('active');
-                    }
-                });
+        firebase.auth().onAuthStateChanged(user => {
+            const icon = document.getElementById('h-auth-icon');
+            const img = document.getElementById('h-auth-img');
+            if (user) {
+                icon.style.display = 'none';
+                img.src = user.photoURL || 'https://via.placeholder.com/100';
+                img.style.display = 'block';
+            } else {
+                icon.style.display = 'block';
+                img.style.display = 'none';
             }
-        };
-
-        // Self-Execute Initialization
-        NexraHeaderEngine.init();
-
-        // Listen for SPA route changes to update active tabs
-        window.addEventListener('popstate', () => {
-            setTimeout(() => NexraHeaderEngine.updateActiveState(), 100);
         });
-        
     })();
 </script>
