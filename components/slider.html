@@ -1,0 +1,116 @@
+<style>
+    /* ==========================================
+       OFF-CANVAS SLIDER UI
+       ========================================== */
+    .nx-slider-overlay {
+        position: fixed; inset: 0; background: rgba(0,0,0,0.4);
+        backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+        z-index: 10000; opacity: 0; visibility: hidden; transition: 0.4s;
+    }
+    .nx-slider-overlay.active { opacity: 1; visibility: visible; }
+
+    .nx-slider-drawer {
+        position: fixed; top: 0; right: -400px; width: 360px; max-width: 85%;
+        height: 100%; background: var(--bg-base); z-index: 10001;
+        padding: 30px; display: flex; flex-direction: column;
+        box-shadow: -15px 0 50px rgba(0,0,0,0.1); transition: 0.6s var(--transition);
+        border-left: 1px solid var(--glass-border);
+    }
+    .nx-slider-drawer.active { right: 0; }
+
+    /* Profile Section */
+    .s-user-card {
+        background: var(--bg-surface); border: 1px solid var(--glass-border);
+        border-radius: var(--radius-md); padding: 20px;
+        display: flex; align-items: center; gap: 15px; margin-bottom: 30px;
+        cursor: pointer; transition: 0.3s;
+    }
+    .s-user-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+    .s-avatar { width: 55px; height: 55px; border-radius: 50%; border: 2px solid var(--brand-main); padding: 2px; }
+
+    /* Navigation Groups */
+    .s-group { margin-bottom: 35px; }
+    .s-label { 
+        font-size: 10px; font-weight: 800; color: var(--text-300);
+        text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; display: block;
+    }
+    .s-link {
+        display: flex; align-items: center; gap: 15px; padding: 16px 20px;
+        border-radius: 18px; color: var(--text-100); font-size: 14px;
+        font-weight: 700; transition: 0.3s; cursor: pointer; margin-bottom: 5px;
+    }
+    .s-link i { width: 20px; text-align: center; color: var(--text-300); transition: 0.3s; font-size: 18px; }
+    .s-link:hover { background: var(--bg-elevated); color: var(--brand-main); }
+    .s-link:hover i { color: var(--brand-main); }
+
+    /* Theme Switcher */
+    .s-theme-box {
+        margin-top: auto; background: var(--bg-elevated);
+        border-radius: 20px; padding: 8px; display: flex; gap: 5px;
+    }
+    .theme-btn {
+        flex: 1; padding: 12px; border-radius: 15px; display: flex;
+        align-items: center; justify-content: center; gap: 8px;
+        font-size: 12px; font-weight: 800; cursor: pointer; transition: 0.3s;
+    }
+    .theme-btn.active { background: var(--bg-surface); color: var(--brand-main); box-shadow: var(--shadow-sm); }
+</style>
+
+<div class="nx-slider-overlay" id="s-overlay" onclick="NexraUI.toggleSlider()"></div>
+
+<aside class="nx-slider-drawer" id="s-drawer">
+    <!-- User Card -->
+    <div class="s-user-card" onclick="NexraRouter.loadView(NexraRoutes.generateURL('profile')); NexraUI.toggleSlider()">
+        <img id="s-user-img" class="s-avatar" src="https://via.placeholder.com/100" alt="Avatar">
+        <div>
+            <h4 id="s-user-name" style="font-size: 15px; font-weight: 800;">Guest User</h4>
+            <p id="s-user-tier" style="font-size: 10px; font-weight: 800; color: var(--brand-main);">Standard Access</p>
+        </div>
+    </div>
+
+    <!-- Main Links -->
+    <div class="s-group">
+        <span class="s-label">Marketplace</span>
+        <div class="s-link" onclick="NexraRouter.loadView(NexraRoutes.generateURL('shop')); NexraUI.toggleSlider()">
+            <i class="fa-solid fa-store"></i> Digital Market
+        </div>
+        <div class="s-link" onclick="NexraRouter.loadView(NexraRoutes.generateURL('reseller')); NexraUI.toggleSlider()">
+            <i class="fa-solid fa-users-gear"></i> Agency Portal
+        </div>
+    </div>
+
+    <div class="s-group">
+        <span class="s-label">Exclusive</span>
+        <div class="s-link" onclick="NexraRouter.loadView(NexraRoutes.generateURL('vip')); NexraUI.toggleSlider()">
+            <i class="fa-solid fa-crown"></i> VIP Membership
+        </div>
+        <div class="s-link" onclick="NexraRouter.loadView(NexraRoutes.generateURL('giveaway')); NexraUI.toggleSlider()">
+            <i class="fa-solid fa-gift"></i> Live Giveaway
+        </div>
+    </div>
+
+    <!-- Theme Switcher -->
+    <div class="s-theme-box">
+        <div class="theme-btn active" id="t-light" onclick="NexraUI.setTheme('light')">
+            <i class="fa-solid fa-sun"></i> Light
+        </div>
+        <div class="theme-btn" id="t-dark" onclick="NexraUI.setTheme('dark')">
+            <i class="fa-solid fa-moon"></i> Dark
+        </div>
+    </div>
+</aside>
+
+<script>
+    /**
+     * Slider Auth Sync
+     */
+    (function() {
+        firebase.auth().onAuthStateChanged(user => {
+            if (user) {
+                document.getElementById('s-user-name').innerText = user.displayName || 'Nexra Member';
+                document.getElementById('s-user-img').src = user.photoURL || 'https://via.placeholder.com/100';
+                document.getElementById('s-user-tier').innerText = 'Verified Member';
+            }
+        });
+    })();
+</script>
