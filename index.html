@@ -1,344 +1,358 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 <head>
+    <!-- ==========================================================================
+         1. ENTERPRISE SEO, METADATA & BROWSER OPTIMIZATION
+         ========================================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <meta name="description" content="Nexra PK - Elite Digital Ecosystem for Creators, Resellers, and Buyers">
-    <meta name="theme-color" id="meta-theme-color" content="#f8fafc">
-    <title>Nexra PK | Initializing Ecosystem</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    
+    <!-- Primary Meta Tags -->
+    <title>Nexra Tech PK | Premium Digital Ecosystem</title>
+    <meta name="title" content="Nexra Tech PK | Premium Digital Ecosystem">
+    <meta name="description" content="Pakistan's elite digital marketplace for automated software licensing, SaaS solutions, and premium agency reseller portals.">
+    <meta name="keywords" content="digital ecosystem, software licensing, SaaS tools, reseller portal, premium digital assets, Nexra PK">
+    <meta name="author" content="Nexra Tech PK">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    
+    <!-- Theme & Mobile Optimizations -->
+    <meta name="theme-color" id="meta-theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- DYNAMIC FAVICON (Updated via JS Engine) -->
+    <link rel="icon" id="dynamic-favicon" href="data:image/x-icon;," type="image/png">
+    <link rel="apple-touch-icon" id="dynamic-apple-icon" href="data:image/x-icon;,">
 
-    <!-- Preconnect to external resources for faster loading -->
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nexratech.vercel.app/">
+    <meta property="og:title" content="Nexra Tech PK | Premium Digital Ecosystem">
+    <meta property="og:description" content="Discover automated digital assets, SaaS tools, and elite tech insights. Join the ultimate reseller network in Pakistan.">
+    <meta property="og:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://nexratech.vercel.app/">
+    <meta property="twitter:title" content="Nexra Tech PK | Premium Digital Ecosystem">
+    <meta property="twitter:description" content="Discover automated digital assets, SaaS tools, and elite tech insights. Join the ultimate reseller network.">
+    <meta property="twitter:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
+
+    <!-- JSON-LD Structured Data for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Nexra Tech PK",
+      "url": "https://nexratech.vercel.app",
+      "logo": "https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png",
+      "description": "Premium Digital Ecosystem and Reseller Network in Pakistan.",
+      "sameAs": [
+        "https://www.facebook.com/nexrapk",
+        "https://www.instagram.com/nexrapk"
+      ]
+    }
+    </script>
+
+    <!-- ==========================================================================
+         2. RESOURCE PRELOADING & PREMIUM TYPOGRAPHY
+         ========================================================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     
-    <!-- SVGs are used inline below for maximum performance -->
+    <!-- ==========================================================================
+         3. SDKs (FIREBASE + SUPABASE) & CORE CONFIGURATION
+         ========================================================================== -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Supabase CDN (PostgreSQL & Storage Abstraction) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
+    <!-- Master Config (MUST load before executing logic) -->
+    <script src="firebaseconfig.js"></script>
+
+    <!-- ==========================================================================
+         4. SPLASH SCREEN STYLES (PREMIUM UI/UX)
+         ========================================================================== -->
     <style>
-        /* ==========================================================================
-           CRITICAL BOOTLOADER CSS (Self-Contained for Instant Paint)
-           ========================================================================== */
         :root {
-            --bg-base: #f8fafc;
-            --bg-surface: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --brand: #FF4A17;
-            --brand-glow: rgba(255, 74, 23, 0.25);
-            --grid-color: rgba(0, 0, 0, 0.03);
-            --bar-bg: rgba(0, 0, 0, 0.06);
-            --ease: cubic-bezier(0.16, 1, 0.3, 1);
+            /* Fallback Colors (Dynamically overridden by JS based on Edition) */
+            --brand-main: #FF4A17; 
+            --brand-glow: rgba(255, 74, 23, 0.15);
+            --brand-soft: rgba(255, 74, 23, 0.05);
+            
+            --bg-base: #ffffff;
+            --bg-surface: #f8fafc;
+            --bg-elevated: #f1f5f9;
+            
+            --text-100: #0f172a;
+            --text-200: #475569;
+            --text-300: #94a3b8;
+            
+            --glass-border: rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 12px 40px -12px rgba(0,0,0,0.08);
+            --radius-lg: 40px;
+            --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        /* Dark Mode Dynamic Injection */
-        html[data-theme="dark"] {
-            --bg-base: #050505;
-            --bg-surface: #121212;
-            --text-main: #ffffff;
-            --text-muted: #a1a1aa;
-            --brand-glow: rgba(255, 74, 23, 0.35);
-            --grid-color: rgba(255, 255, 255, 0.02);
-            --bar-bg: rgba(255, 255, 255, 0.08);
+        [data-theme="dark"] {
+            --bg-base: #050507;
+            --bg-surface: #0c0c12;
+            --bg-elevated: #16161e;
+            --text-100: #ffffff;
+            --text-200: #a1a1aa;
+            --text-300: #52525b;
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --shadow-md: 0 15px 50px rgba(0,0,0,0.5);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg-base); color: var(--text-100); font-family: 'Plus Jakarta Sans', sans-serif; overflow: hidden; min-height: 100vh; }
         
-        body, html {
-            width: 100%; height: 100%;
-            background-color: var(--bg-base);
-            color: var(--text-main);
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            overflow: hidden;
-        }
+        .tech-font { font-family: 'Space Grotesk', sans-serif; }
 
-        /* Premium Technical Grid Background */
-        body::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background-image: 
-                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
-            background-size: 40px 40px;
-            z-index: 0;
-            pointer-events: none;
-            mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
-            -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
-        }
-
-        /* ── 1. SPLASH SCREEN UI ── */
-        .nx-boot-screen {
-            position: fixed; inset: 0; z-index: 10;
+        /* --- THE SPLASH INTERFACE --- */
+        #splash {
+            position: fixed; inset: 0; z-index: 100000; background: var(--bg-base);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
-            transition: opacity 0.8s var(--ease), transform 0.8s var(--ease), visibility 0.8s;
-        }
-
-        .nx-ambient-glow {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            width: 50vw; height: 50vw; max-width: 500px; max-height: 500px;
-            background: var(--brand); filter: blur(120px); opacity: 0.15;
-            border-radius: 50%; z-index: 1;
-            animation: pulseGlow 4s alternate infinite var(--ease);
-        }
-
-        .nx-content-wrapper {
-            position: relative; z-index: 2;
-            display: flex; flex-direction: column; align-items: center;
-            width: 100%; max-width: 320px; padding: 0 24px;
-        }
-
-        .nx-logo-box {
-            width: 90px; height: 90px;
-            background: var(--bg-surface);
-            border-radius: 24px;
-            display: flex; align-items: center; justify-content: center;
-            box-shadow: 0 20px 40px var(--brand-glow), inset 0 0 0 1px rgba(255,255,255,0.1);
-            margin-bottom: 24px;
-            animation: floatLogo 4s infinite ease-in-out;
-        }
-
-        .nx-logo-box img { width: 60px; height: 60px; object-fit: contain; }
-
-        .nx-brand-text {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 28px; font-weight: 800; letter-spacing: -1px;
-            margin-bottom: 40px; text-align: center;
-            opacity: 0; transform: translateY(15px);
-            animation: slideUpFade 0.8s 0.2s var(--ease) forwards;
+            transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
         }
         
-        .nx-brand-text span {
-            background: linear-gradient(135deg, var(--brand) 0%, #ff8c00 100%);
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        .splash-glow {
+            position: absolute; width: 60vw; height: 60vw; background: var(--brand-main);
+            filter: blur(140px); opacity: 0.08; border-radius: 50%; 
+            animation: pulseGlow 5s infinite alternate; pointer-events: none;
+        }
+        
+        .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; }
+        
+        /* DYNAMIC LOGOS (Loaded via NexraBrand) */
+        .nx-brand-logo { width: clamp(80px, 20vw, 110px); height: auto; filter: drop-shadow(0 10px 25px var(--brand-glow)); animation: logoFloat 4s ease-in-out infinite; }
+        .nx-brand-title { height: 22px; margin-top: 35px; filter: grayscale(1) brightness(0.2); }
+        [data-theme="dark"] .nx-brand-title { filter: none; }
+        
+        /* Security Badge */
+        .sp-secure-badge {
+            margin-top: 20px; display: inline-flex; align-items: center; gap: 8px;
+            background: var(--brand-soft); color: var(--brand-main);
+            padding: 6px 16px; border-radius: 50px; font-size: 10px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 1.5px; border: 1px solid var(--brand-glow);
         }
 
-        /* Loading Bar */
-        .nx-loader-container {
-            width: 100%; opacity: 0; transform: translateY(15px);
-            animation: slideUpFade 0.8s 0.4s var(--ease) forwards;
-        }
+        /* Progress Engine */
+        .sp-progress-box { width: 240px; margin-top: 50px; text-align: center; }
+        .sp-bar { width: 100%; height: 3px; background: var(--bg-elevated); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+        .sp-fill { height: 100%; width: 0%; background: var(--brand-main); transition: width 0.3s ease; box-shadow: 0 0 10px var(--brand-main); }
+        .sp-status { font-size: 10px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 2px; }
 
-        .nx-progress-track {
-            width: 100%; height: 3px; background: var(--bar-bg);
-            border-radius: 10px; overflow: hidden; position: relative;
-            margin-bottom: 12px;
+        /* --- THE MAINTENANCE / ERROR INTERFACE --- */
+        #maintenance {
+            position: fixed; inset: 0; z-index: 100005; background: var(--bg-base);
+            display: none; align-items: center; justify-content: center; padding: 25px;
+            opacity: 0; transition: opacity 0.5s;
         }
-
-        .nx-progress-fill {
-            position: absolute; left: 0; top: 0; height: 100%; width: 0%;
-            background: linear-gradient(90deg, var(--brand), #ff8c00);
-            border-radius: 10px; transition: width 0.3s linear;
-            box-shadow: 0 0 10px var(--brand-glow);
+        .m-card {
+            background: var(--bg-surface); border: 1px solid var(--glass-border);
+            padding: 60px 40px; border-radius: var(--radius-lg); text-align: center;
+            max-width: 550px; width: 100%; box-shadow: var(--shadow-md); position: relative; overflow: hidden;
         }
-
-        .nx-loader-meta {
-            display: flex; justify-content: space-between; align-items: center;
-            font-size: 11px; font-weight: 700; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 1px;
-        }
-
-        /* Trust Badge */
-        .nx-trust-badge {
-            position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
-            display: flex; align-items: center; gap: 8px;
-            font-size: 10px; font-weight: 800; color: var(--text-muted);
-            text-transform: uppercase; letter-spacing: 2px;
-            opacity: 0; animation: fadeIn 1s 1s forwards;
-        }
-        .nx-trust-badge svg { width: 14px; height: 14px; color: #10b981; }
-
-        /* ── 2. MAINTENANCE SCREEN ── */
-        .nx-maintenance-screen {
-            position: fixed; inset: 0; z-index: 20;
-            display: none; flex-direction: column; align-items: center; justify-content: center;
-            background: var(--bg-base); padding: 24px;
-        }
-        .nx-maintenance-screen.active {
-            display: flex; animation: fadeIn 0.6s var(--ease) forwards;
-        }
-
-        .nx-m-card {
-            background: var(--bg-surface);
-            border: 1px solid var(--bar-bg);
-            border-radius: 32px; padding: 50px 40px;
-            max-width: 500px; width: 100%; text-align: center;
-            box-shadow: 0 30px 60px rgba(0,0,0,0.1);
-        }
-
-        .nx-m-icon {
-            width: 80px; height: 80px; border-radius: 50%;
-            background: rgba(255,74,23,0.1); color: var(--brand);
-            display: flex; align-items: center; justify-content: center;
-            margin: 0 auto 24px; box-shadow: inset 0 0 0 1px rgba(255,74,23,0.2);
+        .m-icon { 
+            width: 80px; height: 80px; background: var(--brand-soft); color: var(--brand-main);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 32px; margin: 0 auto 30px; border: 1px solid var(--brand-glow);
             animation: pulseGlow 2s infinite alternate;
         }
-        .nx-m-icon svg { width: 40px; height: 40px; }
+        .m-title { font-family: 'Space Grotesk'; font-size: 28px; font-weight: 800; margin-bottom: 15px; }
+        .m-desc { color: var(--text-200); font-size: 15px; line-height: 1.8; margin-bottom: 40px; }
 
-        .nx-m-title { font-family: 'Space Grotesk', sans-serif; font-size: 28px; font-weight: 800; margin-bottom: 15px; }
-        .nx-m-desc { font-size: 15px; color: var(--text-muted); line-height: 1.6; margin-bottom: 30px; }
-
-        .nx-m-btn {
-            background: var(--brand); color: #fff; border: none;
-            padding: 16px 32px; border-radius: 50px; font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 13px; font-weight: 800; letter-spacing: 0.5px;
-            cursor: pointer; transition: 0.3s; box-shadow: 0 10px 25px var(--brand-glow);
-            display: inline-flex; align-items: center; gap: 8px;
-        }
-        .nx-m-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 35px var(--brand-glow); filter: brightness(1.1); }
-
-        /* ── ANIMATIONS ── */
-        @keyframes floatLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); box-shadow: 0 25px 50px var(--brand-glow), inset 0 0 0 1px rgba(255,255,255,0.1); } }
-        @keyframes pulseGlow { 0% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; } 100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.2; } }
-        @keyframes slideUpFade { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Animations */
+        @keyframes pulseGlow { from { opacity: 0.05; transform: scale(1); } to { opacity: 0.12; transform: scale(1.15); } }
+        @keyframes logoFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
     </style>
 </head>
 <body>
 
-    <!-- BOOTLOADER / SPLASH SCREEN -->
-    <div class="nx-boot-screen" id="boot-screen">
-        <div class="nx-ambient-glow"></div>
-        
-        <div class="nx-content-wrapper">
-            <!-- Central Logo -->
-            <div class="nx-logo-box">
-                <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" alt="Nexra Logo">
+    <!-- 1. SPLASH SCREEN (SMART GATEWAY) -->
+    <div id="splash">
+        <div class="splash-glow"></div>
+        <div class="splash-content">
+            
+            <!-- Dynamic Brand Assets (Controlled by NexraBrand in firebaseconfig.js) -->
+            <img class="nx-brand-logo sp-logo" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Nexra Logo">
+            <img class="nx-brand-title sp-title" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=" alt="Nexra Tech PK">
+            
+            <div class="sp-secure-badge">
+                <i class="fa-solid fa-shield-halved"></i> Enterprise Hybrid Ecosystem
             </div>
-            
-            <h1 class="nx-brand-text">NEXRA <span>PK</span></h1>
-            
-            <!-- Progress UI -->
-            <div class="nx-loader-container">
-                <div class="nx-progress-track">
-                    <div class="nx-progress-fill" id="progress-fill"></div>
-                </div>
-                <div class="nx-loader-meta">
-                    <span id="status-text">Waking up servers...</span>
-                    <span id="percentage-text">0%</span>
-                </div>
+
+            <div class="sp-progress-box">
+                <div class="sp-bar"><div class="sp-fill" id="sp-fill"></div></div>
+                <div class="sp-status" id="sp-status">Initializing Core Architecture...</div>
             </div>
         </div>
+        <div style="position:absolute; bottom:40px; font-size:9px; font-weight:800; color:var(--text-300); letter-spacing:4px; text-transform:uppercase;">Engineered by Nexra Tech PK</div>
+    </div>
 
-        <!-- Trust Anchor -->
-        <div class="nx-trust-badge">
-            <svg fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></svg>
-            256-BIT SECURED ECOSYSTEM
+    <!-- 2. MAINTENANCE / ERROR OVERLAY -->
+    <div id="maintenance">
+        <div class="m-card">
+            <div class="m-icon" id="m-icon-box">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+            <h1 class="m-title" id="m-title">Optimizing Ecosystem</h1>
+            <p class="m-desc" id="m-desc">Our engineers are fine-tuning the platform for elite performance. We will be back online in a moment.</p>
+            <div id="m-socials" style="display:flex; justify-content:center; gap:15px; margin-top:20px;"></div>
         </div>
     </div>
 
-    <!-- MAINTENANCE SCREEN (Hidden by default) -->
-    <div class="nx-maintenance-screen" id="maintenance-screen">
-        <div class="nx-m-card">
-            <div class="nx-m-icon">
-                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-            </div>
-            <h2 class="nx-m-title">System Upgrading</h2>
-            <p class="nx-m-desc">We are deploying massive performance upgrades and deploying new infrastructure to elevate your experience. We will be back online shortly.</p>
-            <button class="nx-m-btn" onclick="window.location.reload()">
-                <svg fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" width="16" height="16"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>
-                REFRESH CONNECTION
-            </button>
-        </div>
-    </div>
-
-    <!-- ENGINE LOGIC -->
+    <!-- ==========================================================================
+         5. MASTER BOOTLOADER & DEEP-LINK ROUTER SCRIPT
+         ========================================================================== -->
     <script>
-        window.NexraBoot = (function() {
-            'use strict';
+        /**
+         * NEXRA MASTER BOOTLOADER
+         * Role: Initializes UI branding, connects to DB, parses URL, and securely redirects to the standalone page.
+         */
+        window.NexraGateway = {
+            
+            // Central Configuration
+            config: {
+                targetRoute: 'home',
+                targetParams: ''
+            },
 
-            // Boot Configuration
-            const CONFIG = {
-                // Toggle this to TRUE to see the Maintenance Screen
-                isMaintenanceActive: false, 
-                // The URL to redirect to after boot (Using Clean Slug configured in vercel.json)
-                targetUrl: "/h" 
-            };
+            /* --- 1. UI PROGRESS & BRANDING --- */
+            updateProgress: function(percent, message) {
+                const fill = document.getElementById('sp-fill');
+                const status = document.getElementById('sp-status');
+                if(fill) fill.style.width = percent + '%';
+                if(status) status.innerText = message;
+            },
 
-            const DOM = {
-                screen: document.getElementById('boot-screen'),
-                maintenance: document.getElementById('maintenance-screen'),
-                fill: document.getElementById('progress-fill'),
-                status: document.getElementById('status-text'),
-                percent: document.getElementById('percentage-text'),
-                metaTheme: document.getElementById('meta-theme-color')
-            };
+            initTheme: function() {
+                const saved = localStorage.getItem('theme') || 'light';
+                if(saved === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+            },
 
-            // 1. Theme Check Before Render
-            function initTheme() {
-                const theme = localStorage.getItem('nxr-theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                document.documentElement.setAttribute('data-theme', theme);
-                DOM.metaTheme.content = theme === 'dark' ? '#050505' : '#f8fafc';
-            }
+            /* --- 2. THE BOOT SEQUENCE --- */
+            boot: async function() {
+                this.initTheme();
+                this.updateProgress(10, "Mounting Branding Assets...");
 
-            // 2. Cinematic Boot Sequence
-            function startBootSequence() {
-                const sequence = [
-                    { progress: 15, msg: "Establishing secure connection...", delay: 200 },
-                    { progress: 45, msg: "Fetching global inventory...", delay: 800 },
-                    { progress: 70, msg: "Loading design tokens...", delay: 1500 },
-                    { progress: 90, msg: "Verifying user session...", delay: 2200 },
-                    { progress: 100, msg: "Ecosystem Ready.", delay: 2800 }
-                ];
+                // Wait for the Centralized Brand Config (firebaseconfig.js) to load
+                const checkConfig = setInterval(async () => {
+                    if (window.NexraBrand && window.NexraRoutes) {
+                        clearInterval(checkConfig);
+                        
+                        // Apply dynamic branding instantly to the Splash Screen
+                        window.NexraBrand.refreshDOMAssets();
+                        document.documentElement.style.setProperty('--brand-main', window.NexraBrand.assets[window.NexraBrand.activeEdition].themeColor);
 
-                sequence.forEach(step => {
-                    setTimeout(() => {
-                        updateUI(step.progress, step.msg);
-                        if (step.progress === 100) {
-                            handleComplete();
-                        }
-                    }, step.delay);
-                });
-            }
-
-            function updateUI(value, message) {
-                DOM.fill.style.width = `${value}%`;
-                DOM.percent.innerText = `${value}%`;
-                DOM.status.innerText = message;
-            }
-
-            // 3. Post-Boot Logic (Gatekeeper)
-            function handleComplete() {
-                setTimeout(() => {
-                    if (CONFIG.isMaintenanceActive) {
-                        showMaintenance();
-                    } else {
-                        launchApp();
+                        this.updateProgress(30, "Syncing Dual-Database Architecture...");
+                        this.connectDatabases();
                     }
-                }, 400); // Small pause at 100% for smooth UX
-            }
+                }, 50);
+            },
 
-            function showMaintenance() {
-                DOM.screen.style.opacity = '0';
-                DOM.screen.style.transform = 'scale(1.05)';
-                setTimeout(() => {
-                    DOM.screen.style.display = 'none';
-                    DOM.maintenance.classList.add('active');
-                }, 800);
-            }
+            /* --- 3. DATABASE CONNECTION CHECK --- */
+            connectDatabases: function() {
+                const checkDb = setInterval(async () => {
+                    // We wait for Firebase (Auth/NoSQL) and Supabase (PostgreSQL) to be available
+                    if (window.db && window.supabaseClient) {
+                        clearInterval(checkDb);
+                        
+                        this.updateProgress(60, "Verifying System Integrity...");
+                        
+                        try {
+                            // Check Maintenance Status from Firestore
+                            const configSnap = await window.db.collection('splash_settings').doc('config').get();
+                            const data = configSnap.exists ? configSnap.data() : {};
 
-            function launchApp() {
-                // Cinematic Exit
-                DOM.screen.style.opacity = '0';
-                DOM.screen.style.transform = 'scale(1.1)';
+                            if (data.maintenance_mode) {
+                                this.showMaintenance(data);
+                            } else {
+                                this.parseDeepLinksAndLaunch();
+                            }
+                        } catch(e) { 
+                            console.warn("[Nexra Gateway] Config fetch failed. Launching anyway.");
+                            this.parseDeepLinksAndLaunch(); 
+                        }
+                    }
+                }, 100);
+            },
+
+            /* --- 4. SMART DEEP-LINK ROUTER --- */
+            parseDeepLinksAndLaunch: function() {
+                this.updateProgress(85, "Resolving Secure Route...");
+
+                // Parse the URL. We support two formats:
+                // Format 1: nexrapk.com/?view=product&id=123 (Query based)
+                // Format 2: nexrapk.com/product/123 (Path based - requires server redirect rules to point to index.html)
                 
-                setTimeout(() => {
-                    // Redirect to the main application dashboard
-                    window.location.replace(CONFIG.targetUrl);
-                }, 600); // Matches the CSS transition duration
-            }
+                const urlParams = new URLSearchParams(window.location.search);
+                const pathSegments = window.location.pathname.split('/').filter(Boolean);
 
-            // Init Engine
-            return {
-                ignite: function() {
-                    initTheme();
-                    // Small delay to ensure browser has painted the initial frame
-                    requestAnimationFrame(() => startBootSequence());
+                let requestedRoute = 'home';
+                let queryString = window.location.search; // Preserve UTMs, Ref codes, etc.
+
+                // If Query Parameter exists (e.g. ?view=blog)
+                if (urlParams.has('view')) {
+                    requestedRoute = urlParams.get('view');
+                } 
+                // Else if Path exists (e.g. /blog)
+                else if (pathSegments.length > 0 && pathSegments[0] !== 'index.html') {
+                    requestedRoute = pathSegments[0];
+                    // Append ID to query if it's a deep path (e.g., /product/123 -> ?id=123)
+                    if (pathSegments.length > 1) {
+                        const newParams = new URLSearchParams(queryString);
+                        newParams.set('id', pathSegments[1]);
+                        queryString = '?' + newParams.toString();
+                    }
                 }
-            };
-        })();
 
-        // Start Bootloader
-        NexraBoot.ignite();
+                this.config.targetRoute = requestedRoute;
+                this.config.targetParams = queryString;
+
+                this.updateProgress(100, "Gateway Open. Redirecting...");
+                
+                // Cinematic Hold before Redirect
+                setTimeout(() => this.executeRedirect(), 800);
+            },
+
+            /* --- 5. REDIRECT EXECUTION --- */
+            executeRedirect: function() {
+                const splash = document.getElementById('splash');
+                splash.style.opacity = '0';
+                splash.style.transform = 'scale(1.1)';
+
+                // Generate the definitive physical file URL using the Route Registry
+                const finalUrl = window.NexraRoutes.generateURL(this.config.targetRoute, this.config.targetParams);
+
+                setTimeout(() => {
+                    // HARD REDIRECT TO THE STANDALONE PAGE
+                    window.location.href = finalUrl;
+                }, 600); // Wait for fade out animation
+            },
+
+            /* --- 6. ERROR & MAINTENANCE HANDLER --- */
+            showMaintenance: function(data) {
+                document.getElementById('splash').style.display = 'none';
+                const m = document.getElementById('maintenance');
+                m.style.display = 'flex';
+                setTimeout(() => m.style.opacity = '1', 100);
+
+                if (data.m_title) document.getElementById('m-title').innerText = data.m_title;
+                if (data.m_desc) document.getElementById('m-desc').innerText = data.m_desc;
+            }
+        };
+
+        // --- IGNITE GATEWAY ---
+        document.addEventListener('DOMContentLoaded', () => window.NexraGateway.boot());
     </script>
 </body>
 </html>
