@@ -1,47 +1,48 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="en" dir="ltr" data-theme="light">
 <head>
+    <!-- ==========================================================================
+         1. ENTERPRISE SEO, METADATA & BROWSER OPTIMIZATION
+         ========================================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <!-- ==========================================================================
-         1. ENTERPRISE DYNAMIC SEO & METADATA
-         This section is manipulated by the Gateway Engine based on the active route.
-         ========================================================================== -->
-    <title id="seo-title">Nexra Tech PK | Elite Digital Ecosystem</title>
-    <meta name="description" id="seo-desc" content="Pakistan's elite digital marketplace for automated software licensing, SaaS solutions, and premium agency reseller portals.">
-    <meta name="keywords" id="seo-keywords" content="digital ecosystem, software licensing, SaaS tools, reseller portal, premium digital assets, Nexra PK">
+    <!-- Dynamic SEO Tags (Will be enhanced by routing script) -->
+    <title>Nexra Tech PK | Initializing Ecosystem...</title>
+    <meta name="description" content="Pakistan's elite digital marketplace for automated software licensing, SaaS solutions, and premium agency reseller portals.">
+    <meta name="keywords" content="digital ecosystem, software licensing, SaaS tools, reseller portal, premium digital assets, Nexra PK, Supabase, Firebase">
     <meta name="author" content="Nexra Tech PK">
-    <meta name="robots" content="index, follow, max-image-preview:large">
+    <meta name="robots" content="index, follow">
     
-    <!-- Dynamic Favicon (Injected via Brand Engine) -->
-    <link rel="icon" id="dynamic-favicon" href="data:image/x-icon;base64," type="image/x-icon">
+    <!-- Theme & Mobile Optimizations -->
     <meta name="theme-color" id="meta-theme-color" content="#ffffff">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    
+    <!-- DYNAMIC FAVICON (Controlled by NexraBrand Engine) -->
+    <link rel="icon" id="dynamic-favicon" href="" type="image/png">
+    <link rel="apple-touch-icon" id="dynamic-apple-icon" href="">
 
-    <!-- Open Graph / Social Sharing -->
+    <!-- Open Graph / Twitter Cards -->
     <meta property="og:type" content="website">
-    <meta property="og:url" id="og-url" content="https://nexratech.vercel.app/">
-    <meta property="og:title" id="og-title" content="Nexra Tech PK | Elite Digital Ecosystem">
-    <meta property="og:description" id="og-desc" content="Discover automated digital assets, SaaS tools, and elite tech insights. Join the ultimate reseller network.">
-    <meta property="og:image" id="og-image" content="">
+    <meta property="og:title" content="Nexra Tech PK | Premium Digital Ecosystem">
+    <meta property="og:description" content="Discover automated digital assets, SaaS tools, and elite tech insights. Join the ultimate reseller network in Pakistan.">
+    <meta property="og:image" class="nx-brand-watermark" content="">
+    <meta name="twitter:card" content="summary_large_image">
 
-    <!-- Twitter Cards -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" id="twitter-url" content="https://nexratech.vercel.app/">
-    <meta property="twitter:title" id="twitter-title" content="Nexra Tech PK | Elite Digital Ecosystem">
-    <meta property="twitter:description" id="twitter-desc" content="Discover automated digital assets, SaaS tools, and elite tech insights.">
-    <meta property="twitter:image" id="twitter-image" content="">
-
-    <!-- Schema.org JSON-LD (Dynamic injection hook) -->
-    <script id="schema-ld" type="application/ld+json">
+    <!-- JSON-LD Structured Data for Google Indexing -->
+    <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "Nexra Tech PK",
       "url": "https://nexratech.vercel.app",
-      "logo": "",
-      "description": "Premium Digital Ecosystem and Reseller Network in Pakistan."
+      "description": "Premium Digital Ecosystem and Reseller Network in Pakistan.",
+      "sameAs": [
+        "https://www.facebook.com/nexrapk",
+        "https://www.instagram.com/nexrapk"
+      ]
     }
     </script>
 
@@ -50,48 +51,59 @@
          ========================================================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Primary Fonts: Plus Jakarta Sans (Body) & Space Grotesk (Headings/Tech Data) -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome 6 (No emojis policy) -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-    
+
     <!-- ==========================================================================
-         3. CLOUD SDKS (Firebase Compat + Supabase V2)
+         3. HYBRID DATABASE SDKs (Firebase + Supabase)
          ========================================================================== -->
-    <!-- Supabase Core (PostgreSQL & Storage) -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- Firebase Core (Auth & Firestore) -->
+    <!-- Firebase (Auth & Real-time NoSQL) -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    
+    <!-- Supabase (PostgreSQL & Storage) -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-    <!-- Master Configuration & Brand Engine -->
+    <!-- MASTER CONFIGURATION (Contains DB connections & NexraBrand) -->
     <script src="firebaseconfig.js"></script>
 
     <!-- ==========================================================================
-         4. CORE DESIGN SYSTEM & SPLASH UI CSS
+         4. CORE DESIGN SYSTEM (CSS VARIABLES & GLOBAL UX)
          ========================================================================== -->
     <style>
-        /* Enterprise CSS Variables */
+        /* 
+         * PREMIUM ENTERPRISE TOKENS
+         * --brand-main is dynamically injected by NexraBrand in firebaseconfig.js 
+         */
         :root {
             --bg-base: #ffffff;
             --bg-surface: #f8fafc;
             --bg-elevated: #f1f5f9;
-            --brand-main: #FF4A17; /* Default, overridden by Brand Engine */
-            --brand-glow: rgba(255, 74, 23, 0.15);
-            --brand-soft: rgba(255, 74, 23, 0.05);
+            
             --text-100: #0f172a;
             --text-200: #475569;
             --text-300: #94a3b8;
+            
             --glass-border: rgba(0, 0, 0, 0.05);
+            --shadow-sm: 0 4px 12px rgba(0,0,0,0.03);
             --shadow-md: 0 12px 40px -12px rgba(0,0,0,0.08);
+            
             --radius-md: 24px;
             --radius-lg: 40px;
+            
             --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            
+            /* System Status Colors */
             --success: #10b981;
             --danger: #ef4444;
             --warning: #f59e0b;
         }
 
+        /* Dark Theme Support (Cinematic Luxury) */
         [data-theme="dark"] {
             --bg-base: #050507;
             --bg-surface: #0c0c12;
@@ -103,470 +115,258 @@
             --shadow-md: 0 15px 50px rgba(0,0,0,0.5);
         }
 
-        /* Global Reset */
+        /* Base Resets */
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { 
             background: var(--bg-base); 
             color: var(--text-100); 
             font-family: 'Plus Jakarta Sans', sans-serif; 
-            overflow-x: hidden; 
-            min-height: 100vh;
+            overflow: hidden; /* Lock scroll during splash */
+            width: 100vw; height: 100vh;
             -webkit-font-smoothing: antialiased;
         }
+        
+        .tech-font { font-family: 'Space Grotesk', sans-serif; }
 
-        /* Top Progress Bar (App-like routing feedback) */
-        #nx-router-progress {
-            position: fixed; top: 0; left: 0; width: 100%; height: 3px;
-            z-index: 200000; pointer-events: none; opacity: 0; transition: opacity 0.3s;
-        }
-        #nx-router-fill {
-            height: 100%; width: 0; background: var(--brand-main);
-            box-shadow: 0 0 15px var(--brand-main); transition: width 0.4s ease;
-        }
-
-        /* Splash Screen Gateway UI */
-        #nx-splash {
+        /* ==========================================
+           ELITE SPLASH SCREEN INTERFACE
+           ========================================== */
+        #nx-gateway-splash {
             position: fixed; inset: 0; z-index: 100000; background: var(--bg-base);
             display: flex; flex-direction: column; align-items: center; justify-content: center;
             transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
         }
-        
-        .nx-splash-glow {
-            position: absolute; width: 60vw; height: 60vw; background: var(--brand-main);
+
+        /* Dynamic Branding Glow (Inherits active edition color) */
+        .splash-glow {
+            position: absolute; width: 60vw; height: 60vw; max-width: 600px; max-height: 600px;
+            background: var(--brand-main, #FF4A17);
             filter: blur(140px); opacity: 0.08; border-radius: 50%; 
-            animation: pulseGlow 5s infinite alternate; pointer-events: none;
+            animation: pulseGlow 5s infinite alternate ease-in-out; pointer-events: none;
         }
 
-        .nx-splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; width: 100%; padding: 20px; }
+        .splash-content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; text-align: center; }
         
-        /* Dynamic Brand Assets */
-        .nx-brand-logo { width: clamp(80px, 20vw, 110px); height: auto; object-fit: contain; filter: drop-shadow(0 10px 25px var(--brand-glow)); animation: logoFloat 4s ease-in-out infinite; }
-        .nx-brand-title { height: 22px; margin-top: 35px; filter: grayscale(1) brightness(0.2); transition: 0.3s; }
+        /* The images will be injected via NexraBrand */
+        .nx-brand-logo { width: clamp(80px, 20vw, 110px); height: auto; filter: drop-shadow(0 10px 25px rgba(0,0,0,0.1)); animation: logoFloat 4s ease-in-out infinite; }
+        .nx-brand-title { height: 22px; margin-top: 35px; filter: grayscale(1) brightness(0.2); }
         [data-theme="dark"] .nx-brand-title { filter: none; }
         
-        /* Trust Badge */
-        .nx-secure-badge {
-            margin-top: 25px; display: inline-flex; align-items: center; gap: 8px;
-            background: var(--brand-soft); color: var(--brand-main);
-            padding: 8px 18px; border-radius: 50px; font-size: 10px; font-weight: 800;
-            text-transform: uppercase; letter-spacing: 1.5px; border: 1px solid var(--brand-glow);
-            box-shadow: 0 4px 20px var(--brand-soft);
+        .sp-secure-badge {
+            margin-top: 20px; display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(16, 185, 129, 0.1); color: var(--success);
+            padding: 6px 16px; border-radius: 50px; font-size: 10px; font-weight: 800;
+            text-transform: uppercase; letter-spacing: 1.5px; border: 1px solid rgba(16, 185, 129, 0.2);
+            opacity: 0; transform: translateY(10px); animation: fadeUp 0.6s 0.3s forwards;
         }
 
-        /* Loader Track */
-        .nx-progress-box { width: 100%; max-width: 260px; margin-top: 50px; text-align: center; }
-        .nx-bar { width: 100%; height: 4px; background: var(--bg-elevated); border-radius: 10px; overflow: hidden; margin-bottom: 15px; border: 1px solid var(--glass-border); }
-        .nx-fill { height: 100%; width: 0%; background: var(--brand-main); transition: width 0.3s ease; box-shadow: 0 0 10px var(--brand-main); }
-        .nx-status { font-family: 'Space Grotesk', sans-serif; font-size: 11px; font-weight: 700; color: var(--text-200); text-transform: uppercase; letter-spacing: 2px; }
+        /* Progress Engine */
+        .sp-progress-box { width: 240px; margin-top: 50px; text-align: center; opacity: 0; animation: fadeUp 0.6s 0.5s forwards; }
+        .sp-bar { width: 100%; height: 3px; background: var(--bg-elevated); border-radius: 10px; overflow: hidden; margin-bottom: 12px; }
+        .sp-fill { height: 100%; width: 0%; background: var(--brand-main, #FF4A17); transition: width 0.3s ease; box-shadow: 0 0 10px var(--brand-main, #FF4A17); }
+        .sp-status { font-size: 10px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 2px; }
 
-        .nx-dev-tag { position: absolute; bottom: 40px; font-family: 'Space Grotesk', sans-serif; font-size: 9px; font-weight: 800; color: var(--text-300); letter-spacing: 4px; text-transform: uppercase; }
-
-        /* Maintenance Mode UI */
-        #nx-maintenance {
+        /* ==========================================
+           MAINTENANCE & ERROR OVERLAYS
+           ========================================== */
+        .nx-system-overlay {
             position: fixed; inset: 0; z-index: 100005; background: var(--bg-base);
             display: none; align-items: center; justify-content: center; padding: 25px;
-            opacity: 0; transition: opacity 0.5s;
+            opacity: 0; transition: opacity 0.5s; text-align: center;
         }
         .m-card {
             background: var(--bg-surface); border: 1px solid var(--glass-border);
-            padding: 60px 40px; border-radius: var(--radius-lg); text-align: center;
+            padding: 60px 40px; border-radius: var(--radius-lg);
             max-width: 550px; width: 100%; box-shadow: var(--shadow-md);
         }
-        .m-icon { width: 80px; height: 80px; background: var(--brand-soft); color: var(--brand-main); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 30px; border: 1px solid var(--brand-glow); }
-        .m-title { font-family: 'Space Grotesk'; font-size: 28px; font-weight: 800; margin-bottom: 15px; }
-        .m-desc { color: var(--text-200); font-size: 15px; line-height: 1.8; margin-bottom: 40px; }
-
-        /* SPA Shell Container */
-        #nx-app-shell { 
-            width: 100%; min-height: 100vh; opacity: 1; 
-            transition: opacity 0.4s var(--transition), transform 0.4s var(--transition); 
+        .m-icon { 
+            width: 80px; height: 80px; background: rgba(239, 68, 68, 0.1); color: var(--danger);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            font-size: 32px; margin: 0 auto 30px; border: 1px solid rgba(239, 68, 68, 0.2);
         }
-        .shell-loading { opacity: 0 !important; transform: translateY(15px); }
+        .m-title { font-family: 'Space Grotesk'; font-size: 28px; font-weight: 800; margin-bottom: 15px; color: var(--text-100); }
+        .m-desc { color: var(--text-200); font-size: 15px; line-height: 1.8; margin-bottom: 40px; }
 
         /* Animations */
         @keyframes pulseGlow { from { opacity: 0.05; transform: scale(1); } to { opacity: 0.12; transform: scale(1.15); } }
         @keyframes logoFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <!-- 1. TOP ROUTING INDICATOR -->
-    <div id="nx-router-progress"><div id="nx-router-fill"></div></div>
-
-    <!-- 2. SPLASH SCREEN GATEWAY -->
-    <div id="nx-splash">
-        <div class="nx-splash-glow"></div>
-        <div class="nx-splash-content">
-            <!-- Dynamic Brand Assets (Sources injected via JS) -->
-            <img class="nx-brand-logo" src="" alt="Brand Logo">
-            <img class="nx-brand-title" src="" alt="Brand Title">
+    <!-- 1. SPLASH SCREEN (GATEWAY) -->
+    <div id="nx-gateway-splash">
+        <div class="splash-glow"></div>
+        <div class="splash-content">
+            <!-- Assets populated automatically by NexraBrand in firebaseconfig.js -->
+            <img class="nx-brand-logo sp-logo" src="" alt="Ecosystem Logo">
+            <img class="nx-brand-title sp-title" src="" alt="Brand Title">
             
-            <div class="nx-secure-badge">
-                <i class="fa-solid fa-shield-halved"></i> Hybrid Cloud Architecture
+            <div class="sp-secure-badge">
+                <i class="fa-solid fa-shield-halved"></i> 256-Bit Hybrid Engine Ready
             </div>
 
-            <div class="nx-progress-box">
-                <div class="nx-bar"><div class="nx-fill" id="nx-splash-fill"></div></div>
-                <div class="nx-status" id="nx-splash-status">Authenticating Systems...</div>
+            <div class="sp-progress-box">
+                <div class="sp-bar"><div class="sp-fill" id="sp-fill"></div></div>
+                <div class="sp-status" id="sp-status">Initializing Cloud Architecture...</div>
             </div>
         </div>
-        <div class="nx-dev-tag">Engineered by Nexra Tech</div>
+        <div style="position:absolute; bottom:40px; font-size:9px; font-weight:800; color:var(--text-300); letter-spacing:4px; text-transform:uppercase;">
+            Engineered by Nexra Tech PK
+        </div>
     </div>
 
-    <!-- 3. MAINTENANCE MODE OVERLAY -->
-    <div id="nx-maintenance">
+    <!-- 2. MAINTENANCE / OFFLINE OVERLAY -->
+    <div id="nx-system-overlay" class="nx-system-overlay">
         <div class="m-card">
-            <div class="m-icon"><i class="fa-solid fa-screwdriver-wrench"></i></div>
-            <h1 class="m-title" id="m-title">Optimizing Ecosystem</h1>
-            <p class="m-desc" id="m-desc">Our engineers are performing scheduled maintenance on the hybrid database. We will be back online shortly.</p>
+            <div class="m-icon" id="overlay-icon">
+                <i class="fa-solid fa-screwdriver-wrench"></i>
+            </div>
+            <h1 class="m-title" id="overlay-title">Optimizing Ecosystem</h1>
+            <p class="m-desc" id="overlay-desc">Our engineers are fine-tuning the platform. We will be back online in a moment.</p>
+            <button onclick="window.location.reload()" style="background: var(--text-100); color: var(--bg-base); padding: 15px 30px; border: none; border-radius: 50px; font-weight: 800; cursor: pointer;">
+                RETRY CONNECTION
+            </button>
         </div>
     </div>
-
-    <!-- 4. GLOBAL SHARED UI MOUNT POINTS -->
-    <!-- These will inject header, sidebar, navigation, and notifications -->
-    <div id="mount-global-ui"></div>
-    <div id="mount-header"></div>
-    <div id="mount-sidebar"></div>
-    <div id="mount-bottom-nav"></div>
-    <div id="mount-notifications"></div>
-
-    <!-- 5. SPA DYNAMIC ROUTE CONTAINER -->
-    <!-- This is where all pages (Home, Shop, Profile) will be dynamically injected -->
-    <main id="nx-app-shell"></main>
-
-    <!-- 6. FOOTER MOUNT POINT -->
-    <div id="mount-footer"></div>
 
     <!-- ==========================================================================
-         7. ENTERPRISE GATEWAY ENGINE (JAVASCRIPT)
+         CENTRALIZED JAVASCRIPT ENGINE (ROUTING, DEEP-LINKS, TRACKING)
          ========================================================================== -->
     <script>
         /**
-         * NEXRA GATEWAY CONTROLLER
-         * Handles Boot sequence, Theme Initialization, Deep Linking, and SPA Routing.
+         * NEXRA GATEWAY ENGINE
+         * Handles routing, loading states, and analytics before the user sees the app.
          */
         window.NexraGateway = {
             
-            // Core Session State
-            state: {
-                targetRoute: 'home',
-                targetParams: '',
-                isBooting: true
-            },
-
-            /**
-             * 1. Initialize Brand Assets immediately on load to prevent flicker.
-             */
-            initBranding: function() {
-                if (window.NexraBrand) {
-                    window.NexraBrand.refreshDOMAssets();
-                    // Inject Schema.org Logo
-                    const schema = JSON.parse(document.getElementById('schema-ld').innerText);
-                    schema.logo = window.NexraBrand.getAsset('logo');
-                    document.getElementById('schema-ld').innerText = JSON.stringify(schema);
-                }
-            },
-
-            /**
-             * 2. Visual Progress Updater
-             */
-            updateProgress: function(percent, message) {
-                const fill = document.getElementById('nx-splash-fill');
-                const status = document.getElementById('nx-splash-status');
-                if (fill) fill.style.width = percent + '%';
-                if (status) status.innerText = message;
-            },
-
-            /**
-             * 3. Capture Referral & Campaign Hooks (UTMs)
-             */
-            captureAnalyticsHooks: function() {
-                const urlParams = new URLSearchParams(window.location.search);
+            // UI State Manager
+            ui: {
+                fill: document.getElementById('sp-fill'),
+                status: document.getElementById('sp-status'),
+                splash: document.getElementById('nx-gateway-splash'),
+                overlay: document.getElementById('nx-system-overlay'),
                 
-                // Referral System Hook
-                if(urlParams.has('ref')) {
-                    localStorage.setItem('nx_referral_code', urlParams.get('ref'));
-                    console.log("[Analytics] Referral code captured:", urlParams.get('ref'));
+                updateProgress: function(percent, message) {
+                    if(this.fill) this.fill.style.width = `${percent}%`;
+                    if(this.status) this.status.innerText = message;
+                },
+                
+                showError: function(title, desc, iconClass) {
+                    this.splash.style.display = 'none';
+                    document.getElementById('overlay-title').innerText = title;
+                    document.getElementById('overlay-desc').innerText = desc;
+                    document.getElementById('overlay-icon').innerHTML = `<i class="${iconClass}"></i>`;
+                    this.overlay.style.display = 'flex';
+                    setTimeout(() => this.overlay.style.opacity = '1', 50);
                 }
+            },
 
-                // Marketing Campaign Hook
-                if(urlParams.has('utm_source')) {
+            // 1. Analytics & Tracking Hooks
+            captureAnalytics: function() {
+                this.ui.updateProgress(10, "Securing Session...");
+                const params = new URLSearchParams(window.location.search);
+                
+                // Capture Referral Code
+                if(params.has('ref')) {
+                    localStorage.setItem('nexra_ref_code', params.get('ref'));
+                }
+                
+                // Capture Campaign (UTM) Data for Ad tracking
+                if(params.has('utm_source')) {
                     const campaign = {
-                        source: urlParams.get('utm_source'),
-                        medium: urlParams.get('utm_medium'),
-                        campaign: urlParams.get('utm_campaign'),
+                        source: params.get('utm_source'),
+                        medium: params.get('utm_medium'),
+                        campaign: params.get('utm_campaign'),
                         timestamp: Date.now()
                     };
-                    sessionStorage.setItem('nx_active_campaign', JSON.stringify(campaign));
+                    sessionStorage.setItem('nexra_campaign_data', JSON.stringify(campaign));
                 }
             },
 
-            /**
-             * 4. Deep Link Resolver
-             * Maps requested URLs to actual HTML files using the NexraRoutes registry.
-             */
+            // 2. Routing Resolution Engine
             resolveDeepLink: function() {
-                // Support both clean URLs (/product/123) and query URLs (?view=product&id=123)
+                this.ui.updateProgress(85, "Resolving Destination...");
+                
+                // Parse the current URL
                 const path = window.location.pathname;
-                const searchParams = new URLSearchParams(window.location.search);
+                const params = window.location.search; // Keep queries like ?id=123
                 
-                let requestedView = 'home';
-                let queryStr = window.location.search;
+                // Extract route identifier (e.g. /shop -> shop)
+                const segments = path.split('/').filter(Boolean);
+                let targetKey = segments.length > 0 ? segments[0] : 'home';
+                
+                // Generate the actual file path using the centralized registry in firebaseconfig.js
+                // Example: 'shop' -> '/shop/shop.html'
+                let destinationUrl = window.NexraRoutes.generateURL(targetKey, params);
+                
+                console.log(`[Gateway] Deep Link resolved. Routing from '${path}' to '${destinationUrl}'`);
+                
+                this.ui.updateProgress(100, "Ecosystem Ready.");
 
-                // Priority 1: Query Params (e.g., ?view=shop)
-                if (searchParams.has('view')) {
-                    requestedView = searchParams.get('view');
-                } 
-                // Priority 2: Clean Path (e.g., /shop)
-                else if (path.length > 1 && path !== '/') {
-                    const segments = path.split('/').filter(Boolean);
-                    requestedView = segments[0]; // first segment is the route key
-                }
-
-                this.state.targetRoute = requestedView;
-                this.state.targetParams = queryStr;
-                console.log(`[Router] Target resolved to: ${this.state.targetRoute}`);
+                // Cinematic Exit & Redirect
+                setTimeout(() => {
+                    this.ui.splash.style.opacity = '0';
+                    this.ui.splash.style.transform = 'scale(1.05)';
+                    
+                    setTimeout(() => {
+                        // Use window.location.replace to prevent the splash screen from appearing in the browser "Back" history.
+                        window.location.replace(destinationUrl);
+                    }, 600); // Wait for CSS transition
+                }, 400); // Hold at 100% briefly
             },
 
-            /**
-             * 5. The Master Boot Sequence
-             */
+            // 3. Database Connection & System Check
             boot: function() {
-                this.initBranding();
-                this.captureAnalyticsHooks();
-                this.resolveDeepLink();
+                this.captureAnalytics();
                 
-                // Initialize Theme
-                const savedTheme = localStorage.getItem('theme') || 'light';
-                if(savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
-
-                this.updateProgress(20, 'Verifying Hybrid Databases...');
-
-                // Wait for Firebase/Supabase config to fully load
-                const checkCloud = setInterval(() => {
-                    if (window.db && window.supabaseClient) {
-                        clearInterval(checkCloud);
-                        this.updateProgress(50, 'Fetching Global Configuration...');
-                        this.verifySystemState();
-                    }
-                }, 100);
-
-                // Failsafe Timeout (Load app anyway if DB is slow after 8s)
-                setTimeout(() => {
-                    if(this.state.isBooting) {
-                        console.warn("[Gateway] Cloud verification timeout. Forcing entry...");
-                        clearInterval(checkCloud);
-                        this.launchEcosystem();
-                    }
-                }, 8000);
-            },
-
-            /**
-             * 6. Check Firestore for Maintenance & Global States
-             */
-            verifySystemState: async function() {
-                try {
-                    const configRef = await window.db.collection('splash_settings').doc('config').get();
-                    if (configRef.exists) {
-                        const data = configRef.data();
-                        
-                        // Check Maintenance Mode
-                        if (data.maintenance_mode) {
-                            this.triggerMaintenance(data);
-                            return; // Stop boot sequence
-                        }
-
-                        // Check Festival Override
-                        if (data.festival_mode && window.NexraBrand) {
-                            window.NexraBrand.festivalMode = data.festival_mode;
-                            window.NexraBrand.refreshDOMAssets();
-                        }
-                    }
-                    
-                    this.updateProgress(80, 'Loading Interface Modules...');
-                    await this.loadSharedComponents();
-                    
-                    this.updateProgress(100, 'Gateway Opening...');
-                    this.launchEcosystem();
-
-                } catch (error) {
-                    console.error("[Gateway] Verification Error:", error);
-                    // Fallback to normal launch
-                    this.launchEcosystem();
-                }
-            },
-
-            /**
-             * 7. Modular HTML Injector
-             * Injects Header, Sidebar, Footer components into the DOM
-             */
-            loadSharedComponents: async function() {
-                const modules = [
-                    // { id: 'mount-header', file: '/components/header.html' },
-                    // { id: 'mount-footer', file: '/components/footer.html' }
-                    // Implementation will go here in subsequent steps. For now, it's a pass-through.
-                ];
-                console.log("[Gateway] Shared components framework ready.");
-            },
-
-            /**
-             * 8. Launch App & Mount Target Route
-             */
-            launchEcosystem: function() {
-                this.state.isBooting = false;
-                const splash = document.getElementById('nx-splash');
-
-                // Smooth Fade Out
-                splash.style.opacity = '0';
-                splash.style.transform = 'scale(1.05)';
-                
-                setTimeout(() => {
-                    splash.style.display = 'none';
-                    // Trigger the SPA Router to load the requested page
-                    this.injectRoute(this.state.targetRoute, this.state.targetParams, false);
-                }, 800);
-            },
-
-            /**
-             * 9. Maintenance Mode Trigger
-             */
-            triggerMaintenance: function(data) {
-                document.getElementById('nx-splash').style.display = 'none';
-                const maint = document.getElementById('nx-maintenance');
-                maint.style.display = 'flex';
-                setTimeout(() => maint.style.opacity = '1', 100);
-
-                if (data.m_title) document.getElementById('m-title').innerText = data.m_title;
-                if (data.m_desc) document.getElementById('m-desc').innerText = data.m_desc;
-            },
-
-            /**
-             * 10. SPA Routing Engine (Fetch & Inject)
-             * Handles internal navigation without page reloads.
-             */
-            injectRoute: async function(routeKey, queryStr = '', pushHistory = true) {
-                if (!window.NexraRoutes) {
-                    console.error("NexraRoutes registry not found.");
+                if (!navigator.onLine) {
+                    this.ui.showError("Connection Lost", "Please check your internet connection to access the ecosystem.", "fa-solid fa-wifi");
                     return;
                 }
 
-                const shell = document.getElementById('nx-app-shell');
-                const pBar = document.getElementById('nx-router-progress');
-                const pFill = document.getElementById('nx-router-fill');
+                this.ui.updateProgress(30, "Connecting to Hybrid Database...");
 
-                // Get file path from Registry
-                const filePath = window.NexraRoutes.registry[routeKey] || window.NexraRoutes.registry['404'];
-
-                // UI Loading State
-                pBar.style.opacity = '1';
-                pFill.style.width = '30%';
-                shell.classList.add('shell-loading');
-
-                try {
-                    // Fetch the actual HTML module
-                    const response = await fetch(`${window.NexraRoutes.baseUrl}${filePath}`);
-                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                let attempts = 0;
+                const verifyConnection = setInterval(async () => {
+                    attempts++;
                     
-                    const html = await response.text();
-                    pFill.style.width = '70%';
-
-                    setTimeout(() => {
-                        // Inject HTML
-                        shell.innerHTML = html;
-
-                        // Execute Embedded Scripts securely
-                        const scripts = shell.querySelectorAll('script');
-                        scripts.forEach(oldScript => {
-                            const newScript = document.createElement('script');
-                            Array.from(oldScript.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value));
-                            newScript.appendChild(document.createTextNode(oldScript.innerHTML));
-                            oldScript.parentNode.replaceChild(newScript, oldScript);
-                        });
-
-                        // Manage Browser History (Deep Linking Support)
-                        if (pushHistory) {
-                            // Convert back to query params format for maximum compatibility on static hosts
-                            const newUrl = `?view=${routeKey}${queryStr.replace('?', '&')}`;
-                            window.history.pushState({ view: routeKey, query: queryStr }, '', newUrl);
+                    // Wait for Firebase/Supabase from firebaseconfig.js
+                    if (window.db && window.supabaseClient) {
+                        clearInterval(verifyConnection);
+                        this.ui.updateProgress(60, "Verifying System Integrity...");
+                        
+                        try {
+                            // Check Maintenance Mode Flag in Firestore
+                            const settingsDoc = await window.db.collection('settings').doc('global').get();
+                            const data = settingsDoc.exists ? settingsDoc.data() : {};
+                            
+                            if (data.maintenance_mode) {
+                                this.ui.showError(data.maintenance_title || "Maintenance Mode", data.maintenance_desc || "System is offline for upgrades.", "fa-solid fa-tools");
+                            } else {
+                                this.resolveDeepLink();
+                            }
+                        } catch (error) {
+                            console.error("[Gateway] Settings fetch failed. Proceeding with routing anyway.", error);
+                            this.resolveDeepLink(); // Fallback: Let them through if DB read fails (offline cache might handle it)
                         }
-
-                        // Update Global SEO Meta
-                        this.updateDynamicSEO(routeKey);
-
-                        // Reveal Page
-                        pFill.style.width = '100%';
-                        shell.classList.remove('shell-loading');
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-
-                        setTimeout(() => {
-                            pBar.style.opacity = '0';
-                            setTimeout(() => pFill.style.width = '0', 300);
-                        }, 400);
-
-                    }, 400); // Allow transition
-
-                } catch (error) {
-                    console.error("[Router] Failed to load route:", error);
-                    pBar.style.opacity = '0';
-                    if (routeKey !== '404') this.injectRoute('404', '', false);
-                }
-            },
-
-            /**
-             * 11. Dynamic Enterprise SEO Updates
-             */
-            updateDynamicSEO: function(routeKey) {
-                // Capitalize first letter for basic title mapping
-                const routeName = routeKey.charAt(0).toUpperCase() + routeKey.slice(1);
-                const newTitle = `${routeName} | Nexra Tech PK`;
-                
-                document.title = newTitle;
-                document.getElementById('seo-title').innerText = newTitle;
-                document.getElementById('og-title').setAttribute('content', newTitle);
-                document.getElementById('twitter-title').setAttribute('content', newTitle);
-                
-                const currentUrl = window.location.href;
-                document.getElementById('og-url').setAttribute('content', currentUrl);
-                document.getElementById('twitter-url').setAttribute('content', currentUrl);
-                
-                // Note: Specific pages (like product-detail) will override this further 
-                // in their own scripts by calling an exposed updateSEO function.
+                    } else if (attempts > 50) { // 5-second timeout
+                        clearInterval(verifyConnection);
+                        console.error("[Gateway] Database connection timeout.");
+                        this.ui.showError("Database Timeout", "The hybrid engine took too long to respond. Please refresh.", "fa-solid fa-database");
+                    }
+                }, 100);
             }
         };
 
-        // --- GLOBAL EVENT DELEGATION FOR INTERNAL LINKS ---
-        // Converts standard <a href="?view=shop"> into smooth SPA transitions
-        document.body.addEventListener('click', e => {
-            const link = e.target.closest('a');
-            if (link && link.href.includes(window.location.host) && !link.target && !link.hasAttribute('download')) {
-                const url = new URL(link.href);
-                const params = new URLSearchParams(url.search);
-                
-                if (params.has('view')) {
-                    e.preventDefault();
-                    // Remove 'view' from query string to pass rest of params
-                    const targetView = params.get('view');
-                    params.delete('view');
-                    let remainingParams = params.toString();
-                    if(remainingParams) remainingParams = '?' + remainingParams;
-                    
-                    window.NexraGateway.injectRoute(targetView, remainingParams, true);
-                }
-            }
-        });
-
-        // --- BROWSER BACK/FORWARD BUTTON HANDLER ---
-        window.addEventListener('popstate', (event) => {
-            if (event.state && event.state.view) {
-                window.NexraGateway.injectRoute(event.state.view, event.state.query, false);
-            } else {
-                window.NexraGateway.resolveDeepLink();
-                window.NexraGateway.injectRoute(window.NexraGateway.state.targetRoute, window.NexraGateway.state.targetParams, false);
-            }
-        });
-
-        // Ignite the Engine
-        document.addEventListener('DOMContentLoaded', () => {
+        // Ignite the Gateway
+        window.addEventListener('DOMContentLoaded', () => {
+            // Apply Theme before paint to prevent flashing
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            if(savedTheme === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+            
+            // Start boot sequence
             window.NexraGateway.boot();
         });
     </script>
