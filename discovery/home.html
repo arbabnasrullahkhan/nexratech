@@ -1,259 +1,254 @@
-<!-- 
-  NEXRA TECH PK - HOME MODULE v4.0
-  PREMIUM DISCOVERY INTERFACE (Enterprise Standard)
-  FULLY CONNECTED TO MASTER ENGINE & FIREBASE
--->
-
-<style>
-    /* ==========================================================================
-       HOME SCOPED DESIGN (PREMIUM WHITE / SAAS STYLE)
-       ========================================================================== */
-    #home-view {
-        opacity: 0;
-        transform: translateY(20px);
-        transition: opacity 0.8s var(--transition), transform 0.8s var(--transition);
-    }
-    #home-view.ready { opacity: 1; transform: translateY(0); }
-
-    /* Announcement Bar */
-    .nh-announce {
-        background: linear-gradient(90deg, var(--brand-main) 0%, #ff8c00 100%);
-        color: #fff; padding: 12px 20px; text-align: center;
-        font-size: 12px; font-weight: 800; letter-spacing: 0.5px;
-        position: relative; z-index: 100; display: flex; align-items: center;
-        justify-content: center; gap: 15px; border-radius: 0 0 20px 20px;
-    }
-    .nh-announce a { color: #fff; text-decoration: underline; font-weight: 900; }
-
-    /* Hero Component */
-    .nh-hero {
-        position: relative; min-height: 85svh; display: flex; align-items: center;
-        justify-content: center; text-align: center; overflow: hidden;
-        border-radius: 0 0 50px 50px; background: var(--bg-base);
-    }
-    .nh-hero__bg { position: absolute; inset: 0; z-index: 0; background: #000; }
-    .nh-hero__video { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; filter: blur(25px) brightness(0.6); }
-    .nh-hero__overlay { position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 0%, var(--bg-base) 90%); }
-
-    .nh-hero__content { position: relative; z-index: 5; max-width: 900px; padding: 40px 25px; }
-    .nh-hero__headline { font-family: 'Space Grotesk'; font-size: clamp(40px, 9vw, 80px); font-weight: 900; line-height: 1; letter-spacing: -3px; margin-bottom: 20px; color: var(--text-100); }
-    .nh-hero__desc { font-size: clamp(16px, 2.5vw, 20px); font-weight: 600; color: var(--text-200); margin-bottom: 40px; max-width: 700px; margin-left: auto; margin-right: auto; }
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <!-- ==========================================================================
+         1. ENTERPRISE SEO & DYNAMIC META DATA
+         ========================================================================== -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Nexra Tech PK | Pakistan's Elite Digital Ecosystem</title>
     
-    .nh-hero__ctas { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; }
-
-    /* Trust Stats */
-    .nh-trust { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; width: 100%; margin-top: 60px; }
-    @media (min-width: 600px) { .nh-trust { grid-template-columns: repeat(4, 1fr); } }
-    .nh-trust__item { background: var(--bg-surface); padding: 20px; border-radius: 20px; border: 1px solid var(--glass-border); box-shadow: var(--shadow-premium); }
-    .nh-trust__val { font-family: 'Space Grotesk'; font-size: 24px; font-weight: 800; color: var(--brand-main); }
-    .nh-trust__lbl { font-size: 10px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1px; }
-
-    /* Floating Search Bar */
-    .nh-search-wrap { position: relative; z-index: 10; margin-top: -35px; padding: 0 20px; }
-    .nh-search { max-width: 800px; margin: 0 auto; background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 8px 8px 8px 24px; border-radius: 50px; display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-premium); }
-    .nh-search input { flex: 1; border: none; background: transparent; font-size: 15px; font-weight: 600; color: var(--text-100); outline: none; }
-    .nh-search svg { color: var(--text-300); }
-
-    /* Dynamic Product Grid */
-    .nh-grid { display: grid; gap: 20px; grid-template-columns: repeat(2, 1fr); }
-    @media(min-width: 768px){ .nh-grid { grid-template-columns: repeat(3, 1fr); } }
-    @media(min-width: 1024px){ .nh-grid { grid-template-columns: repeat(5, 1fr); } }
-
-    .nh-p-card { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 24px; padding: 12px; transition: 0.4s; cursor: pointer; display: flex; flex-direction: column; position: relative; }
-    .nh-p-card:hover { transform: translateY(-8px); border-color: var(--brand-main); box-shadow: var(--shadow-premium); }
-    .nh-p-img { width: 100%; aspect-ratio: 1/1; border-radius: 18px; object-fit: cover; margin-bottom: 15px; background: var(--bg-elevated); }
-    .nh-p-title { font-size: 14px; font-weight: 800; line-height: 1.4; margin-bottom: 10px; color: var(--text-100); height: 40px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
-    .nh-p-price { font-family: 'Space Grotesk'; font-size: 18px; font-weight: 800; color: var(--brand-main); }
+    <meta name="description" content="Pakistan's premium marketplace for automated software licensing, SaaS tools, and elite reseller portals. Instant delivery to your digital vault.">
+    <meta name="keywords" content="Nexra PK, digital marketplace, software license pakistan, buy canva pro, capcut pro pakistan, reseller portal">
+    <meta name="author" content="Nexra Tech PK">
     
-    .nh-p-badge { position: absolute; top: 20px; left: 20px; background: var(--brand-main); color: #fff; font-size: 9px; font-weight: 900; padding: 4px 10px; border-radius: 8px; text-transform: uppercase; }
-
-    /* Review Marquee */
-    .nh-marq { overflow: hidden; padding: 40px 0; background: var(--bg-surface); border-top: 1px solid var(--glass-border); border-bottom: 1px solid var(--glass-border); }
-    .nh-marq-track { display: flex; gap: 30px; width: max-content; animation: nh-scroll 40s linear infinite; }
-    @keyframes nh-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-    .nh-review { background: var(--bg-base); padding: 25px; border-radius: 20px; border: 1px solid var(--glass-border); width: 300px; }
-</style>
-
-<div id="home-view">
+    <!-- Open Graph / Social SEO -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Nexra Tech PK | Elite Digital Ecosystem">
+    <meta property="og:description" content="Automated delivery of premium software and digital assets. Trusted by 10,000+ users.">
+    <meta property="og:image" content="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png">
     
-    <!-- 1. DYNAMIC ANNOUNCEMENT -->
-    <div class="nh-announce" id="home-alert">
-        <span>🔥 FLASH SALE: Elite Tools at flat 30% OFF for a limited time!</span>
-        <a href="javascript:void(0)" onclick="Nexra.navTo('shop')">Explore Deals →</a>
+    <!-- Favicon (Fallback - Main favicon is handled by index.html) -->
+    <link rel="icon" href="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" type="image/png">
+
+    <!-- 2. PREMIUM TYPOGRAPHY & ICONS -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- 3. INTERNAL STYLES (ELITE UI/UX SYSTEM) -->
+    <style>
+        /* [Rule: All CSS is contained within this file] */
+        
+        :root {
+            /* Design Tokens */
+            --brand-main: #FF4A17;
+            --brand-glow: rgba(255, 74, 23, 0.2);
+            --brand-soft: rgba(255, 74, 23, 0.08);
+            --bg-base: #ffffff;
+            --bg-surface: #f8fafc;
+            --bg-elevated: #f1f5f9;
+            --text-100: #0f172a;
+            --text-200: #475569;
+            --text-300: #94a3b8;
+            --glass-border: rgba(0, 0, 0, 0.06);
+            --shadow-premium: 0 20px 50px -12px rgba(0,0,0,0.08);
+            --radius-md: 24px;
+            --radius-lg: 40px;
+            --transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        [data-theme="dark"] {
+            --bg-base: #050507;
+            --bg-surface: #0c0c12;
+            --bg-elevated: #16161e;
+            --text-100: #ffffff;
+            --text-200: #a1a1aa;
+            --text-300: #52525b;
+            --glass-border: rgba(255, 255, 255, 0.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg-base); color: var(--text-100); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; line-height: 1.6; }
+        
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 5%; }
+        .tech-font { font-family: 'Space Grotesk', sans-serif; }
+        .text-gradient { background: linear-gradient(135deg, var(--brand-main) 0%, #ff8a00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* --- Components --- */
+        .badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 50px; font-size: 10px; font-weight: 800; background: var(--bg-surface); border: 1px solid var(--glass-border); color: var(--brand-main); text-transform: uppercase; letter-spacing: 1px; box-shadow: var(--shadow-sm); }
+        .btn { padding: 16px 32px; border-radius: 50px; border: none; font-weight: 700; font-size: 13px; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-family: inherit; }
+        .btn-primary { background: var(--brand-main); color: #fff; box-shadow: 0 8px 25px var(--brand-glow); }
+        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 15px 35px var(--brand-glow); }
+        .btn-outline { background: var(--bg-surface); color: var(--text-100); border: 1px solid var(--glass-border); }
+        .btn-outline:hover { background: var(--bg-elevated); border-color: var(--brand-main); }
+
+        /* ==========================================
+           HERO SECTION (ULTRA PREMIUM)
+           ========================================== */
+        .hero {
+            position: relative; min-height: 90svh;
+            display: flex; align-items: center; justify-content: center;
+            overflow: hidden; background: var(--bg-base);
+            margin-top: -100px; padding-top: 100px; text-align: center;
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .hero-bg { position: absolute; inset: 0; z-index: 0; }
+        .hero-video { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; filter: blur(40px) brightness(0.8); }
+        .hero-overlay { position: absolute; inset: 0; background: radial-gradient(circle at center, transparent 0%, var(--bg-base) 80%); }
+
+        .hero-content { position: relative; z-index: 2; max-width: 900px; padding: 0 25px; animation: fadeUp 1s var(--transition); }
+        .hero-title { font-size: clamp(2.5rem, 8vw, 5.5rem); font-weight: 900; letter-spacing: -3px; line-height: 1.05; margin-bottom: 25px; }
+        .hero-desc { font-size: clamp(16px, 2.5vw, 20px); color: var(--text-200); font-weight: 500; margin-bottom: 45px; max-width: 650px; margin-left: auto; margin-right: auto; }
+
+        /* Rotating Text */
+        .word-rotor { display: inline-block; color: var(--brand-main); position: relative; min-width: 250px; text-align: left; padding-left: 10px; }
+
+        /* Stats Bar */
+        .trust-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 40px; margin-top: 60px; border-top: 1px solid var(--glass-border); padding-top: 40px; }
+        .stat-item { text-align: center; }
+        .stat-val { font-size: 28px; font-weight: 800; color: var(--text-100); }
+        .stat-lbl { font-size: 11px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* ==========================================
+           DYNAMIC SEARCH & CATEGORIES
+           ========================================== */
+        .search-container { margin-top: -45px; position: relative; z-index: 10; padding: 0 5%; }
+        .search-island { max-width: 800px; margin: 0 auto; background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 10px; border-radius: 60px; display: flex; align-items: center; box-shadow: var(--shadow-premium); }
+        .search-island i { padding: 0 20px; color: var(--text-300); font-size: 18px; }
+        .search-island input { flex: 1; background: transparent; padding: 15px 0; font-size: 16px; font-weight: 600; color: var(--text-100); }
+        .search-btn { background: var(--text-100); color: var(--bg-base); padding: 15px 35px; border-radius: 50px; font-weight: 800; font-size: 12px; margin-left: 10px; transition: 0.3s; }
+        .search-btn:hover { background: var(--brand-main); }
+
+        .category-scroller { display: flex; gap: 12px; overflow-x: auto; padding: 40px 0 20px; scrollbar-width: none; }
+        .category-scroller::-webkit-scrollbar { display: none; }
+        .cat-pill { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 12px 24px; border-radius: 50px; font-size: 13px; font-weight: 700; color: var(--text-200); cursor: pointer; transition: 0.3s; }
+        .cat-pill:hover, .cat-pill.active { border-color: var(--brand-main); color: var(--brand-main); background: var(--brand-soft); transform: translateY(-3px); }
+        .cat-icon { width: 30px; height: 30px; border-radius: 10px; background: var(--bg-elevated); display: flex; align-items: center; justify-content: center; }
+
+        /* ==========================================
+           TRENDING ASSETS GRID
+           ========================================== */
+        .section-padding { padding: 100px 0; }
+        .section-head { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; }
+        .section-title { font-size: 32px; font-weight: 800; letter-spacing: -1px; }
+
+        .assets-grid { display: grid; gap: 20px; grid-template-columns: repeat(2, 1fr); }
+        @media(min-width: 768px){ .assets-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media(min-width: 1024px){ .assets-grid { grid-template-columns: repeat(5, 1fr); } }
+
+        .asset-card { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 12px; transition: 0.4s; cursor: pointer; display: flex; flex-direction: column; position: relative; }
+        .asset-card:hover { transform: translateY(-10px); border-color: var(--brand-main); box-shadow: var(--shadow-premium); }
+        .asset-img-box { width: 100%; aspect-ratio: 1/1; border-radius: 16px; overflow: hidden; background: var(--bg-elevated); margin-bottom: 15px; }
+        .asset-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+        .asset-card:hover .asset-img { transform: scale(1.1); }
+        .asset-badge { position: absolute; top: 20px; left: 20px; background: var(--brand-main); color: #fff; font-size: 9px; font-weight: 900; padding: 4px 10px; border-radius: 8px; z-index: 2; }
+        
+        .asset-info h3 { font-size: 14px; font-weight: 700; margin-bottom: 5px; color: var(--text-100); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; height: 40px; }
+        .asset-meta { display: flex; justify-content: space-between; font-size: 10px; font-weight: 700; color: var(--text-300); margin-bottom: 15px; }
+        .asset-price { font-size: 18px; font-weight: 800; font-family: 'Space Grotesk'; color: var(--text-100); }
+        
+        .asset-btn-cart { width: 40px; height: 40px; border-radius: 12px; background: var(--bg-elevated); color: var(--text-100); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .asset-btn-cart:hover { background: var(--brand-main); color: #fff; }
+
+        /* ==========================================
+           B2B RESELLER BANNER
+           ========================================== */
+        .b2b-banner { background: linear-gradient(135deg, #FF4A17 0%, #D83A0E 100%); border-radius: var(--radius-lg); padding: 60px; display: flex; flex-wrap: wrap; gap: 40px; align-items: center; justify-content: space-between; color: #fff; position: relative; overflow: hidden; }
+        .b2b-banner::after { content: '\f201'; font-family: 'Font Awesome 6 Free'; font-weight: 900; position: absolute; font-size: 300px; opacity: 0.05; right: -50px; bottom: -50px; transform: rotate(-15deg); }
+        .b2b-content { flex: 1.5; min-width: 300px; position: relative; z-index: 2; }
+        .b2b-title { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.1; margin-bottom: 20px; letter-spacing: -2px; }
+        .b2b-desc { font-size: 18px; opacity: 0.9; margin-bottom: 40px; max-width: 500px; }
+        .b2b-btn { background: #fff; color: var(--brand-main); padding: 20px 40px; font-size: 15px; font-weight: 800; box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .b2b-img { flex: 1; text-align: center; position: relative; z-index: 2; }
+        .b2b-img img { max-width: 350px; filter: drop-shadow(0 30px 50px rgba(0,0,0,0.3)); animation: float 4s ease-in-out infinite; }
+
+        /* ==========================================
+           FREEBIES VAULT (ELITE)
+           ========================================== */
+        .freebie-card { position: relative; aspect-ratio: 16/10; border-radius: 20px; overflow: hidden; cursor: pointer; transition: 0.4s; border: 1px solid var(--glass-border); }
+        .freebie-card:hover { transform: scale(0.98); }
+        .freebie-img { width: 100%; height: 100%; object-fit: cover; }
+        .freebie-overlay { position: absolute; inset: 0; background: linear-gradient(0deg, rgba(0,0,0,0.9) 0%, transparent 70%); display: flex; flex-direction: column; justify-content: flex-end; padding: 25px; transition: 0.4s; }
+        .freebie-card:hover .freebie-overlay { background: linear-gradient(0deg, var(--brand-main) 0%, transparent 100%); opacity: 0.9; }
+        .freebie-title { color: #fff; font-size: 20px; font-weight: 800; margin-bottom: 5px; }
+        .freebie-tag { color: var(--brand-main); font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        .freebie-card:hover .freebie-tag { color: #fff; }
+
+        /* ==========================================
+           MARQUEE & TESTIMONIALS
+           ========================================== */
+        .marquee { overflow: hidden; padding: 40px 0; background: var(--bg-surface); border-radius: var(--radius-lg); border: 1px solid var(--glass-border); margin-top: 50px; }
+        .marquee-track { display: flex; gap: 30px; width: max-content; animation: scroll 40s linear infinite; }
+        .marquee-card { width: 350px; background: var(--bg-base); padding: 30px; border-radius: 20px; border: 1px solid var(--glass-border); box-shadow: var(--shadow-sm); }
+        .m-user { display: flex; align-items: center; gap: 15px; margin-bottom: 15px; }
+        .m-avatar { width: 45px; height: 45px; border-radius: 50%; background: var(--brand-main); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+        .m-name { font-weight: 800; color: var(--text-100); }
+        .m-text { font-size: 14px; color: var(--text-200); line-height: 1.6; font-style: italic; }
+
+        /* ==========================================
+           FAQ & SUPPORT
+           ========================================== */
+        .faq-grid { max-width: 900px; margin: 0 auto; }
+        .faq-item { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 20px; margin-bottom: 15px; overflow: hidden; transition: 0.3s; }
+        .faq-item summary { padding: 25px; font-weight: 800; font-family: 'Space Grotesk'; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; }
+        .faq-item summary::after { content: '\f067'; font-family: 'Font Awesome 6 Free'; color: var(--brand-main); font-size: 14px; transition: 0.3s; }
+        .faq-item[open] { border-color: var(--brand-main); box-shadow: var(--shadow-sm); }
+        .faq-item[open] summary::after { transform: rotate(45deg); }
+        .faq-item p { padding: 0 25px 25px; color: var(--text-200); font-size: 15px; }
+
+        /* Animations */
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .hero { padding-top: 150px; min-height: 80svh; }
+            .hero-title { font-size: 3rem; }
+            .stat-item { flex: 1 1 40%; }
+            .b2b-banner { padding: 40px; text-align: center; }
+            .b2b-btn { width: 100%; }
+            .section-padding { padding: 60px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ==========================================================================
+         A. TOP ANNOUNCEMENT STRIP
+         ========================================================================== -->
+    <div class="nh-announce" id="top-promo">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        <span id="promo-text">FLASH SALE: GET LIFETIME ACCESS TO ALL TOOLS AT 30% OFF!</span>
+        <a href="#" onclick="Nexra.navTo('shop')">ACTIVATE DEAL →</a>
     </div>
 
-    <!-- 2. CINEMATIC HERO SECTION -->
-    <section class="nh-hero">
-        <div class="nh-hero__bg">
-            <video autoplay loop muted playsinline class="nh-hero__video">
+    <!-- ==========================================================================
+         B. HERO SECTION
+         ========================================================================== -->
+    <section class="hero">
+        <div class="hero-bg">
+            <video autoplay loop muted playsinline class="hero-video" id="hero-vid">
                 <source src="https://www.pexels.com/download/video/8675553/" type="video/mp4">
             </video>
-            <div class="nh-hero__overlay"></div>
+            <div class="hero-overlay"></div>
         </div>
 
-        <div class="nh-hero__content ready-animation">
-            <div class="badge" style="margin-bottom: 25px;"><i class="fa-solid fa-shield-halved"></i> SECURED BY NEXRA CLOUD</div>
-            <h1 class="nh-hero__headline">DIGITAL<br><span class="text-gradient">ECOSYSTEM</span></h1>
-            <p class="nh-hero__desc">Pakistan's most trusted marketplace for premium software licenses, SaaS keys, and automated digital assets.</p>
+        <div class="hero-content">
+            <div class="badge"><i class="fa-solid fa-shield-halved"></i> SECURED DIGITAL ECOSYSTEM</div>
+            <h1 class="hero-title tech-font">
+                THE NEXT GEN<br>
+                <span class="word-rotor text-gradient" id="rotor">MARKETPLACE</span>
+            </h1>
+            <p class="hero-desc">Pakistan's most reliable hub for premium software, SaaS keys, and viral freebies. Automated delivery directly to your secure vault.</p>
             
             <div class="nh-hero__ctas">
-                <button class="btn btn-primary" onclick="Nexra.navTo('shop')"><i class="fa-solid fa-store"></i> EXPLORE MARKET</button>
-                <button class="btn btn-outline" onclick="Nexra.navTo('freebies')"><i class="fa-solid fa-cloud-arrow-down"></i> FREE VAULT</button>
+                <button class="btn btn-primary" onclick="Nexra.navTo('shop')"><i class="fa-solid fa-bolt"></i> EXPLORE MARKET</button>
+                <button class="btn btn-outline" onclick="Nexra.navTo('freebies')"><i class="fa-solid fa-vault"></i> FREE VAULT</button>
             </div>
 
-            <!-- Real-time Trust Stats -->
-            <div class="nh-trust">
-                <div class="nh-trust__item">
-                    <div class="nh-trust__val" id="stat-users">1.7K+</div>
-                    <div class="nh-trust__lbl">Active Users</div>
-                </div>
-                <div class="nh-trust__item">
-                    <div class="nh-trust__val" id="stat-orders">52K+</div>
-                    <div class="nh-trust__lbl">Deliveries</div>
-                </div>
-                <div class="nh-trust__item" style="border-color: var(--brand-main);">
-                    <div class="nh-trust__val">99.9%</div>
-                    <div class="nh-trust__lbl">Trust Score</div>
-                </div>
-                <div class="nh-trust__item">
-                    <div class="nh-trust__val">15m</div>
-                    <div class="nh-trust__lbl">Avg Support</div>
-                </div>
+            <div class="trust-bar">
+                <div class="stat-item"><div class="stat-val tech-font" id="stat-users">10K+</div><div class="stat-lbl">Active Users</div></div>
+                <div class="stat-item"><div class="stat-val tech-font" id="stat-orders">50K+</div><div class="stat-lbl">Deliveries</div></div>
+                <div class="stat-item"><div class="stat-val tech-font" id="stat-trust">99.9%</div><div class="stat-lbl">Trust Score</div></div>
+                <div class="stat-item"><div class="stat-val tech-font" id="stat-support">15m</div><div class="stat-lbl">Avg Response</div></div>
             </div>
         </div>
     </section>
 
-    <!-- 3. SMART GLOBAL SEARCH -->
-    <div class="nh-search-wrap">
-        <div class="nh-search">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-            <input type="text" id="global-search-input" placeholder="Search premium tools, assets, or articles...">
-            <button class="btn btn-primary" style="padding: 12px 25px; font-size: 11px;">SEARCH</button>
-        </div>
-    </div>
-
-    <!-- 4. TRENDING PRODUCTS GRID (Real-time Firebase) -->
-    <section class="container" style="padding: 80px 0;">
-        <div class="flex-between" style="margin-bottom: 40px;">
-            <div>
-                <div class="nh-sec-eyebrow" style="background: var(--brand-soft); color: var(--brand-main); padding: 5px 15px; border-radius: 50px; font-size: 10px; font-weight: 900; margin-bottom: 10px; display: inline-block;">HOT RIGHT NOW</div>
-                <h2 class="tech-font" style="font-size: 32px; font-weight: 800;">TRENDING <span class="text-gradient">ASSETS</span></h2>
-            </div>
-            <button class="btn btn-outline" onclick="Nexra.navTo('shop')">VIEW ALL <i class="fa-solid fa-arrow-right"></i></button>
-        </div>
-
-        <div class="nh-grid" id="trending-grid">
-            <!-- Skeletons while loading -->
-            <div class="nh-p-card"><div class="skeleton" style="height: 180px; margin-bottom: 15px;"></div><div class="skeleton" style="height: 20px; width: 80%;"></div></div>
-            <div class="nh-p-card"><div class="skeleton" style="height: 180px; margin-bottom: 15px;"></div><div class="skeleton" style="height: 20px; width: 80%;"></div></div>
-            <div class="nh-p-card"><div class="skeleton" style="height: 180px; margin-bottom: 15px;"></div><div class="skeleton" style="height: 20px; width: 80%;"></div></div>
-        </div>
-    </section>
-
-    <!-- 5. ELITE B2B RESELLER BANNER -->
-    <section class="container" style="padding-bottom: 80px;">
-        <div class="nh-b2b">
-            <div style="flex: 1.5; min-width: 300px;">
-                <div class="badge" style="background: rgba(255,255,255,0.2); color: #fff; margin-bottom: 20px;"><i class="fa-solid fa-briefcase"></i> PARTNERSHIP</div>
-                <h2 class="nh-b2b-title">BUILD YOUR AGENCY EMPIRE</h2>
-                <p style="margin-bottom: 35px; opacity: 0.9; font-size: 17px;">Access wholesale API pricing, white-label licenses, and manage your profit margins from one dashboard.</p>
-                <button class="btn" style="background: #fff; color: var(--brand-main);" onclick="Nexra.navTo('reseller')">JOIN RESELLER PORTAL</button>
-            </div>
-            <div style="flex: 1; text-align: center;">
-                <img src="https://uploads.onecompiler.io/42yatf6fu/44qbafhwy/IMG_4795.png" style="width: 100%; max-width: 300px; filter: drop-shadow(0 20px 40px rgba(0,0,0,0.3));">
-            </div>
-        </div>
-    </section>
-
-    <!-- 6. TESTIMONIALS MARQUEE -->
-    <section class="nh-marq">
-        <div class="nh-marq-track" id="testimonial-track">
-            <!-- Injected by JS -->
-        </div>
-    </section>
-
-</div>
-
-<!-- ==========================================================================
-     HOME MODULE ENGINE (JS)
-     ========================================================================== -->
-<script>
-    (function() {
-        const HomeEngine = {
-            init: async function() {
-                console.log("🏠 Home Module Active");
-                document.getElementById('home-view').classList.add('ready');
-                
-                this.loadTrending();
-                this.loadTestimonials();
-                this.syncLiveStats();
-                
-                // Stop the top loader once Home is ready
-                if(window.Nexra && window.Nexra.ui) Nexra.ui.stopLoader();
-            },
-
-            // 1. Fetch Trending from Firebase
-            loadTrending: function() {
-                const container = document.getElementById('trending-grid');
-                db.collection('products').where('isTrending', '==', true).limit(5).onSnapshot(snap => {
-                    container.innerHTML = '';
-                    if(snap.empty) { container.innerHTML = '<p>No trending items yet.</p>'; return; }
-                    
-                    snap.forEach(doc => {
-                        const p = doc.data();
-                        container.innerHTML += `
-                            <div class="nh-p-card" onclick="Nexra.navTo('product-detail', '${doc.id}')">
-                                ${p.badge ? `<div class="nh-p-badge">${p.badge}</div>` : ''}
-                                <img src="${p.image}" class="nh-p-img" alt="${p.title}">
-                                <h3 class="nh-p-title">${p.title}</h3>
-                                <div class="flex-between">
-                                    <span class="nh-p-price">Rs. ${p.price}</span>
-                                    <div style="font-size: 10px; font-weight: 800; color: var(--text-300);">
-                                        <i class="fa-solid fa-star" style="color: #f59e0b;"></i> 5.0
-                                    </div>
-                                </div>
-                            </div>
-                        `;
-                    });
-                });
-            },
-
-            // 2. Sync Global Stats
-            syncLiveStats: function() {
-                db.collection('stats').doc('live').onSnapshot(doc => {
-                    if(doc.exists) {
-                        const s = doc.data();
-                        document.getElementById('stat-users').innerText = s.users + '+';
-                        document.getElementById('stat-orders').innerText = s.orders + '+';
-                    }
-                });
-            },
-
-            // 3. Testimonial Marquee Data
-            loadTestimonials: function() {
-                const track = document.getElementById('testimonial-track');
-                const reviews = [
-                    {n: "Ali Khan", t: "Fast delivery and great support!", p: "wa"},
-                    {n: "Sara Sheikh", t: "Canva Pro worked instantly.", p: "ig"},
-                    {n: "Zain Ahmed", t: "Best reseller portal in PK.", p: "fb"},
-                    {n: "Maryam", t: "Transparent pricing and secure.", p: "wa"},
-                    {n: "Ali Khan", t: "Fast delivery and great support!", p: "wa"},
-                    {n: "Sara Sheikh", t: "Canva Pro worked instantly.", p: "ig"}
-                ];
-
-                track.innerHTML = reviews.map(r => `
-                    <div class="nh-review">
-                        <div class="flex-between" style="margin-bottom: 10px;">
-                            <span style="font-weight: 800; font-size: 13px;">${r.n}</span>
-                            <i class="fa-brands fa-${r.p}" style="color: var(--brand-main); opacity: 0.5;"></i>
-                        </div>
-                        <p style="font-size: 12px; color: var(--text-200); line-height: 1.5;">"${r.t}"</p>
-                    </div>
-                `).join('');
-            }
-        };
-
-        // Wait for global dependencies
-        setTimeout(() => HomeEngine.init(), 100);
-    })();
-</script>
+    <!-- ==========================================================================
+         C. SEARCH & CATEGORIES
+         ========================================================================== -->
+    <div class="search-container">
+        <div class="search-island">
+            <i class="fa-solid fa-magnifying-glass"></i>
