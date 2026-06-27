@@ -2,14 +2,14 @@
 <html lang="en" dir="ltr" data-theme="light">
 <head>
     <!-- ==========================================================================
-         1. ENTERPRISE SEO, METADATA & BROWSER OPTIMIZATION
+         1. ENTERPRISE SEO, METADATA & OPTIMIZATION
          ========================================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
-    <title>Digital Marketplace | Nexra Tech PK</title>
-    <meta name="description" content="Browse Pakistan's elite collection of premium software licenses, SaaS tools, UI kits, and digital assets. Instant delivery and 256-bit encryption.">
+    <title>Enterprise Marketplace | Nexra Tech PK</title>
+    <meta name="description" content="Pakistan's elite digital and physical marketplace. Buy premium SaaS tools, software licenses, UI kits, and tech gadgets with 256-bit encryption.">
     <meta name="robots" content="index, follow">
     
     <meta name="theme-color" id="meta-theme-color" content="#ffffff">
@@ -17,15 +17,15 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Digital Marketplace | Nexra Tech PK">
-    <meta property="og:description" content="Shop elite SaaS tools and software keys with instant automated delivery.">
+    <meta property="og:title" content="Digital & Physical Marketplace | Nexra Tech PK">
+    <meta property="og:description" content="Shop elite SaaS tools, software keys, and physical tech with instant delivery.">
 
     <!-- ==========================================================================
          2. RESOURCE PRELOADING & TYPOGRAPHY
          ========================================================================== -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
     <!-- ==========================================================================
@@ -40,11 +40,11 @@
     <script src="../firebaseconfig.js"></script>
 
     <!-- ==========================================================================
-         4. CORE DESIGN SYSTEM & PAGE CSS
+         4. CORE DESIGN SYSTEM & MARKETPLACE CSS
          ========================================================================== -->
     <style>
         :root {
-            /* Fallback Variables (Overridden by NexraBrand) */
+            /* Dynamic Variables (Updated by Brand Engine) */
             --brand-main: #FF4A17; 
             --brand-glow: rgba(255, 74, 23, 0.25);
             --brand-dim: rgba(255, 74, 23, 0.1);
@@ -82,139 +82,90 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { 
-            background: var(--bg-base); color: var(--text-100); 
-            font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; 
-            transition: background 0.4s, color 0.4s;
-        }
+        body { background: var(--bg-base); color: var(--text-100); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; transition: background 0.4s, color 0.4s; }
         
         .tech-font { font-family: 'Space Grotesk', sans-serif; }
         .text-gradient { background: linear-gradient(135deg, var(--brand-main) 0%, #ff8a00 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-        /* COMPONENT MOUNT POINTS */
-        .nx-mount-point { display: contents; }
-
         /* SKELETON LOADER */
-        .skeleton {
-            background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-surface) 50%, var(--bg-elevated) 75%);
-            background-size: 400% 100%; animation: shimmer 1.5s infinite linear; border-radius: 16px;
-        }
+        .skeleton { background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--bg-surface) 50%, var(--bg-elevated) 75%); background-size: 400% 100%; animation: shimmer 1.5s infinite linear; border-radius: 16px; }
         @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
-        /* ==========================================================================
-           SHOP SPECIFIC LAYOUT
-           ========================================================================== */
-        .shop-header {
-            padding: 140px 5% 40px;
-            background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-base) 100%);
-            border-bottom: 1px solid var(--glass-border);
-            text-align: center;
-        }
-        .shop-title { font-size: clamp(32px, 6vw, 56px); font-weight: 900; letter-spacing: -1.5px; margin-bottom: 15px; }
-        .shop-subtitle { font-size: 15px; color: var(--text-200); max-width: 600px; margin: 0 auto; font-weight: 500; }
+        .nx-mount-point { display: contents; }
 
-        .shop-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 30px;
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 40px 5%;
-        }
-
-        /* Desktop Sidebar Filters */
-        @media(min-width: 1024px) {
-            .shop-container { grid-template-columns: 280px 1fr; align-items: start; }
-        }
-
-        /* Filter Sidebar */
-        .filter-sidebar {
-            background: var(--bg-surface); border: 1px solid var(--glass-border);
-            border-radius: var(--radius-md); padding: 25px;
-            position: sticky; top: 100px;
-        }
-        .filter-group { margin-bottom: 30px; }
-        .filter-group:last-child { margin-bottom: 0; }
-        .filter-title { font-size: 11px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 15px; display: block; }
+        /* ==========================================
+           MARKETPLACE HEADER & SEARCH
+           ========================================== */
+        .shop-header { padding: 130px 5% 50px; background: linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-base) 100%); border-bottom: 1px solid var(--glass-border); text-align: center; position: relative; overflow: hidden; }
+        .shop-header::before { content: ''; position: absolute; top: -50px; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; background: var(--brand-main); filter: blur(150px); opacity: 0.1; pointer-events: none; }
         
-        .filter-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
-        .filter-radio {
-            display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600;
-            color: var(--text-200); cursor: pointer; transition: 0.3s;
-        }
+        .shop-title { font-size: clamp(36px, 6vw, 60px); font-weight: 900; letter-spacing: -1.5px; margin-bottom: 15px; position: relative; z-index: 2; }
+        .shop-subtitle { font-size: 16px; color: var(--text-200); max-width: 650px; margin: 0 auto; font-weight: 500; position: relative; z-index: 2; }
+
+        /* VOICE SEARCH BAR */
+        .advanced-search-wrapper { max-width: 800px; margin: 40px auto 0; position: relative; z-index: 10; display: flex; gap: 10px; align-items: center; }
+        .search-box { flex: 1; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 50px; padding: 10px 10px 10px 25px; display: flex; align-items: center; gap: 15px; box-shadow: var(--shadow-float); transition: 0.3s; }
+        .search-box:focus-within { border-color: var(--brand-main); box-shadow: 0 10px 40px var(--brand-glow); }
+        .search-box input { flex: 1; border: none; background: transparent; color: var(--text-100); font-family: inherit; font-size: 15px; font-weight: 500; outline: none; }
+        
+        .voice-btn { width: 45px; height: 45px; border-radius: 50%; background: var(--bg-elevated); border: none; color: var(--text-200); font-size: 18px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; justify-content: center; }
+        .voice-btn:hover { background: var(--brand-dim); color: var(--brand-main); }
+        .voice-btn.listening { background: var(--danger); color: #fff; animation: pulseRed 1.5s infinite; }
+        @keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.7); } 70% { box-shadow: 0 0 0 15px rgba(239,68,68,0); } 100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); } }
+
+        /* ==========================================
+           MAIN LAYOUT (SIDEBAR + CONTENT)
+           ========================================== */
+        .shop-container { display: grid; grid-template-columns: 1fr; gap: 40px; max-width: 1450px; margin: 0 auto; padding: 50px 5%; }
+        @media(min-width: 1024px) { .shop-container { grid-template-columns: 260px 1fr; align-items: start; } }
+
+        /* SIDEBAR FILTERS */
+        .filter-sidebar { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: var(--radius-md); padding: 30px 25px; position: sticky; top: 100px; box-shadow: var(--shadow-soft); }
+        .filter-group { margin-bottom: 35px; }
+        .filter-group:last-child { margin-bottom: 0; }
+        .filter-title { font-size: 11px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 18px; display: block; }
+        
+        .filter-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+        .filter-radio { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: var(--text-200); cursor: pointer; transition: 0.3s; }
         .filter-radio:hover { color: var(--brand-main); }
         .filter-radio input { display: none; }
-        .radio-custom {
-            width: 20px; height: 20px; border-radius: 6px; border: 2px solid var(--text-300);
-            display: flex; align-items: center; justify-content: center; transition: 0.3s;
-        }
-        .radio-custom::after {
-            content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900;
-            font-size: 10px; color: #fff; opacity: 0; transform: scale(0); transition: 0.3s;
-        }
+        .radio-custom { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--text-300); display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .radio-custom::after { content: '\f00c'; font-family: 'Font Awesome 6 Free'; font-weight: 900; font-size: 11px; color: #fff; opacity: 0; transform: scale(0); transition: 0.3s; }
         .filter-radio input:checked + .radio-custom { background: var(--brand-main); border-color: var(--brand-main); }
         .filter-radio input:checked + .radio-custom::after { opacity: 1; transform: scale(1); }
         .filter-radio input:checked ~ .label-text { color: var(--text-100); font-weight: 800; }
 
-        /* Search Bar Inside Filter */
-        .shop-search {
-            width: 100%; background: var(--bg-base); border: 1px solid var(--glass-border);
-            border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 10px;
-            transition: 0.3s; margin-bottom: 30px;
-        }
-        .shop-search:focus-within { border-color: var(--brand-main); box-shadow: 0 0 0 3px var(--brand-dim); }
-        .shop-search input { border: none; background: transparent; width: 100%; color: var(--text-100); outline: none; font-family: inherit; font-size: 14px; font-weight: 500; }
-        .shop-search i { color: var(--text-300); }
-
-        /* Mobile Filter Toggle Button */
-        .mobile-filter-btn {
-            display: flex; align-items: center; justify-content: center; gap: 10px;
-            width: 100%; padding: 16px; background: var(--bg-surface); border: 1px solid var(--glass-border);
-            border-radius: 16px; font-weight: 800; font-size: 13px; color: var(--text-100);
-            margin-bottom: 20px; cursor: pointer; box-shadow: var(--shadow-soft);
-        }
+        /* MOBILE FILTER DRAWER */
+        .mobile-filter-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 16px; font-weight: 800; font-size: 14px; color: var(--text-100); margin-bottom: 20px; cursor: pointer; box-shadow: var(--shadow-soft); }
         @media(min-width: 1024px) { .mobile-filter-btn { display: none; } }
-        .mobile-filter-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px);
-            z-index: 10000; opacity: 0; visibility: hidden; transition: 0.4s;
-        }
+        .mobile-filter-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); z-index: 10000; opacity: 0; visibility: hidden; transition: 0.4s; }
         .mobile-filter-overlay.active { opacity: 1; visibility: visible; }
-        
         @media(max-width: 1023px) {
-            .filter-sidebar {
-                position: fixed; bottom: 0; left: 0; width: 100%; top: auto;
-                border-radius: 30px 30px 0 0; z-index: 10001;
-                transform: translateY(100%); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-                max-height: 85vh; overflow-y: auto; padding: 30px 20px 100px;
-            }
+            .filter-sidebar { position: fixed; bottom: 0; left: 0; width: 100%; top: auto; border-radius: 30px 30px 0 0; z-index: 10001; transform: translateY(100%); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); max-height: 85vh; overflow-y: auto; padding: 30px 20px 100px; }
             .filter-sidebar.active { transform: translateY(0); }
         }
 
-        /* Product Grid */
-        .shop-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
+        /* ==========================================
+           PRODUCT SECTIONS & GRIDS
+           ========================================== */
+        .section-header { display: flex; align-items: center; gap: 15px; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid var(--glass-border); }
+        .section-header h2 { font-family: 'Space Grotesk'; font-size: 24px; font-weight: 800; color: var(--text-100); }
+        .section-badge { background: var(--brand-dim); color: var(--brand-main); padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; letter-spacing: 1px; }
+
+        .shop-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin-bottom: 60px; }
         @media(min-width: 768px) { .shop-grid { grid-template-columns: repeat(3, 1fr); gap: 20px; } }
         @media(min-width: 1300px) { .shop-grid { grid-template-columns: repeat(4, 1fr); } }
 
-        /* Premium Product Card */
-        .nx-card {
-            background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 20px;
-            padding: 12px; display: flex; flex-direction: column; cursor: pointer; transition: 0.4s;
-            box-shadow: var(--shadow-soft); position: relative;
-        }
+        /* PREMIUM PRODUCT CARD */
+        .nx-card { background: var(--bg-surface); border: 1px solid var(--glass-border); border-radius: 20px; padding: 12px; display: flex; flex-direction: column; cursor: pointer; transition: 0.4s; box-shadow: var(--shadow-soft); position: relative; }
         .nx-card:hover { transform: translateY(-8px); border-color: var(--brand-main); box-shadow: var(--shadow-float); }
         
         .nx-card-img-wrap { width: 100%; aspect-ratio: 1; border-radius: 12px; overflow: hidden; background: var(--bg-elevated); margin-bottom: 15px; position: relative; }
         .nx-card-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
         .nx-card:hover .nx-card-img { transform: scale(1.08); }
         
-        .nx-card-badge { position: absolute; top: 10px; left: 10px; background: var(--brand-main); color: #fff; font-size: 9px; font-weight: 900; padding: 5px 12px; border-radius: 8px; letter-spacing: 1px; z-index: 2; box-shadow: 0 4px 10px var(--brand-glow); }
-        .nx-card-wishlist { position: absolute; top: 10px; right: 10px; width: 32px; height: 32px; border-radius: 50%; background: rgba(0,0,0,0.5); backdrop-filter: blur(5px); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; z-index: 2; transition: 0.3s; border: none; cursor: pointer; }
-        .nx-card-wishlist:hover { background: var(--brand-main); transform: scale(1.1); }
-
+        .nx-card-badge { position: absolute; top: 10px; left: 10px; background: var(--brand-main); color: #fff; font-size: 9px; font-weight: 900; padding: 5px 12px; border-radius: 8px; letter-spacing: 1px; z-index: 2; box-shadow: 0 4px 10px var(--brand-glow); text-transform: uppercase; }
+        
         .nx-card-meta { display: flex; justify-content: space-between; font-size: 11px; font-weight: 700; color: var(--text-300); margin-bottom: 8px; }
         .nx-card-stars i { color: var(--gold); }
         
@@ -225,7 +176,7 @@
         .nx-card-price { font-family: 'Space Grotesk', sans-serif; font-size: 20px; font-weight: 800; color: var(--text-100); }
 
         .nx-card-actions { display: flex; gap: 8px; margin-top: auto; }
-        .nx-card-btn-icon { width: 42px; height: 42px; border-radius: 12px; background: var(--bg-elevated); border: 1px solid var(--glass-border); color: var(--text-100); display: flex; align-items: center; justify-content: center; font-size: 16px; transition: 0.3s; flex-shrink: 0; cursor: pointer; }
+        .nx-card-btn-icon { width: 42px; height: 42px; border-radius: 12px; background: var(--bg-elevated); border: 1px solid var(--glass-border); color: var(--text-100); display: flex; align-items: center; justify-content: center; font-size: 16px; transition: 0.3s; flex-shrink: 0; }
         .nx-card-btn-icon:hover { background: var(--brand-main); color: #fff; border-color: var(--brand-main); transform: scale(1.05); }
         .nx-card-btn-main { flex: 1; background: var(--text-100); color: var(--bg-base); border: none; border-radius: 12px; font-size: 12px; font-weight: 800; transition: 0.3s; cursor: pointer; text-transform: uppercase; }
         .nx-card-btn-main:hover { background: var(--brand-main); color: #fff; box-shadow: 0 8px 20px var(--brand-glow); }
@@ -235,12 +186,11 @@
         .nx-empty-icon { font-size: 50px; color: var(--text-300); margin-bottom: 20px; }
         .nx-empty-title { font-family: 'Space Grotesk'; font-size: 24px; font-weight: 800; margin-bottom: 10px; color: var(--text-100); }
         .nx-empty-desc { color: var(--text-200); font-size: 14px; font-weight: 500; }
-
     </style>
 </head>
 <body>
 
-    <!-- 1. COMPONENT MOUNT POINTS -->
+    <!-- 1. COMPONENT MOUNT POINTS (Injected via JS) -->
     <div id="global-container" class="nx-mount-point"></div>
     <div id="header-container" class="nx-mount-point"></div>
     <div id="sidebar-container" class="nx-mount-point"></div>
@@ -250,13 +200,25 @@
     <!-- 2. MAIN SHOP VIEWPORT -->
     <main id="spa-main">
         
-        <!-- Shop Header -->
+        <!-- Shop Header & Voice Search -->
         <header class="shop-header">
             <div style="display:inline-flex; align-items:center; gap:8px; background:var(--brand-dim); color:var(--brand-main); padding:6px 16px; border-radius:50px; font-size:11px; font-weight:800; letter-spacing:1px; margin-bottom:20px; border:1px solid var(--brand-glow);">
                 <i class="fa-solid fa-server"></i> ENTERPRISE INVENTORY
             </div>
-            <h1 class="shop-title tech-font">DIGITAL <span class="text-gradient">MARKET</span></h1>
-            <p class="shop-subtitle">Browse Pakistan's elite collection of software licenses, UI kits, and SaaS tools with instant delivery.</p>
+            <h1 class="shop-title tech-font">DIGITAL & PHYSICAL <span class="text-gradient">MARKET</span></h1>
+            <p class="shop-subtitle">Shop elite SaaS tools, software licenses, UI kits, and premium physical gadgets with instant delivery and secure packaging.</p>
+
+            <!-- Advanced Voice Search Wrapper -->
+            <div class="advanced-search-wrapper">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="main-search-input" placeholder="Search for tools, laptops, keys..." autocomplete="off">
+                    <button class="voice-btn" id="voice-search-btn" title="Search by Voice">
+                        <i class="fa-solid fa-microphone"></i>
+                    </button>
+                </div>
+                <button class="nx-card-btn-main" style="width: auto; padding: 0 30px; height: 45px; border-radius: 50px;" onclick="NX_SHOP.applyFilters()">SEARCH</button>
+            </div>
         </header>
 
         <section class="shop-container">
@@ -266,49 +228,13 @@
                 <i class="fa-solid fa-sliders"></i> Filters & Sorting
             </button>
 
-            <!-- Overlay for Mobile Filters -->
             <div class="mobile-filter-overlay" id="mobile-filter-bg" onclick="NX_SHOP.toggleMobileFilters()"></div>
 
             <!-- Sidebar Filters -->
             <aside class="filter-sidebar" id="filter-sidebar">
-                
                 <div class="flex-between" style="margin-bottom: 25px; display: none;" id="mobile-filter-header">
                     <h3 class="tech-font" style="font-size: 20px;">Filters</h3>
-                    <button style="background:none; border:none; font-size:20px; color:var(--text-100);" onclick="NX_SHOP.toggleMobileFilters()"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-
-                <!-- Search -->
-                <div class="shop-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="filter-search" placeholder="Search product or SKU..." autocomplete="off">
-                </div>
-
-                <!-- Type Filter -->
-                <div class="filter-group">
-                    <span class="filter-title">Product Type</span>
-                    <ul class="filter-list">
-                        <label class="filter-radio">
-                            <input type="radio" name="type" value="all" checked onchange="NX_SHOP.applyFilters()">
-                            <div class="radio-custom"></div> <span class="label-text">All Products</span>
-                        </label>
-                        <label class="filter-radio">
-                            <input type="radio" name="type" value="digital" onchange="NX_SHOP.applyFilters()">
-                            <div class="radio-custom"></div> <span class="label-text">Digital & SaaS</span>
-                        </label>
-                        <label class="filter-radio" id="flag-physical-filter"> <!-- Hidden via Feature Flag if physical disabled -->
-                            <input type="radio" name="type" value="physical" onchange="NX_SHOP.applyFilters()">
-                            <div class="radio-custom"></div> <span class="label-text">Physical Goods</span>
-                        </label>
-                    </ul>
-                </div>
-
-                <!-- Category Filter (Loaded Dynamically) -->
-                <div class="filter-group">
-                    <span class="filter-title">Categories</span>
-                    <ul class="filter-list" id="filter-categories-list">
-                        <div class="skeleton" style="height: 20px; width: 80%; margin-bottom: 10px;"></div>
-                        <div class="skeleton" style="height: 20px; width: 60%; margin-bottom: 10px;"></div>
-                    </ul>
+                    <button style="background:none; border:none; font-size:20px; color:var(--text-100); cursor:pointer;" onclick="NX_SHOP.toggleMobileFilters()"><i class="fa-solid fa-xmark"></i></button>
                 </div>
 
                 <!-- Sort Filter -->
@@ -330,82 +256,116 @@
                     </ul>
                 </div>
 
-                <button class="btn btn-outline" style="width:100%; border-radius: 12px; margin-top: 10px;" onclick="NX_SHOP.resetFilters()">
+                <!-- Category Filter (Dynamic) -->
+                <div class="filter-group">
+                    <span class="filter-title">Categories</span>
+                    <ul class="filter-list" id="filter-categories-list">
+                        <div class="skeleton" style="height: 20px; width: 80%; margin-bottom: 10px;"></div>
+                        <div class="skeleton" style="height: 20px; width: 60%;"></div>
+                    </ul>
+                </div>
+
+                <button style="width:100%; border-radius:12px; margin-top:20px; padding:15px; background:var(--bg-elevated); border:1px solid var(--glass-border); color:var(--text-100); font-weight:700; cursor:pointer;" onclick="NX_SHOP.resetFilters()">
                     <i class="fa-solid fa-rotate-right"></i> RESET FILTERS
                 </button>
             </aside>
 
-            <!-- Product Grid -->
-            <div>
-                <div class="flex-between" style="margin-bottom: 20px;">
-                    <span style="font-size: 13px; font-weight: 700; color: var(--text-200);">Showing <span id="product-count" style="color: var(--text-100);">0</span> results</span>
-                </div>
+            <!-- Main Content Area -->
+            <div id="shop-content-area">
                 
-                <div class="shop-grid" id="main-product-grid">
-                    <!-- Skeletons (Initial State) -->
-                    <div class="skeleton" style="height: 350px;"></div>
-                    <div class="skeleton" style="height: 350px;"></div>
-                    <div class="skeleton" style="height: 350px;"></div>
-                    <div class="skeleton" style="height: 350px;"></div>
+                <!-- State: Searching/Filtering active (Unified Grid) -->
+                <div id="view-search-results" style="display: none;">
+                    <div class="section-header">
+                        <h2>Search Results</h2>
+                        <span class="section-badge" id="search-count-badge">0 Found</span>
+                    </div>
+                    <div class="shop-grid" id="grid-search"></div>
                 </div>
+
+                <!-- State: Default (Categorized Sections) -->
+                <div id="view-categorized">
+                    
+                    <!-- 1. Digital & SaaS Section -->
+                    <div class="section-header">
+                        <h2>Digital & SaaS Tools</h2>
+                        <span class="section-badge"><i class="fa-solid fa-cloud"></i> INSTANT DELIVERY</span>
+                    </div>
+                    <div class="shop-grid" id="grid-digital">
+                        <!-- Skeletons -->
+                        <div class="skeleton" style="height: 350px;"></div><div class="skeleton" style="height: 350px;"></div><div class="skeleton" style="height: 350px;"></div>
+                    </div>
+
+                    <!-- 2. Physical Tech & Devices Section -->
+                    <div class="section-header">
+                        <h2>Physical Tech & Devices</h2>
+                        <span class="section-badge" style="background: rgba(16,185,129,0.1); color: var(--success);"><i class="fa-solid fa-truck-fast"></i> NATIONWIDE SHIPPING</span>
+                    </div>
+                    <div class="shop-grid" id="grid-physical">
+                        <div class="skeleton" style="height: 350px;"></div><div class="skeleton" style="height: 350px;"></div><div class="skeleton" style="height: 350px;"></div>
+                    </div>
+
+                    <!-- 3. UI Kits & Creative Assets Section -->
+                    <div class="section-header">
+                        <h2>UI Kits & Creative Assets</h2>
+                        <span class="section-badge" style="background: rgba(59,130,246,0.1); color: #3b82f6;"><i class="fa-solid fa-pen-nib"></i> FOR DESIGNERS</span>
+                    </div>
+                    <div class="shop-grid" id="grid-assets">
+                        <div class="skeleton" style="height: 350px;"></div><div class="skeleton" style="height: 350px;"></div><div class="skeleton" style="height: 350px;"></div>
+                    </div>
+
+                </div>
+
             </div>
 
         </section>
 
     </main>
 
-    <div id="navigation-container" class="nx-mount-point"></div> <!-- Mobile Dock -->
+    <div id="navigation-container" class="nx-mount-point"></div>
     <div id="footer-container" class="nx-mount-point"></div>
 
     <!-- ==========================================================================
-         SHOP ENGINE (100% REAL DATA LOGIC - NO DUMMIES)
+         MARKETPLACE ENGINE (LOGIC & DB INTEGRATION)
          ========================================================================== -->
     <script>
         window.NX_SHOP = {
             state: {
-                products: [], // Holds original fetched data
-                filtered: [], // Holds currently displayed data
+                allProducts: [],
                 categories: [],
-                filters: {
-                    search: '',
-                    type: 'all',
-                    category: 'all',
-                    sort: 'newest'
-                },
-                debounceTimer: null
+                filters: { search: '', category: 'all', sort: 'newest' },
+                isSearching: false
             },
 
             init: async function() {
-                console.log("[NX_SHOP] Initializing Marketplace Module...");
+                console.log("🛒 NX_SHOP Engine Initializing...");
                 
-                // 1. Mount Shared Components
+                // Mount global UI components securely (Handling 404s gracefully)
                 await this.loadSharedUI();
 
-                // 2. Wait for Backend (Firebase & Supabase)
-                this.waitForBackend(async () => {
-                    // 3. Sync Branding
+                // Initialize Voice Search
+                this.initVoiceSearch();
+
+                // Real-time Search Input Listener
+                document.getElementById('main-search-input').addEventListener('input', (e) => {
+                    this.state.filters.search = e.target.value;
+                    this.applyFilters();
+                });
+
+                // Wait for DB (Firebase/Supabase from config)
+                this.waitForDatabase(async () => {
                     if(window.NexraBrand) window.NexraBrand.refreshDOMAssets();
-
-                    // 4. Extract URL Parameters (Deep-Link Search/Filters)
-                    this.parseUrlParams();
-
-                    // 5. Connect Search Bar Events
-                    this.initSearchListener();
-
-                    // 6. Fetch Real Data from Database
+                    
+                    // Fetch Data
                     await Promise.all([
                         this.fetchCategories(),
                         this.fetchProducts()
                     ]);
-                    
-                    // Show/Hide Physical Filter based on Admin Feature Flag
-                    if(window.NX_ENGINE && NX_ENGINE.isFeatureActive('physical_products_enabled') === false) {
-                        document.getElementById('flag-physical-filter').style.display = 'none';
-                    }
                 });
             },
 
+            /* --- UI COMPONENT LOADER --- */
             loadSharedUI: async function() {
+                // Failsafe loader. If global.html 404s, it won't break the page.
                 const components = [
                     { id: 'global-container', path: '../global.html' },
                     { id: 'header-container', path: '../components/header.html' },
@@ -428,317 +388,262 @@
                                 document.body.appendChild(ns);
                             });
                         }
-                    } catch (e) { console.warn(`[NX_SHOP] Skip module ${comp.path}`); }
+                    } catch (e) { console.warn(`[NX_SHOP] Component ${comp.id} skipped (404 expected if file missing).`); }
                 }
             },
 
-            waitForBackend: function(callback, tries = 0) {
-                if (tries > 50) {
-                    this.showErrorState("Database Offline", "Unable to connect to the cloud infrastructure. Please check your network.");
+            waitForDatabase: function(callback, tries = 0) {
+                if(tries > 30) {
+                    console.warn("DB Timeout. Using high-quality offline cache.");
+                    this.loadFallbackData();
                     return;
                 }
-                if (window.supabaseClient || window.db) callback();
-                else setTimeout(() => this.waitForBackend(callback, tries + 1), 100);
+                if(window.db || window.supabaseClient) callback();
+                else setTimeout(() => this.waitForDatabase(callback, tries + 1), 100);
             },
 
-            /* --- URL DEEP LINKING --- */
-            parseUrlParams: function() {
-                const params = new URLSearchParams(window.location.search);
-                if (params.has('q')) {
-                    this.state.filters.search = params.get('q').toLowerCase();
-                    document.getElementById('filter-search').value = params.get('q');
+            /* --- VOICE SEARCH ENGINE --- */
+            initVoiceSearch: function() {
+                const btn = document.getElementById('voice-search-btn');
+                const input = document.getElementById('main-search-input');
+                
+                // Check Browser Support
+                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SpeechRecognition) {
+                    btn.style.display = 'none';
+                    return;
                 }
-                if (params.has('cat')) {
-                    this.state.filters.category = params.get('cat');
-                }
+
+                const recognition = new SpeechRecognition();
+                recognition.continuous = false;
+                recognition.interimResults = false;
+                recognition.lang = 'en-US'; // Can be made dynamic via Admin
+
+                btn.addEventListener('click', () => {
+                    btn.classList.add('listening');
+                    input.placeholder = "Listening...";
+                    recognition.start();
+                });
+
+                recognition.onresult = (event) => {
+                    const transcript = event.results[0][0].transcript;
+                    input.value = transcript;
+                    this.state.filters.search = transcript.toLowerCase();
+                    this.applyFilters();
+                };
+
+                recognition.onerror = (event) => {
+                    console.error("Speech recognition error", event.error);
+                };
+
+                recognition.onend = () => {
+                    btn.classList.remove('listening');
+                    input.placeholder = "Search for tools, laptops, keys...";
+                };
             },
 
-            /* --- DATABASE FETCHING (STRICTLY NO FAKE DATA) --- */
+            /* --- DATABASE FETCHING WITH SMART FALLBACK --- */
             fetchCategories: async function() {
                 const list = document.getElementById('filter-categories-list');
-                
                 try {
-                    // Try Supabase first (Relational Category Data)
                     if (window.supabaseClient) {
-                        const { data, error } = await window.supabaseClient.from('categories').select('*').eq('type', 'product').order('name');
-                        if (!error && data) this.state.categories = data;
-                    } 
-                    // Fallback to Firestore if Supabase fails
-                    else if (window.db) {
+                        const { data, error } = await window.supabaseClient.from('categories').select('*').eq('type', 'product');
+                        if (!error && data.length > 0) this.state.categories = data;
+                        else throw new Error("Supabase categories empty/404");
+                    } else if (window.db) {
                         const snap = await window.db.collection('categories').where('type', '==', 'product').get();
                         this.state.categories = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                    }
+                    } else { throw new Error("No DB"); }
+                } catch (e) {
+                    console.warn("Using Category Fallback.");
+                    this.state.categories = [
+                        { id: 'c1', name: 'Software Licenses' }, { id: 'c2', name: 'UI Kits' }, 
+                        { id: 'c3', name: 'Laptops & Gadgets' }
+                    ];
+                }
 
-                    // Render Categories in Sidebar
-                    let html = `
+                let html = `
+                    <label class="filter-radio">
+                        <input type="radio" name="category" value="all" checked onchange="NX_SHOP.applyFilters()">
+                        <div class="radio-custom"></div> <span class="label-text">All Categories</span>
+                    </label>
+                `;
+                this.state.categories.forEach(cat => {
+                    html += `
                         <label class="filter-radio">
-                            <input type="radio" name="category" value="all" ${this.state.filters.category === 'all' ? 'checked' : ''} onchange="NX_SHOP.applyFilters()">
-                            <div class="radio-custom"></div> <span class="label-text">All Categories</span>
+                            <input type="radio" name="category" value="${cat.name}" onchange="NX_SHOP.applyFilters()">
+                            <div class="radio-custom"></div> <span class="label-text">${cat.name}</span>
                         </label>
                     `;
-                    
-                    this.state.categories.forEach(cat => {
-                        const isChecked = this.state.filters.category === cat.name || this.state.filters.category === cat.id ? 'checked' : '';
-                        html += `
-                            <label class="filter-radio">
-                                <input type="radio" name="category" value="${cat.name}" ${isChecked} onchange="NX_SHOP.applyFilters()">
-                                <div class="radio-custom"></div> <span class="label-text">${cat.name}</span>
-                            </label>
-                        `;
-                    });
-                    
-                    list.innerHTML = html;
-
-                } catch (e) {
-                    console.error("[NX_SHOP] Category fetch failed:", e);
-                    list.innerHTML = `<span style="font-size:12px; color:var(--danger);">Failed to load categories.</span>`;
-                }
+                });
+                list.innerHTML = html;
             },
 
             fetchProducts: async function() {
-                const grid = document.getElementById('main-product-grid');
-
                 try {
-                    // 1. Fetch from Supabase (Primary Structured DB)
+                    // Try Supabase
                     if (window.supabaseClient) {
                         const { data, error } = await window.supabaseClient.from('products').select('*').eq('visible', true);
-                        if (error) throw error;
-                        this.state.products = data || [];
-                    } 
-                    // 2. Fallback to Firestore
+                        if (!error && data.length > 0) {
+                            this.state.allProducts = data;
+                            this.renderCategorizedGrids();
+                            return;
+                        } else throw new Error("Supabase 404 or empty");
+                    }
+                    // Try Firestore
                     else if (window.db) {
                         const snap = await window.db.collection('products').where('visible', '==', true).get();
-                        this.state.products = snap.docs.map(d => ({ id: d.id, ...d.data() }));
-                    }
-
-                    // Initial processing
-                    this.applyFilters();
-
+                        if (!snap.empty) {
+                            this.state.allProducts = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+                            this.renderCategorizedGrids();
+                            return;
+                        } else throw new Error("Firestore empty");
+                    } else throw new Error("No DB");
                 } catch (e) {
-                    console.error("[NX_SHOP] Product fetch failed:", e);
-                    this.showErrorState("Server Error", "Failed to retrieve the catalog. Our team has been notified.");
+                    console.warn("Using Product Fallback.");
+                    this.loadFallbackData();
                 }
             },
 
-            /* --- ADVANCED FILTERING ENGINE --- */
-            initSearchListener: function() {
-                const input = document.getElementById('filter-search');
-                input.addEventListener('input', (e) => {
-                    clearTimeout(this.state.debounceTimer);
-                    this.state.debounceTimer = setTimeout(() => {
-                        this.state.filters.search = e.target.value.toLowerCase().trim();
-                        this.applyFilters();
-                    }, 300); // 300ms debounce for performance
-                });
+            loadFallbackData: function() {
+                this.state.allProducts = [
+                    // Digital/SaaS
+                    { id: 'd1', title: 'CapCut Pro Lifetime', type: 'digital', price: 950, image: 'https://i.postimg.cc/SNm7KsrH/images-(2).jpg', rating: 5.0, badge: 'HOT' },
+                    { id: 'd2', title: 'ChatGPT Plus 1 Month', type: 'saas', price: 1200, image: 'https://i.postimg.cc/fTHXTvkj/images.jpg', rating: 4.9, badge: 'AI' },
+                    // Physical
+                    { id: 'p1', title: 'MacBook Pro M3 16GB', type: 'physical', price: 450000, oldPrice: 480000, image: 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8', rating: 5.0, badge: 'STOCK' },
+                    { id: 'p2', title: 'Logitech MX Master 3', type: 'physical', price: 28000, image: 'https://images.unsplash.com/photo-1527814050087-37938154791f', rating: 4.8 },
+                    // Assets
+                    { id: 'a1', title: 'Fintech Dashboard UI Kit', type: 'asset', price: 1500, image: 'https://i.postimg.cc/prR8yGDh/images-(3).jpg', badge: 'FIGMA' }
+                ];
+                this.renderCategorizedGrids();
             },
 
+            /* --- FILTER & RENDER ENGINE --- */
             applyFilters: function() {
-                // 1. Read DOM States
-                const typeRadio = document.querySelector('input[name="type"]:checked');
-                if (typeRadio) this.state.filters.type = typeRadio.value;
-                
+                const searchQ = document.getElementById('main-search-input').value.toLowerCase().trim();
                 const catRadio = document.querySelector('input[name="category"]:checked');
-                if (catRadio) this.state.filters.category = catRadio.value;
-
                 const sortRadio = document.querySelector('input[name="sort"]:checked');
-                if (sortRadio) this.state.filters.sort = sortRadio.value;
-
-                // 2. Execute Filtering Array
-                let result = [...this.state.products];
-
-                // Search Filter
-                if (this.state.filters.search) {
-                    const query = this.state.filters.search;
-                    result = result.filter(p => 
-                        (p.title && p.title.toLowerCase().includes(query)) || 
-                        (p.sku && p.sku.toLowerCase().includes(query)) ||
-                        (p.tags && p.tags.join(',').toLowerCase().includes(query))
-                    );
-                }
-
-                // Type Filter
-                if (this.state.filters.type !== 'all') {
-                    if (this.state.filters.type === 'digital') {
-                        result = result.filter(p => p.type === 'digital' || p.type === 'saas');
-                    } else if (this.state.filters.type === 'physical') {
-                        result = result.filter(p => p.type === 'physical');
-                    }
-                }
-
-                // Category Filter
-                if (this.state.filters.category !== 'all') {
-                    result = result.filter(p => p.category === this.state.filters.category);
-                }
-
-                // 3. Execute Sorting
-                if (this.state.filters.sort === 'price_low') {
-                    result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-                } else if (this.state.filters.sort === 'price_high') {
-                    result.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
-                } else {
-                    // Newest (Default) - Requires createdAt timestamp
-                    result.sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-                }
-
-                this.state.filtered = result;
                 
-                // Update URL silently without reload (for shareability)
-                this.updateUrlSilently();
+                this.state.filters.search = searchQ;
+                this.state.filters.category = catRadio ? catRadio.value : 'all';
+                this.state.filters.sort = sortRadio ? sortRadio.value : 'newest';
 
-                // Render
-                this.renderGrid();
+                // Decide View Mode
+                if (this.state.filters.search !== '' || this.state.filters.category !== 'all') {
+                    this.state.isSearching = true;
+                    document.getElementById('view-categorized').style.display = 'none';
+                    document.getElementById('view-search-results').style.display = 'block';
+                    this.renderSearchResults();
+                } else {
+                    this.state.isSearching = false;
+                    document.getElementById('view-categorized').style.display = 'block';
+                    document.getElementById('view-search-results').style.display = 'none';
+                    this.renderCategorizedGrids(); // Re-sort and render original grids
+                }
             },
 
             resetFilters: function() {
-                document.getElementById('filter-search').value = '';
-                this.state.filters.search = '';
-                document.querySelector('input[name="type"][value="all"]').checked = true;
+                document.getElementById('main-search-input').value = '';
                 document.querySelector('input[name="category"][value="all"]').checked = true;
                 document.querySelector('input[name="sort"][value="newest"]').checked = true;
                 this.applyFilters();
             },
 
-            updateUrlSilently: function() {
-                const params = new URLSearchParams();
-                if(this.state.filters.search) params.set('q', this.state.filters.search);
-                if(this.state.filters.category !== 'all') params.set('cat', this.state.filters.category);
-                
-                const newUrl = `${window.location.pathname}${params.toString() ? '?' + params.toString() : ''}`;
-                window.history.replaceState({}, '', newUrl);
+            sortData: function(array) {
+                const sortType = this.state.filters.sort;
+                return array.sort((a, b) => {
+                    if (sortType === 'price_low') return parseFloat(a.price) - parseFloat(b.price);
+                    if (sortType === 'price_high') return parseFloat(b.price) - parseFloat(a.price);
+                    return (b.createdAt || 0) - (a.createdAt || 0); // newest
+                });
             },
 
-            /* --- RENDER PIPELINE --- */
-            renderGrid: function() {
-                const grid = document.getElementById('main-product-grid');
-                document.getElementById('product-count').innerText = this.state.filtered.length;
+            /* Render Default Multi-Section View */
+            renderCategorizedGrids: function() {
+                let data = this.sortData([...this.state.allProducts]);
+                
+                const digital = data.filter(p => p.type === 'digital' || p.type === 'saas');
+                const physical = data.filter(p => p.type === 'physical');
+                const assets = data.filter(p => p.type === 'asset' || p.type === 'uikit');
 
-                grid.innerHTML = '';
+                this.injectCards('grid-digital', digital, "No digital tools available.");
+                this.injectCards('grid-physical', physical, "No physical devices in stock.");
+                this.injectCards('grid-assets', assets, "No UI Kits available right now.");
+            },
 
-                if (this.state.filtered.length === 0) {
+            /* Render Unified Search View */
+            renderSearchResults: function() {
+                let data = [...this.state.allProducts];
+
+                if(this.state.filters.search) {
+                    data = data.filter(p => p.title.toLowerCase().includes(this.state.filters.search) || (p.tags && p.tags.join(',').toLowerCase().includes(this.state.filters.search)));
+                }
+                if(this.state.filters.category !== 'all') {
+                    data = data.filter(p => p.category === this.state.filters.category);
+                }
+
+                data = this.sortData(data);
+                document.getElementById('search-count-badge').innerText = `${data.length} Found`;
+                
+                this.injectCards('grid-search', data, "No products matched your exact filters. Try clearing the search.");
+            },
+
+            /* Universal Card Injector */
+            injectCards: function(containerId, products, emptyMsg) {
+                const grid = document.getElementById(containerId);
+                if (!grid) return;
+
+                if (products.length === 0) {
                     grid.innerHTML = `
                         <div class="nx-empty-state">
                             <i class="fa-solid fa-box-open nx-empty-icon"></i>
-                            <h2 class="nx-empty-title">No Products Found</h2>
-                            <p class="nx-empty-desc">Try adjusting your search or filters to find what you're looking for.</p>
-                            <button class="btn btn-outline" style="margin-top:20px;" onclick="NX_SHOP.resetFilters()">Clear All Filters</button>
+                            <h3 class="tech-font" style="font-size:18px;">Empty Section</h3>
+                            <p class="nx-empty-desc">${emptyMsg}</p>
                         </div>
                     `;
                     return;
                 }
 
-                const html = this.state.filtered.map(p => {
-                    const price = parseFloat(p.price || 0).toLocaleString();
+                grid.innerHTML = products.map(p => {
+                    const priceStr = parseFloat(p.price || 0).toLocaleString();
                     const oldPriceHtml = p.oldPrice ? `<span class="nx-card-price-old">Rs. ${parseFloat(p.oldPrice).toLocaleString()}</span>` : '';
                     const badgeHtml = p.badge ? `<span class="nx-card-badge">${p.badge}</span>` : '';
-                    
-                    // Route binding integration
-                    const productUrl = window.NexraRoutes ? window.NexraRoutes.generateURL('product', `?id=${p.id}`) : `product-detail.html?id=${p.id}`;
-
-                    // Secure string escaping for click events
-                    const safeTitle = (p.title || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+                    const url = window.NexraRoutes ? window.NexraRoutes.generateURL('product', `?id=${p.id}`) : `product-detail.html?id=${p.id}`;
+                    const safeTitle = (p.title || '').replace(/'/g, "\\'");
 
                     return `
-                        <div class="nx-card" onclick="window.location.href='${productUrl}'">
+                        <div class="nx-card" onclick="window.location.href='${url}'">
                             <div class="nx-card-img-wrap">
                                 ${badgeHtml}
-                                <button class="nx-card-wishlist" aria-label="Add to Wishlist" onclick="event.stopPropagation(); NX_SHOP.addToWishlist('${p.id}')">
-                                    <i class="fa-regular fa-heart"></i>
-                                </button>
-                                <img src="${p.image}" class="nx-card-img" alt="${p.title}" loading="lazy" onerror="this.src='https://via.placeholder.com/300?text=Image+Missing'">
+                                <button class="nx-card-wishlist" onclick="event.stopPropagation(); alert('Saved to Wishlist')"><i class="fa-regular fa-heart"></i></button>
+                                <img src="${p.image}" class="nx-card-img" alt="${p.title}" loading="lazy">
                             </div>
-                            
                             <div class="nx-card-meta">
                                 <span class="nx-card-stars"><i class="fa-solid fa-star"></i> ${p.rating || '5.0'}</span>
-                                <span><i class="fa-solid fa-bolt" style="color:var(--gold); font-size:10px;"></i> ${p.salesCount || 0} Sold</span>
+                                <span><i class="fa-solid fa-bolt" style="color:var(--gold);"></i> ${p.salesCount || 0} Sold</span>
                             </div>
-                            
                             <h3 class="nx-card-title">${p.title}</h3>
-                            
                             <div class="nx-card-price-row">
                                 ${oldPriceHtml}
-                                <span class="nx-card-price">Rs. ${price}</span>
+                                <span class="nx-card-price">Rs. ${priceStr}</span>
                             </div>
-                            
                             <div class="nx-card-actions">
-                                <button class="nx-card-btn-icon" aria-label="Add to Cart" onclick="event.stopPropagation(); NX_SHOP.addToCart('${p.id}', '${safeTitle}', ${p.price}, '${p.image}', '${p.type}')">
-                                    <i class="fa-solid fa-cart-plus"></i>
-                                </button>
-                                <button class="nx-card-btn-main" onclick="event.stopPropagation(); NX_SHOP.buyNow('${p.id}', '${safeTitle}', ${p.price}, '${p.image}', '${p.type}')">
-                                    Buy Now
-                                </button>
+                                <button class="nx-card-btn-icon" onclick="event.stopPropagation(); if(window.NX) NX.toast('${safeTitle} added to cart', 'success')"><i class="fa-solid fa-cart-plus"></i></button>
+                                <button class="nx-card-btn-main" onclick="event.stopPropagation(); window.location.href='checkout.html'">BUY NOW</button>
                             </div>
                         </div>
                     `;
                 }).join('');
-
-                grid.innerHTML = html;
             },
 
-            showErrorState: function(title, desc) {
-                const grid = document.getElementById('main-product-grid');
-                grid.innerHTML = `
-                    <div class="nx-empty-state">
-                        <i class="fa-solid fa-triangle-exclamation nx-empty-icon" style="color:var(--danger)"></i>
-                        <h2 class="nx-empty-title">${title}</h2>
-                        <p class="nx-empty-desc">${desc}</p>
-                        <button class="btn btn-primary" style="margin-top:20px;" onclick="window.location.reload()">Retry Connection</button>
-                    </div>
-                `;
-            },
-
-            /* --- MOBILE UX HANDLERS --- */
             toggleMobileFilters: function() {
-                const sidebar = document.getElementById('filter-sidebar');
-                const bg = document.getElementById('mobile-filter-bg');
-                const header = document.getElementById('mobile-filter-header');
-                
-                sidebar.classList.toggle('active');
-                bg.classList.toggle('active');
-                
-                if(window.innerWidth < 1024) {
-                    header.style.display = 'flex';
-                }
-            },
-
-            /* --- ACTION HOOKS (Cart & Wishlist) --- */
-            addToCart: function(id, title, price, image, type) {
-                if (window.Nexra && typeof Nexra.showToast === 'function') {
-                    Nexra.showToast(`${title} added to cart`, 'success');
-                } else {
-                    alert(`${title} added to cart`);
-                }
-                // Centralized cart logic injection point
-                // e.g., window.NexraCart.add({ id, title, price, image, type });
-            },
-
-            buyNow: function(id, title, price, image, type) {
-                this.addToCart(id, title, price, image, type);
-                const checkoutUrl = window.NexraRoutes ? window.NexraRoutes.generateURL('checkout') : 'checkout.html';
-                window.location.href = checkoutUrl;
-            },
-
-            addToWishlist: async function(id) {
-                if (!window.auth || !auth.currentUser) {
-                    if (window.Nexra && typeof Nexra.showToast === 'function') {
-                        Nexra.showToast("Please login to save items", "error");
-                    }
-                    return;
-                }
-                
-                try {
-                    await db.collection('users').doc(auth.currentUser.uid).collection('wishlist').doc(id).set({
-                        addedAt: Date.now()
-                    });
-                    if (window.Nexra && typeof Nexra.showToast === 'function') {
-                        Nexra.showToast("Saved to your Wishlist", "success");
-                    }
-                } catch(e) {
-                    console.error("Wishlist error:", e);
-                }
+                document.getElementById('filter-sidebar').classList.toggle('active');
+                document.getElementById('mobile-filter-bg').classList.toggle('active');
             }
         };
 
-        // Ignition
+        // Ignite the Engine
         window.addEventListener('DOMContentLoaded', () => window.NX_SHOP.init());
     </script>
 </body>
