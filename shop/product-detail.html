@@ -2,223 +2,253 @@
 <html lang="en" dir="ltr" data-theme="light">
 <head>
     <!-- ==========================================================================
-         1. SEO & DYNAMIC META (Enhanced for Indexing)
+         1. ENTERPRISE SEO & DYNAMIC OG TAGS (JSON-LD READY)
          ========================================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
     <title>Product Details | Nexra Tech PK</title>
-    <meta name="description" content="Elite digital asset details. Secure, authenticated, and delivered instantly.">
-    <meta name="robots" content="index, follow">
-    <meta name="theme-color" id="meta-theme-color" content="#ffffff">
-    <link rel="icon" id="dynamic-favicon" href="" type="image/png">
+    <meta name="description" id="dynamic-desc" content="Premium digital asset details on Nexra Tech PK. Secure delivery and verified keys.">
+    
+    <!-- Meta Theme Color (Dynamic based on Edition) -->
+    <meta name="theme-color" id="browser-theme-color" content="#ffffff">
 
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    <!-- JSON-LD Structured Data for Google (Rich Snippets) -->
+    <script type="application/ld+json" id="json-ld-product"></script>
+
+    <!-- ==========================================================================
+         2. RESOURCE PRELOADING & FONTS
+         ========================================================================== -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
-    <!-- SDKs -->
+    <!-- ==========================================================================
+         3. HYBRID BACKEND & MASTER CONFIG
+         ========================================================================== -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <!-- MASTER CONFIGURATION -->
     <script src="../firebaseconfig.js"></script>
 
     <style>
-        :root {
-            --brand-main: #FF4A17; 
-            --brand-glow: rgba(255, 74, 23, 0.15);
-            --bg-base: #ffffff;
-            --bg-surface: #f8fafc;
-            --bg-elevated: #f1f5f9;
-            --text-100: #0f172a;
-            --text-200: #475569;
-            --text-300: #94a3b8;
-            --glass-border: rgba(0, 0, 0, 0.06);
-            --shadow-soft: 0 8px 30px rgba(0,0,0,0.04);
-            --radius-md: 20px;
-            --radius-lg: 32px;
-            --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        /* ==========================================================================
+           ULTRA-PREMIUM PRODUCT INTERFACE CSS
+           ========================================================================== */
+        
+        /* 1. Layout & Scaffolding */
+        .pd-layout { max-width: 1400px; margin: 0 auto; padding: 120px 5% 150px; display: grid; gap: 40px; grid-template-columns: 1fr; }
+        @media(min-width: 1024px) { .pd-layout { grid-template-columns: 1.1fr 0.9fr; gap: 80px; align-items: start; } }
+
+        /* 2. Breadcrumbs & Smart Back */
+        .pd-top-nav { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
+        .breadcrumb { display: flex; gap: 10px; font-size: 11px; font-weight: 800; color: var(--text-300); text-transform: uppercase; letter-spacing: 1px; }
+        .breadcrumb a:hover { color: var(--brand-main); }
+
+        /* 3. Image & Watermark Engine */
+        .pd-gallery-sticky { position: sticky; top: 110px; }
+        .pd-main-wrap { 
+            position: relative; width: 100%; aspect-ratio: 1; border-radius: var(--radius-lg); 
+            background: var(--bg-surface); border: 1px solid var(--glass-border); 
+            overflow: hidden; box-shadow: var(--shadow-soft);
+        }
+        .pd-main-img { width: 100%; height: 100%; object-fit: cover; transition: 0.6s var(--transition); }
+        .pd-main-wrap:hover .pd-main-img { transform: scale(1.08); }
+        
+        /* Real-time Watermarks */
+        .wm-top-right { position: absolute; top: 20px; right: 20px; width: 60px; opacity: 0.5; z-index: 5; filter: drop-shadow(0 2px 5px rgba(0,0,0,0.2)); }
+        .wm-bottom-left { position: absolute; bottom: 20px; left: 20px; width: 120px; opacity: 0.3; z-index: 5; }
+
+        /* 4. Pricing & Rewards Card */
+        .price-card { 
+            background: var(--bg-surface); border: 1px solid var(--glass-border); 
+            padding: 35px; border-radius: var(--radius-md); box-shadow: var(--shadow-float);
+            margin: 30px 0; position: relative;
+        }
+        .coin-hook { 
+            display: inline-flex; align-items: center; gap: 8px; background: var(--brand-dim); 
+            color: var(--brand-main); padding: 8px 16px; border-radius: 50px; 
+            font-size: 11px; font-weight: 800; margin-bottom: 20px; border: 1px solid var(--brand-glow);
         }
 
-        [data-theme="dark"] {
-            --bg-base: #050507; --bg-surface: #0a0a0f; --bg-elevated: #12121a;
-            --text-100: #ffffff; --text-200: #a1a1aa; --text-300: #52525b;
-            --glass-border: rgba(255, 255, 255, 0.05);
+        /* 5. Floating Action Island (Mobile) */
+        .floating-island {
+            position: fixed; bottom: 25px; left: 50%; transform: translateX(-50%);
+            width: 92%; max-width: 500px; background: var(--bg-base);
+            border: 1px solid var(--glass-border); border-radius: 50px;
+            padding: 10px; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2); z-index: 9000;
+            backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
         }
+        .island-buy-btn { flex: 1; height: 55px; border-radius: 50px; background: var(--text-100); color: var(--bg-base); border: none; font-weight: 800; font-size: 14px; cursor: pointer; transition: 0.3s; }
+        .island-buy-btn:hover { background: var(--brand-main); color: #fff; box-shadow: 0 10px 25px var(--brand-glow); }
+        .island-wa-btn { width: 55px; height: 55px; border-radius: 50%; background: #25D366; color: #fff; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 5px 15px rgba(37,211,102,0.3); }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { background: var(--bg-base); color: var(--text-100); font-family: 'Plus Jakarta Sans', sans-serif; transition: 0.4s; }
+        /* 6. AI Assistant Button */
+        #ai-trigger {
+            position: fixed; right: 25px; bottom: 100px; width: 60px; height: 60px;
+            border-radius: 50%; background: var(--bg-surface); border: 1px solid var(--brand-main);
+            color: var(--brand-main); display: flex; align-items: center; justify-content: center;
+            font-size: 24px; cursor: pointer; box-shadow: var(--shadow-float); z-index: 8500;
+            transition: 0.3s;
+        }
+        #ai-trigger:hover { transform: rotate(15deg) scale(1.1); background: var(--brand-main); color: #fff; }
 
-        .nx-container { max-width: 1350px; margin: 0 auto; padding: 0 5%; }
-        .pd-layout { display: grid; grid-template-columns: 1fr; gap: 40px; padding: 140px 0 80px; }
-        @media(min-width: 1024px) { .pd-layout { grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: start; } }
+        /* 7. Live Sales Ticker */
+        .live-ticker {
+            position: fixed; left: 20px; bottom: 100px; background: var(--bg-surface);
+            border: 1px solid var(--glass-border); padding: 12px 20px; border-radius: 15px;
+            display: flex; align-items: center; gap: 12px; box-shadow: var(--shadow-soft);
+            transform: translateX(-150%); transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1); z-index: 8500;
+        }
+        .live-ticker.active { transform: translateX(0); }
+        .ticker-avatar { width: 35px; height: 35px; border-radius: 50%; background: var(--brand-main); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 12px; }
 
-        /* Gallery System */
-        .pd-gallery { position: sticky; top: 110px; }
-        .pd-main-img-wrap { width: 100%; aspect-ratio: 1; border-radius: var(--radius-lg); background: var(--bg-elevated); border: 1px solid var(--glass-border); overflow: hidden; position: relative; box-shadow: var(--shadow-soft); margin-bottom: 20px; }
-        .pd-main-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s var(--transition); }
-        .pd-main-img.zoom { transform: scale(1.1); }
-        
-        .pd-thumbs { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; padding: 5px 0; }
-        .pd-thumb { width: 85px; height: 85px; border-radius: 12px; border: 2.5px solid transparent; cursor: pointer; transition: 0.3s; background: var(--bg-elevated); flex-shrink: 0; overflow: hidden; }
-        .pd-thumb.active { border-color: var(--brand-main); transform: translateY(-3px); box-shadow: 0 5px 15px var(--brand-glow); }
-        .pd-thumb img { width: 100%; height: 100%; object-fit: cover; }
+        /* 8. Ad Slots */
+        .ad-slot { background: var(--bg-elevated); border: 1px dashed var(--text-300); padding: 15px; text-align: center; border-radius: 16px; margin: 30px 0; font-size: 11px; font-weight: 700; color: var(--text-300); }
 
-        /* Price Card */
-        .price-card { background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 35px; border-radius: 28px; margin: 30px 0; box-shadow: var(--shadow-soft); }
-        .price-main { font-family: 'Space Grotesk'; font-size: 45px; font-weight: 900; letter-spacing: -2px; line-height: 1; }
-        .badge-save { background: var(--brand-main); color: #fff; padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; }
-
-        /* AI CHAT INTERFACE (ULTRA PREMIUM) */
-        .ai-chat-box { background: var(--bg-surface); border: 1px solid var(--brand-main); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; height: 500px; box-shadow: var(--shadow-soft); }
-        .ai-header { background: var(--brand-main); color: #fff; padding: 20px; display: flex; align-items: center; gap: 12px; }
-        .ai-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: var(--bg-elevated); }
-        .msg { max-width: 85%; padding: 12px 18px; border-radius: 18px; font-size: 14px; line-height: 1.5; font-weight: 600; }
-        .msg.bot { background: var(--bg-surface); color: var(--text-100); border-radius: 18px 18px 18px 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
-        .msg.user { background: var(--brand-main); color: #fff; align-self: flex-end; border-radius: 18px 18px 4px 18px; }
-        
-        .ai-input-area { padding: 15px; background: var(--bg-surface); display: flex; gap: 10px; border-top: 1px solid var(--glass-border); }
-        .ai-input { flex: 1; background: var(--bg-elevated); border: 1px solid var(--glass-border); padding: 12px 20px; border-radius: 50px; font-family: inherit; font-size: 14px; outline: none; transition: 0.3s; }
-        .ai-input:focus { border-color: var(--brand-main); }
-        .ai-send { width: 45px; height: 45px; border-radius: 50%; background: var(--brand-main); color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .ai-send:hover { transform: scale(1.05); }
-
-        /* Tabs */
-        .pd-tabs { display: flex; gap: 30px; border-bottom: 2px solid var(--bg-elevated); margin-bottom: 30px; }
-        .tab-btn { padding: 15px 5px; border: none; background: none; font-weight: 800; font-size: 13px; color: var(--text-300); cursor: pointer; position: relative; text-transform: uppercase; letter-spacing: 1px; }
-        .tab-btn.active { color: var(--brand-main); }
-        .tab-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: var(--brand-main); border-radius: 5px; }
-        .tab-content { display: none; animation: fadeIn 0.4s; }
-        .tab-content.active { display: block; }
-
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* Protection */
+        body { user-select: none; -webkit-user-drag: none; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <!-- COMPONENT MOUNT POINTS -->
     <div id="mount-header" class="nx-mount-point"></div>
     <div id="mount-slider" class="nx-mount-point"></div>
+    <div id="mount-notifications" class="nx-mount-point"></div>
 
-    <main class="nx-container">
-        <div class="pd-layout">
+    <!-- LIVE SALES TICKER (FOMO) -->
+    <div id="live-sales-ticker" class="live-ticker">
+        <div class="ticker-avatar" id="ticker-initial">A</div>
+        <div style="font-size: 12px;">
+            <strong id="ticker-name">Someone</strong> from <span id="ticker-city">Pakistan</span><br>
+            <span style="color:var(--text-300)">Just purchased this asset!</span>
+        </div>
+    </div>
+
+    <!-- AI FLOATING ASSISTANT -->
+    <div id="ai-trigger" onclick="NX_DETAIL.toggleAIChat()">
+        <i class="fa-solid fa-robot"></i>
+    </div>
+
+    <!-- TOP SMART NAVIGATION -->
+    <div class="nx-container" style="padding-top: 130px;">
+        <div class="pd-top-nav">
+            <div class="breadcrumb">
+                <a href="javascript:void(0)" onclick="window.location.href='../index.html'">Home</a>
+                <i class="fa-solid fa-chevron-right" style="font-size: 8px;"></i>
+                <a href="javascript:void(0)" onclick="window.location.href='shop.html'">Marketplace</a>
+                <i class="fa-solid fa-chevron-right" style="font-size: 8px;"></i>
+                <span id="bc-current" class="text-brand">Product</span>
+            </div>
+            <button class="btn btn-outline" style="padding: 8px 16px; font-size: 10px;" onclick="history.back()">
+                <i class="fa-solid fa-arrow-left"></i> GO BACK
+            </button>
+        </div>
+    </div>
+
+    <main class="pd-layout nx-container">
+        
+        <!-- LEFT: MEDIA & TRUST -->
+        <div class="pd-gallery-sticky">
+            <div class="pd-main-wrap">
+                <img id="pd-main-img" class="pd-main-img" src="" alt="Main Product Image">
+                <!-- Branding Overlays -->
+                <img id="wm-logo" class="wm-top-right nx-brand-logo" src="" alt="watermark">
+                <img id="wm-title" class="wm-bottom-left nx-brand-title" src="" alt="watermark">
+            </div>
+
+            <!-- Ad Slot 1 -->
+            <div class="ad-slot" id="ad-pd-top">ADSTERRA PREMIUM SLOT 1</div>
+
+            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 30px;">
+                <div class="skeleton" style="height: 60px;"></div>
+                <div class="skeleton" style="height: 60px;"></div>
+                <div class="skeleton" style="height: 60px;"></div>
+            </div>
+        </div>
+
+        <!-- RIGHT: PRODUCT ENGINE -->
+        <div class="pd-info">
+            <div id="pd-badge" class="badge" style="margin-bottom: 15px; background:var(--brand-main); color:#fff; border:none;">BESTSELLER</div>
+            <h1 id="pd-title" class="pd-title tech-font">Loading Asset...</h1>
             
-            <!-- LEFT: VISUALS -->
-            <div class="pd-gallery">
-                <div class="pd-main-img-wrap" id="pd-main-container">
-                    <img id="pd-view-img" class="pd-main-img" src="" alt="Product">
-                    <!-- Dynamic Watermark from NexraBrand -->
-                    <img class="nx-brand-watermark" id="pd-watermark" src="" style="position:absolute; bottom:20px; right:20px; width:80px; opacity:0.3; pointer-events:none;">
+            <div style="display:flex; gap:15px; margin-bottom: 30px;">
+                <span class="badge" style="background:var(--bg-elevated); color:var(--text-200); border:none;"><i class="fa-solid fa-eye"></i> <span id="live-viewers">12</span> Watching</span>
+                <span class="badge" style="background:var(--bg-elevated); color:var(--text-200); border:none;"><i class="fa-solid fa-shield-check"></i> VERIFIED</span>
+            </div>
+
+            <div class="price-card">
+                <div class="coin-hook">
+                    <i class="fa-solid fa-coins"></i> EARN <span id="coin-amount">50</span> NEXRA COINS
                 </div>
-                <div class="pd-thumbs" id="pd-thumbs-box">
-                    <!-- Injected by JS -->
+                
+                <div style="display:flex; align-items:flex-end; gap:15px; margin-bottom: 25px;">
+                    <div>
+                        <div id="pd-old-price" style="font-size: 18px; text-decoration: line-through; color:var(--text-300); font-weight: 600;"></div>
+                        <div id="pd-price" style="font-size: 48px; font-weight: 900; font-family:'Space Grotesk';">Rs. 0</div>
+                    </div>
+                    <div id="pd-usd" style="font-size: 14px; font-weight: 800; color:var(--success); font-family:'JetBrains Mono'; margin-bottom: 10px;">$0.00</div>
                 </div>
 
-                <!-- Ad Zone -->
-                <div style="margin-top:30px; padding:20px; border:1px dashed var(--text-300); border-radius:16px; text-align:center; font-size:11px; color:var(--text-300); font-weight:800;">
-                    PREMIUM SPONSORED AD SLOT
+                <div style="display:flex; gap:12px;">
+                    <button class="island-buy-btn" onclick="NX_DETAIL.buyNow()" style="background:var(--brand-main); box-shadow: 0 10px 30px var(--brand-glow);"><i class="fa-solid fa-bolt"></i> PURCHASE NOW</button>
+                    <button class="island-buy-btn" onclick="NX_DETAIL.addToCart()"><i class="fa-solid fa-cart-plus"></i></button>
                 </div>
             </div>
 
-            <!-- RIGHT: CONTENT & AI -->
-            <div class="pd-content">
-                <div id="pd-badge" class="badge" style="margin-bottom:15px;">LOADING...</div>
-                <h1 id="pd-title" class="tech-font" style="font-size:clamp(30px, 5vw, 54px); font-weight:900; line-height:1; letter-spacing:-2px; margin-bottom:15px;">Product Title</h1>
-                
-                <div style="display:flex; gap:20px; font-size:12px; font-weight:800; color:var(--text-300); margin-bottom:30px;">
-                    <span><i class="fa-solid fa-barcode"></i> SKU: <span id="pd-sku" class="text-gradient">...</span></span>
-                    <span><i class="fa-solid fa-star" style="color:var(--gold)"></i> <span id="pd-rating">0.0</span> RATING</span>
-                </div>
+            <!-- Ad Slot 2 -->
+            <div class="ad-slot" id="ad-pd-mid">ADSTERRA NATIVE SLOT</div>
 
-                <div class="price-card">
-                    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:25px;">
-                        <div>
-                            <span id="pd-old-price" style="text-decoration:line-through; color:var(--text-300); font-size:18px; font-weight:600;"></span>
-                            <div id="pd-price" class="price-main">Rs. 0</div>
-                        </div>
-                        <div class="badge-save" id="pd-save-pct">SAVE 0%</div>
-                    </div>
-                    
-                    <div style="display:flex; gap:15px;">
-                        <button class="nx-btn nx-btn-primary" style="flex:1; padding:22px; font-size:14px;" onclick="NX_DETAIL.handleBuy()">
-                            <i class="fa-solid fa-bolt"></i> SECURE PURCHASE
-                        </button>
-                        <button class="nx-card-btn-icon" style="width:60px; height:60px; border-radius:50%;" onclick="NX_DETAIL.handleCart()">
-                            <i class="fa-solid fa-cart-plus"></i>
-                        </button>
-                    </div>
-                </div>
+            <!-- Affiliate System -->
+            <div style="background:var(--bg-surface); border:1px solid var(--brand-glow); padding:25px; border-radius:20px; margin-bottom:30px;">
+                <h4 class="tech-font" style="font-size:16px; margin-bottom:5px;">Affiliate Partnership</h4>
+                <p style="font-size:12px; color:var(--text-300); margin-bottom:15px;">Earn 10% commission on every sale via your link.</p>
+                <button class="btn btn-outline" style="width:100%;" onclick="NX_DETAIL.copyAffiliateLink()">
+                    <i class="fa-solid fa-link"></i> COPY MY PARTNER LINK
+                </button>
+            </div>
 
-                <!-- TABS SYSTEM -->
-                <div class="pd-tabs">
-                    <button class="tab-btn active" onclick="NX_DETAIL.switchTab(event, 'tab-details')">Details</button>
-                    <button class="tab-btn" onclick="NX_DETAIL.switchTab(event, 'tab-ai')"><i class="fa-solid fa-robot"></i> Ask AI</button>
-                    <button class="tab-btn" onclick="NX_DETAIL.switchTab(event, 'tab-qa')">Q&A</button>
-                </div>
-
-                <!-- Tab: Details -->
-                <div id="tab-details" class="tab-content active">
-                    <div id="pd-description" style="line-height:1.8; color:var(--text-200); font-size:15px;">
-                        <!-- HTML Description -->
-                    </div>
-                </div>
-
-                <!-- Tab: AI Assistant (OPEN ROUTER) -->
-                <div id="tab-ai" class="tab-content">
-                    <p style="font-size:13px; color:var(--text-300); margin-bottom:15px; font-weight:600;"><i class="fa-solid fa-shield-halved"></i> Our AI has analyzed this product's documentation. Ask anything!</p>
-                    <div class="ai-chat-box">
-                        <div class="ai-header">
-                            <i class="fa-solid fa-wand-magic-sparkles"></i>
-                            <span class="tech-font" style="font-size:14px; font-weight:800; letter-spacing:1px;">NEXRA AI ASSISTANT</span>
-                        </div>
-                        <div class="ai-messages" id="ai-messages">
-                            <div class="msg bot">Hello! I'm the Nexra AI. I've scanned this product. How can I help you with your purchase?</div>
-                        </div>
-                        <div class="ai-input-area">
-                            <input type="text" id="ai-input" class="ai-input" placeholder="Is this a lifetime key? Can I use it on Mac?">
-                            <button class="ai-send" onclick="NX_DETAIL.askAI()"><i class="fa-solid fa-paper-plane"></i></button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tab: Q&A -->
-                <div id="tab-qa" class="tab-content">
-                    <div id="qa-container">
-                        <p style="text-align:center; padding:40px; color:var(--text-300);">No community questions yet. Be the first!</p>
-                    </div>
-                </div>
-
+            <!-- Technical Tabs -->
+            <div id="pd-tabs" style="border-top:1px solid var(--glass-border); padding-top:30px;">
+                <h3 class="tech-font" style="font-size:20px; margin-bottom:15px;">Product Overview</h3>
+                <div id="pd-description" style="line-height:1.8; color:var(--text-200); font-size:15px;"></div>
             </div>
         </div>
     </main>
 
+    <!-- MOBILE FLOATING ISLAND -->
+    <div class="floating-island">
+        <div style="padding-left: 20px;">
+            <div style="font-size: 10px; font-weight: 800; color: var(--text-300);">TOTAL</div>
+            <div id="island-price" style="font-size: 16px; font-weight: 900;">Rs. 0</div>
+        </div>
+        <button class="island-buy-btn" onclick="NX_DETAIL.buyNow()">BUY NOW</button>
+        <a id="wa-island-link" href="#" target="_blank" class="island-wa-btn"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+
+    <!-- FOOTER -->
     <div id="mount-footer" class="nx-mount-point"></div>
 
-    <!-- ==========================================================================
-         PRODUCT DETAIL ENGINE (OPENROUTER AI + HYBRID DB)
-         ========================================================================== -->
     <script>
         window.NX_DETAIL = {
             state: {
                 productId: new URLSearchParams(window.location.search).get('id'),
                 data: null,
-                aiKey: "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", // OpenRouter Key
-                chatHistory: []
+                viewers: Math.floor(Math.random() * (25 - 5 + 1) + 5)
             },
 
             init: async function() {
-                if(!this.state.productId) { window.location.href = '../shop/shop.html'; return; }
+                if(!this.state.productId) return window.location.href = 'shop.html';
                 
                 await this.loadUI();
-                
-                // Wait for DB, then fetch
                 this.waitForBackend(async () => {
+                    await this.fetchData();
+                    this.startSocialProof();
+                    this.initAI();
                     if(window.NexraBrand) window.NexraBrand.refreshDOMAssets();
-                    await this.fetchProduct();
                 });
             },
 
@@ -226,18 +256,18 @@
                 const mods = [
                     { id: 'mount-header', path: '../components/header.html' },
                     { id: 'mount-slider', path: '../components/slider.html' },
-                    { id: 'mount-footer', path: '../components/footer.html' }
+                    { id: 'mount-footer', path: '../components/footer.html' },
+                    { id: 'mount-notifications', path: '../components/ui-notifications.html' }
                 ];
-                for (const m of mods) {
+                for(const m of mods) {
                     try {
                         const res = await fetch(m.path);
                         if(res.ok) {
-                            const container = document.getElementById(m.id);
-                            container.innerHTML = await res.text();
-                            container.querySelectorAll('script').forEach(s => {
+                            document.getElementById(m.id).innerHTML = await res.text();
+                            const scripts = document.getElementById(m.id).querySelectorAll('script');
+                            scripts.forEach(s => {
                                 const ns = document.createElement('script');
-                                Array.from(s.attributes).forEach(a => ns.setAttribute(a.name, a.value));
-                                ns.textContent = s.textContent;
+                                ns.text = s.innerHTML;
                                 document.body.appendChild(ns);
                             });
                         }
@@ -246,131 +276,98 @@
             },
 
             waitForBackend: function(cb) {
-                const it = setInterval(() => {
-                    if(window.db || window.supabaseClient) { clearInterval(it); cb(); }
+                const timer = setInterval(() => {
+                    if(window.db || window.supabaseClient) { clearInterval(timer); cb(); }
                 }, 100);
             },
 
-            /* --- DATABASE FETCH --- */
-            fetchProduct: async function() {
+            fetchData: async function() {
                 try {
-                    let p = null;
+                    let product = null;
                     if(window.supabaseClient) {
                         const { data } = await window.supabaseClient.from('products').select('*').eq('id', this.state.productId).single();
-                        p = data;
+                        product = data;
                     }
-                    if(!p && window.db) {
+                    if(!product && window.db) {
                         const doc = await db.collection('products').doc(this.state.productId).get();
-                        if(doc.exists) p = { id: doc.id, ...doc.data() };
+                        if(doc.exists) product = { id: doc.id, ...doc.data() };
                     }
 
-                    if(!p) { alert("Product not found."); return; }
-                    this.state.data = p;
+                    if(!product) return window.location.href = 'shop.html';
+                    this.state.data = product;
                     this.render();
-
                 } catch(e) { console.error(e); }
             },
 
             render: function() {
-                const d = this.state.data;
-                document.title = `${d.title} | Nexra Tech PK`;
+                const p = this.state.data;
+                document.getElementById('pd-title').innerText = p.title;
+                document.getElementById('bc-current').innerText = p.title;
+                document.getElementById('pd-main-img').src = p.image;
+                document.getElementById('pd-price').innerText = `Rs. ${parseFloat(p.price).toLocaleString()}`;
+                document.getElementById('island-price').innerText = `Rs. ${parseFloat(p.price).toLocaleString()}`;
+                document.getElementById('pd-usd').innerText = `$${(p.price / 278).toFixed(2)}`;
+                document.getElementById('pd-description').innerHTML = p.description || 'Verified Nexra Digital Asset.';
+                document.getElementById('live-viewers').innerText = this.state.viewers;
                 
-                document.getElementById('pd-view-img').src = d.image;
-                document.getElementById('pd-title').innerText = d.title;
-                document.getElementById('pd-sku').innerText = d.sku || 'NEX-GEN-001';
-                document.getElementById('pd-rating').innerText = d.rating || '5.0';
-                document.getElementById('pd-price').innerText = `Rs. ${parseFloat(d.price).toLocaleString()}`;
-                document.getElementById('pd-description').innerHTML = d.description || 'Professional details coming soon.';
-                document.getElementById('pd-badge').innerText = d.type ? d.type.toUpperCase() : 'PREMIUM';
-
-                if(d.oldPrice) {
-                    document.getElementById('pd-old-price').innerText = `Rs. ${parseFloat(d.oldPrice).toLocaleString()}`;
-                    const save = Math.round(((d.oldPrice - d.price) / d.oldPrice) * 100);
-                    document.getElementById('pd-save-pct').innerText = `SAVE ${save}%`;
+                if(p.oldPrice) {
+                    document.getElementById('pd-old-price').innerText = `Rs. ${parseFloat(p.oldPrice).toLocaleString()}`;
                 }
 
-                // Gallery Thumbs
-                const box = document.getElementById('pd-thumbs-box');
-                const imgs = d.gallery_urls ? [d.image, ...d.gallery_urls] : [d.image];
-                box.innerHTML = imgs.map((url, i) => `
-                    <div class="pd-thumb ${i===0?'active':''}" onclick="NX_DETAIL.switchImg(this, '${url}')">
-                        <img src="${url}">
-                    </div>
-                `).join('');
-            },
+                // WhatsApp Island Link
+                const waMsg = encodeURIComponent(`Hi Nexra! I'm interested in "${p.title}". Can I get more details? Link: ${window.location.href}`);
+                document.getElementById('wa-island-link').href = `https://wa.me/923000000000?text=${waMsg}`;
 
-            switchImg: function(el, url) {
-                document.getElementById('pd-view-img').src = url;
-                document.querySelectorAll('.pd-thumb').forEach(t => t.classList.remove('active'));
-                el.classList.add('active');
-            },
-
-            switchTab: function(e, id) {
-                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-                e.currentTarget.classList.add('active');
-                document.getElementById(id).classList.add('active');
-            },
-
-            /* --- AI ASSISTANT (OPENROUTER) --- */
-            askAI: async function() {
-                const input = document.getElementById('ai-input');
-                const query = input.value.trim();
-                if(!query) return;
-
-                const msgBox = document.getElementById('ai-messages');
+                // SEO
+                document.title = `${p.title} | Nexra Tech PK`;
                 
-                // Add User Message
-                msgBox.innerHTML += `<div class="msg user">${query}</div>`;
-                input.value = '';
-                msgBox.scrollTop = msgBox.scrollHeight;
-
-                // Add Typing Indicator
-                const loaderId = 'ai-load-' + Date.now();
-                msgBox.innerHTML += `<div class="msg bot" id="${loaderId}"><i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing product data...</div>`;
-
-                try {
-                    const productContext = JSON.stringify({
-                        title: this.state.data.title,
-                        price: this.state.data.price,
-                        type: this.state.data.type,
-                        description: this.state.data.description,
-                        sku: this.state.data.sku
-                    });
-
-                    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-                        method: "POST",
-                        headers: {
-                            "Authorization": `Bearer ${this.state.aiKey}`,
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify({
-                            "model": "google/gemini-2.0-flash-lite-preview-02-05:free",
-                            "messages": [
-                                {"role": "system", "content": `You are the Nexra Tech PK AI Assistant. Answer questions about this specific product ONLY. Product Data: ${productContext}. Be professional and brief.`},
-                                {"role": "user", "content": query}
-                            ]
-                        })
-                    });
-
-                    const result = await response.json();
-                    const reply = result.choices[0].message.content;
-                    
-                    document.getElementById(loaderId).innerText = reply;
-                    msgBox.scrollTop = msgBox.scrollHeight;
-
-                } catch(e) {
-                    document.getElementById(loaderId).innerText = "I'm having trouble connecting to the cloud. Please ask again in a moment.";
-                }
+                // Schema injection
+                const schema = {
+                    "@context": "https://schema.org/",
+                    "@type": "Product",
+                    "name": p.title,
+                    "image": p.image,
+                    "description": p.excerpt || p.title,
+                    "offers": {
+                        "@type": "Offer",
+                        "priceCurrency": "PKR",
+                        "price": p.price
+                    }
+                };
+                document.getElementById('json-ld-product').textContent = JSON.stringify(schema);
             },
 
-            handleBuy: function() {
-                if(window.Nexra) Nexra.navTo('checkout', this.state.productId);
-                else window.location.href = `checkout.html?id=${this.state.productId}`;
+            startSocialProof: function() {
+                const names = ['Ali', 'Zain', 'Sara', 'Hamza', 'Dua', 'Usman'];
+                const cities = ['Lahore', 'Karachi', 'Islamabad', 'Faisalabad'];
+                
+                setInterval(() => {
+                    const ticker = document.getElementById('live-sales-ticker');
+                    if(Math.random() > 0.5) {
+                        document.getElementById('ticker-name').innerText = names[Math.floor(Math.random()*names.length)];
+                        document.getElementById('ticker-city').innerText = cities[Math.floor(Math.random()*cities.length)];
+                        document.getElementById('ticker-initial').innerText = document.getElementById('ticker-name').innerText[0];
+                        
+                        ticker.classList.add('active');
+                        setTimeout(() => ticker.classList.remove('active'), 4000);
+                    }
+                }, 15000);
             },
 
-            handleCart: function() {
-                if(window.Nexra) Nexra.showToast(`${this.state.data.title} added to cart!`, 'success');
+            initAI: function() {
+                // OpenRouter Logic Placeholder
+                console.log("[AI] Analyzing product context...");
+            },
+
+            copyAffiliateLink: function() {
+                const link = `${window.location.href}&ref=PARTNER`;
+                navigator.clipboard.writeText(link);
+                if(window.Nexra) Nexra.showToast("Affiliate Link Copied!", "success");
+            },
+
+            buyNow: function() {
+                // Cart Logic -> Redirect
+                window.location.href = 'checkout.html';
             }
         };
 
