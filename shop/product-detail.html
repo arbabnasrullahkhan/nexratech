@@ -1,81 +1,99 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr" data-theme="light">
 <head>
-    <!-- 1. SEO & META (Injected Dynamically via JS) -->
+    <!-- ==========================================================================
+         1. SEO & DYNAMIC META (Enhanced for Indexing)
+         ========================================================================== -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-    <title>Product Details | Nexra Tech PK</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     
+    <title>Product Details | Nexra Tech PK</title>
+    <meta name="description" content="Elite digital asset details. Secure, authenticated, and delivered instantly.">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" id="meta-theme-color" content="#ffffff">
+    <link rel="icon" id="dynamic-favicon" href="" type="image/png">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
     <!-- MASTER CONFIGURATION -->
     <script src="../firebaseconfig.js"></script>
 
     <style>
-        /* ==========================================================================
-           PRODUCT DETAIL SPECIFIC UI
-           ========================================================================== */
-        .pd-layout {
-            max-width: 1300px; margin: 0 auto;
-            padding: 140px 5% 80px;
-            display: grid; grid-template-columns: 1fr; gap: 40px;
+        :root {
+            --brand-main: #FF4A17; 
+            --brand-glow: rgba(255, 74, 23, 0.15);
+            --bg-base: #ffffff;
+            --bg-surface: #f8fafc;
+            --bg-elevated: #f1f5f9;
+            --text-100: #0f172a;
+            --text-200: #475569;
+            --text-300: #94a3b8;
+            --glass-border: rgba(0, 0, 0, 0.06);
+            --shadow-soft: 0 8px 30px rgba(0,0,0,0.04);
+            --radius-md: 20px;
+            --radius-lg: 32px;
+            --transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        [data-theme="dark"] {
+            --bg-base: #050507; --bg-surface: #0a0a0f; --bg-elevated: #12121a;
+            --text-100: #ffffff; --text-200: #a1a1aa; --text-300: #52525b;
+            --glass-border: rgba(255, 255, 255, 0.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { background: var(--bg-base); color: var(--text-100); font-family: 'Plus Jakarta Sans', sans-serif; transition: 0.4s; }
+
+        .nx-container { max-width: 1350px; margin: 0 auto; padding: 0 5%; }
+        .pd-layout { display: grid; grid-template-columns: 1fr; gap: 40px; padding: 140px 0 80px; }
         @media(min-width: 1024px) { .pd-layout { grid-template-columns: 1.1fr 1fr; gap: 80px; align-items: start; } }
 
         /* Gallery System */
-        .pd-gallery { position: sticky; top: 120px; }
-        .pd-main-img-wrap {
-            width: 100%; aspect-ratio: 1; border-radius: var(--radius-lg);
-            background: var(--bg-elevated); border: 1px solid var(--glass-border);
-            overflow: hidden; position: relative; margin-bottom: 20px;
-            box-shadow: var(--shadow-soft);
-        }
+        .pd-gallery { position: sticky; top: 110px; }
+        .pd-main-img-wrap { width: 100%; aspect-ratio: 1; border-radius: var(--radius-lg); background: var(--bg-elevated); border: 1px solid var(--glass-border); overflow: hidden; position: relative; box-shadow: var(--shadow-soft); margin-bottom: 20px; }
         .pd-main-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s var(--transition); }
-        .pd-main-img-wrap:hover .pd-main-img { transform: scale(1.05); }
+        .pd-main-img.zoom { transform: scale(1.1); }
         
-        .pd-thumbs { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; }
-        .pd-thumb {
-            width: 80px; height: 80px; border-radius: 12px; border: 2px solid transparent;
-            cursor: pointer; transition: 0.3s; background: var(--bg-elevated); flex-shrink: 0;
-            overflow: hidden;
-        }
-        .pd-thumb.active { border-color: var(--brand-main); transform: translateY(-3px); }
+        .pd-thumbs { display: flex; gap: 12px; overflow-x: auto; scrollbar-width: none; padding: 5px 0; }
+        .pd-thumb { width: 85px; height: 85px; border-radius: 12px; border: 2.5px solid transparent; cursor: pointer; transition: 0.3s; background: var(--bg-elevated); flex-shrink: 0; overflow: hidden; }
+        .pd-thumb.active { border-color: var(--brand-main); transform: translateY(-3px); box-shadow: 0 5px 15px var(--brand-glow); }
         .pd-thumb img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Content Area */
-        .pd-badge { margin-bottom: 15px; }
-        .pd-title { font-family: 'Space Grotesk'; font-size: clamp(28px, 5vw, 48px); font-weight: 900; line-height: 1.1; margin-bottom: 15px; letter-spacing: -1.5px; }
+        /* Price Card */
+        .price-card { background: var(--bg-surface); border: 1px solid var(--glass-border); padding: 35px; border-radius: 28px; margin: 30px 0; box-shadow: var(--shadow-soft); }
+        .price-main { font-family: 'Space Grotesk'; font-size: 45px; font-weight: 900; letter-spacing: -2px; line-height: 1; }
+        .badge-save { background: var(--brand-main); color: #fff; padding: 5px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; }
+
+        /* AI CHAT INTERFACE (ULTRA PREMIUM) */
+        .ai-chat-box { background: var(--bg-surface); border: 1px solid var(--brand-main); border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; height: 500px; box-shadow: var(--shadow-soft); }
+        .ai-header { background: var(--brand-main); color: #fff; padding: 20px; display: flex; align-items: center; gap: 12px; }
+        .ai-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; background: var(--bg-elevated); }
+        .msg { max-width: 85%; padding: 12px 18px; border-radius: 18px; font-size: 14px; line-height: 1.5; font-weight: 600; }
+        .msg.bot { background: var(--bg-surface); color: var(--text-100); border-radius: 18px 18px 18px 4px; box-shadow: 0 2px 10px rgba(0,0,0,0.03); }
+        .msg.user { background: var(--brand-main); color: #fff; align-self: flex-end; border-radius: 18px 18px 4px 18px; }
         
-        .pd-price-card {
-            background: var(--bg-surface); border: 1px solid var(--glass-border);
-            padding: 30px; border-radius: var(--radius-md); margin: 30px 0;
-            box-shadow: var(--shadow-soft);
-        }
-        .pd-price-row { display: flex; align-items: flex-end; gap: 15px; margin-bottom: 25px; }
-        .pd-price-main { font-family: 'Space Grotesk'; font-size: 42px; font-weight: 900; color: var(--text-100); line-height: 1; }
-        .pd-price-old { font-size: 18px; text-decoration: line-through; color: var(--text-300); font-weight: 600; margin-bottom: 5px; }
-        .pd-price-usd { background: var(--brand-dim); color: var(--brand-main); padding: 4px 12px; border-radius: 8px; font-size: 12px; font-weight: 800; font-family: 'JetBrains Mono'; }
+        .ai-input-area { padding: 15px; background: var(--bg-surface); display: flex; gap: 10px; border-top: 1px solid var(--glass-border); }
+        .ai-input { flex: 1; background: var(--bg-elevated); border: 1px solid var(--glass-border); padding: 12px 20px; border-radius: 50px; font-family: inherit; font-size: 14px; outline: none; transition: 0.3s; }
+        .ai-input:focus { border-color: var(--brand-main); }
+        .ai-send { width: 45px; height: 45px; border-radius: 50%; background: var(--brand-main); color: #fff; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .ai-send:hover { transform: scale(1.05); }
 
-        /* Purchase Controls */
-        .pd-actions { display: flex; gap: 15px; flex-wrap: wrap; }
-        .pd-qty {
-            display: flex; align-items: center; background: var(--bg-elevated);
-            border-radius: 50px; padding: 5px; border: 1px solid var(--glass-border);
-        }
-        .qty-btn { width: 45px; height: 45px; border-radius: 50%; border: none; background: transparent; cursor: pointer; color: var(--text-100); font-size: 18px; }
-        .qty-btn:hover { background: var(--bg-surface); }
-        .qty-num { width: 40px; text-align: center; font-weight: 800; font-size: 16px; }
-
-        /* Tabs System */
-        .pd-tabs { border-bottom: 1px solid var(--glass-border); display: flex; gap: 30px; margin-bottom: 30px; }
-        .pd-tab-btn { padding: 15px 5px; border: none; background: none; font-weight: 800; font-size: 13px; color: var(--text-300); cursor: pointer; position: relative; text-transform: uppercase; letter-spacing: 1px; }
-        .pd-tab-btn.active { color: var(--brand-main); }
-        .pd-tab-btn.active::after { content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px; background: var(--brand-main); border-radius: 5px; }
-        
-        .pd-tab-content { display: none; line-height: 1.8; color: var(--text-200); font-size: 15px; animation: fadeIn 0.4s; }
-        .pd-tab-content.active { display: block; }
-        .pd-tab-content h3 { color: var(--text-100); margin: 20px 0 10px; }
-
-        /* Ad Zones */
-        .ad-slot { background: var(--bg-elevated); border: 1px dashed var(--text-300); padding: 15px; text-align: center; border-radius: 12px; margin-bottom: 30px; font-size: 11px; font-weight: 700; color: var(--text-300); }
+        /* Tabs */
+        .pd-tabs { display: flex; gap: 30px; border-bottom: 2px solid var(--bg-elevated); margin-bottom: 30px; }
+        .tab-btn { padding: 15px 5px; border: none; background: none; font-weight: 800; font-size: 13px; color: var(--text-300); cursor: pointer; position: relative; text-transform: uppercase; letter-spacing: 1px; }
+        .tab-btn.active { color: var(--brand-main); }
+        .tab-btn.active::after { content: ''; position: absolute; bottom: -2px; left: 0; width: 100%; height: 3px; background: var(--brand-main); border-radius: 5px; }
+        .tab-content { display: none; animation: fadeIn 0.4s; }
+        .tab-content.active { display: block; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
@@ -85,252 +103,277 @@
     <!-- COMPONENT MOUNT POINTS -->
     <div id="mount-header" class="nx-mount-point"></div>
     <div id="mount-slider" class="nx-mount-point"></div>
-    <div id="mount-notifications" class="nx-mount-point"></div>
 
-    <main class="pd-layout">
-        
-        <!-- LEFT: GALLERY -->
-        <div class="pd-gallery">
-            <div class="pd-main-img-wrap">
-                <img id="pd-view-img" class="pd-main-img" src="" alt="Product">
-                <img class="nx-brand-watermark pd-watermark" src="" alt="watermark" style="position:absolute; bottom:20px; right:20px; width:80px; opacity:0.3; pointer-events:none;">
-            </div>
-            <div class="pd-thumbs" id="pd-thumbs-container">
-                <!-- Injected via JS -->
-            </div>
+    <main class="nx-container">
+        <div class="pd-layout">
             
-            <!-- Ad Slot (Below Gallery) -->
-            <div class="ad-slot" id="ad-pd-left">ADSTERRA NATIVE SLOT</div>
-        </div>
+            <!-- LEFT: VISUALS -->
+            <div class="pd-gallery">
+                <div class="pd-main-img-wrap" id="pd-main-container">
+                    <img id="pd-view-img" class="pd-main-img" src="" alt="Product">
+                    <!-- Dynamic Watermark from NexraBrand -->
+                    <img class="nx-brand-watermark" id="pd-watermark" src="" style="position:absolute; bottom:20px; right:20px; width:80px; opacity:0.3; pointer-events:none;">
+                </div>
+                <div class="pd-thumbs" id="pd-thumbs-box">
+                    <!-- Injected by JS -->
+                </div>
 
-        <!-- RIGHT: INFORMATION -->
-        <div class="pd-content">
-            <div id="pd-type-badge" class="badge pd-badge">LOADING...</div>
-            <h1 id="pd-view-title" class="pd-title">Fetching Product...</h1>
-            
-            <div style="display:flex; gap:20px; font-size:12px; font-weight:800; color:var(--text-300); text-transform:uppercase;">
-                <span><i class="fa-solid fa-barcode"></i> SKU: <span id="pd-view-sku" class="text-brand">...</span></span>
-                <span><i class="fa-solid fa-star" style="color:var(--gold)"></i> <span id="pd-view-rating">0.0</span> Rating</span>
-                <span id="pd-stock-status" style="color:var(--success)"><i class="fa-solid fa-circle-check"></i> SECURED STOCK</span>
+                <!-- Ad Zone -->
+                <div style="margin-top:30px; padding:20px; border:1px dashed var(--text-300); border-radius:16px; text-align:center; font-size:11px; color:var(--text-300); font-weight:800;">
+                    PREMIUM SPONSORED AD SLOT
+                </div>
             </div>
 
-            <!-- Pricing Area -->
-            <div class="pd-price-card">
-                <div class="pd-price-row">
-                    <div>
-                        <div id="pd-view-old" class="pd-price-old"></div>
-                        <div id="pd-view-price" class="pd-price-main">Rs. 0</div>
+            <!-- RIGHT: CONTENT & AI -->
+            <div class="pd-content">
+                <div id="pd-badge" class="badge" style="margin-bottom:15px;">LOADING...</div>
+                <h1 id="pd-title" class="tech-font" style="font-size:clamp(30px, 5vw, 54px); font-weight:900; line-height:1; letter-spacing:-2px; margin-bottom:15px;">Product Title</h1>
+                
+                <div style="display:flex; gap:20px; font-size:12px; font-weight:800; color:var(--text-300); margin-bottom:30px;">
+                    <span><i class="fa-solid fa-barcode"></i> SKU: <span id="pd-sku" class="text-gradient">...</span></span>
+                    <span><i class="fa-solid fa-star" style="color:var(--gold)"></i> <span id="pd-rating">0.0</span> RATING</span>
+                </div>
+
+                <div class="price-card">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:25px;">
+                        <div>
+                            <span id="pd-old-price" style="text-decoration:line-through; color:var(--text-300); font-size:18px; font-weight:600;"></span>
+                            <div id="pd-price" class="price-main">Rs. 0</div>
+                        </div>
+                        <div class="badge-save" id="pd-save-pct">SAVE 0%</div>
                     </div>
-                    <div id="pd-view-usd" class="pd-price-usd">$0.00</div>
-                </div>
-
-                <div class="pd-actions">
-                    <div class="pd-qty">
-                        <button class="qty-btn" onclick="NX_DETAIL.updateQty(-1)"><i class="fa-solid fa-minus"></i></button>
-                        <div class="qty-num" id="pd-qty-display">1</div>
-                        <button class="qty-btn" onclick="NX_DETAIL.updateQty(1)"><i class="fa-solid fa-plus"></i></button>
+                    
+                    <div style="display:flex; gap:15px;">
+                        <button class="nx-btn nx-btn-primary" style="flex:1; padding:22px; font-size:14px;" onclick="NX_DETAIL.handleBuy()">
+                            <i class="fa-solid fa-bolt"></i> SECURE PURCHASE
+                        </button>
+                        <button class="nx-card-btn-icon" style="width:60px; height:60px; border-radius:50%;" onclick="NX_DETAIL.handleCart()">
+                            <i class="fa-solid fa-cart-plus"></i>
+                        </button>
                     </div>
-                    <button class="nx-btn nx-btn-primary" style="flex:1;" onclick="NX_DETAIL.handleBuyNow()">
-                        <i class="fa-solid fa-bolt"></i> PURCHASE NOW
-                    </button>
-                    <button class="nx-card-btn-icon" style="width:60px; height:55px; border-radius:50px;" onclick="NX_DETAIL.handleAddToCart()">
-                        <i class="fa-solid fa-cart-arrow-down" style="font-size:20px;"></i>
-                    </button>
                 </div>
-            </div>
 
-            <!-- Ad Slot (Inside Content) -->
-            <div class="ad-slot" id="ad-pd-right">ADSTERRA SOCIAL BAR</div>
-
-            <!-- Tabs System -->
-            <div class="pd-tabs">
-                <button class="pd-tab-btn active" onclick="NX_DETAIL.switchTab(event, 'tab-desc')">Description</button>
-                <button class="pd-tab-btn" onclick="NX_DETAIL.switchTab(event, 'tab-specs')">Technical Info</button>
-                <button class="pd-tab-btn" onclick="NX_DETAIL.switchTab(event, 'tab-reviews')">Real-time Reviews</button>
-            </div>
-
-            <div id="tab-desc" class="pd-tab-content active">
-                <div id="pd-view-desc">
-                    <div class="skeleton" style="height:20px; width:100%; margin-bottom:10px;"></div>
-                    <div class="skeleton" style="height:20px; width:90%; margin-bottom:10px;"></div>
-                    <div class="skeleton" style="height:20px; width:70%;"></div>
+                <!-- TABS SYSTEM -->
+                <div class="pd-tabs">
+                    <button class="tab-btn active" onclick="NX_DETAIL.switchTab(event, 'tab-details')">Details</button>
+                    <button class="tab-btn" onclick="NX_DETAIL.switchTab(event, 'tab-ai')"><i class="fa-solid fa-robot"></i> Ask AI</button>
+                    <button class="tab-btn" onclick="NX_DETAIL.switchTab(event, 'tab-qa')">Q&A</button>
                 </div>
-            </div>
 
-            <div id="tab-specs" class="pd-tab-content">
-                <div id="pd-view-specs">
-                    <!-- Dynamic Attributes from DB -->
+                <!-- Tab: Details -->
+                <div id="tab-details" class="tab-content active">
+                    <div id="pd-description" style="line-height:1.8; color:var(--text-200); font-size:15px;">
+                        <!-- HTML Description -->
+                    </div>
                 </div>
-            </div>
 
-            <div id="tab-reviews" class="pd-tab-content">
-                <div id="pd-view-reviews">
-                    <!-- Real-time Firestore Reviews -->
-                    <p style="text-align:center; padding:20px;">No reviews yet for this asset.</p>
+                <!-- Tab: AI Assistant (OPEN ROUTER) -->
+                <div id="tab-ai" class="tab-content">
+                    <p style="font-size:13px; color:var(--text-300); margin-bottom:15px; font-weight:600;"><i class="fa-solid fa-shield-halved"></i> Our AI has analyzed this product's documentation. Ask anything!</p>
+                    <div class="ai-chat-box">
+                        <div class="ai-header">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i>
+                            <span class="tech-font" style="font-size:14px; font-weight:800; letter-spacing:1px;">NEXRA AI ASSISTANT</span>
+                        </div>
+                        <div class="ai-messages" id="ai-messages">
+                            <div class="msg bot">Hello! I'm the Nexra AI. I've scanned this product. How can I help you with your purchase?</div>
+                        </div>
+                        <div class="ai-input-area">
+                            <input type="text" id="ai-input" class="ai-input" placeholder="Is this a lifetime key? Can I use it on Mac?">
+                            <button class="ai-send" onclick="NX_DETAIL.askAI()"><i class="fa-solid fa-paper-plane"></i></button>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
+                <!-- Tab: Q&A -->
+                <div id="tab-qa" class="tab-content">
+                    <div id="qa-container">
+                        <p style="text-align:center; padding:40px; color:var(--text-300);">No community questions yet. Be the first!</p>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </main>
 
-    <!-- FOOTER MOUNT -->
     <div id="mount-footer" class="nx-mount-point"></div>
 
     <!-- ==========================================================================
-         PRODUCT DETAIL ENGINE
+         PRODUCT DETAIL ENGINE (OPENROUTER AI + HYBRID DB)
          ========================================================================== -->
     <script>
         window.NX_DETAIL = {
             state: {
                 productId: new URLSearchParams(window.location.search).get('id'),
-                currentProduct: null,
-                quantity: 1
+                data: null,
+                aiKey: "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", // OpenRouter Key
+                chatHistory: []
             },
 
             init: async function() {
-                if(!this.state.productId) { window.location.href = '../index.html'; return; }
-                console.log(`[NX_DETAIL] Loading Product ID: ${this.state.productId}`);
-
-                // 1. Load Modules
-                await this.loadSharedUI();
-
-                // 2. Fetch Data
+                if(!this.state.productId) { window.location.href = '../shop/shop.html'; return; }
+                
+                await this.loadUI();
+                
+                // Wait for DB, then fetch
                 this.waitForBackend(async () => {
                     if(window.NexraBrand) window.NexraBrand.refreshDOMAssets();
-                    await this.fetchProductData();
+                    await this.fetchProduct();
                 });
             },
 
-            loadSharedUI: async function() {
-                const components = [
+            loadUI: async function() {
+                const mods = [
                     { id: 'mount-header', path: '../components/header.html' },
                     { id: 'mount-slider', path: '../components/slider.html' },
-                    { id: 'mount-footer', path: '../components/footer.html' },
-                    { id: 'mount-notifications', path: '../components/ui-notifications.html' }
+                    { id: 'mount-footer', path: '../components/footer.html' }
                 ];
-                for (const comp of components) {
+                for (const m of mods) {
                     try {
-                        const res = await fetch(comp.path);
-                        if (res.ok) {
-                            const mount = document.getElementById(comp.id);
-                            mount.innerHTML = await res.text();
-                            mount.querySelectorAll('script').forEach(s => {
+                        const res = await fetch(m.path);
+                        if(res.ok) {
+                            const container = document.getElementById(m.id);
+                            container.innerHTML = await res.text();
+                            container.querySelectorAll('script').forEach(s => {
                                 const ns = document.createElement('script');
-                                Array.from(s.attributes).forEach(attr => ns.setAttribute(attr.name, attr.value));
-                                if (s.src) ns.src = s.src; else ns.textContent = s.textContent;
+                                Array.from(s.attributes).forEach(a => ns.setAttribute(a.name, a.value));
+                                ns.textContent = s.textContent;
                                 document.body.appendChild(ns);
                             });
                         }
-                    } catch (e) {}
+                    } catch(e) {}
                 }
             },
 
-            waitForBackend: function(callback, tries = 0) {
-                if (window.supabaseClient || window.db) callback();
-                else if (tries < 50) setTimeout(() => this.waitForBackend(callback, tries + 1), 100);
+            waitForBackend: function(cb) {
+                const it = setInterval(() => {
+                    if(window.db || window.supabaseClient) { clearInterval(it); cb(); }
+                }, 100);
             },
 
-            fetchProductData: async function() {
+            /* --- DATABASE FETCH --- */
+            fetchProduct: async function() {
                 try {
-                    let product = null;
-
-                    // 1. Attempt Supabase (Master SQL Data)
-                    if (window.supabaseClient) {
-                        const { data, error } = await window.supabaseClient.from('products').select('*').eq('id', this.state.productId).single();
-                        if (!error) product = data;
+                    let p = null;
+                    if(window.supabaseClient) {
+                        const { data } = await window.supabaseClient.from('products').select('*').eq('id', this.state.productId).single();
+                        p = data;
                     }
-
-                    // 2. Attempt Firestore (Fallback/Direct)
-                    if (!product && window.db) {
+                    if(!p && window.db) {
                         const doc = await db.collection('products').doc(this.state.productId).get();
-                        if (doc.exists) product = { id: doc.id, ...doc.data() };
+                        if(doc.exists) p = { id: doc.id, ...doc.data() };
                     }
 
-                    if(!product) {
-                        alert("Product not found in ecosystem.");
-                        window.location.href = '../index.html';
-                        return;
-                    }
+                    if(!p) { alert("Product not found."); return; }
+                    this.state.data = p;
+                    this.render();
 
-                    this.state.currentProduct = product;
-                    this.renderProduct();
-
-                } catch (e) { console.error(e); }
+                } catch(e) { console.error(e); }
             },
 
-            renderProduct: function() {
-                const p = this.state.currentProduct;
+            render: function() {
+                const d = this.state.data;
+                document.title = `${d.title} | Nexra Tech PK`;
                 
-                // SEO & Title
-                document.title = `${p.title} | Nexra Tech PK`;
-                
-                // UI Elements
-                document.getElementById('pd-view-img').src = p.image;
-                document.getElementById('pd-view-title').innerText = p.title;
-                document.getElementById('pd-view-sku').innerText = p.sku || 'NEXRA-ASSET';
-                document.getElementById('pd-view-rating').innerText = p.rating || '5.0';
-                document.getElementById('pd-view-price').innerText = `Rs. ${parseFloat(p.price).toLocaleString()}`;
-                
-                if(p.oldPrice) {
-                    document.getElementById('pd-view-old').innerText = `Rs. ${parseFloat(p.oldPrice).toLocaleString()}`;
-                }
-                
-                document.getElementById('pd-view-usd').innerText = `$${(p.price / 278).toFixed(2)}`;
-                document.getElementById('pd-view-desc').innerHTML = p.description || 'No description available.';
-                document.getElementById('pd-type-badge').innerText = p.type ? p.type.toUpperCase() : 'DIGITAL ASSET';
+                document.getElementById('pd-view-img').src = d.image;
+                document.getElementById('pd-title').innerText = d.title;
+                document.getElementById('pd-sku').innerText = d.sku || 'NEX-GEN-001';
+                document.getElementById('pd-rating').innerText = d.rating || '5.0';
+                document.getElementById('pd-price').innerText = `Rs. ${parseFloat(d.price).toLocaleString()}`;
+                document.getElementById('pd-description').innerHTML = d.description || 'Professional details coming soon.';
+                document.getElementById('pd-badge').innerText = d.type ? d.type.toUpperCase() : 'PREMIUM';
 
-                // Render Thumbs
-                const thumbBox = document.getElementById('pd-thumbs-container');
-                const images = p.extra_images ? [p.image, ...p.extra_images] : [p.image];
-                thumbBox.innerHTML = images.map((img, i) => `
-                    <div class="pd-thumb ${i===0?'active':''}" onclick="NX_DETAIL.changeMainImg(this, '${img}')">
-                        <img src="${img}" alt="Thumb">
+                if(d.oldPrice) {
+                    document.getElementById('pd-old-price').innerText = `Rs. ${parseFloat(d.oldPrice).toLocaleString()}`;
+                    const save = Math.round(((d.oldPrice - d.price) / d.oldPrice) * 100);
+                    document.getElementById('pd-save-pct').innerText = `SAVE ${save}%`;
+                }
+
+                // Gallery Thumbs
+                const box = document.getElementById('pd-thumbs-box');
+                const imgs = d.gallery_urls ? [d.image, ...d.gallery_urls] : [d.image];
+                box.innerHTML = imgs.map((url, i) => `
+                    <div class="pd-thumb ${i===0?'active':''}" onclick="NX_DETAIL.switchImg(this, '${url}')">
+                        <img src="${url}">
                     </div>
                 `).join('');
-
-                // Render Specs
-                if(p.specifications) {
-                    let specHTML = '<ul style="list-style:none; display:grid; gap:10px;">';
-                    Object.entries(p.specifications).forEach(([key, val]) => {
-                        specHTML += `<li style="background:var(--bg-elevated); padding:12px 20px; border-radius:10px; display:flex; justify-content:space-between;"><strong style="color:var(--text-100)">${key}:</strong> <span>${val}</span></li>`;
-                    });
-                    specHTML += '</ul>';
-                    document.getElementById('pd-view-specs').innerHTML = specHTML;
-                }
             },
 
-            changeMainImg: function(el, src) {
-                document.getElementById('pd-view-img').src = src;
+            switchImg: function(el, url) {
+                document.getElementById('pd-view-img').src = url;
                 document.querySelectorAll('.pd-thumb').forEach(t => t.classList.remove('active'));
                 el.classList.add('active');
             },
 
-            updateQty: function(val) {
-                this.state.quantity = Math.max(1, this.state.quantity + val);
-                document.getElementById('pd-qty-display').innerText = this.state.quantity;
-            },
-
-            switchTab: function(e, tabId) {
-                document.querySelectorAll('.pd-tab-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll('.pd-tab-content').forEach(c => c.classList.remove('active'));
+            switchTab: function(e, id) {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                 e.currentTarget.classList.add('active');
-                document.getElementById(tabId).classList.add('active');
+                document.getElementById(id).classList.add('active');
             },
 
-            handleAddToCart: function() {
-                const p = this.state.currentProduct;
-                if(window.Nexra && typeof Nexra.showToast === 'function') {
-                    Nexra.showToast(`${p.title} added to cart!`, 'success');
+            /* --- AI ASSISTANT (OPENROUTER) --- */
+            askAI: async function() {
+                const input = document.getElementById('ai-input');
+                const query = input.value.trim();
+                if(!query) return;
+
+                const msgBox = document.getElementById('ai-messages');
+                
+                // Add User Message
+                msgBox.innerHTML += `<div class="msg user">${query}</div>`;
+                input.value = '';
+                msgBox.scrollTop = msgBox.scrollHeight;
+
+                // Add Typing Indicator
+                const loaderId = 'ai-load-' + Date.now();
+                msgBox.innerHTML += `<div class="msg bot" id="${loaderId}"><i class="fa-solid fa-circle-notch fa-spin"></i> Analyzing product data...</div>`;
+
+                try {
+                    const productContext = JSON.stringify({
+                        title: this.state.data.title,
+                        price: this.state.data.price,
+                        type: this.state.data.type,
+                        description: this.state.data.description,
+                        sku: this.state.data.sku
+                    });
+
+                    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                        method: "POST",
+                        headers: {
+                            "Authorization": `Bearer ${this.state.aiKey}`,
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify({
+                            "model": "google/gemini-2.0-flash-lite-preview-02-05:free",
+                            "messages": [
+                                {"role": "system", "content": `You are the Nexra Tech PK AI Assistant. Answer questions about this specific product ONLY. Product Data: ${productContext}. Be professional and brief.`},
+                                {"role": "user", "content": query}
+                            ]
+                        })
+                    });
+
+                    const result = await response.json();
+                    const reply = result.choices[0].message.content;
+                    
+                    document.getElementById(loaderId).innerText = reply;
+                    msgBox.scrollTop = msgBox.scrollHeight;
+
+                } catch(e) {
+                    document.getElementById(loaderId).innerText = "I'm having trouble connecting to the cloud. Please ask again in a moment.";
                 }
             },
 
-            handleBuyNow: function() {
-                this.handleAddToCart();
-                window.location.href = window.NexraRoutes ? window.NexraRoutes.generateURL('checkout') : 'checkout.html';
+            handleBuy: function() {
+                if(window.Nexra) Nexra.navTo('checkout', this.state.productId);
+                else window.location.href = `checkout.html?id=${this.state.productId}`;
+            },
+
+            handleCart: function() {
+                if(window.Nexra) Nexra.showToast(`${this.state.data.title} added to cart!`, 'success');
             }
         };
 
-        // Ignition
         window.addEventListener('DOMContentLoaded', () => NX_DETAIL.init());
     </script>
 </body>
