@@ -2,352 +2,338 @@
 <html lang="en" dir="ltr" data-theme="light">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Elite Asset View | Nexra Tech PK</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <title>Elite Asset Detail | Nexra Tech PK</title>
     
-    <!-- MASTER CONFIG & SDKS -->
+    <!-- SEO & Metadata -->
+    <meta name="description" id="dynamic-desc" content="Premium digital asset details on Nexra Tech PK.">
+    <meta name="theme-color" id="browser-theme-color" content="#ffffff">
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Backend Config -->
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-firestore-compat.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../firebaseconfig.js"></script>
 
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;700;800&family=JetBrains+Mono:wght@700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
-
     <style>
         :root {
-            --brand-main: #FF4A17; --brand-glow: rgba(255, 74, 23, 0.25);
-            --bg-base: #ffffff; --bg-surface: #f8fafc; --text-100: #0f172a;
-            --radius-md: 20px; --radius-lg: 35px; --transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            --brand-main: #FF4A17; 
+            --bg-base: #ffffff;
+            --bg-surface: #f8fafc;
+            --text-100: #0f172a;
+            --text-200: #475569;
+            --glass-border: rgba(0, 0, 0, 0.06);
+            --radius-md: 20px;
+            --transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        [data-theme="dark"] { --bg-base: #050507; --bg-surface: #0a0a0f; --text-100: #ffffff; }
+
+        [data-theme="dark"] {
+            --bg-base: #050507; --bg-surface: #0a0a0f; --text-100: #ffffff; --text-200: #a1a1aa;
+        }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { background: var(--bg-base); color: var(--text-100); font-family: 'Plus Jakarta Sans', sans-serif; overflow-x: hidden; }
 
-        /* 1. STICKY LAYOUT FIX (Desktop: Image Stays, Text Scrolls) */
-        .pd-layout { 
-            max-width: 1400px; margin: 0 auto; padding: 130px 5% 100px; 
-            display: grid; gap: 40px; align-items: start;
+        /* 1. SMART SIDEBAR (LEFT) */
+        .pd-sidebar {
+            position: fixed; left: 20px; top: 120px; width: 60px; display: flex; flex-direction: column; gap: 15px; z-index: 1000;
         }
-        @media(min-width: 1024px) { .pd-layout { grid-template-columns: 1.1fr 0.9fr; gap: 70px; } }
+        .side-btn { width: 50px; height: 50px; border-radius: 15px; background: var(--bg-surface); border: 1px solid var(--glass-border); color: var(--text-100); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; box-shadow: var(--shadow-soft); }
+        .side-btn:hover { background: var(--brand-main); color: #fff; transform: scale(1.1); }
 
-        /* 2. MEDIA ENGINE (Supports MP4, PNG, JPG, WebP) */
-        .pd-media-sticky { position: sticky; top: 120px; }
-        .pd-media-box { 
-            width: 100%; aspect-ratio: 1; border-radius: var(--radius-lg); 
-            background: var(--bg-surface); border: 1px solid rgba(0,0,0,0.05); 
-            overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.1); position: relative;
+        /* 2. MAIN LAYOUT (STICKY GALLERY) */
+        .pd-grid { max-width: 1400px; margin: 0 auto; padding: 130px 5% 100px; display: grid; gap: 40px; }
+        @media(min-width: 1024px) { .pd-grid { grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; } }
+
+        .pd-gallery { position: sticky; top: 120px; } /* Sticky fix */
+        .pd-media-viewer { 
+            width: 100%; aspect-ratio: 1; border-radius: 30px; background: var(--bg-surface); border: 1px solid var(--glass-border); 
+            overflow: hidden; box-shadow: 0 20px 50px rgba(0,0,0,0.05); position: relative;
         }
-        .main-asset { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
-        .pd-media-box:hover .main-asset { transform: scale(1.05); }
+        .main-media { width: 100%; height: 100%; object-fit: cover; }
 
-        /* Mobile Adjustments (Iphone/Android Fix) */
+        /* 3. AI CHAT SYSTEM (PREMIUM UI) */
+        #ai-chat-window {
+            position: fixed; bottom: 100px; right: 25px; width: 350px; max-width: 90vw; height: 500px;
+            background: var(--bg-base); border: 1px solid var(--brand-main); border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.2); z-index: 9999; display: none; flex-direction: column; overflow: hidden;
+        }
+        .ai-header { background: var(--brand-main); color: #fff; padding: 15px 20px; display: flex; justify-content: space-between; font-weight: 800; font-size: 14px; }
+        .ai-messages { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 10px; font-size: 13px; }
+        .msg { padding: 10px 15px; border-radius: 15px; max-width: 80%; line-height: 1.5; }
+        .msg.ai { background: var(--bg-elevated); color: var(--text-100); align-self: flex-start; }
+        .msg.user { background: var(--brand-main); color: #fff; align-self: flex-end; }
+        .ai-input-area { padding: 15px; border-top: 1px solid var(--glass-border); display: flex; gap: 10px; }
+        .ai-input-area input { flex: 1; background: var(--bg-elevated); border: none; padding: 10px 15px; border-radius: 12px; color: var(--text-100); font-family: inherit; }
+
+        /* 4. PRODUCT INFO (COMPACT FOR MOBILE) */
+        .pd-info { padding-bottom: 50px; }
+        .pd-title { font-family: 'Space Grotesk'; font-size: clamp(24px, 5vw, 42px); font-weight: 900; line-height: 1.1; margin-bottom: 20px; letter-spacing: -1.5px; }
+        
+        /* Mobile Scaling */
         @media(max-width: 768px) {
-            .pd-layout { padding-top: 100px; gap: 30px; }
-            .pd-media-box { aspect-ratio: 16/10; border-radius: var(--radius-md); }
-            .pd-media-sticky { position: relative; top: 0; }
+            .pd-grid { padding: 100px 15px 120px; }
+            .pd-gallery { position: relative; top: 0; }
+            .pd-sidebar { left: 10px; top: 90px; }
         }
 
-        /* 3. AI CHAT INTERFACE (Side Drawer) */
-        #ai-drawer {
-            position: fixed; top: 0; right: -100%; width: 400px; height: 100%;
-            background: var(--bg-base); z-index: 10001; padding: 30px;
-            box-shadow: -20px 0 60px rgba(0,0,0,0.2); transition: 0.5s var(--transition);
-            display: flex; flex-direction: column; border-left: 1px solid rgba(0,0,0,0.05);
-        }
-        #ai-drawer.active { right: 0; }
-        .ai-chat-body { flex: 1; overflow-y: auto; padding: 20px 0; display: flex; flex-direction: column; gap: 15px; scrollbar-width: none; }
-        .ai-msg { padding: 15px; border-radius: 15px; font-size: 14px; line-height: 1.6; max-width: 90%; }
-        .ai-msg.bot { background: var(--bg-surface); color: var(--text-100); border-left: 4px solid var(--brand-main); }
-        .ai-msg.user { background: var(--brand-main); color: #fff; align-self: flex-end; }
+        /* Watermark Overlay (Real-time) */
+        .wm-layer { position: absolute; pointer-events: none; z-index: 10; opacity: 0.4; }
+        .wm-logo { top: 15px; right: 15px; width: 40px; }
+        .wm-text { bottom: 15px; left: 15px; font-size: 10px; font-weight: 900; color: #fff; text-transform: uppercase; letter-spacing: 2px; }
 
-        /* 4. WATERMARK DOWNLOAD BUTTON */
-        .download-action {
-            position: absolute; top: 20px; right: 20px; z-index: 10;
-            background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
-            width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center;
-            justify-content: center; color: var(--text-100); cursor: pointer; transition: 0.3s;
-        }
-        .download-action:hover { background: var(--brand-main); color: #fff; transform: rotate(-15deg); }
-
-        /* 5. BACK BUTTON (SIDEBAR STYLE) */
-        .pd-back-sidebar {
-            position: fixed; left: 20px; top: 120px; z-index: 100;
-            display: flex; flex-direction: column; gap: 10px;
-        }
-        .back-circle {
-            width: 50px; height: 50px; border-radius: 50%; background: var(--bg-surface);
-            border: 1px solid rgba(0,0,0,0.05); display: flex; align-items: center;
-            justify-content: center; font-size: 18px; cursor: pointer; box-shadow: var(--shadow-sm);
-            transition: 0.3s;
-        }
-        .back-circle:hover { background: var(--brand-main); color: #fff; transform: translateX(-5px); }
-
-        /* Floating Island (Optimized) */
-        .floating-island {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            width: 92%; max-width: 500px; background: var(--bg-base);
-            border: 1px solid rgba(0,0,0,0.1); border-radius: 50px;
-            padding: 8px; display: flex; align-items: center; gap: 10px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15); z-index: 9000;
-            backdrop-filter: blur(20px);
-        }
+        /* Sections */
+        .related-box { margin-top: 50px; border-top: 1px solid var(--glass-border); padding-top: 40px; }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
-    <div id="mount-header" class="nx-mount-point"></div>
+    <!-- MOUNT POINTS -->
+    <div id="mount-header"></div>
 
-    <!-- LEFT SIDEBAR BACK BUTTON -->
-    <div class="pd-back-sidebar">
-        <div class="back-circle" onclick="history.back()"><i class="fa-solid fa-arrow-left"></i></div>
-        <div class="back-circle" onclick="window.location.href='shop.html'"><i class="fa-solid fa-store"></i></div>
+    <!-- LEFT SIDEBAR -->
+    <div class="pd-sidebar">
+        <button class="side-btn" title="Go Back" onclick="history.back()"><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="side-btn" title="Download Image" onclick="NX_DETAIL.downloadWithWatermark()"><i class="fa-solid fa-download"></i></button>
+        <button class="side-btn" title="Share" onclick="NX_DETAIL.share()"><i class="fa-solid fa-share-nodes"></i></button>
     </div>
 
-    <!-- AI ASSISTANT TRIGGER -->
-    <div id="ai-trigger" style="position:fixed; bottom:100px; right:25px; z-index:9001; cursor:pointer;" onclick="NX_DETAIL.toggleAI()">
-        <div style="width:60px; height:60px; border-radius:50%; background:var(--brand-main); color:#fff; display:flex; align-items:center; justify-content:center; font-size:24px; box-shadow:0 10px 25px var(--brand-glow);">
-            <i class="fa-solid fa-robot"></i>
-        </div>
-    </div>
-
-    <!-- AI DRAWER -->
-    <div id="ai-drawer">
-        <div class="flex-between" style="border-bottom:1px solid rgba(0,0,0,0.05); padding-bottom:15px;">
-            <h3 class="tech-font">AI Product Expert</h3>
-            <i class="fa-solid fa-xmark" style="cursor:pointer" onclick="NX_DETAIL.toggleAI()"></i>
-        </div>
-        <div class="ai-chat-body" id="chat-flow">
-            <div class="ai-msg bot">Hi! I'm the Nexra AI. I've analyzed this product's data. Ask me anything!</div>
-        </div>
-        <div style="display:flex; gap:10px; padding-top:15px; border-top:1px solid rgba(0,0,0,0.05);">
-            <input type="text" id="ai-input" class="nx-input" style="flex:1; padding:12px; border-radius:12px; background:var(--bg-surface); border:1px solid rgba(0,0,0,0.05);" placeholder="Is this license permanent?">
-            <button onclick="NX_DETAIL.askAI()" style="background:var(--brand-main); color:#fff; border:none; padding:0 20px; border-radius:12px;"><i class="fa-solid fa-paper-plane"></i></button>
-        </div>
-    </div>
-
-    <main class="pd-layout">
+    <!-- MAIN PRODUCT GRID -->
+    <main class="pd-grid">
         
-        <!-- STICKY MEDIA BLOCK -->
-        <div class="pd-media-sticky">
-            <div class="pd-media-box" id="media-renderer">
-                <!-- Video or Image Injected here -->
-                <div class="download-action" onclick="NX_DETAIL.downloadWithWatermark()" title="Download HD with Watermark">
-                    <i class="fa-solid fa-cloud-arrow-down"></i>
+        <!-- LEFT: MEDIA GALLERY (STICKY) -->
+        <div class="pd-gallery">
+            <div class="pd-media-viewer" id="media-viewer">
+                <div id="media-content">
+                    <!-- Image or Video injected here -->
+                    <img id="pd-main-img" class="main-media" src="" alt="Asset">
                 </div>
+                <!-- Branding Overlays -->
+                <img class="wm-layer wm-logo nx-brand-logo" src="">
+                <div class="wm-layer wm-text">NEXRA TECH PK</div>
             </div>
             
-            <div style="margin-top:20px; display:flex; gap:10px; overflow-x:auto;" id="extra-gallery"></div>
-            
-            <div style="margin-top:30px; background:var(--bg-surface); padding:25px; border-radius:24px;">
-                <h4 class="tech-font" style="font-size:14px; margin-bottom:15px;">SECURITY PROTOCOL</h4>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
-                    <div style="font-size:11px; font-weight:700;"><i class="fa-solid fa-shield-check" style="color:var(--brand-main)"></i> AES-256 AES</div>
-                    <div style="font-size:11px; font-weight:700;"><i class="fa-solid fa-bolt" style="color:var(--brand-main)"></i> Instant Sync</div>
-                </div>
+            <div id="extra-thumbs" style="display:flex; gap:10px; margin-top:15px; overflow-x:auto;">
+                <!-- Optional Thumbs -->
             </div>
         </div>
 
-        <!-- CONTENT BLOCK -->
-        <div class="pd-content">
-            <div class="breadcrumb" style="margin-bottom:15px;">
-                <span>Home</span> / <span>Market</span> / <span id="p-cat-label" class="text-brand">...</span>
-            </div>
-            <h1 id="p-title" class="tech-font" style="font-size:clamp(24px, 5vw, 45px); font-weight:900; line-height:1.1; margin-bottom:15px;">...</h1>
+        <!-- RIGHT: PRODUCT DETAILS -->
+        <div class="pd-info">
+            <div id="pd-badge" class="badge" style="background:var(--brand-main); color:#fff; border:none; margin-bottom:15px;">PREMIUM</div>
+            <h1 id="pd-title" class="pd-title">Asset Name Loading...</h1>
             
-            <div style="display:flex; gap:15px; margin-bottom:30px;">
-                <div class="badge" style="background:var(--brand-dim); color:var(--brand-main); border:none;">VERIFIED ASSET</div>
-                <div style="font-size:12px; font-weight:800; color:var(--text-300);"><i class="fa-solid fa-star" style="color:var(--gold)"></i> <span id="p-rating">5.0</span> (Verified Reviews)</div>
+            <div style="display:flex; gap:15px; margin-bottom: 25px; font-size:12px; font-weight:800; color:var(--text-300);">
+                <span><i class="fa-solid fa-star" style="color:var(--gold)"></i> <span id="pd-rating">5.0</span></span>
+                <span><i class="fa-solid fa-bolt"></i> INSTANT DELIVERY</span>
+                <span><i class="fa-solid fa-shield-check"></i> SECURED</span>
             </div>
 
-            <div style="background:var(--bg-surface); border:1px solid rgba(0,0,0,0.05); padding:30px; border-radius:25px; box-shadow:var(--shadow-soft);">
-                <div style="display:flex; align-items:flex-end; gap:10px; margin-bottom:20px;">
-                    <div id="p-price" style="font-size:45px; font-weight:900; font-family:'Space Grotesk';">Rs. 0</div>
-                    <div id="p-old-price" style="text-decoration:line-through; color:var(--text-300); font-size:18px; font-weight:700; margin-bottom:8px;"></div>
-                </div>
+            <div style="background:var(--bg-surface); padding:30px; border-radius:24px; border:1px solid var(--glass-border); box-shadow:var(--shadow-soft); margin-bottom:30px;">
+                <div style="font-size:16px; text-decoration:line-through; color:var(--text-300); margin-bottom:5px;" id="pd-old"></div>
+                <div style="font-size:42px; font-weight:900; font-family:'Space Grotesk';" id="pd-price">Rs. 0</div>
                 
-                <p id="p-desc" style="line-height:1.8; color:var(--text-200); font-size:15px; margin-bottom:30px;"></p>
-                
-                <div style="display:flex; gap:12px;">
-                    <button onclick="NX_DETAIL.buyNow()" style="flex:1; height:60px; border-radius:50px; background:var(--brand-main); color:#fff; border:none; font-weight:800; box-shadow:0 10px 25px var(--brand-glow); cursor:pointer;">PURCHASE NOW</button>
-                    <button class="back-circle" style="width:60px; height:60px;"><i class="fa-solid fa-cart-plus"></i></button>
+                <div style="display:flex; gap:12px; margin-top:25px;">
+                    <button class="side-btn" style="flex:1; background:var(--text-100); color:#fff; border:none; font-weight:800;" onclick="NX_DETAIL.buyNow()">BUY NOW</button>
+                    <button class="side-btn" onclick="NX_DETAIL.addToCart()"><i class="fa-solid fa-cart-plus"></i></button>
                 </div>
             </div>
 
-            <!-- RELATED CONTENT -->
-            <div style="margin-top:60px;">
-                <h3 class="tech-font" style="font-size:22px; margin-bottom:25px;">Related <span class="text-gradient">Assets</span></h3>
-                <div class="grid-2" id="related-grid"></div>
+            <!-- Adsterra Spot -->
+            <div style="background:var(--bg-elevated); border:1.5px dashed var(--text-300); padding:20px; text-align:center; border-radius:20px; margin-bottom:30px; font-size:11px; color:var(--text-300);">ADSTERRA PREMIUM PLACEMENT</div>
+
+            <div id="pd-content-html" style="line-height:1.8; color:var(--text-200); font-size:15px;">
+                <!-- Description -->
             </div>
 
-            <!-- RELATED BLOGS -->
-            <div style="margin-top:50px;">
-                <h3 class="tech-font" style="font-size:20px; margin-bottom:20px;">Learning <span class="text-gradient">Resources</span></h3>
-                <div id="related-blogs" style="display:flex; flex-direction:column; gap:15px;"></div>
+            <!-- Related Sections -->
+            <div class="related-box">
+                <h3 class="tech-font" style="font-size:20px; margin-bottom:20px;">Premium Alternatives</h3>
+                <div id="related-products" class="nx-grid" style="grid-template-columns: repeat(2, 1fr); gap:15px;">
+                    <!-- Firestore Related -->
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- FLOATING MOBILE ISLAND -->
-    <div class="floating-island">
-        <div style="padding-left:20px;">
-            <div style="font-size:10px; font-weight:800; color:var(--text-300);">TOTAL PRICE</div>
-            <div id="island-price" style="font-size:16px; font-weight:900; color:var(--brand-main)">Rs. 0</div>
+    <!-- AI CHAT WINDOW -->
+    <div id="ai-chat-window">
+        <div class="ai-header">
+            <span>NEXRA AI ASSISTANT</span>
+            <i class="fa-solid fa-xmark" style="cursor:pointer" onclick="NX_DETAIL.toggleAIChat()"></i>
         </div>
-        <button onclick="NX_DETAIL.buyNow()" style="flex:1; height:50px; background:var(--text-100); color:#fff; border:none; border-radius:50px; font-weight:800;">BUY NOW</button>
-        <a id="island-wa" href="#" target="_blank" style="width:50px; height:50px; background:#25D366; color:#fff; display:flex; align-items:center; justify-content:center; border-radius:50%; font-size:20px;"><i class="fa-brands fa-whatsapp"></i></a>
+        <div class="ai-messages" id="ai-messages">
+            <div class="msg ai">Hello! I've analyzed this asset. Ask me anything about its features or installation.</div>
+        </div>
+        <div class="ai-input-area">
+            <input type="text" id="ai-query" placeholder="Ask about this product...">
+            <button class="side-btn" style="width:40px; height:40px; border-radius:10px;" onclick="NX_DETAIL.askAI()"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
     </div>
 
-    <!-- Hidden Canvas for Watermark Generation -->
+    <!-- AI Trigger -->
+    <button id="ai-trigger" style="position:fixed; bottom:25px; right:25px; width:60px; height:60px; border-radius:50%; background:var(--brand-main); color:#fff; border:none; box-shadow:0 10px 30px var(--brand-glow); cursor:pointer; font-size:24px; z-index:9000;" onclick="NX_DETAIL.toggleAIChat()"><i class="fa-solid fa-robot"></i></button>
+
+    <!-- HIDDEN CANVAS FOR WATERMARKING -->
     <canvas id="wm-canvas" style="display:none;"></canvas>
 
     <script>
         window.NX_DETAIL = {
             state: {
                 id: new URLSearchParams(window.location.search).get('id'),
-                p: null,
-                aiModels: [
-                    { name: 'Gemini', url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=AQ.Ab8RN6JuMq7D-pUyP0LO9NAfxhoKxDCwcAtSSN6i8-5itOKEpw' },
-                    { name: 'OpenRouter-Gemma', url: 'https://openrouter.ai/api/v1/chat/completions', model: 'google/gemma-4-31b-it:free' },
-                    { name: 'OpenRouter-Cohere', url: 'https://openrouter.ai/api/v1/chat/completions', model: 'cohere/north-mini-code:free' }
-                ],
-                orKey: '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'
+                product: null,
+                aiActive: false,
+                // APIs
+                geminiKey: 'AQ.Ab8RN6JuMq7D-pUyP0LO9NAfxhoKxDCwcAtSSN6i8-5itOKEpw',
+                openRouterKey: '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'
             },
 
             init: async function() {
-                if(!this.state.id) return window.location.href = 'shop.html';
-                this.waitForBackend(async () => {
-                    await this.fetchProduct();
-                    this.fetchRelated();
-                });
-            },
-
-            waitForBackend: function(cb) {
-                const timer = setInterval(() => {
-                    if(window.db || window.supabaseClient) { clearInterval(timer); cb(); }
+                if(!this.state.id) return window.location.href = '../index.html';
+                
+                // Fetch & Render
+                const timer = setInterval(async () => {
+                    if(window.db || window.supabaseClient) {
+                        clearInterval(timer);
+                        await this.fetchProduct();
+                        if(window.NexraBrand) window.NexraBrand.refreshDOMAssets();
+                    }
                 }, 100);
             },
 
             fetchProduct: async function() {
-                const doc = await db.collection('products').doc(this.state.id).get();
-                if(!doc.exists) return window.location.href = 'shop.html';
-                this.state.p = { id: doc.id, ...doc.data() };
-                this.render();
+                try {
+                    let p = null;
+                    if(window.supabaseClient) {
+                        const { data } = await window.supabaseClient.from('products').select('*').eq('id', this.state.id).single();
+                        p = data;
+                    }
+                    if(!p && window.db) {
+                        const doc = await db.collection('products').doc(this.state.id).get();
+                        if(doc.exists) p = { id: doc.id, ...doc.data() };
+                    }
+                    if(!p) return window.location.href = 'shop.html';
+                    this.state.product = p;
+                    this.render();
+                } catch(e) { console.error(e); }
             },
 
             render: function() {
-                const p = this.state.p;
-                document.getElementById('p-title').innerText = p.title;
-                document.getElementById('p-cat-label').innerText = p.category || 'Tool';
-                document.getElementById('p-price').innerText = `Rs. ${p.price}`;
-                document.getElementById('island-price').innerText = `Rs. ${p.price}`;
-                document.getElementById('p-desc').innerHTML = p.description || 'Premium Asset.';
+                const p = this.state.product;
+                document.getElementById('pd-title').innerText = p.title;
+                document.getElementById('bc-current').innerText = p.title;
+                document.getElementById('pd-price').innerText = `Rs. ${p.price}`;
+                document.getElementById('pd-content-html').innerHTML = p.description || 'Verified Asset.';
                 
-                const mediaBox = document.getElementById('media-renderer');
+                // Media Logic (Video vs Image)
+                const mediaBox = document.getElementById('media-content');
                 if(p.image.endsWith('.mp4')) {
-                    mediaBox.innerHTML += `<video src="${p.image}" class="main-asset" autoplay loop muted playsinline></video>`;
+                    mediaBox.innerHTML = `<video class="main-media" src="${p.image}" autoplay loop muted playsinline></video>`;
                 } else {
-                    mediaBox.innerHTML += `<img src="${p.image}" id="main-img-src" class="main-asset" crossOrigin="anonymous">`;
+                    document.getElementById('pd-main-img').src = p.image;
                 }
-
-                // WhatsApp Deep Link
-                const msg = encodeURIComponent(`Interested in ${p.title}. Link: ${window.location.href}`);
-                document.getElementById('island-wa').href = `https://wa.me/923000000000?text=${msg}`;
             },
 
-            /* --- AI ENGINE WITH FAILOVER --- */
+            toggleAIChat: function() {
+                const win = document.getElementById('ai-chat-window');
+                this.state.aiActive = !this.state.aiActive;
+                win.style.display = this.state.aiActive ? 'flex' : 'none';
+            },
+
+            // --- TRIPLE ENGINE AI LOGIC ---
             askAI: async function() {
-                const input = document.getElementById('ai-input');
-                const query = input.value.trim();
+                const query = document.getElementById('ai-query').value.trim();
                 if(!query) return;
+                
+                this.appendMsg(query, 'user');
+                document.getElementById('ai-query').value = '';
 
-                const chat = document.getElementById('chat-flow');
-                chat.innerHTML += `<div class="ai-msg user">${query}</div>`;
-                input.value = '';
+                // Prompt: Strictly limit to current product
+                const sysPrompt = `You are Nexra AI. Only answer questions about the product: ${this.state.product.title}. Price: ${this.state.product.price}. If asked about anything else, say you only provide analysis for this product. Keep it short.`;
 
-                const botMsg = document.createElement('div');
-                botMsg.className = 'ai-msg bot';
-                botMsg.innerText = 'Analyzing...';
-                chat.appendChild(botMsg);
-
-                // Failover Loop
-                let response = null;
-                for(let model of this.state.aiModels) {
+                // Try 1: Gemini
+                try {
+                    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=${this.state.geminiKey}`, {
+                        method: 'POST',
+                        body: JSON.stringify({ contents: [{ parts: [{ text: sysPrompt + "\nUser: " + query }] }] })
+                    });
+                    const data = await response.json();
+                    this.appendMsg(data.candidates[0].content.parts[0].text, 'ai');
+                } catch(e) {
+                    // Try 2: OpenRouter Gemma
                     try {
-                        response = await this.callAI(model, query);
-                        if(response) break;
-                    } catch(e) { console.warn(`Model ${model.name} failed, trying next...`); }
-                }
-
-                botMsg.innerText = response || "I'm having trouble connecting to the brain. Please try again later.";
-                chat.scrollTop = chat.scrollHeight;
-            },
-
-            callAI: async function(config, query) {
-                const context = `Product: ${this.state.p.title}. Price: ${this.state.p.price}. Details: ${this.state.p.description}. You are Nexra AI. Answer concisely.`;
-                
-                if(config.name === 'Gemini') {
-                    const res = await fetch(config.url, {
-                        method: 'POST',
-                        body: JSON.stringify({ contents: [{ parts: [{ text: `${context}\nUser: ${query}` }] }] })
-                    });
-                    const data = await res.json();
-                    return data.candidates[0].content.parts[0].text;
-                } else {
-                    const res = await fetch(config.url, {
-                        method: 'POST',
-                        headers: { 'Authorization': `Bearer ${this.state.orKey}`, 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ model: config.model, messages: [{ role: 'system', content: context }, { role: 'user', content: query }] })
-                    });
-                    const data = await res.json();
-                    return data.choices[0].message.content;
+                        const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
+                            method: "POST",
+                            headers: { "Authorization": `Bearer ${this.state.openRouterKey}`, "Content-Type": "application/json" },
+                            body: JSON.stringify({ model: "google/gemma-4-31b-it:free", messages: [{role:"system", content:sysPrompt}, {role:"user", content:query}] })
+                        });
+                        const data = await response.json();
+                        this.appendMsg(data.choices[0].message.content, 'ai');
+                    } catch(e) {
+                        this.appendMsg("AI Engines are currently syncing. Please try again in 5 minutes.", 'ai');
+                    }
                 }
             },
 
-            /* --- WATERMARK ENGINE --- */
+            appendMsg: function(txt, sender) {
+                const box = document.getElementById('ai-messages');
+                box.innerHTML += `<div class="msg ${sender}">${txt}</div>`;
+                box.scrollTop = box.scrollHeight;
+            },
+
+            // --- AUTO WATERMARK ENGINE ---
             downloadWithWatermark: function() {
-                const img = document.getElementById('main-img-src');
-                if(!img) return;
-
-                const canvas = document.getElementById('wm-canvas');
-                const ctx = canvas.getContext('2d');
-
-                canvas.width = 1080;
-                canvas.height = 1080;
-
-                // Draw main image
-                ctx.drawImage(img, 0, 0, 1080, 1080);
-
-                // Add Nexra Branding
-                ctx.fillStyle = "rgba(255, 74, 23, 0.7)";
-                ctx.font = "bold 40px Space Grotesk";
-                ctx.fillText("NEXRA TECH PK", 820, 50); // Top Right
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.src = this.state.product.image;
                 
-                ctx.fillStyle = "rgba(255,255,255,0.5)";
-                ctx.font = "30px Space Grotesk";
-                ctx.fillText(this.state.p.title, 50, 1030); // Bottom Left
-
-                const link = document.createElement('a');
-                link.download = `Nexra_${this.state.p.id}.png`;
-                link.href = canvas.toDataURL();
-                link.click();
+                img.onload = () => {
+                    const canvas = document.getElementById('wm-canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    
+                    // 1. Draw Main Image
+                    ctx.drawImage(img, 0, 0);
+                    
+                    // 2. Add Logo (Top Right)
+                    const logo = new Image();
+                    logo.crossOrigin = "anonymous";
+                    logo.src = window.NexraBrand.getAsset('logo');
+                    logo.onload = () => {
+                        ctx.globalAlpha = 0.5;
+                        ctx.drawImage(logo, canvas.width - 150, 40, 100, 100);
+                        
+                        // 3. Add Text (Bottom Left)
+                        ctx.globalAlpha = 0.8;
+                        ctx.font = "bold 40px Plus Jakarta Sans";
+                        ctx.fillStyle = "white";
+                        ctx.fillText("NEXRA TECH PK", 40, canvas.height - 40);
+                        
+                        // 4. Trigger Download
+                        const link = document.createElement('a');
+                        link.download = `Nexra_${this.state.product.title}.png`;
+                        link.href = canvas.toDataURL();
+                        link.click();
+                    };
+                };
             },
 
-            toggleAI: () => document.getElementById('ai-drawer').classList.toggle('active'),
-            buyNow: () => window.location.href = 'checkout.html?id=' + NX_DETAIL.state.id,
+            share: function() {
+                if(navigator.share) navigator.share({ title: this.state.product.title, url: window.location.href });
+            },
 
-            fetchRelated: async function() {
-                const snap = await db.collection('products').where('category', '==', this.state.p.category).limit(4).get();
-                const grid = document.getElementById('related-grid');
-                snap.forEach(doc => {
-                    const d = doc.data();
-                    grid.innerHTML += `<div class="nx-card" onclick="location.href='?id=${doc.id}'">
-                        <img src="${d.image}" style="width:100%; border-radius:15px;">
-                        <h4 style="font-size:12px; margin-top:10px;">${d.title}</h4>
-                    </div>`;
-                });
+            addToCart: function() {
+                if(window.Nexra) Nexra.showToast("Added to Vault Cart", "success");
+            },
+
+            buyNow: function() {
+                window.location.href = 'checkout.html?id=' + this.state.id;
             }
         };
 
